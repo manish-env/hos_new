@@ -14,9 +14,16 @@
     --hdr-bg:#fff;
     --border:#eee;
     --transition: all 0.3s ease;
+    --header-height: 200px; /* Approximate total header height */
   }
 
-  .cw-header{position:relative; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border);}
+  /* Add margin to body to prevent content from being hidden behind sticky header */
+  body { 
+    margin-top: var(--header-height); 
+    scroll-behavior: smooth;
+  }
+
+  .cw-header{position:fixed; top:0; left:0; right:0; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border); z-index:1000; width:100%;}
   .cw-container{max-width:1400px; margin:0 auto; padding:0 16px;}
 
   /* PRIMARY BAR */
@@ -75,7 +82,7 @@
     background:#fff;
     border-top:1px solid #f0f0f0;
     display:none;
-    z-index:1000;
+    z-index:1001;
     box-shadow:0 12px 28px rgba(0,0,0,.08);
     padding:18px 20px;
     opacity:0;
@@ -150,6 +157,9 @@
     .cw-mega-inner{grid-template-columns:repeat(2,minmax(0,1fr));}
     .cw-tabs{grid-template-columns:1fr;}
     
+    /* Adjust header height for mobile */
+    :root { --header-height: 180px; }
+    
     /* Mobile menu styling */
     .cw-burger{display:flex;}
     .cw-nav-wrap{
@@ -194,6 +204,9 @@
     .cw-search{order:3; grid-column:1 / span 3; max-width:100%; margin-top:10px;}
     .cw-logo{order:2; justify-content:flex-start;}
     .cw-right{order:1; justify-content:flex-end;}
+    
+    /* Adjust header height for smaller mobile */
+    :root { --header-height: 160px; }
     
     /* Adjust tabs for mobile */
     .cw-tabs{grid-template-columns:1fr; gap:5px;}
