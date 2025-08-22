@@ -41,6 +41,12 @@
         "show_line_separator": true,
         "show_whatsapp": true,
         "whatsapp_number": "+1234567890",
+        "whatsapp_icon_size": 24,
+        "whatsapp_icon_color": "#25d366",
+        "whatsapp_font_size": 14,
+        "whatsapp_text_color": "#000000",
+        "whatsapp_font_weight": "500",
+        "whatsapp_font_family": "inherit",
         "enable_country_selector": true,
         "enable_language_selector": false
       }
