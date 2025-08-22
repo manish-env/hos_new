@@ -182,17 +182,56 @@
      }
          .cw-nav-wrap.open{display:block;}
      
-     /* Mobile search bar at top of drawer */
+     /* Mobile drawer header */
+     .cw-drawer-header{
+       display:flex;
+       justify-content:space-between;
+       align-items:center;
+       padding:20px 20px 15px 20px;
+       border-bottom:1px solid var(--border);
+       margin:-20px -20px 0 -20px;
+       background:var(--hdr-bg);
+     }
+     .cw-drawer-header h3{
+       margin:0;
+       font-size:18px;
+       font-weight:600;
+       color:var(--hdr-text);
+     }
+     .cw-close-drawer{
+       background:none;
+       border:none;
+       font-size:20px;
+       color:var(--hdr-text);
+       cursor:pointer;
+       padding:0;
+       display:flex;
+       align-items:center;
+       justify-content:center;
+     }
+     
+     /* Mobile search bar below header */
      .cw-search-mobile-drawer{
        display:block;
        padding:20px;
        border-bottom:1px solid var(--border);
        background:var(--hdr-bg);
-       margin:-20px -20px 20px -20px;
+       margin:0 -20px 20px -20px;
      }
      .cw-search-mobile-drawer .cw-search{
        display:flex;
        max-width:100%;
+     }
+     .cw-search-mobile-drawer .cw-search input{
+       background:#ffecee;
+       border-radius:4px;
+       padding:12px 15px;
+       font-size:14px;
+       font-weight:500;
+     }
+     .cw-search-mobile-drawer .cw-search input::placeholder{
+       color:#666;
+       font-weight:500;
      }
      
      .cw-nav{flex-direction:column; align-items:flex-start; gap:0; margin-top:10px;}
@@ -308,19 +347,27 @@
   <div class="cw-secondary">
     <div class="cw-container">
       <div class="cw-secondary-inner">
-        <nav id="cw-nav" class="cw-nav-wrap">
-          <!-- Mobile Search Bar at top of drawer -->
-          <div class="cw-search-mobile-drawer">
-            <div class="cw-search">
-              <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Site search">
-                <span class="mail"><i class="fa-regular fa-envelope"></i></span>
-                <span class="divider"></span>
-                <input type="search" name="q" placeholder="Search Your Style" value="{{ search.terms | escape }}" autocomplete="off">
-                <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <input type="hidden" name="type" value="product">
-              </form>
-            </div>
-          </div>
+                 <nav id="cw-nav" class="cw-nav-wrap">
+           <!-- Mobile Drawer Header -->
+           <div class="cw-drawer-header">
+             <h3>MENU</h3>
+             <button class="cw-close-drawer" aria-label="Close menu">
+               <i class="fa-solid fa-xmark"></i>
+             </button>
+           </div>
+           
+           <!-- Mobile Search Bar below header -->
+           <div class="cw-search-mobile-drawer">
+             <div class="cw-search">
+               <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Site search">
+                 <span class="mail"><i class="fa-regular fa-envelope"></i></span>
+                 <span class="divider"></span>
+                 <input type="search" name="q" placeholder="SEARCH YOUR STYLE" value="{{ search.terms | escape }}" autocomplete="off">
+                 <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                 <input type="hidden" name="type" value="product">
+               </form>
+             </div>
+           </div>
           
           {% assign nav = section.settings.main_menu %}
           {% if nav != blank %}
@@ -427,17 +474,26 @@
 
 <script>
   (function(){
-    // Mobile menu toggle
-    var burger = document.querySelector('.cw-burger');
-    var wrap = document.querySelector('.cw-nav-wrap');
-    
-    if(burger && wrap) {
-      burger.addEventListener('click', function(){
-        wrap.classList.toggle('open');
-        var expanded = burger.getAttribute('aria-expanded') === 'true';
-        burger.setAttribute('aria-expanded', String(!expanded));
-      });
-    }
+         // Mobile menu toggle
+     var burger = document.querySelector('.cw-burger');
+     var wrap = document.querySelector('.cw-nav-wrap');
+     var closeBtn = document.querySelector('.cw-close-drawer');
+     
+     if(burger && wrap) {
+       burger.addEventListener('click', function(){
+         wrap.classList.toggle('open');
+         var expanded = burger.getAttribute('aria-expanded') === 'true';
+         burger.setAttribute('aria-expanded', String(!expanded));
+       });
+     }
+     
+     // Close drawer with close button
+     if(closeBtn && wrap) {
+       closeBtn.addEventListener('click', function(){
+         wrap.classList.remove('open');
+         burger.setAttribute('aria-expanded', 'false');
+       });
+     }
     
     // Mobile submenu toggle
     var navItems = document.querySelectorAll('.cw-nav > li');
