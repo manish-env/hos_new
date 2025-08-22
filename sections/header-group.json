@@ -51,8 +51,23 @@
         "enable_language_selector": false
       }
     },
+    "custom_navbar_pFe9kc": {
+      "type": "custom-navbar",
+      "name": "Mx Navbar",
+      "settings": {
+        "main_menu": "main-menu",
+        "wishlist_url": "",
+        "tab1_text": "PERFECT TAILORING, DELIVERED AT DOORSTEPS",
+        "tab1_link": "",
+        "tab2_text": "FREE DELIVERY ACROSS INDIA",
+        "tab2_link": "",
+        "tab3_text": "TRENDIEST TOP QUALITY DRESSES",
+        "tab3_link": ""
+      }
+    },
     "header": {
       "type": "header",
+      "disabled": true,
       "custom_css": [],
       "settings": {
         "logo_position": "top-center",
@@ -77,6 +92,7 @@
   },
   "order": [
     "announcementbar_ftbEfk",
+    "custom_navbar_pFe9kc",
     "header"
   ]
 }
