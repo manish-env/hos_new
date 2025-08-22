@@ -236,12 +236,24 @@
   
   /* Mobile drawer header - hidden by default on desktop */
   .cw-drawer-header{
-    display:none;
+    display:none !important;
     justify-content:space-between;
     align-items:center;
     padding:20px 20px 15px 20px;
     border-bottom:1px solid var(--border);
     background:var(--hdr-bg);
+  }
+  
+  /* Force hide all mobile drawer elements on desktop */
+  @media (min-width: 769px) {
+    .cw-drawer-header,
+    .cw-search-mobile-drawer,
+    .cw-close-drawer {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
   }
   .cw-drawer-header h3{
     margin:0;
@@ -303,6 +315,26 @@
       visibility: hidden !important;
       opacity: 0 !important;
       pointer-events: none !important;
+      position: absolute !important;
+      left: -9999px !important;
+      top: -9999px !important;
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+    }
+  }
+  
+  /* Additional desktop hiding - force hide on all desktop sizes */
+  .cw-mobile-drawer-content {
+    display: none !important;
+  }
+  
+  /* Only show on mobile when explicitly opened */
+  @media (max-width: 768px) {
+    .cw-nav-wrap.open ~ .cw-mobile-drawer-content,
+    .cw-nav-wrap.open + .cw-mobile-drawer-content {
+      display: block !important;
     }
   }
      
