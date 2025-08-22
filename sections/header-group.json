@@ -11,46 +11,6 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcementbar_ftbEfk": {
-      "type": "announcementbar",
-      "blocks": {
-        "announcement_4XQhLw": {
-          "type": "announcement",
-          "settings": {
-            "text": "Free Delivery Across India",
-            "link": ""
-          }
-        },
-        "announcement_gaMC9r": {
-          "type": "announcement",
-          "settings": {
-            "text": "Sale upto 20% OFF on Sarees",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "announcement_4XQhLw",
-        "announcement_gaMC9r"
-      ],
-      "name": "t:sections.announcement-bar.presets.name",
-      "settings": {
-        "auto_rotate": false,
-        "change_slides_speed": 5,
-        "color_scheme": "inverse",
-        "show_line_separator": true,
-        "show_whatsapp": true,
-        "whatsapp_number": "+1234567890",
-        "whatsapp_icon_size": 24,
-        "whatsapp_icon_color": "#25d366",
-        "whatsapp_font_size": 14,
-        "whatsapp_text_color": "#000000",
-        "whatsapp_font_weight": "500",
-        "whatsapp_font_family": "inherit",
-        "enable_country_selector": true,
-        "enable_language_selector": false
-      }
-    },
     "custom_navbar_pFe9kc": {
       "type": "custom-navbar",
       "name": "Mx Navbar",
@@ -58,6 +18,7 @@
         "logo": "shopify://shop_images/Fashion_Brand_Lettermark_with_Mandala_Design-removebg-preview.png",
         "main_menu": "main-menu",
         "wishlist_url": "",
+        "mega_image_link": "",
         "tab1_text": "PERFECT TAILORING, DELIVERED AT DOORSTEPS",
         "tab1_link": "",
         "tab2_text": "FREE DELIVERY ACROSS INDIA",
@@ -92,7 +53,6 @@
     }
   },
   "order": [
-    "announcementbar_ftbEfk",
     "custom_navbar_pFe9kc",
     "header"
   ]
