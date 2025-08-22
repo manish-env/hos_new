@@ -234,9 +234,9 @@
     overflow-y:auto;
   }
   
-  /* Mobile drawer header */
+  /* Mobile drawer header - hidden by default on desktop */
   .cw-drawer-header{
-    display:flex;
+    display:none;
     justify-content:space-between;
     align-items:center;
     padding:20px 20px 15px 20px;
@@ -288,6 +288,12 @@
   .cw-nav-wrap.open + .cw-mobile-drawer-content,
   .cw-nav-wrap.open ~ .cw-mobile-drawer-content{
     display:block;
+  }
+  
+  /* Show drawer header on mobile when drawer is open */
+  .cw-nav-wrap.open ~ .cw-mobile-drawer-content .cw-drawer-header,
+  .cw-nav-wrap.open + .cw-mobile-drawer-content .cw-drawer-header{
+    display:flex;
   }
      
      .cw-nav{flex-direction:column; align-items:flex-start; gap:0; margin-top:10px;}
