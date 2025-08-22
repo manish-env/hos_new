@@ -44,6 +44,159 @@
     height: 1em;
   }
 
+  /* Desktop Expanded Search Bar Styles */
+  .header__expanded-search {
+    display: none;
+    grid-area: navigation;
+    justify-self: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .header__search-form {
+    width: 100%;
+  }
+
+  .header__search-input {
+    width: 100%;
+    padding: 1rem 4rem 1rem 1.5rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 4px;
+    font-size: 1.4rem;
+    background: rgb(var(--color-background));
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    height: 4.4rem;
+    line-height: 1.4;
+  }
+
+  .header__search-input:focus {
+    outline: none;
+    border-color: rgb(var(--color-foreground));
+    box-shadow: 0 0 0 1px rgb(var(--color-foreground));
+  }
+
+  .header__search-input::placeholder {
+    color: rgba(var(--color-foreground), 0.6);
+    opacity: 1;
+  }
+
+  .header__search-submit {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: rgb(var(--color-foreground));
+    transition: color 0.3s ease;
+  }
+
+  .header__search-submit:hover {
+    color: rgba(var(--color-foreground), 0.8);
+  }
+
+  .header__search-reset {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: rgba(var(--color-foreground), 0.6);
+    transition: color 0.3s ease;
+  }
+
+  .header__search-reset:hover {
+    color: rgb(var(--color-foreground));
+  }
+
+  .header__search-reset.hidden {
+    display: none;
+  }
+
+  .header__search-form .field {
+    position: relative;
+  }
+
+  /* Show expanded search on desktop */
+  @media screen and (min-width: 990px) {
+    .header__expanded-search {
+      display: block;
+    }
+    
+    /* Hide modal search icon on desktop when expanded search is shown */
+    .header__icons .header__search {
+      display: none;
+    }
+
+    /* Adjust header layout for expanded search */
+    .header--middle-left .header__expanded-search {
+      grid-area: navigation;
+      justify-self: center;
+      margin: 0 2rem;
+    }
+
+    .header--middle-center .header__expanded-search {
+      grid-area: navigation;
+      justify-self: center;
+      margin: 0 2rem;
+    }
+
+    .header--top-left .header__expanded-search {
+      grid-area: navigation;
+      justify-self: center;
+      margin: 0 2rem;
+    }
+
+    .header--top-center .header__expanded-search {
+      grid-area: navigation;
+      justify-self: center;
+      margin: 0 2rem;
+    }
+  }
+
+  /* Mobile: hide expanded search, show modal search */
+  @media screen and (max-width: 989px) {
+    .header__expanded-search {
+      display: none;
+    }
+    
+    .header__icons .header__search {
+      display: inline-flex;
+    }
+  }
+
+  /* Additional responsive adjustments */
+  @media screen and (min-width: 990px) and (max-width: 1200px) {
+    .header__expanded-search {
+      max-width: 400px;
+    }
+  }
+
+  @media screen and (min-width: 1201px) {
+    .header__expanded-search {
+      max-width: 500px;
+    }
+  }
+
+  /* Ensure proper spacing for different header layouts */
+  @media screen and (min-width: 990px) {
+    .header--middle-left .header__expanded-search,
+    .header--middle-center .header__expanded-search {
+      margin: 0 1.5rem;
+    }
+
+    .header--top-left .header__expanded-search,
+    .header--top-center .header__expanded-search {
+      margin: 0 1.5rem;
+    }
+  }
+
   header-drawer {
     justify-self: start;
     margin-left: -1.2rem;
@@ -254,6 +407,68 @@
       endif
     %}
 
+    <!-- Desktop Expanded Search Bar -->
+    <div class="header__expanded-search desktop-only">
+      {%- if settings.predictive_search_enabled -%}
+        <predictive-search class="header__search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
+      {%- else -%}
+        <search-form class="header__search-form">
+      {%- endif -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search header__search-form">
+        <div class="field">
+          <input
+            class="search__input field__input header__search-input"
+            id="Header-Expanded-Search"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'general.search.search' | t }}"
+            {%- if settings.predictive_search_enabled -%}
+              role="combobox"
+              aria-expanded="false"
+              aria-owns="predictive-search-results"
+              aria-controls="predictive-search-results"
+              aria-haspopup="listbox"
+              aria-autocomplete="list"
+              autocorrect="off"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            {%- endif -%}
+          >
+          <label class="field__label" for="Header-Expanded-Search">{{ 'general.search.search' | t }}</label>
+          <input type="hidden" name="options[prefix]" value="last">
+          <button
+            type="reset"
+            class="reset__button field__button header__search-reset{% if search.terms == blank %} hidden{% endif %}"
+            aria-label="{{ 'general.search.reset' | t }}"
+          >
+            <svg class="icon icon-close" aria-hidden="true" focusable="false">
+              <use xlink:href="#icon-reset">
+            </svg>
+          </button>
+          <button class="search__button field__button header__search-submit" aria-label="{{ 'general.search.search' | t }}">
+            <svg class="icon icon-search" aria-hidden="true" focusable="false">
+              <use href="#icon-search">
+            </svg>
+          </button>
+        </div>
+
+        {%- if settings.predictive_search_enabled -%}
+          <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+            {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+          </div>
+
+          <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+        {%- endif -%}
+      </form>
+      {%- if settings.predictive_search_enabled -%}
+        </predictive-search>
+      {%- else -%}
+        </search-form>
+      {%- endif -%}
+    </div>
+
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
@@ -425,6 +640,38 @@
       window.addEventListener('scroll', this.onScrollHandler, false);
 
       this.createObserver();
+      
+      // Initialize expanded search functionality
+      this.initExpandedSearch();
+    }
+
+    initExpandedSearch() {
+      const expandedSearchInput = this.querySelector('#Header-Expanded-Search');
+      const resetButton = this.querySelector('.header__search-reset');
+      
+      if (expandedSearchInput && resetButton) {
+        // Show/hide reset button based on input value
+        const toggleResetButton = () => {
+          if (expandedSearchInput.value.trim() !== '') {
+            resetButton.classList.remove('hidden');
+          } else {
+            resetButton.classList.add('hidden');
+          }
+        };
+
+        // Listen for input changes
+        expandedSearchInput.addEventListener('input', toggleResetButton);
+        
+        // Listen for reset button clicks
+        resetButton.addEventListener('click', () => {
+          expandedSearchInput.value = '';
+          expandedSearchInput.focus();
+          toggleResetButton();
+        });
+
+        // Initial state
+        toggleResetButton();
+      }
     }
 
     setHeaderHeight() {
