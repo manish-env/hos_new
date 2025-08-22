@@ -22,6 +22,11 @@
     margin-top: var(--header-height); 
     scroll-behavior: smooth;
   }
+  
+  /* Mobile search bar - hidden by default on desktop */
+  .cw-search-mobile{
+    display:none;
+  }
 
   .cw-header{position:fixed; top:0; left:0; right:0; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border); z-index:1000; width:100%;}
   .cw-container{max-width:1400px; margin:0 auto; padding:0 16px;}
@@ -52,7 +57,7 @@
   .cw-right a{color:var(--hdr-text); text-decoration:none; font-size:14px;}
   .cw-icons{display:flex; gap:14px; align-items:center;}
   .cw-icons a{position:relative; font-size:18px; color:var(--hdr-text);}
-  .cw-cart-count{
+  .cw-cart-count, .cart-count{
     position:absolute; top:-6px; right:-8px; min-width:16px; height:16px; border-radius:999px;
     background:var(--hdr-accent); color:#fff; font-size:11px; line-height:16px; text-align:center; padding:0 4px;
   }
@@ -200,10 +205,13 @@
   }
   
   @media (max-width: 768px){
-    .cw-primary{grid-template-columns: auto 1fr auto; gap:10px;}
-    .cw-search{order:3; grid-column:1 / span 3; max-width:100%; margin-top:10px;}
-    .cw-logo{order:2; justify-content:flex-start;}
-    .cw-right{order:1; justify-content:flex-end;}
+    .cw-primary{grid-template-columns: auto 1fr auto; gap:10px; height:60px;}
+    .cw-search{display:none;} /* Hide search in primary bar on mobile */
+    .cw-logo{order:2; justify-content:center;}
+    .cw-right{order:3; justify-content:flex-end;}
+    
+    /* Show burger menu on left */
+    .cw-burger{display:flex; order:1; justify-content:flex-start;}
     
     /* Adjust header height for smaller mobile */
     :root { --header-height: 160px; }
@@ -211,6 +219,19 @@
     /* Adjust tabs for mobile */
     .cw-tabs{grid-template-columns:1fr; gap:5px;}
     .cw-tab{padding:10px; font-size:12px;}
+    
+    /* Add search bar below primary navbar */
+    .cw-search-mobile{
+      display:block;
+      padding:10px 0;
+      border-top:1px solid var(--border);
+      background:var(--hdr-bg);
+    }
+    .cw-search-mobile .cw-search{
+      display:flex;
+      max-width:100%;
+      margin:0 16px;
+    }
   }
   
   @media (max-width: 480px){
@@ -230,7 +251,10 @@
   <!-- PRIMARY NAVBAR -->
   <div class="cw-container">
     <div class="cw-primary">
-      <!-- Left: Search -->
+      <!-- Left: Burger Menu (mobile) / Search (desktop) -->
+      <button class="cw-burger" aria-controls="cw-nav" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
       <div class="cw-search">
         <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Site search">
           <span class="mail"><i class="fa-regular fa-envelope"></i></span>
@@ -278,15 +302,25 @@
         </div>
       </div>
     </div>
+    
+    <!-- Mobile Search Bar (below primary navbar) -->
+    <div class="cw-search-mobile">
+      <div class="cw-search">
+        <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Site search">
+          <span class="mail"><i class="fa-regular fa-envelope"></i></span>
+          <span class="divider"></span>
+          <input type="search" name="q" placeholder="Search Your Style" value="{{ search.terms | escape }}" autocomplete="off">
+          <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <input type="hidden" name="type" value="product">
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- SECONDARY NAVBAR + MEGA MENU -->
   <div class="cw-secondary">
     <div class="cw-container">
       <div class="cw-secondary-inner">
-        <button class="cw-burger" aria-controls="cw-nav" aria-expanded="false">
-          <i class="fa-solid fa-bars"></i> Menu
-        </button>
         <nav id="cw-nav" class="cw-nav-wrap">
           {% assign nav = section.settings.main_menu %}
           {% if nav != blank %}
