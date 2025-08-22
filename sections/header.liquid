@@ -58,19 +58,20 @@
   .custom-search-input {
     width: 100%;
     padding: 0.8rem 3.5rem 0.8rem 1.2rem;
-    border: 1px solid rgba(var(--color-foreground), 0.08);
-    border-radius: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.3);
+    border-radius: 0;
     font-size: 1.4rem;
-    background: rgb(var(--color-background));
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: transparent;
+    transition: border-bottom-color 0.3s ease;
     height: 4rem;
     line-height: 1.4;
   }
 
   .custom-search-input:focus {
     outline: none;
-    border-color: rgb(var(--color-foreground));
-    box-shadow: 0 0 0 1px rgb(var(--color-foreground));
+    border-bottom-color: rgb(var(--color-foreground));
+    box-shadow: none;
   }
 
   .custom-search-input::placeholder {
