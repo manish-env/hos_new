@@ -1,7 +1,10 @@
 {% comment %}
   Mx Navbar – Primary (Search L, Logo C, Auth/Wishlist/Cart R)
-  + Secondary centered mega menu with nested links
-  + Three tabs bar
+  Secondary centered nav with MEGA dropdown:
+    - 4 columns (headings with underline)
+    - Optional right promo image (configurable)
+    - Auto "Shop by Color" swatches if column title == "SHOP BY COLOR"
+  Three tabs bar
 {% endcomment %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -21,28 +24,17 @@
   /* PRIMARY BAR */
   .cw-primary{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; height:80px;}
 
-  /* SEARCH (static, no active/focus effects) */
+  /* SEARCH (static, no focus effects) */
   .cw-search{display:flex; align-items:center; max-width:420px; position:relative;}
   .cw-search form{width:100%; display:flex; align-items:center; gap:10px;}
-  .cw-search .mail{
-    font-size:18px; color:#333; display:inline-flex; align-items:center; justify-content:center;
-  }
-  .cw-search .divider{
-    width:1px; height:18px; background:#bdbdbd; display:inline-block;
-  }
+  .cw-search .mail{font-size:18px; color:#333; display:inline-flex; align-items:center; justify-content:center;}
+  .cw-search .divider{width:1px; height:18px; background:#bdbdbd; display:inline-block;}
   .cw-search input{
-    flex:1 1 auto; height:32px; padding:0 8px;
-    border:none; border-radius:0; background:transparent; outline:none;
+    flex:1 1 auto; height:32px; padding:0 8px; border:none; border-radius:0; background:transparent; outline:none;
     font-size:14px; color:#111;
   }
-  .cw-search button{
-    border:none; background:transparent; cursor:pointer;
-    font-size:18px; color:#333; padding:0; display:inline-flex; align-items:center;
-  }
-  .cw-search:after{
-    content:""; position:absolute; left:0; right:0; bottom:-6px;
-    height:2px; background:#111; /* always visible underline */
-  }
+  .cw-search button{border:none; background:transparent; cursor:pointer; font-size:18px; color:#333; padding:0; display:inline-flex; align-items:center;}
+  .cw-search:after{content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px; background:#111;}
 
   .cw-logo{display:flex; justify-content:center;}
   .cw-logo a{display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:inherit;}
@@ -58,48 +50,66 @@
     background:var(--hdr-accent); color:#fff; font-size:11px; line-height:16px; text-align:center; padding:0 4px;
   }
 
-  /* SECONDARY BAR / MEGA MENU — centered */
+  /* SECONDARY BAR / centered nav */
   .cw-secondary{border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
   .cw-secondary .cw-container{display:flex; justify-content:center;}
   .cw-nav-wrap{width:100%; display:flex; justify-content:center;}
-  .cw-nav{
-    display:flex; align-items:center; gap:28px;
-    white-space:nowrap; padding:0; margin:0; list-style:none;
-  }
+  .cw-nav{display:flex; align-items:center; gap:28px; white-space:nowrap; padding:0; margin:0; list-style:none;}
   .cw-nav > li{position:relative; list-style:none;}
-  .cw-nav > li > a{
-    display:inline-block; padding:14px 0; text-decoration:none; color:var(--hdr-text);
-    font-size:14px; font-weight:500;
-  }
-  /* remove all active/hover underline effects */
+  .cw-nav > li > a{display:inline-block; padding:14px 0; text-decoration:none; color:var(--hdr-text); font-size:14px; font-weight:500;}
+  /* no hover/active underline effects */
   .cw-nav > li > a::after{display:none !important;}
 
+  /* MEGA DROPDOWN */
   .cw-mega{
     position:absolute; left:0; right:0; top:100%; background:#fff; border-top:1px solid var(--border);
-    display:none; z-index:30; box-shadow:0 12px 28px rgba(0,0,0,.04);
+    display:none; z-index:30; box-shadow:0 12px 28px rgba(0,0,0,.06);
   }
   .cw-nav > li:focus-within .cw-mega,
   .cw-nav > li:hover .cw-mega{display:block;}
-  .cw-mega-inner{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; padding:20px;}
-  .cw-mega h4{margin:0 0 8px; font-size:13px; color:var(--hdr-muted); text-transform:uppercase; letter-spacing:.04em;}
-  .cw-mega a{display:block; padding:6px 0; text-decoration:none; color:var(--hdr-text); font-size:14px;}
-  .cw-mega a:hover{color:var(--hdr-accent);}
 
+  /* Inner grid: 4 columns + right promo (fixed width) */
+  .cw-mega-inner{
+    display:grid; grid-template-columns:repeat(4, minmax(0,1fr)) 300px; gap:28px; padding:18px 20px;
+  }
+
+  /* Column title w/ underline like screenshot */
+  .cw-mega .col-title{margin:0 0 10px; font-size:12.5px; color:var(--hdr-muted); text-transform:uppercase; letter-spacing:.04em; font-weight:600;}
+  .cw-mega .col-title-wrap{border-top:0; position:relative; padding-top:12px;}
+  .cw-mega .col-title-wrap:before{
+    content:""; position:absolute; left:0; top:0; width:160px; height:2px; background:#dcdcdc;
+  }
+
+  .cw-mega .links a{display:block; padding:7px 0; text-decoration:none; color:var(--hdr-text); font-size:14px;}
+  .cw-mega .links a:hover{color:var(--hdr-accent);}
+
+  /* Right promo image */
+  .cw-mega-media{display:block;}
+  .cw-mega-media a{display:block;}
+  .cw-mega-media img{width:100%; height:auto; display:block; object-fit:cover; border:1px solid #eee;}
+
+  /* "Shop by Color" swatches */
+  .cw-swatches{display:grid; grid-template-columns:repeat(7, 22px); gap:10px; padding-top:6px;}
+  .cw-swatch{width:22px; height:22px; border:1px solid #cfcfcf; box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);}
+  .cw-swatch.is-white{border-color:#999;}
+  .cw-swatch-link{display:block; width:22px; height:22px;}
+
+  /* Special menu items */
   .cw-nav > li.badge-fast > a{color:#ff32aa;}
   .cw-nav > li.badge-outlet > a{
-    padding:8px 10px; border:1px solid #f5dfe8; background:#fdf0f5; border-radius:4px;
-    line-height:1; margin-top:6px; margin-bottom:6px;
+    padding:8px 10px; border:1px solid #f5dfe8; background:#fdf0f5; border-radius:4px; line-height:1; margin-top:6px; margin-bottom:6px;
   }
 
   /* TABS BAR */
   .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:0; padding:10px 0;}
   .cw-tab{border:none; border-radius:0; padding:12px; font-size:13px; text-decoration:none; color:var(--hdr-text); text-align:center;}
-  .cw-tab:nth-child(1){background:#efefef;}
-  .cw-tab:nth-child(2){background:#ffecee;}
-  .cw-tab:nth-child(3){background:#efefef;}
+  .cw-tab:nth-child(1){background:#efefef;} .cw-tab:nth-child(2){background:#ffecee;} .cw-tab:nth-child(3){background:#efefef;}
   .cw-tab:hover{color:var(--hdr-accent);}
 
   /* MOBILE */
+  @media (max-width: 1200px){
+    .cw-mega-inner{grid-template-columns:repeat(3,minmax(0,1fr)) 260px;}
+  }
   @media (max-width: 990px){
     .cw-primary{grid-template-columns:1fr auto 1fr; height:72px;}
     .cw-mega-inner{grid-template-columns:repeat(2,minmax(0,1fr));}
@@ -114,7 +124,8 @@
     .cw-nav{flex-direction:column; align-items:flex-start; gap:8px;}
     .cw-nav > li > a{padding:10px 0;}
     .cw-mega{position:static; display:block; border:none; box-shadow:none; padding:0;}
-    .cw-mega-inner{padding:0 0 10px;}
+    .cw-mega-inner{grid-template-columns:1fr; gap:14px; padding:10px 0;}
+    .cw-mega-media{order:5;}
   }
 </style>
 
@@ -192,22 +203,66 @@
                 {% endif %}
                 <li class="{{ extra_class }}">
                   <a href="{{ top.url }}">{{ top.title }}</a>
+
                   {% if top.links.size > 0 %}
                     <div class="cw-mega">
                       <div class="cw-container">
                         <div class="cw-mega-inner">
-                          {% for col in top.links %}
-                            <div>
-                              <h4>{{ col.title }}</h4>
-                              {% if col.links.size > 0 %}
-                                {% for leaf in col.links %}
-                                  <a href="{{ leaf.url }}">{{ leaf.title }}</a>
-                                {% endfor %}
+                          {%- comment -%} LEFT 4 COLUMNS {%- endcomment -%}
+                          {% for col in top.links limit:4 %}
+                            <div class="cw-mega-col">
+                              <div class="col-title-wrap">
+                                <h4 class="col-title">{{ col.title }}</h4>
+                              </div>
+
+                              {% assign is_color_column = false %}
+                              {% if col.title %}
+                                {% assign up = col.title | strip | upcase %}
+                                {% if up == 'SHOP BY COLOR' %}
+                                  {% assign is_color_column = true %}
+                                {% endif %}
+                              {% endif %}
+
+                              {% if is_color_column %}
+                                <div class="cw-swatches">
+                                  {% for leaf in col.links %}
+                                    {% assign color_text = leaf.title | strip %}
+                                    {% assign color_val = color_text %}
+                                    {% capture style_bg %}background: {{ color_val }};{% endcapture %}
+
+                                    {% assign lc = color_val | downcase | strip %}
+                                    {% assign is_white = false %}
+                                    {% if lc == 'white' or lc == '#fff' or lc == '#ffffff' %}
+                                      {% assign is_white = true %}
+                                    {% endif %}
+
+                                    <a class="cw-swatch-link" href="{{ leaf.url }}" title="{{ color_text }}">
+                                      <span class="cw-swatch{% if is_white %} is-white{% endif %}" style="{{ style_bg }}"></span>
+                                    </a>
+                                  {% endfor %}
+                                </div>
                               {% else %}
-                                <a href="{{ col.url }}">{{ col.title }}</a>
+                                <div class="links">
+                                  {% if col.links.size > 0 %}
+                                    {% for leaf in col.links %}
+                                      <a href="{{ leaf.url }}">{{ leaf.title }}</a>
+                                    {% endfor %}
+                                  {% else %}
+                                    <a href="{{ col.url }}">{{ col.title }}</a>
+                                  {% endif %}
+                                </div>
                               {% endif %}
                             </div>
                           {% endfor %}
+
+                          {%- comment -%} RIGHT PROMO IMAGE (global; optional) {%- endcomment -%}
+                          {% if section.settings.mega_image != blank %}
+                            <div class="cw-mega-media">
+                              {% if section.settings.mega_image_link != blank %}<a href="{{ section.settings.mega_image_link }}">{% endif %}
+                                <img src="{{ section.settings.mega_image | img_url: '400x' }}" alt="Mega promo">
+                              {% if section.settings.mega_image_link != blank %}</a>{% endif %}
+                            </div>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
@@ -259,6 +314,9 @@
     { "type": "image_picker", "id": "logo", "label": "Logo" },
     { "type": "link_list", "id": "main_menu", "label": "Secondary menu (mega)", "default": "main-menu" },
     { "type": "url", "id": "wishlist_url", "label": "Wishlist URL (optional)" },
+
+    { "type": "image_picker", "id": "mega_image", "label": "Mega promo image (right side)" },
+    { "type": "url", "id": "mega_image_link", "label": "Mega promo link (optional)" },
 
     { "type": "text", "id": "tab1_text", "label": "Tab 1 text", "default": "PERFECT TAILORING , DELIVERED AT DOORSTEPS" },
     { "type": "url", "id": "tab1_link", "label": "Tab 1 link" },
