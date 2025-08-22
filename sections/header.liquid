@@ -91,6 +91,23 @@
       outline: none;
     }
 
+    /* Hide the search icon on desktop and show the input directly */
+    .header__icons .header__search summary .header__icon--search {
+      display: none;
+    }
+
+    /* Hide the search icon on desktop and show the input directly */
+    .header__icons .header__search summary .header__icon--search,
+    .header__icons .header__search summary .modal__toggle {
+      display: none;
+    }
+
+    /* Ensure the summary element doesn't show any icon content */
+    .header__icons .header__search summary > * {
+      display: none;
+    }
+
+    /* Show the search input directly in place of the icon */
     .header__icons .header__search .search-modal {
       position: static;
       opacity: 1;
@@ -98,6 +115,7 @@
       min-height: auto;
       height: auto;
       background: transparent;
+      display: block !important;
     }
 
     .header__icons .header__search .search-modal__content {
@@ -243,6 +261,20 @@
     .header__icons .header__search {
       width: 300px;
       max-width: 400px;
+    }
+  }
+
+  /* Ensure proper header layout with expanded search */
+  @media screen and (min-width: 990px) {
+    .header__icons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header__icons .header__search {
+      flex-shrink: 0;
+      margin-right: 0.5rem;
     }
   }
 
@@ -669,8 +701,16 @@
       const searchDetails = this.querySelector('.header__icons .header__search details');
       
       if (searchDetails && window.innerWidth >= 990) {
-        // Open the search details on desktop
+        // Force the search details to be open on desktop
         searchDetails.setAttribute('open', '');
+        
+        // Prevent the details from being closed on desktop
+        searchDetails.addEventListener('toggle', (e) => {
+          if (window.innerWidth >= 990) {
+            e.preventDefault();
+            searchDetails.setAttribute('open', '');
+          }
+        });
         
         // Listen for window resize to handle responsive behavior
         window.addEventListener('resize', () => {
