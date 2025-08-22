@@ -14,7 +14,7 @@
     --hdr-bg:#fff;
     --border:#eee;
     --transition: all 0.3s ease;
-    --header-height: 200px; /* Approximate total header height */
+    --header-height: 80px; /* Reduced header height */
   }
 
   /* Prevent content from being hidden behind sticky header */
@@ -22,14 +22,14 @@
     scroll-behavior: smooth;
   }
   
-  /* Add padding to main content to account for sticky header */
-  main, .main-content, .page-content, .shopify-section:first-child {
-    padding-top: var(--header-height);
+  /* Add minimal padding to main content to account for sticky header */
+  main, .main-content, .page-content {
+    padding-top: 20px;
   }
   
-  /* Alternative: Add padding to first section if main content selectors don't work */
+  /* Only add padding to first section if needed */
   .shopify-section:first-child {
-    padding-top: var(--header-height);
+    padding-top: 20px;
   }
   
 
