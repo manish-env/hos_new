@@ -55,6 +55,7 @@
       "type": "custom-navbar",
       "name": "Mx Navbar",
       "settings": {
+        "logo": "shopify://shop_images/Fashion_Brand_Lettermark_with_Mandala_Design-removebg-preview.png",
         "main_menu": "main-menu",
         "wishlist_url": "",
         "tab1_text": "PERFECT TAILORING, DELIVERED AT DOORSTEPS",
