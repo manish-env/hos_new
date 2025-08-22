@@ -1,5 +1,6 @@
 {{ 'component-slideshow.css' | asset_url | stylesheet_tag }}
 {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {%- liquid
   assign whatsapp_enabled = false
@@ -20,7 +21,7 @@
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  color: inherit;
+  color: {{ section.settings.whatsapp_text_color }};
   transition: opacity 0.2s ease;
 }
 
@@ -29,14 +30,17 @@
 }
 
 .whatsapp-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: {{ section.settings.whatsapp_icon_size }}px;
+  height: {{ section.settings.whatsapp_icon_size }}px;
   flex-shrink: 0;
+  color: {{ section.settings.whatsapp_icon_color }};
 }
 
 .whatsapp-number {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: {{ section.settings.whatsapp_font_size }}px;
+  font-weight: {{ section.settings.whatsapp_font_weight }};
+  color: {{ section.settings.whatsapp_text_color }};
+  font-family: {{ section.settings.whatsapp_font_family }};
 }
 
 .whatsapp-container {
@@ -209,9 +213,7 @@
            target="_blank" 
            rel="noopener noreferrer"
            aria-label="Contact us on WhatsApp">
-          <svg class="whatsapp-icon" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M20.4 3.6C18.2 1.3 15.2 0 12 0S5.8 1.3 3.6 3.6C1.3 5.8 0 8.8 0 12c0 2.2.6 4.3 1.7 6.1L0 24l6-1.6c1.8 1 3.8 1.5 5.9 1.5 3.2 0 6.2-1.3 8.4-3.6 2.3-2.2 3.6-5.2 3.6-8.4.1-3.2-1.2-6.2-3.5-8.3zm-8.4 19c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.5 1 .9-3.4-.2-.4c-1-1.6-1.5-3.4-1.5-5.2 0-2.6 1-5 2.9-6.8 1.8-1.9 4.3-2.9 6.8-2.9 2.6 0 5 1 6.8 2.9 1.9 1.8 2.9 4.3 2.9 6.8 0 2.6-1 5-2.9 6.8-1.7 1.9-4.1 2.8-6.8 2.8zm4-5.1c-.3-.1-1.6-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1-.2.2-.3.2-.6 0-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.5.1-.2.3-.4.4-.5.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5-.1-.1-.7-1.6-1-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z"/>
-          </svg>
+          <i class="fab fa-whatsapp whatsapp-icon"></i>
           <span class="whatsapp-number">{{ section.settings.whatsapp_number }}</span>
         </a>
       </div>
@@ -273,6 +275,99 @@
       "label": "WhatsApp Number",
       "info": "Enter your WhatsApp number including country code (e.g., +1234567890 or 1234567890)",
       "default": "+1234567890"
+    },
+    {
+      "type": "header",
+      "content": "WhatsApp Styling",
+      "info": "Customize the appearance of the WhatsApp contact"
+    },
+    {
+      "type": "range",
+      "id": "whatsapp_icon_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon Size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "whatsapp_icon_color",
+      "label": "Icon Color",
+      "default": "#25D366"
+    },
+    {
+      "type": "range",
+      "id": "whatsapp_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "whatsapp_text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "whatsapp_font_weight",
+      "label": "Font Weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "whatsapp_font_family",
+      "label": "Font Family",
+      "options": [
+        {
+          "value": "inherit",
+          "label": "Theme Default"
+        },
+        {
+          "value": "Arial, sans-serif",
+          "label": "Arial"
+        },
+        {
+          "value": "Helvetica, sans-serif",
+          "label": "Helvetica"
+        },
+        {
+          "value": "Georgia, serif",
+          "label": "Georgia"
+        },
+        {
+          "value": "Times New Roman, serif",
+          "label": "Times New Roman"
+        }
+      ],
+      "default": "inherit"
     },
     {
       "type": "header",
