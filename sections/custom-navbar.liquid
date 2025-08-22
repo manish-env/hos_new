@@ -17,16 +17,25 @@
     --header-height: 200px; /* Approximate total header height */
   }
 
-  /* Add margin to body to prevent content from being hidden behind sticky header */
+  /* Prevent content from being hidden behind sticky header */
   body { 
-    margin-top: var(--header-height); 
     scroll-behavior: smooth;
+  }
+  
+  /* Add padding to main content to account for sticky header */
+  main, .main-content, .page-content, .shopify-section:first-child {
+    padding-top: var(--header-height);
+  }
+  
+  /* Alternative: Add padding to first section if main content selectors don't work */
+  .shopify-section:first-child {
+    padding-top: var(--header-height);
   }
   
 
 
   .cw-header{position:fixed; top:0; left:0; right:0; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border); z-index:1000; width:100%;}
-  .cw-container{max-width:1400px; margin:0 auto; padding:0 16px;}
+  .cw-container{max-width:1400px; margin:0 auto;}
 
   /* PRIMARY BAR */
   .cw-primary{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; height:80px;}
