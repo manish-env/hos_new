@@ -13,6 +13,7 @@
     --hdr-accent:#ff4aa2;
     --hdr-bg:#fff;
     --border:#eee;
+    --transition: all 0.3s ease;
   }
 
   .cw-header{position:relative; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border);}
@@ -51,12 +52,12 @@
 
   /* SECONDARY BAR */
   .cw-secondary{border-top:1px solid var(--border); border-bottom:1px solid var(--border); overflow:visible;}
-  .cw-secondary .cw-container{display:flex; justify-content:center;}
+  .cw-secondary .cw-container{display:flex; justify-content:center; position:relative;}
   .cw-nav-wrap{width:100%; display:flex; justify-content:center;}
   .cw-nav{
     display:flex; align-items:center; gap:28px; white-space:nowrap; padding:0; margin:0; list-style:none;
   }
-  .cw-nav > li{position:relative; list-style:none;}
+  .cw-nav > li{position:static; list-style:none;}
   .cw-nav > li > a{
     display:inline-block; padding:14px 0; text-decoration:none; color:var(--hdr-text);
     font-size:14px; font-weight:500;
@@ -68,39 +69,58 @@
   .cw-mega{
     position:absolute;
     top:100%;
-    left:50%;
-    transform:translateX(-50%);
-    width:auto;
-    min-width:940px;         /* adjust for your content */
-    max-width:1200px;        /* matches design container */
+    left:0;
+    right:0;
+    width:100%;
     background:#fff;
     border-top:1px solid #f0f0f0;
     display:none;
     z-index:1000;
     box-shadow:0 12px 28px rgba(0,0,0,.08);
-    padding:18px 20px;       /* inner padding */
+    padding:18px 20px;
+    opacity:0;
+    visibility:hidden;
+    transition:var(--transition);
   }
-  .cw-nav > li:focus-within .cw-mega,
-  .cw-nav > li:hover .cw-mega{display:block;}
+  
+  /* Center the mega menu content */
+  .cw-mega-inner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .cw-nav > li:hover .cw-mega{
+    display:block;
+    opacity:1;
+    visibility:visible;
+  }
 
   /* MEGA GRID: 4 cols + right promo image */
   .cw-mega-inner{
-    display:grid; grid-template-columns:repeat(4, minmax(0,1fr)) 300px; gap:28px;
+    display:grid; 
+    grid-template-columns:repeat(4, minmax(0,1fr)) 300px; 
+    gap:28px;
+    width:100%;
+    max-width:1200px;
   }
   .cw-mega .col-title{margin:0 0 10px; font-size:12.5px; color:var(--hdr-muted); text-transform:uppercase; letter-spacing:.04em; font-weight:600;}
   .cw-mega .col-title-wrap{position:relative; padding-top:12px;}
   .cw-mega .col-title-wrap:before{content:""; position:absolute; left:0; top:0; width:160px; height:2px; background:#dcdcdc;}
 
-  .cw-mega .links a{display:block; padding:7px 0; text-decoration:none; color:var(--hdr-text); font-size:14px;}
-  .cw-mega .links a:hover{color:var(--hdr-accent);}
+  .cw-mega .links a{display:block; padding:7px 0; text-decoration:none; color:var(--hdr-text); font-size:14px; transition:var(--transition);}
+  .cw-mega .links a:hover{color:var(--hdr-accent); transform:translateX(5px);}
 
   /* Promo image (right) */
-  .cw-mega-media a{display:block;}
-  .cw-mega-media img{width:100%; height:auto; display:block; object-fit:cover; border:1px solid #eee;}
+  .cw-mega-media a{display:block; overflow:hidden;}
+  .cw-mega-media img{width:100%; height:auto; display:block; object-fit:cover; border:1px solid #eee; transition:var(--transition);}
+  .cw-mega-media a:hover img{transform:scale(1.03);}
 
   /* "Shop by Color" swatches (optional column) */
   .cw-swatches{display:grid; grid-template-columns:repeat(7, 22px); gap:10px; padding-top:6px;}
-  .cw-swatch{width:22px; height:22px; border:1px solid #cfcfcf; box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);}
+  .cw-swatch{width:22px; height:22px; border:1px solid #cfcfcf; box-shadow:inset 0 0 0 1px rgba(255,255,255,.15); transition:var(--transition);}
+  .cw-swatch:hover{transform:scale(1.2);}
   .cw-swatch.is-white{border-color:#999;}
   .cw-swatch-link{display:block; width:22px; height:22px;}
 
@@ -113,32 +133,83 @@
 
   /* THREE TABS */
   .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:0; padding:10px 0;}
-  .cw-tab{border:none; border-radius:0; padding:12px; font-size:13px; text-decoration:none; color:var(--hdr-text); text-align:center;}
+  .cw-tab{border:none; border-radius:0; padding:12px; font-size:13px; text-decoration:none; color:var(--hdr-text); text-align:center; transition:var(--transition);}
   .cw-tab:nth-child(1){background:#efefef;} .cw-tab:nth-child(2){background:#ffecee;} .cw-tab:nth-child(3){background:#efefef;}
-  .cw-tab:hover{color:var(--hdr-accent);}
+  .cw-tab:hover{color:var(--hdr-accent); background:rgba(0,0,0,0.05);}
 
+  /* BURGER MENU */
+  .cw-burger{display:none; align-items:center; gap:8px; font-size:24px; cursor:pointer; background:none; border:none; color:var(--hdr-text);}
+  
   /* RESPONSIVE */
   @media (max-width: 1200px){
-    .cw-mega{min-width:820px; max-width:1000px;}
     .cw-mega-inner{grid-template-columns:repeat(3,minmax(0,1fr)) 260px;}
   }
+  
   @media (max-width: 990px){
-    .cw-primary{grid-template-columns:1fr auto 1fr; height:72px;}
-    .cw-mega{min-width:auto; max-width:none; width:92vw; left:50%; transform:translateX(-50%);}
+    .cw-primary{grid-template-columns: 1fr auto 1fr; height:72px;}
     .cw-mega-inner{grid-template-columns:repeat(2,minmax(0,1fr));}
     .cw-tabs{grid-template-columns:1fr;}
+    
+    /* Mobile menu styling */
+    .cw-burger{display:flex;}
+    .cw-nav-wrap{
+      display:none;
+      position:absolute;
+      top:100%;
+      left:0;
+      right:0;
+      background:var(--hdr-bg);
+      z-index:1001;
+      padding:20px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+      border-top:1px solid var(--border);
+    }
+    .cw-nav-wrap.open{display:block;}
+    .cw-nav{flex-direction:column; align-items:flex-start; gap:0;}
+    .cw-nav > li{width:100%;}
+    .cw-nav > li > a{display:block; padding:12px 0; width:100%; border-bottom:1px solid #f5f5f5;}
+    
+    /* Mobile mega menu */
+    .cw-nav > li:hover .cw-mega{display:none;} /* Disable hover on mobile */
+    .cw-mega{
+      position:static;
+      width:100%;
+      box-shadow:none;
+      border:none;
+      padding:10px 0 10px 15px;
+      display:none;
+      opacity:1;
+      visibility:visible;
+    }
+    .cw-mega.open{display:block;}
+    .cw-mega-inner{grid-template-columns:1fr; gap:14px;}
+    .cw-mega-media{order:-1;} /* Move promo image to top on mobile */
+    
+    /* Mobile color swatches */
+    .cw-swatches{grid-template-columns:repeat(5, 22px);}
   }
-  .cw-burger{display:none;}
-  @media (max-width: 820px){
-    .cw-burger{display:inline-flex; align-items:center; gap:8px; font-size:24px; cursor:pointer;}
-    .cw-nav-wrap{display:none;}
-    .cw-nav-wrap.open{display:flex;}
-    .cw-secondary .cw-container{justify-content:space-between;}
-    .cw-nav{flex-direction:column; align-items:flex-start; gap:8px;}
-    .cw-nav > li > a{padding:10px 0;}
-    .cw-mega{position:static; transform:none; width:100%; border:none; box-shadow:none; padding:0;}
-    .cw-mega-inner{grid-template-columns:1fr; gap:14px; padding:10px 0;}
-    .cw-mega-media{order:5;}
+  
+  @media (max-width: 768px){
+    .cw-primary{grid-template-columns: auto 1fr auto; gap:10px;}
+    .cw-search{order:3; grid-column:1 / span 3; max-width:100%; margin-top:10px;}
+    .cw-logo{order:2; justify-content:flex-start;}
+    .cw-right{order:1; justify-content:flex-end;}
+    
+    /* Adjust tabs for mobile */
+    .cw-tabs{grid-template-columns:1fr; gap:5px;}
+    .cw-tab{padding:10px; font-size:12px;}
+  }
+  
+  @media (max-width: 480px){
+    .cw-primary{height:60px;}
+    .cw-logo .text{font-size:20px;}
+    .cw-logo img{max-height:36px;}
+    .cw-right a{font-size:12px;}
+    .cw-icons a{font-size:16px;}
+    
+    /* Adjust search for very small screens */
+    .cw-search .mail{font-size:16px;}
+    .cw-search input{font-size:13px;}
   }
 </style>
 
@@ -199,9 +270,9 @@
   <!-- SECONDARY NAVBAR + MEGA MENU -->
   <div class="cw-secondary">
     <div class="cw-container">
-      <div class="cw-secondary-inner" style="display:flex; align-items:center; justify-content:center; width:100%;">
+      <div class="cw-secondary-inner">
         <button class="cw-burger" aria-controls="cw-nav" aria-expanded="false">
-          <i class="fa-solid fa-bars"></i>
+          <i class="fa-solid fa-bars"></i> Menu
         </button>
         <nav id="cw-nav" class="cw-nav-wrap">
           {% assign nav = section.settings.main_menu %}
@@ -215,66 +286,68 @@
                   {% assign extra_class = 'badge-outlet' %}
                 {% endif %}
                 <li class="{{ extra_class }}">
-                  <a href="{{ top.url }}">{{ top.title }}</a>
+                  <a href="{{ top.url }}">{{ top.title }}{% if top.links.size > 0 %} <i class="fas fa-chevron-down" style="font-size:10px; margin-left:5px;"></i>{% endif %}</a>
 
                   {% if top.links.size > 0 %}
                     <div class="cw-mega">
-                      <div class="cw-mega-inner">
-                        {%- comment -%} LEFT 4 COLUMNS {%- endcomment -%}
-                        {% for col in top.links limit:4 %}
-                          <div class="cw-mega-col">
-                            <div class="col-title-wrap">
-                              <h4 class="col-title">{{ col.title }}</h4>
-                            </div>
-
-                            {% assign is_color_column = false %}
-                            {% if col.title %}
-                              {% assign up = col.title | strip | upcase %}
-                              {% if up == 'SHOP BY COLOR' %}
-                                {% assign is_color_column = true %}
-                              {% endif %}
-                            {% endif %}
-
-                            {% if is_color_column %}
-                              <div class="cw-swatches">
-                                {% for leaf in col.links %}
-                                  {% assign color_text = leaf.title | strip %}
-                                  {% assign color_val = color_text %}
-                                  {% capture style_bg %}background: {{ color_val }};{% endcapture %}
-
-                                  {% assign lc = color_val | downcase | strip %}
-                                  {% assign is_white = false %}
-                                  {% if lc == 'white' or lc == '#fff' or lc == '#ffffff' %}
-                                    {% assign is_white = true %}
-                                  {% endif %}
-
-                                  <a class="cw-swatch-link" href="{{ leaf.url }}" title="{{ color_text }}">
-                                    <span class="cw-swatch{% if is_white %} is-white{% endif %}" style="{{ style_bg }}"></span>
-                                  </a>
-                                {% endfor %}
+                      <div class="cw-mega-inner-container">
+                        <div class="cw-mega-inner">
+                          {%- comment -%} LEFT 4 COLUMNS {%- endcomment -%}
+                          {% for col in top.links limit:4 %}
+                            <div class="cw-mega-col">
+                              <div class="col-title-wrap">
+                                <h4 class="col-title">{{ col.title }}</h4>
                               </div>
-                            {% else %}
-                              <div class="links">
-                                {% if col.links.size > 0 %}
-                                  {% for leaf in col.links %}
-                                    <a href="{{ leaf.url }}">{{ leaf.title }}</a>
-                                  {% endfor %}
-                                {% else %}
-                                  <a href="{{ col.url }}">{{ col.title }}</a>
+
+                              {% assign is_color_column = false %}
+                              {% if col.title %}
+                                {% assign up = col.title | strip | upcase %}
+                                {% if up == 'SHOP BY COLOR' %}
+                                  {% assign is_color_column = true %}
                                 {% endif %}
-                              </div>
-                            {% endif %}
-                          </div>
-                        {% endfor %}
+                              {% endif %}
 
-                        {%- comment -%} RIGHT PROMO IMAGE (global; optional) {%- endcomment -%}
-                        {% if section.settings.mega_image != blank %}
-                          <div class="cw-mega-media">
-                            {% if section.settings.mega_image_link != blank %}<a href="{{ section.settings.mega_image_link }}">{% endif %}
-                              <img src="{{ section.settings.mega_image | img_url: '400x' }}" alt="Mega promo">
-                            {% if section.settings.mega_image_link != blank %}</a>{% endif %}
-                          </div>
-                        {% endif %}
+                              {% if is_color_column %}
+                                <div class="cw-swatches">
+                                  {% for leaf in col.links %}
+                                    {% assign color_text = leaf.title | strip %}
+                                    {% assign color_val = color_text %}
+                                    {% capture style_bg %}background: {{ color_val }};{% endcapture %}
+
+                                    {% assign lc = color_val | downcase | strip %}
+                                    {% assign is_white = false %}
+                                    {% if lc == 'white' or lc == '#fff' or lc == '#ffffff' %}
+                                      {% assign is_white = true %}
+                                    {% endif %}
+
+                                    <a class="cw-swatch-link" href="{{ leaf.url }}" title="{{ color_text }}">
+                                      <span class="cw-swatch{% if is_white %} is-white{% endif %}" style="{{ style_bg }}"></span>
+                                    </a>
+                                  {% endfor %}
+                                </div>
+                              {% else %}
+                                <div class="links">
+                                  {% if col.links.size > 0 %}
+                                    {% for leaf in col.links %}
+                                      <a href="{{ leaf.url }}">{{ leaf.title }}</a>
+                                    {% endfor %}
+                                  {% else %}
+                                    <a href="{{ col.url }}">{{ col.title }}</a>
+                                  {% endif %}
+                                </div>
+                              {% endif %}
+                            </div>
+                          {% endfor %}
+
+                          {%- comment -%} RIGHT PROMO IMAGE (global; optional) {%- endcomment -%}
+                          {% if section.settings.mega_image != blank %}
+                            <div class="cw-mega-media">
+                              {% if section.settings.mega_image_link != blank %}<a href="{{ section.settings.mega_image_link }}">{% endif %}
+                                <img src="{{ section.settings.mega_image | img_url: '400x' }}" alt="Mega promo">
+                              {% if section.settings.mega_image_link != blank %}</a>{% endif %}
+                            </div>
+                          {% endif %}
+                        </div>
                       </div>
                     </div>
                   {% endif %}
@@ -307,13 +380,39 @@
 
 <script>
   (function(){
+    // Mobile menu toggle
     var burger = document.querySelector('.cw-burger');
     var wrap = document.querySelector('.cw-nav-wrap');
-    if(!burger || !wrap) return;
-    burger.addEventListener('click', function(){
-      wrap.classList.toggle('open');
-      var expanded = burger.getAttribute('aria-expanded') === 'true';
-      burger.setAttribute('aria-expanded', String(!expanded));
+    
+    if(burger && wrap) {
+      burger.addEventListener('click', function(){
+        wrap.classList.toggle('open');
+        var expanded = burger.getAttribute('aria-expanded') === 'true';
+        burger.setAttribute('aria-expanded', String(!expanded));
+      });
+    }
+    
+    // Mobile submenu toggle
+    var navItems = document.querySelectorAll('.cw-nav > li');
+    navItems.forEach(function(item) {
+      if(item.querySelector('.cw-mega')) {
+        var link = item.querySelector('a');
+        link.addEventListener('click', function(e) {
+          if(window.innerWidth <= 990) {
+            e.preventDefault();
+            var mega = item.querySelector('.cw-mega');
+            mega.classList.toggle('open');
+          }
+        });
+      }
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if(wrap && wrap.classList.contains('open') && !e.target.closest('.cw-nav-wrap') && !e.target.closest('.cw-burger')) {
+        wrap.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      }
     });
   })();
 </script>
