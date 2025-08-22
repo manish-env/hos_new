@@ -44,156 +44,205 @@
     height: 1em;
   }
 
-  /* Desktop Expanded Search Bar Styles */
-  .header__expanded-search {
-    display: none;
-    grid-area: navigation;
-    justify-self: center;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .header__search-form {
-    width: 100%;
-  }
-
-  .header__search-input {
-    width: 100%;
-    padding: 1rem 4rem 1rem 1.5rem;
-    border: 1px solid rgba(var(--color-foreground), 0.08);
-    border-radius: 4px;
-    font-size: 1.4rem;
-    background: rgb(var(--color-background));
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    height: 4.4rem;
-    line-height: 1.4;
-  }
-
-  .header__search-input:focus {
-    outline: none;
-    border-color: rgb(var(--color-foreground));
-    box-shadow: 0 0 0 1px rgb(var(--color-foreground));
-  }
-
-  .header__search-input::placeholder {
-    color: rgba(var(--color-foreground), 0.6);
-    opacity: 1;
-  }
-
-  .header__search-submit {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    color: rgb(var(--color-foreground));
-    transition: color 0.3s ease;
-  }
-
-  .header__search-submit:hover {
-    color: rgba(var(--color-foreground), 0.8);
-  }
-
-  .header__search-reset {
-    position: absolute;
-    right: 3rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    color: rgba(var(--color-foreground), 0.6);
-    transition: color 0.3s ease;
-  }
-
-  .header__search-reset:hover {
-    color: rgb(var(--color-foreground));
-  }
-
-  .header__search-reset.hidden {
-    display: none;
-  }
-
-  .header__search-form .field {
-    position: relative;
+  /* Desktop Expanded Search Bar Styles - Modified for existing search */
+  .header__icons .header__search {
+    transition: all 0.3s ease;
   }
 
   /* Show expanded search on desktop */
   @media screen and (min-width: 990px) {
-    .header__expanded-search {
+    .header__icons .header__search {
+      width: 300px;
+      max-width: 400px;
+    }
+
+    .header__icons .header__search details {
+      width: 100%;
+    }
+
+    .header__icons .header__search summary {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Force the search details to be open on desktop */
+    .header__icons .header__search details[open] {
       display: block;
     }
-    
-    /* Hide modal search icon on desktop when expanded search is shown */
-    .header__icons .header__search {
+
+    .header__icons .header__search details:not([open]) {
+      display: block;
+    }
+
+    /* Style the search summary to look like a proper search bar */
+    .header__icons .header__search summary {
+      cursor: text;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+
+    .header__icons .header__search summary::-webkit-details-marker {
       display: none;
     }
 
-    /* Adjust header layout for expanded search */
-    .header--middle-left .header__expanded-search {
-      grid-area: navigation;
-      justify-self: center;
-      margin: 0 2rem;
+    .header__icons .header__search summary:focus {
+      outline: none;
     }
 
-    .header--middle-center .header__expanded-search {
-      grid-area: navigation;
-      justify-self: center;
-      margin: 0 2rem;
+    .header__icons .header__search .search-modal {
+      position: static;
+      opacity: 1;
+      border: none;
+      min-height: auto;
+      height: auto;
+      background: transparent;
     }
 
-    .header--top-left .header__expanded-search {
-      grid-area: navigation;
-      justify-self: center;
-      margin: 0 2rem;
+    .header__icons .header__search .search-modal__content {
+      padding: 0;
+      position: static;
+      background: transparent;
     }
 
-    .header--top-center .header__expanded-search {
-      grid-area: navigation;
-      justify-self: center;
-      margin: 0 2rem;
+    .header__icons .header__search .search-modal__form {
+      width: 100%;
+    }
+
+    .header__icons .header__search .search-modal__form .field {
+      position: relative;
+      width: 100%;
+    }
+
+    .header__icons .header__search .search-modal__form .search__input {
+      width: 100%;
+      padding: 0.8rem 3.5rem 0.8rem 1.2rem;
+      border: 1px solid rgba(var(--color-foreground), 0.08);
+      border-radius: 4px;
+      font-size: 1.4rem;
+      background: rgb(var(--color-background));
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      height: 4rem;
+      line-height: 1.4;
+    }
+
+    .header__icons .header__search .search-modal__form .search__input:focus {
+      outline: none;
+      border-color: rgb(var(--color-foreground));
+      box-shadow: 0 0 0 1px rgb(var(--color-foreground));
+    }
+
+    .header__icons .header__search .search-modal__form .search__input::placeholder {
+      color: rgba(var(--color-foreground), 0.6);
+      opacity: 1;
+    }
+
+    .header__icons .header__search .search-modal__form .search__button {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      color: rgb(var(--color-foreground));
+      transition: color 0.3s ease;
+    }
+
+    .header__icons .header__search .search-modal__form .search__button:hover {
+      color: rgba(var(--color-foreground), 0.8);
+    }
+
+    .header__icons .header__search .search-modal__form .reset__button {
+      position: absolute;
+      right: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+      color: rgba(var(--color-foreground), 0.6);
+      transition: color 0.3s ease;
+    }
+
+    .header__icons .header__search .search-modal__form .reset__button:hover {
+      color: rgb(var(--color-foreground));
+    }
+
+    .header__icons .header__search .search-modal__form .reset__button.hidden {
+      display: none;
+    }
+
+    /* Hide modal overlay and close button on desktop */
+    .header__icons .header__search .modal-overlay {
+      display: none;
+    }
+
+    .header__icons .header__search .search-modal__close-button {
+      display: none;
+    }
+
+    /* Show predictive search results inline */
+    .header__icons .header__search .predictive-search {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgb(var(--color-background));
+      border: 1px solid rgba(var(--color-foreground), 0.08);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      z-index: 10;
+      max-height: 300px;
+      overflow-y: auto;
     }
   }
 
-  /* Mobile: hide expanded search, show modal search */
+  /* Mobile: show modal search as before */
   @media screen and (max-width: 989px) {
-    .header__expanded-search {
-      display: none;
-    }
-    
     .header__icons .header__search {
-      display: inline-flex;
+      width: auto;
+    }
+
+    .header__icons .header__search .search-modal {
+      position: fixed;
+      opacity: 0;
+      border: 1px solid rgba(var(--color-foreground), 0.08);
+      min-height: calc(100% + var(--inputs-margin-offset) + (2 * var(--inputs-border-width)));
+      height: 100%;
+      background: rgb(var(--color-background));
+    }
+
+    .header__icons .header__search .search-modal__content {
+      padding: 0 5rem 0 1rem;
+      position: absolute;
+      background: rgb(var(--color-background));
+    }
+
+    .header__icons .header__search .modal-overlay {
+      display: block;
+    }
+
+    .header__icons .header__search .search-modal__close-button {
+      display: block;
     }
   }
 
   /* Additional responsive adjustments */
   @media screen and (min-width: 990px) and (max-width: 1200px) {
-    .header__expanded-search {
-      max-width: 400px;
+    .header__icons .header__search {
+      width: 250px;
+      max-width: 300px;
     }
   }
 
   @media screen and (min-width: 1201px) {
-    .header__expanded-search {
-      max-width: 500px;
-    }
-  }
-
-  /* Ensure proper spacing for different header layouts */
-  @media screen and (min-width: 990px) {
-    .header--middle-left .header__expanded-search,
-    .header--middle-center .header__expanded-search {
-      margin: 0 1.5rem;
-    }
-
-    .header--top-left .header__expanded-search,
-    .header--top-center .header__expanded-search {
-      margin: 0 1.5rem;
+    .header__icons .header__search {
+      width: 300px;
+      max-width: 400px;
     }
   }
 
@@ -407,68 +456,6 @@
       endif
     %}
 
-    <!-- Desktop Expanded Search Bar -->
-    <div class="header__expanded-search desktop-only">
-      {%- if settings.predictive_search_enabled -%}
-        <predictive-search class="header__search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
-      {%- else -%}
-        <search-form class="header__search-form">
-      {%- endif -%}
-      <form action="{{ routes.search_url }}" method="get" role="search" class="search header__search-form">
-        <div class="field">
-          <input
-            class="search__input field__input header__search-input"
-            id="Header-Expanded-Search"
-            type="search"
-            name="q"
-            value="{{ search.terms | escape }}"
-            placeholder="{{ 'general.search.search' | t }}"
-            {%- if settings.predictive_search_enabled -%}
-              role="combobox"
-              aria-expanded="false"
-              aria-owns="predictive-search-results"
-              aria-controls="predictive-search-results"
-              aria-haspopup="listbox"
-              aria-autocomplete="list"
-              autocorrect="off"
-              autocomplete="off"
-              autocapitalize="off"
-              spellcheck="false"
-            {%- endif -%}
-          >
-          <label class="field__label" for="Header-Expanded-Search">{{ 'general.search.search' | t }}</label>
-          <input type="hidden" name="options[prefix]" value="last">
-          <button
-            type="reset"
-            class="reset__button field__button header__search-reset{% if search.terms == blank %} hidden{% endif %}"
-            aria-label="{{ 'general.search.reset' | t }}"
-          >
-            <svg class="icon icon-close" aria-hidden="true" focusable="false">
-              <use xlink:href="#icon-reset">
-            </svg>
-          </button>
-          <button class="search__button field__button header__search-submit" aria-label="{{ 'general.search.search' | t }}">
-            <svg class="icon icon-search" aria-hidden="true" focusable="false">
-              <use href="#icon-search">
-            </svg>
-          </button>
-        </div>
-
-        {%- if settings.predictive_search_enabled -%}
-          <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
-            {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
-          </div>
-
-          <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
-        {%- endif -%}
-      </form>
-      {%- if settings.predictive_search_enabled -%}
-        </predictive-search>
-      {%- else -%}
-        </search-form>
-      {%- endif -%}
-    </div>
-
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
@@ -646,13 +633,14 @@
     }
 
     initExpandedSearch() {
-      const expandedSearchInput = this.querySelector('#Header-Expanded-Search');
-      const resetButton = this.querySelector('.header__search-reset');
+      // Find the existing search input and reset button in the header icons
+      const searchInput = this.querySelector('.header__icons .search__input');
+      const resetButton = this.querySelector('.header__icons .reset__button');
       
-      if (expandedSearchInput && resetButton) {
+      if (searchInput && resetButton) {
         // Show/hide reset button based on input value
         const toggleResetButton = () => {
-          if (expandedSearchInput.value.trim() !== '') {
+          if (searchInput.value.trim() !== '') {
             resetButton.classList.remove('hidden');
           } else {
             resetButton.classList.add('hidden');
@@ -660,17 +648,38 @@
         };
 
         // Listen for input changes
-        expandedSearchInput.addEventListener('input', toggleResetButton);
+        searchInput.addEventListener('input', toggleResetButton);
         
         // Listen for reset button clicks
         resetButton.addEventListener('click', () => {
-          expandedSearchInput.value = '';
-          expandedSearchInput.focus();
+          searchInput.value = '';
+          searchInput.focus();
           toggleResetButton();
         });
 
         // Initial state
         toggleResetButton();
+      }
+
+      // Auto-open search on desktop
+      this.autoOpenSearch();
+    }
+
+    autoOpenSearch() {
+      const searchDetails = this.querySelector('.header__icons .header__search details');
+      
+      if (searchDetails && window.innerWidth >= 990) {
+        // Open the search details on desktop
+        searchDetails.setAttribute('open', '');
+        
+        // Listen for window resize to handle responsive behavior
+        window.addEventListener('resize', () => {
+          if (window.innerWidth >= 990) {
+            searchDetails.setAttribute('open', '');
+          } else {
+            searchDetails.removeAttribute('open');
+          }
+        });
       }
     }
 
