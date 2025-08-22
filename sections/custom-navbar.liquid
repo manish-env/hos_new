@@ -1,8 +1,7 @@
 {% comment %}
-  Header – Custom (Primary + Secondary + Tabs)
-  - Primary: Search (L), Logo (C), Account/Wishlist/Cart (R)
-  - Secondary: Mega menu with nested links
-  - Tabs: 3 quick links bar
+  Mx Navbar – Primary (Search L, Logo C, Auth/Wishlist/Cart R)
+  + Secondary centered mega menu with nested links
+  + Three tabs bar
 {% endcomment %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -11,7 +10,7 @@
   :root{
     --hdr-text:#111;
     --hdr-muted:#666;
-    --hdr-accent:#ff4aa2; /* tweak if you want */
+    --hdr-accent:#ff4aa2;
     --hdr-bg:#fff;
     --border:#eee;
   }
@@ -42,48 +41,71 @@
     background:var(--hdr-accent); color:#fff; font-size:11px; line-height:16px; text-align:center; padding:0 4px;
   }
 
-  /* SECONDARY BAR / MEGA MENU */
+  /* SECONDARY BAR / MEGA MENU — centered like screenshot */
   .cw-secondary{border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
-  .cw-nav{display:flex; gap:20px; overflow-x:auto; white-space:nowrap;}
-  .cw-nav > li{list-style:none; position:relative;}
+  .cw-secondary .cw-container{display:flex; justify-content:center;}
+  .cw-nav-wrap{width:100%; display:flex; justify-content:center;}
+  .cw-nav{
+    display:flex; align-items:center; gap:28px;
+    white-space:nowrap; padding:0; margin:0; list-style:none;
+  }
+  .cw-nav > li{position:relative; list-style:none;}
   .cw-nav > li > a{
-    display:block; padding:14px 8px; text-decoration:none; color:var(--hdr-text); font-size:14px; font-weight:500;
+    display:inline-block; padding:14px 0; text-decoration:none; color:var(--hdr-text);
+    font-size:14px; font-weight:500;
+  }
+
+  /* Active/hover underline (thin, centered) */
+  .cw-nav > li > a::after{
+    content:""; position:absolute; left:50%; transform:translateX(-50%);
+    bottom:-1px; width:24px; height:2px; background:transparent; transition:background .2s; border-radius:2px;
   }
   .cw-nav > li:hover > a{color:var(--hdr-accent);}
+  .cw-nav > li:hover > a::after{background:var(--hdr-accent);}
+  .cw-nav > li.is-active > a::after{background:var(--hdr-text);} /* black underline */
+
+  /* Mega */
   .cw-mega{
     position:absolute; left:0; right:0; top:100%; background:#fff; border-top:1px solid var(--border);
     display:none; z-index:30; box-shadow:0 12px 28px rgba(0,0,0,.04);
   }
   .cw-nav > li:focus-within .cw-mega,
   .cw-nav > li:hover .cw-mega{display:block;}
-  .cw-mega-inner{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:24px; padding:20px;}
+  .cw-mega-inner{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; padding:20px;}
   .cw-mega h4{margin:0 0 8px; font-size:13px; color:var(--hdr-muted); text-transform:uppercase; letter-spacing:.04em;}
   .cw-mega a{display:block; padding:6px 0; text-decoration:none; color:var(--hdr-text); font-size:14px;}
   .cw-mega a:hover{color:var(--hdr-accent);}
 
-  /* TABS BAR */
-  .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:10px 0;}
-  .cw-tab{
-    text-align:center; font-size:13px; padding:10px 12px; border:1px solid var(--border); border-radius:999px;
-    text-decoration:none; color:var(--hdr-text);
+  /* Special items like screenshot */
+  .cw-nav > li.badge-fast > a{color:#ff32aa;}           /* FAST SHIP pink text */
+  .cw-nav > li.badge-outlet > a{
+    padding:8px 10px; border:1px solid #f5dfe8; background:#fdf0f5; border-radius:4px;
+    line-height:1; margin-top:6px; margin-bottom:6px;
   }
-  .cw-tab:hover{border-color:var(--hdr-accent); color:var(--hdr-accent);}
+
+  /* TABS BAR */
+  .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:0; padding:10px 0;}
+  .cw-tab{border:none; border-radius:0; padding:12px; font-size:13px; text-decoration:none; color:var(--hdr-text); text-align:center;}
+  .cw-tab:nth-child(1){background:#efefef;}
+  .cw-tab:nth-child(2){background:#ffecee;}
+  .cw-tab:nth-child(3){background:#efefef;}
+  .cw-tab:hover{color:var(--hdr-accent);}
 
   /* MOBILE */
   @media (max-width: 990px){
     .cw-primary{grid-template-columns:1fr auto 1fr; height:72px;}
     .cw-mega-inner{grid-template-columns:repeat(2,minmax(0,1fr));}
-    .cw-tabs{grid-template-columns:1fr; }
+    .cw-tabs{grid-template-columns:1fr;}
   }
 
-  /* Simple mobile menu button (optional) */
+  /* Simple mobile menu button */
   .cw-burger{display:none;}
   @media (max-width: 820px){
     .cw-burger{display:inline-flex; align-items:center; gap:8px; font-size:24px; cursor:pointer;}
     .cw-nav-wrap{display:none;}
-    .cw-nav-wrap.open{display:block;}
-    .cw-secondary .cw-container{padding:0 16px;}
-    .cw-nav{flex-direction:column; padding:8px 0;}
+    .cw-nav-wrap.open{display:flex;}
+    .cw-secondary .cw-container{justify-content:space-between;}
+    .cw-nav{flex-direction:column; align-items:flex-start; gap:8px;}
     .cw-nav > li > a{padding:10px 0;}
     .cw-mega{position:static; display:block; border:none; box-shadow:none; padding:0;}
     .cw-mega-inner{padding:0 0 10px;}
@@ -145,7 +167,7 @@
   <!-- SECONDARY NAVBAR + MEGA MENU -->
   <div class="cw-secondary">
     <div class="cw-container">
-      <div class="cw-secondary-inner" style="display:flex; align-items:center; justify-content:space-between;">
+      <div class="cw-secondary-inner" style="display:flex; align-items:center; justify-content:center; width:100%;">
         <button class="cw-burger" aria-controls="cw-nav" aria-expanded="false">
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -154,7 +176,16 @@
           {% if nav != blank %}
             <ul class="cw-nav" role="list">
               {% for top in nav.links %}
-                <li>
+                {% assign is_active = false %}
+                {% if top.active or top.child_active %}{% assign is_active = true %}{% endif %}
+                {% assign extra_class = '' %}
+                {% if top.title == 'FAST SHIP' %}
+                  {% assign extra_class = 'badge-fast' %}
+                {% elsif top.title == 'OUTLET' %}
+                  {% assign extra_class = 'badge-outlet' %}
+                {% endif %}
+
+                <li class="{% if is_active %}is-active {% endif %}{{ extra_class }}">
                   <a href="{{ top.url }}">{{ top.title }}</a>
 
                   {% if top.links.size > 0 %}
@@ -226,7 +257,7 @@
     { "type": "link_list", "id": "main_menu", "label": "Secondary menu (mega)", "default": "main-menu" },
     { "type": "url", "id": "wishlist_url", "label": "Wishlist URL (optional)" },
 
-    { "type": "text", "id": "tab1_text", "label": "Tab 1 text", "default": "PERFECT TAILORING, DELIVERED AT DOORSTEPS" },
+    { "type": "text", "id": "tab1_text", "label": "Tab 1 text", "default": "PERFECT TAILORING , DELIVERED AT DOORSTEPS" },
     { "type": "url", "id": "tab1_link", "label": "Tab 1 link" },
 
     { "type": "text", "id": "tab2_text", "label": "Tab 2 text", "default": "FREE DELIVERY ACROSS INDIA" },
