@@ -1,0 +1,43 @@
+{% schema %}
+{
+  "name": "Collection Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore Our Collections"
+    },
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "Select Collections"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Carousel"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="collection-carousel">
+  <h2 class="collection-carousel__heading">{{ section.settings.heading }}</h2>
+  <div class="carousel" data-flickity='{ "wrapAround": true, "pageDots": true, "contain": true, "adaptiveHeight": true, "prevNextButtons": true }'> 
+    {%- for collection in section.settings.collections -%}  
+      <div class="carousel-cell">
+        <a href="{{ collection.url }}" class="collection-item">
+          {% if collection.image %}
+            <img src="{{ collection.image | img_url: '1024x1024' }}" alt="{{ collection.title | escape }}" loading="lazy">
+          {% else %}
+            <div class="placeholder-image"></div> 
+          {% endif %}
+          <div class="collection-item__details">
+            <h3 class="collection-item__title">{{ collection.title }}</h3>
+          </div>
+        </a>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>

@@ -1,0 +1,142 @@
+{% comment %}
+  Floating Product Video Button
+  
+  This section adds a floating circular video button that opens a modal with the product video when clicked.
+{% endcomment %}
+
+{%- if section.settings.video_url != blank -%}
+  <div class="floating-video-button-container" style="--button-position-bottom: {{ section.settings.button_position_bottom }}px; --button-position-right: {{ section.settings.button_position_right }}px;">
+    <button 
+      type="button" 
+      class="floating-video-button" 
+      aria-label="{{ 'products.product.video_button_label' | t | default: 'Watch Product Video' }}"
+      aria-haspopup="dialog"
+      data-modal-opener="FloatingVideoModal-{{ section.id }}"
+    >
+      <span class="visually-hidden">{{ 'products.product.video_button_label' | t | default: 'Watch Product Video' }}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+    </button>
+  </div>
+
+  <modal-dialog 
+    id="FloatingVideoModal-{{ section.id }}" 
+    class="floating-video-modal"
+  >
+    <div 
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="FloatingVideoModalTitle-{{ section.id }}"
+      class="floating-video-modal__content"
+      tabindex="-1"
+    >
+      <button
+        id="ModalClose-{{ section.id }}"
+        type="button"
+        class="floating-video-modal__toggle"
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="floating-video-modal__content-info">
+        <h2 id="FloatingVideoModalTitle-{{ section.id }}" class="floating-video-modal__title h3">
+          {{ section.settings.video_title | default: product.title }}
+        </h2>
+        <div class="floating-video-container">
+          {% if section.settings.video_url contains "youtube.com" or section.settings.video_url contains "youtu.be" %}
+            {% assign video_id = section.settings.video_url | split: "v=" | last | split: "&" | first %}
+            {% if video_id == section.settings.video_url %}
+              {% assign video_id = section.settings.video_url | split: "youtu.be/" | last | split: "?" | first %}
+            {% endif %}
+            <iframe 
+              src="https://www.youtube.com/embed/{{ video_id }}?autoplay=0&rel=0" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen
+              title="{{ section.settings.video_title | default: product.title }}"
+            ></iframe>
+          {% elsif section.settings.video_url contains "vimeo.com" %}
+            {% assign video_id = section.settings.video_url | split: "vimeo.com/" | last | split: "?" | first %}
+            <iframe 
+              src="https://player.vimeo.com/video/{{ video_id }}" 
+              frameborder="0" 
+              allow="autoplay; fullscreen; picture-in-picture" 
+              allowfullscreen
+              title="{{ section.settings.video_title | default: product.title }}"
+            ></iframe>
+          {% else %}
+            <video 
+              controls 
+              src="{{ section.settings.video_url }}"
+              poster="{{ section.settings.video_poster_image | img_url: 'master' }}"
+              title="{{ section.settings.video_title | default: product.title }}"
+            >
+              {{ 'products.product.video_not_supported' | t | default: 'Your browser does not support the video tag.' }}
+            </video>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </modal-dialog>
+
+  {{ 'component-floating-video.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'floating-video.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Floating Product Video",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL",
+      "info": "YouTube, Vimeo, or direct video URL"
+    },
+    {
+      "type": "text",
+      "id": "video_title",
+      "label": "Video Title",
+      "default": "Product Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_poster_image",
+      "label": "Video Poster Image",
+      "info": "Shown before the video plays (for direct video URLs only)"
+    },
+    {
+      "type": "range",
+      "id": "button_position_bottom",
+      "min": 10,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Button Position from Bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "button_position_right",
+      "min": 10,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Button Position from Right",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating Product Video",
+      "category": "Product Media"
+    }
+  ]
+}
+{% endschema %}

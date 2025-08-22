@@ -1,0 +1,187 @@
+{% comment %}
+  Floating Auto-Play Video
+  
+  This section adds a floating video that auto-plays when visible.
+  Videos are product-specific and will only show on their respective product pages.
+{% endcomment %}
+
+{% assign current_product_handle = product.handle %}
+{% assign product_videos = section.blocks | where: "type", "product_video" %}
+{% assign has_video_for_product = false %}
+{% assign video_url = "" %}
+{% assign video_title = "" %}
+{% assign video_poster_image = blank %}
+
+{% for block in product_videos %}
+  {% if block.settings.product_handle == current_product_handle %}
+    {% assign has_video_for_product = true %}
+    {% assign video_url = block.settings.video_url %}
+    {% assign video_title = block.settings.video_title | default: product.title %}
+    {% assign video_poster_image = block.settings.video_poster_image %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{%- if has_video_for_product and video_url != blank -%}
+  <div class="floating-autoplay-video-container" style="--video-position-bottom: {{ section.settings.video_position_bottom }}px; --video-position-right: {{ section.settings.video_position_right }}px; --video-width: {{ section.settings.video_width }}px;">
+    <div class="floating-autoplay-video">
+      {% if video_url contains "youtube.com" or video_url contains "youtu.be" %}
+        {% assign video_id = video_url | split: "v=" | last | split: "&" | first %}
+        {% if video_id == video_url %}
+          {% assign video_id = video_url | split: "youtu.be/" | last | split: "?" | first %}
+        {% endif %}
+        <iframe 
+          id="YouTubeVideo-{{ section.id }}"
+          src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&loop=1&playlist={{ video_id }}&controls=0&rel=0" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          title="{{ video_title }}"
+          style="object-fit: cover; width: 100%; height: 100%;"
+        ></iframe>
+      {% elsif video_url contains "vimeo.com" %}
+        {% assign video_id = video_url | split: "vimeo.com/" | last | split: "?" | first %}
+        <iframe 
+          id="VimeoVideo-{{ section.id }}"
+          src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1&loop=1&background=1" 
+          frameborder="0" 
+          allow="autoplay; fullscreen; picture-in-picture" 
+          allowfullscreen
+          title="{{ video_title }}"
+          style="object-fit: cover; width: 100%; height: 100%;"
+        ></iframe>
+      {% else %}
+        <video 
+          id="HTMLVideo-{{ section.id }}"
+          autoplay 
+          muted 
+          loop 
+          playsinline
+          src="{{ video_url }}"
+          poster="{{ video_poster_image | img_url: 'master' }}"
+          title="{{ video_title }}"
+          style="object-fit: cover; width: 100%; height: 100%;"
+        >
+          {{ 'products.product.video_not_supported' | t | default: 'Your browser does not support the video tag.' }}
+        </video>
+      {% endif %}
+      
+      <!-- Pause/Play Button -->
+      <button type="button" class="floating-video-control-button floating-video-pause-button" aria-label="{{ 'products.product.pause_video' | t | default: 'Pause Video' }}">
+        <svg class="icon-pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+        </svg>
+        <svg class="icon-play hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+      </button>
+      
+      <!-- Close Button -->
+      <button type="button" class="floating-video-control-button floating-video-close-button" aria-label="{{ 'products.product.close_video' | t | default: 'Close Video' }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      
+      <!-- Expand Button -->
+      <button type="button" class="floating-video-control-button floating-video-expand-button" aria-label="{{ 'products.product.expand_video' | t | default: 'Expand Video' }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <polyline points="9 21 3 21 3 15"></polyline>
+          <line x1="21" y1="3" x2="14" y2="10"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {{ 'component-floating-autoplay-video.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'floating-autoplay-video.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Floating Autoplay Video",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "video_position_bottom",
+      "min": 10,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Video Position from Bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "video_position_right",
+      "min": 10,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Video Position from Right",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "video_width",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Video Width",
+      "default": 200
+    },
+    {
+      "type": "checkbox",
+      "id": "show_expand_button",
+      "label": "Show Expand Button",
+      "default": true,
+      "info": "Allows users to open the video in a larger modal"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_video",
+      "name": "Product Video",
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_handle",
+          "label": "Product Handle",
+          "info": "Enter the product handle (e.g., 'blue-t-shirt') this video should appear on"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "YouTube, Vimeo, or direct video URL"
+        },
+        {
+          "type": "text",
+          "id": "video_title",
+          "label": "Video Title",
+          "default": "Product Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_poster_image",
+          "label": "Video Poster Image",
+          "info": "Shown before the video plays (for direct video URLs only)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating Autoplay Video",
+      "category": "Product Media"
+    }
+  ]
+}
+{% endschema %}

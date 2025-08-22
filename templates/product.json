@@ -1,0 +1,148 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_P9zUFq": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown",
+            "swatch_shape": "circle"
+          }
+        },
+        "custom_liquid_VeCc9E": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<div id=\"size-checkboxes\" style=\"display:none;\">\n  <label><input type=\"checkbox\" value=\"S\"> Small</label>\n  <label><input type=\"checkbox\" value=\"M\"> Medium</label>\n  <label><input type=\"checkbox\" value=\"L\"> Large</label>\n  <label><input type=\"checkbox\" value=\"XL\"> Extra Large</label>\n</div>\n\n<script>\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  var box = document.getElementById(\"size-checkboxes\");\n\n  function matchesStandardStitch(txt) {\n    txt = (txt || \"\").toLowerCase().trim();\n    var needles = [\n      \"standard stich\",\n      \"standard stitch\",\n      \"standard stitched\",\n      \"standard stitching\"\n    ];\n    return needles.some(function (n) { return txt.includes(n); });\n  }\n\n  function getSelectedVariantText() {\n    // Case 1: classic <select name=\"id\">\n    var select = document.querySelector('select[name=\"id\"]');\n    if (select && select.selectedIndex >= 0) {\n      return select.options[select.selectedIndex].text || \"\";\n    }\n    // Case 2: radios <input type=\"radio\" name=\"id\" value=\"{{ variant.id }}\">\n    var checked = document.querySelector('input[name=\"id\"]:checked');\n    if (checked) {\n      // Try label text\n      var lbl = checked.closest('label');\n      if (lbl) return lbl.textContent || \"\";\n      // Try data attributes some themes provide\n      var dt = checked.getAttribute(\"data-variant-title\");\n      if (dt) return dt;\n    }\n    return \"\";\n  }\n\n  function toggle() {\n    var txt = getSelectedVariantText();\n    box.style.display = matchesStandardStitch(txt) ? \"block\" : \"none\";\n  }\n\n  // Initial\n  toggle();\n\n  // Listen to changes on both selects and radios\n  var select = document.querySelector('select[name=\"id\"]');\n  if (select) select.addEventListener(\"change\", toggle);\n\n  var radios = document.querySelectorAll('input[name=\"id\"]');\n  radios.forEach(function (r) { r.addEventListener(\"change\", toggle); });\n\n  // Dawn / modern themes also dispatch a custom event on variant change\n  document.addEventListener(\"variant:changed\", toggle);\n});\n</script>"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "custom_liquid_jRTyNi": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% assign c  = product.metafields.custom.color %}\n{% assign f  = product.metafields.custom.fabric %}\n{% assign w  = product.metafields.custom.work %}\n{% assign cv = c.value | default: c %}\n{% assign fv = f.value | default: f %}\n{% assign wv = w.value | default: w %}\n\n<div class=\"mx-final\">\n\n  {% if product.description != blank %}\n    <div class=\"mx-label\">PRODUCT DESCRIPTION</div>\n    <div class=\"mx-value rte\">{{ product.description | strip | truncatewords: 90 }}</div>\n    <hr class=\"mx-rule\">\n  {% endif %}\n\n  <div class=\"mx-specs\">\n    <div>\n      <div class=\"mx-label\">COLOUR</div>\n      <div class=\"mx-value\">{{ cv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">FABRIC</div>\n      <div class=\"mx-value\">{{ fv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">WORK</div>\n      <div class=\"mx-value\">{{ wv | default: '—' }}</div>\n    </div>\n  </div>\n\n  <hr class=\"mx-rule\">\n\n  <div class=\"mx-label\">SHIPPING INFORMATION</div>\n  <p class=\"mx-value\">This product will be shipped to you in <strong>12 – 15 days</strong> from the date of order placed.</p>\n</div>\n\n<style>\n  .mx-final{\n    margin-top:16px;\n    color:inherit;\n    font-family:inherit;\n  }\n\n  /* Labels */\n  .mx-final .mx-label{\n    font-size:16px;\n    font-weight:500;\n    margin:0 0 4px 0;\n    text-transform:uppercase;\n    letter-spacing:.03em;\n  }\n\n  /* Values / description */\n  .mx-final .mx-value{\n    font-size:15px;\n    font-weight:400;\n    margin:0 0 10px 0;\n    line-height:1.6;\n  }\n\n  /* Divider */\n  .mx-final .mx-rule{\n    border:0;\n    border-top:1px solid #00000022;\n    margin:12px 0;\n    height:0;\n  }\n\n  /* Specs grid */\n  .mx-final .mx-specs{\n    display:grid;\n    grid-template-columns:repeat(3,minmax(0,1fr));\n    gap:10px 16px;\n  }\n\n  @media(max-width:749px){\n    .mx-final .mx-specs{ grid-template-columns:1fr; }\n  }\n</style>"
+          }
+        },
+
+      },
+      "block_order": [
+        "title",
+        "price",
+        "variant_picker_P9zUFq",
+        "custom_liquid_VeCc9E",
+        "quantity_selector",
+        "buy_buttons",
+        "custom_liquid_jRTyNi"
+      ],
+      "settings": {
+        "enable_sticky_info": false,
+        "color_scheme": "",
+        "media_size": "medium",
+        "constrain_to_viewport": false,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "mobile_thumbnails": "show",
+        "hide_variants": false,
+        "enable_video_looping": true,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "175559135217e12346": {
+      "type": "apps",
+      "blocks": {
+        "air_product_reviews_app_block_review_list_JcJ9Gr": {
+          "type": "shopify://apps/air-product-reviews/blocks/app-block-review-list/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
+          "settings": {
+            "air_blockreviews_summaryHeading": "Reviews",
+            "air_blockreviews_layout": "list",
+            "air_blockreviews_singleStarColor": "#16a086",
+            "air_blockreviews_primaryColor": "#121212"
+          }
+        }
+      },
+      "block_order": [
+        "air_product_reviews_app_block_review_list_JcJ9Gr"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "related_products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "background-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "floating_autoplay_video_LYWKmG": {
+      "type": "floating-autoplay-video",
+      "blocks": {
+        "product_video_nJdQmt": {
+          "type": "product_video",
+          "settings": {
+            "product_handle": "yellow-georgette-festival-wear-lehenga-choli",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/be832e5d2a984e2fa78969aaf6ec2998.mp4",
+            "video_title": "Product Video"
+          }
+        }
+      },
+      "block_order": [
+        "product_video_nJdQmt"
+      ],
+      "name": "Floating Autoplay Video",
+      "settings": {
+        "video_position_bottom": 80,
+        "video_position_right": 20,
+        "video_width": 200,
+        "show_expand_button": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "175559135217e12346",
+    "related_products",
+    "floating_autoplay_video_LYWKmG"
+  ]
+}

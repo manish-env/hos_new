@@ -1,0 +1,240 @@
+.frequently-bought-together {
+  margin: 4rem 0;
+}
+
+.frequently-bought-together__heading {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.frequently-bought-together__grid {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.frequently-bought-together__products {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.frequently-bought-together__product {
+  flex: 1;
+  min-width: 200px;
+  max-width: calc(25% - 2rem);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.frequently-bought-together__product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.frequently-bought-together__product-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+}
+
+.frequently-bought-together__checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.frequently-bought-together__checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.frequently-bought-together__checkbox-label {
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.frequently-bought-together__product-image {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
+
+.frequently-bought-together__product-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.frequently-bought-together__product:hover .frequently-bought-together__product-image img {
+  transform: scale(1.05);
+}
+
+.frequently-bought-together__product-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.frequently-bought-together__product-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.frequently-bought-together__product-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.frequently-bought-together__product-link:hover {
+  text-decoration: underline;
+}
+
+.frequently-bought-together__product-price {
+  margin-top: auto;
+}
+
+.frequently-bought-together__plus-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+
+.frequently-bought-together__plus-icon span {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #483730;
+}
+
+.frequently-bought-together__total {
+  background-color: #f6f1eb;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.frequently-bought-together__total-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.frequently-bought-together__total-title {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.frequently-bought-together__total-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #483730;
+}
+
+.frequently-bought-together__total-savings {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background-color: #e9e1d7;
+  border-radius: 5px;
+}
+
+.frequently-bought-together__savings-text {
+  font-weight: bold;
+}
+
+.frequently-bought-together__savings-amount {
+  color: #483730;
+  font-weight: bold;
+}
+
+.frequently-bought-together__add-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #483730;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: auto;
+}
+
+.frequently-bought-together__add-button:hover {
+  background-color: #5a4a40;
+}
+
+.frequently-bought-together__add-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Badge styling similar to product cards */
+.frequently-bought-together__product-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  padding: 0.5rem;
+}
+
+.frequently-bought-together__badge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #483730;
+  color: #f6f1eb;
+  font-weight: bold;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 990px) {
+  .frequently-bought-together__grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .frequently-bought-together__product {
+    max-width: calc(33.333% - 2rem);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .frequently-bought-together__products {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .frequently-bought-together__product {
+    max-width: 100%;
+  }
+  
+  .frequently-bought-together__plus-icon {
+    transform: rotate(90deg);
+    margin: 1rem 0;
+  }
+}

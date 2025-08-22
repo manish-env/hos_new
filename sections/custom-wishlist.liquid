@@ -1,0 +1,160 @@
+{% comment %}
+  Custom Wishlist Section
+  Integrates with Wishlist Hero app and matches theme aesthetics
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-spinner.css' | asset_url | stylesheet_tag }}
+{{ 'component-wishlist.css' | asset_url | stylesheet_tag }}
+
+<div class="wishlist-section page-width">
+  <div class="wishlist-header">
+    <h1 class="wishlist-title">{{ section.settings.heading | default: 'My Wishlist' }}</h1>
+    <p class="wishlist-subtitle">{{ section.settings.subtitle | default: 'Save your favorite products for later' }}</p>
+  </div>
+  
+  <!-- Wishlist Filters -->
+  <div class="wishlist-filters">
+    <button class="wishlist-filter-button active" data-filter="all">All Items</button>
+    <button class="wishlist-filter-button" data-filter="available">Available</button>
+    <button class="wishlist-filter-button" data-filter="sale">On Sale</button>
+  </div>
+  
+  <!-- Wishlist Content -->
+  <div id="wishlist-content">
+    <!-- Loading State -->
+    <div class="wishlist-loading" id="wishlist-loading">
+      <div class="wishlist-loading-spinner"></div>
+      <p class="wishlist-loading-text">Loading your wishlist...</p>
+    </div>
+    
+    <!-- Empty State -->
+    <div class="wishlist-empty" id="wishlist-empty" style="display: none;">
+      <div class="wishlist-empty-icon">💝</div>
+      <h2 class="wishlist-empty-title">Your wishlist is empty</h2>
+      <p class="wishlist-empty-text">Start adding products to your wishlist to see them here. Browse our collection and click the heart icon on any product you love.</p>
+      <a href="/collections/all" class="wishlist-empty-button">Start Shopping</a>
+    </div>
+    
+    <!-- Wishlist Grid -->
+    <div class="wishlist-grid" id="wishlist-grid" style="display: none;"></div>
+  </div>
+</div>
+
+{{ 'component-wishlist.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "Custom Wishlist",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "My Wishlist",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "default": "Save your favorite products for later",
+      "label": "Subtitle"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "Products per row (desktop)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Show vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show product rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "Show secondary image on hover"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "adapt", "label": "t:sections.all.image_ratio.options__1.label" },
+        { "value": "portrait", "label": "t:sections.all.image_ratio.options__2.label" },
+        { "value": "square", "label": "t:sections.all.image_ratio.options__3.label" }
+      ],
+      "default": "adapt",
+      "label": "t:sections.all.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        { "value": "default", "label": "t:sections.all.image_shape.options__4.label" },
+        { "value": "arch", "label": "t:sections.all.image_shape.options__1.label" },
+        { "value": "blob", "label": "t:sections.all.image_shape.options__2.label" },
+        { "value": "diamond", "label": "t:sections.all.image_shape.options__3.label" },
+        { "value": "round", "label": "t:sections.all.image_shape.options__5.label" }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "t:sections.all.padding.padding_top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "t:sections.all.padding.padding_bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Wishlist",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

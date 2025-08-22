@@ -1,0 +1,25 @@
+/* Carousel Container */
+.collection-carousel {
+  display: flex; /* For flexbox layout */
+  /* Remove flex-direction: column to switch to horizontal display */
+  overflow: hidden; /* Hide overflow to create the carousel effect */
+}
+
+.carousel {
+  display: flex;
+}
+
+.carousel-cell {
+  width: 25%; /* Adjust for the number of items you want visible at a time */
+  min-width: 200px; /* Ensure a minimum width for each item */
+  margin: 0 10px; /* Space between items */
+}
+
+/* Optional: Style prev/next buttons and dots */
+.flickity-prev-next-button {
+  /* Customize button appearance */
+}
+
+.flickity-page-dots {
+  /* Customize dot navigation appearance */
+}

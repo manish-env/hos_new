@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "c40e5025-2128-4ed6-bb3e-f9b39e0cc52a": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": true
+          }
+        },
+        "link_list_8c7W87": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Quick links",
+            "menu": "footer"
+          }
+        },
+        "link_list_gXjrCg": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Shop Online",
+            "menu": "main-menu"
+          }
+        },
+        "text_meB6b9": {
+          "type": "text",
+          "settings": {
+            "heading": "Customer Service",
+            "subtext": "<p><strong>Phone: </strong><a href=\"https://wa.me/919227828195\">+91 92278 28195<br/></a><strong>WhatsApp: </strong><a href=\"https://wa.me/919227828195\">+91 92278 28195</a><em><br/>Mon-Sat 10:00am to 7:30pm IST</em></p>"
+          }
+        }
+      },
+      "block_order": [
+        "c40e5025-2128-4ed6-bb3e-f9b39e0cc52a",
+        "link_list_8c7W87",
+        "link_list_gXjrCg",
+        "text_meB6b9"
+      ],
+      "custom_css": [],
+      "settings": {
+        "color_scheme": "background-2",
+        "newsletter_enable": false,
+        "newsletter_heading": "Subscribe to our",
+        "enable_follow_on_shop": false,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "payment_enable": false,
+        "show_policy": false,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

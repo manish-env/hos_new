@@ -1,0 +1,113 @@
+{% comment %}
+  Section: Trust Badges
+  - 4 badges in a row (desktop)
+  - 2 badges per row (mobile)
+  - Customizable background color & padding
+{% endcomment %}
+
+<section class="trust-badges" style="
+  background-color: {{ section.settings.bg_color }};
+  padding-top: {{ section.settings.pad_top }}px;
+  padding-bottom: {{ section.settings.pad_bottom }}px;
+">
+  <div class="page-width">
+    <div class="trust-badges__grid">
+      {% for block in section.blocks %}
+        <div class="trust-badges__item">
+          {% if block.settings.image != blank %}
+            <img 
+              src="{{ block.settings.image | image_url: width: 200 }}" 
+              alt="{{ block.settings.text | escape }}"
+              class="trust-badges__img"
+              loading="lazy"
+            >
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p class="trust-badges__text">{{ block.settings.text }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+.trust-badges__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+.trust-badges__img {
+  max-width: 80px;
+  margin: 0 auto 8px;
+}
+.trust-badges__text {
+  font-size: 14px;
+  color: #333;
+}
+@media screen and (max-width: 768px) {
+  .trust-badges__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Trust Badges",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "pad_top",
+      "label": "Top padding",
+      "default": 40,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "pad_bottom",
+      "label": "Bottom padding",
+      "default": 40,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge Text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Trust Badges",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

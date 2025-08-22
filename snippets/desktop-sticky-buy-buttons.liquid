@@ -1,0 +1,121 @@
+{% comment %}
+  Renders a sticky bottom bar with buy buttons for desktop view.
+  Accepts:
+  - product: {Object} product object.
+  - product_form_id: {String} product form id.
+  - section_id: {String} id of section to which this snippet belongs.
+
+  Usage:
+  {% render 'desktop-sticky-buy-buttons', product: product, product_form_id: product_form_id, section_id: section.id %}
+{% endcomment %}
+
+<div class="desktop-sticky-buy-bar" id="DesktopStickyBuyBar-{{ section_id }}">
+  <div class="desktop-sticky-buy-bar__inner page-width">
+    <div class="desktop-sticky-buy-bar__image">
+      <img src="{{ product.featured_image | img_url: '100x' }}" alt="{{ product.featured_image.alt | escape }}">
+    </div>
+    <div class="desktop-sticky-buy-bar__price">
+      <span class="desktop-sticky-price">
+        {%- render 'price',
+          product: product,
+          use_variant: true,
+          show_badges: false,
+          price_class: 'price--medium'
+        -%}
+      </span>
+    </div>
+    <div class="desktop-sticky-buy-bar__quantity">
+      <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section_id }}">
+        <button class="quantity__button no-js-hidden" name="minus" type="button">
+          <span class="visually-hidden">
+            {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+          </span>
+          {% render 'icon-minus' %}
+        </button>
+        <input
+          class="quantity__input"
+          type="number"
+          name="quantity"
+          id="DesktopStickyQuantity-{{ section_id }}"
+          min="1"
+          value="1"
+          form="DesktopSticky-product-form"
+        >
+        <button class="quantity__button no-js-hidden" name="plus" type="button">
+          <span class="visually-hidden">
+            {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+          </span>
+          {% render 'icon-plus' %}
+        </button>
+      </quantity-input>
+    </div>
+    <div class="desktop-sticky-buy-bar__buttons">
+      <product-form
+        class="product-form"
+        data-section-id="{{ section_id }}"
+      >
+        {%- form 'product',
+          product,
+          id: 'DesktopSticky-product-form',
+          class: 'form',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form',
+          data-ajax-cart: 'true'
+        -%}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+            {% if product.selected_or_first_available_variant.available == false %}
+              disabled
+            {% endif %}
+            class="product-variant-id"
+          >
+
+          <div class="desktop-sticky-buy-bar__buttons-wrapper">
+            {%- liquid
+              assign check_against_inventory = true
+              if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+                assign check_against_inventory = false
+              endif
+              if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+                assign quantity_rule_soldout = true
+              endif
+            -%}
+            <button
+              id="DesktopStickySubmitButton-{{ section_id }}"
+              type="submit"
+              name="add"
+              class="desktop-sticky-buy-bar__submit button button--full-width"
+              {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+                disabled
+              {% endif %}
+            >
+              <span>
+                {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- else -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- endif -%}
+              </span>
+              {%- render 'loading-spinner' -%}
+            </button>
+            {% if settings.goBuynowEnable %}             
+              <button 
+                type="button" 
+                class="desktop-sticky-buy-bar__buy-now button button--full-width {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}disabled{% endif %}" 
+                {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}disabled{% endif %} 
+                onclick="onBuyNowClick(this)" 
+                id="desktop-gokwik-buy-now"
+                {% if settings.hideFlow %} style="display:none !important;" {% endif %}
+              >
+                {{ settings.buynow-titile }}
+                <div style="display:none" class="addloadr" id="desktop-btn-loader"><div class="cir-loader">Loading..</div></div>
+              </button>  
+            {% endif %}
+          </div>
+        {%- endform -%}
+      </product-form>
+    </div>
+  </div>
+</div>

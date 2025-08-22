@@ -1,0 +1,139 @@
+{% comment %}
+  Simple Floating WhatsApp Button with Leaf Shape Design and Text Bubble
+  
+  Usage:
+  {% render 'floating-whatsapp-simple', phone_number: '1234567890', message: 'Hello, I have a question about...', bubble_text: 'Hey there, how can we help you?' %}
+  
+  Parameters:
+  - phone_number: WhatsApp phone number with country code (required)
+  - message: Pre-filled message (optional)
+  - bubble_text: Text to show in the bubble (optional)
+{% endcomment %}
+
+{%- assign phone = phone_number | default: '919227828195' -%}
+
+{%- assign whatsapp_url = 'https://wa.me/' | append: phone | append: '?text=' | append: msg -%}
+
+<style>
+  .floating-whatsapp-container {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    z-index: 9999;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .floating-whatsapp-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-90deg);
+    background-color: #5ACD67;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    animation: whatsapp-pulse 2s infinite;
+    text-decoration: none;
+    margin-top: 15px;
+    margin-left: auto; /* Push to right side */
+  }
+  
+  .floating-whatsapp-button:hover {
+    transform: rotate(-90deg) scale(1.1);
+  }
+  
+  .floating-whatsapp-button svg {
+    transform: rotate(90deg);
+    width: 30px;
+    height: 30px;
+  }
+  
+  .whatsapp-text-bubble {
+    background-color: white;
+    color: #815847;
+    padding: 12px 30px 12px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .close-bubble {
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    opacity: 1;
+    z-index: 2;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-bubble:hover {
+    opacity: 1;
+  }
+
+  .hidden {
+    display: none;
+  }
+  
+  .whatsapp-text-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: 24px;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    transform: rotate(45deg);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  @keyframes whatsapp-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(90, 205, 103, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(90, 205, 103, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(90, 205, 103, 0);
+    }
+  }
+  
+  @media screen and (max-width: 749px) {
+    .floating-whatsapp-button {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .floating-whatsapp-button svg {
+      width: 26px;
+      height: 26px;
+    }
+    
+    .whatsapp-text-bubble {
+      padding: 10px 15px;
+      font-size: 13px;
+      max-width: 200px;
+    }
+  }
+</style>
+
+<div class="floating-whatsapp-container">
+ 
+  <a href="{{ whatsapp_url }}" class="floating-whatsapp-button" target="_blank" aria-label="Chat on WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path fill="#FFFFFF" d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.419-.1.824z"/>
+    </svg>
+  </a>
+</div>

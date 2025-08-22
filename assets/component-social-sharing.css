@@ -1,0 +1,136 @@
+.social-sharing {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.social-sharing a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.social-sharing a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.social-sharing .icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.social-sharing .share-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.social-sharing .share-facebook {
+  background-color: #3b5998;
+}
+
+.social-sharing .share-twitter {
+  background-color: #1da1f2;
+}
+
+.social-sharing .share-pinterest {
+  background-color: #e60023;
+}
+
+.social-sharing .share-whatsapp {
+  background-color: #25D366;
+}
+
+.social-sharing .share-email {
+  background-color: #666666;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 749px) {
+  .social-sharing {
+    justify-content: center;
+  }
+  
+  .social-sharing a {
+    padding: 6px 10px;
+  }
+  
+  .social-sharing .share-title {
+    font-size: 12px;
+  }
+}
+
+/* Dark theme support */
+.color-background-1 .social-sharing a,
+.color-background-2 .social-sharing a,
+.color-background-3 .social-sharing a {
+  color: #fff;
+}
+
+.product-share-button {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.share-button__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: currentColor;
+  transition: all 0.3s ease;
+}
+
+.share-button__button:hover {
+  opacity: 0.8;
+}
+
+.share-button__button .icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.share-message {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 5px;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  box-shadow: 0 2px 5px rgba(var(--color-foreground), 0.05);
+}
+
+.share-message.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.share-message .icon-success {
+  margin-right: 6px;
+  width: 16px;
+  height: 16px;
+}

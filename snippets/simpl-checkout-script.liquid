@@ -1,0 +1,115 @@
+{% capture my_variable %}
+  {% for v in product.variants %}
+    {{ v.id }}:{{ v.available }}
+  {% endfor %}
+{% endcapture %}
+
+{% capture my_variable_inventory %}
+  {% for v in product.variants %}
+    {{ v.id }}:{{ v.inventory_quantity }}
+  {% endfor %}
+{% endcapture %}
+
+{% capture my_variable_qty %}
+  {% for v in product.variants %}
+    {{ v.id }}:{{ v.inventory_policy }}
+  {% endfor %}
+{% endcapture %}
+
+{% capture my_vairable_inventory_management %}
+  {% for v in product.variants %}
+    {{ v.id }}:{{ v.inventory_management }}
+  {% endfor %}
+{% endcapture %}
+
+<script>
+  window.simplCheckCountry = true;
+  window.selectedOrFirstAvailableVariant = '{{ product.selected_or_first_available_variant.id }}';
+  const temp = `{{my_variable}}`;
+  const temp_2 = `{{my_variable_inventory}}`;
+  const temp_3 = `{{my_variable_qty}}`;
+  const temp_4 = `{{ my_vairable_inventory_management }}`
+
+  window.productDetailsObject = temp.split("\n").map(i => i.replace(/ /g, '')).reduce((acc, str) => {
+    if (str) {
+      const [key, value] = str.split(":");
+      acc[key] = value;
+      return acc;
+    }
+    return acc;
+  }, {});
+
+  window.productInventoryObject = temp_2.split("\n").map(i => i.replace(/ /g, '')).reduce((acc, str) => {
+    if (str) {
+      const [key, value] = str.split(":");
+      acc[key] = value;
+      return acc;
+    }
+    return acc;
+  }, {});
+
+  window.productQtyObject = temp_3.split("\n").map(i => i.replace(/ /g, '')).reduce((acc, str) => {
+    if (str) {
+      const [key, value] = str.split(":");
+      acc[key] = value;
+      return acc;
+    }
+    return acc;
+  }, {});
+  
+  window.productInventoryManagement = temp_4.split("\n").map(i => i.replace(/ /g, '')).reduce((acc, str) => {
+    if (str) {
+      const [key, value] = str.split(":");
+      acc[key] = value;
+      return acc;
+    }
+    return acc;
+  }, {});
+</script>
+<script>
+  try {
+    var simplXHR1 = new XMLHttpRequest();
+      simplXHR1.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        eval(simplXHR1.responseText)
+      }
+    }
+    simplXHR1.open('GET', "https://cdn.getsimpl.com/widget-script-v2/shopify/widget-script.js")
+    simplXHR1.send();
+  
+    simplXHR1.onerror = function(e) {
+      console.log('Error occured while loading simpl widget -> ', e)
+    }
+  } catch (e) {
+    console.log('Error occured while loading simpl widget -> ', e)
+  }
+</script>
+<script>
+  try {
+  var simplsessionid = localStorage.getItem('simplsessionid');
+  var siimplXHR2 = new XMLHttpRequest();
+        siimplXHR2.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        window.SimplMasterConfig = JSON.parse(siimplXHR2.responseText)
+        var sessionId = siimplXHR2.getResponseHeader("Simpl-Widget-Session-Token");
+        window.simplSessionId = sessionId
+        localStorage.setItem('simplsessionid', sessionId);
+      }
+    }
+  
+    siimplXHR2.open('GET', "https://pi3-backend.getsimpl.com/api/v4/app/widget/master-config?shop=the-modern-routes.myshopify.com");
+    siimplXHR2.setRequestHeader(
+      "Simpl-Widget-Session-Token",
+      simplsessionid == 'null'
+        ? ""
+        : simplsessionid
+    );
+    siimplXHR2.send();
+
+    siimplXHR2.onerror = function(e) {
+      console.log('Error occured while loading simpl widget -> ', e)
+    }
+  } catch (e) {
+    console.log(e);
+  }
+</script>

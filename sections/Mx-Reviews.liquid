@@ -1,0 +1,263 @@
+{% comment %}
+  Mx-Reviews — pixel-perfect marquee (matches provided design)
+{% endcomment %}
+<section id="Mx-Reviews-{{ section.id }}"
+  style="
+    --mx-speed: {{ section.settings.speed | default: 28 | append: 's' }};
+    --mx-gap: 28px;
+    --mx-card-bg: #ffffff;
+    --mx-text: #1b1b1b;
+    --mx-muted: #666666;
+    --mx-cream: #fcf1dd; /* section bg like screenshot */
+  "
+  class="mx-reviews-pp{% if section.settings.cream_bg %} mx-reviews-pp--cream{% endif %}"
+>
+  <div class="{% unless section.settings.full_width %}page-width{% endunless %}">
+    {% if section.settings.heading != blank %}
+      <h2 class="mxpp-title mxpp-title--{{ section.settings.title_align }}"
+          style="font-size: {{ section.settings.title_size | default: 32 }}px;">
+        {{ section.settings.heading }}
+      </h2>
+    {% endif %}
+
+    <div class="mxpp-marquee {% if section.settings.direction == 'right' %}mxpp-marquee--reverse{% endif %}">
+      <div class="mxpp-track">
+        <div class="mxpp-inner">
+          {% for block in section.blocks %}
+            {%- assign p = block.settings.product -%}
+            {%- assign rating = block.settings.rating | plus: 0 -%}
+            {%- assign url = p.url | default: '#' -%}
+            <a class="mxpp-card" href="{{ url }}">
+              <div class="mxpp-img">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360,540,720,900', sizes: '(max-width: 640px) 280px, 330px' }}
+                {% elsif p.featured_image %}
+                  {{ p.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360,540,720,900', sizes: '(max-width: 640px) 280px, 330px' }}
+                {% else %}
+                  <div class="mxpp-img--ph"></div>
+                {% endif %}
+              </div>
+
+              <div class="mxpp-content">
+                <div class="mxpp-product">{{ p.title | default: 'Product name' }}</div>
+
+                <div class="mxpp-stars" aria-label="{{ rating }} out of 5 stars">
+                  {% for i in (1..5) %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="{% if i <= rating %}fill{% endif %}">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                  {% endfor %}
+                </div>
+
+                <p class="mxpp-review">{{ block.settings.review_text }}</p>
+
+                <div class="mxpp-sig">
+                  <span class="mxpp-sig-line" aria-hidden="true"></span>
+                  {% if block.settings.reviewer != blank %}
+                    <span class="mxpp-sig-name">{{ block.settings.reviewer }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+
+        <div class="mxpp-inner" aria-hidden="true">
+          {% for block in section.blocks %}
+            {%- assign p = block.settings.product -%}
+            {%- assign rating = block.settings.rating | plus: 0 -%}
+            {%- assign url = p.url | default: '#' -%}
+            <a class="mxpp-card" href="{{ url }}">
+              <div class="mxpp-img">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360,540,720,900', sizes: '(max-width: 640px) 280px, 330px' }}
+                {% elsif p.featured_image %}
+                  {{ p.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360,540,720,900', sizes: '(max-width: 640px) 280px, 330px' }}
+                {% else %}
+                  <div class="mxpp-img--ph"></div>
+                {% endif %}
+              </div>
+
+              <div class="mxpp-content">
+                <div class="mxpp-product">{{ p.title | default: 'Product name' }}</div>
+
+                <div class="mxpp-stars" aria-label="{{ rating }} out of 5 stars">
+                  {% for i in (1..5) %}
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="{% if i <= rating %}fill{% endif %}">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                  {% endfor %}
+                </div>
+
+                <p class="mxpp-review">{{ block.settings.review_text }}</p>
+
+                <div class="mxpp-sig">
+                  <span class="mxpp-sig-line" aria-hidden="true"></span>
+                  {% if block.settings.reviewer != blank %}
+                    <span class="mxpp-sig-name">{{ block.settings.reviewer }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <style>
+  /* Section wrapper + optional cream bg */
+  #Mx-Reviews-{{ section.id }}.mx-reviews-pp{ padding: 28px 0 }
+  #Mx-Reviews-{{ section.id }}.mx-reviews-pp.mx-reviews-pp--cream{ background: var(--mx-cream) }
+
+  /* Optional container width (safe default) */
+  
+
+  /* Heading */
+  #Mx-Reviews-{{ section.id }} .mxpp-title{
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    text-align:center;
+    margin: 8px 0 18px;
+    color: var(--mx-text);
+  }
+  #Mx-Reviews-{{ section.id }} .mxpp-title--left{ text-align:left; text-transform:none; letter-spacing:.02em }
+  #Mx-Reviews-{{ section.id }} .mxpp-title--right{ text-align:right; text-transform:none; letter-spacing:.02em }
+
+  /* Marquee engine */
+  #Mx-Reviews-{{ section.id }} .mxpp-marquee{ overflow:hidden }
+  #Mx-Reviews-{{ section.id }} .mxpp-track{
+    display:flex;
+    width:max-content;
+    gap: var(--mx-gap);
+    animation: mxpp-scroll var(--mx-speed) linear infinite;
+    will-change: transform;
+  }
+  #Mx-Reviews-{{ section.id }} .mxpp-marquee--reverse .mxpp-track{ animation-direction: reverse }
+  #Mx-Reviews-{{ section.id }} .mxpp-inner{ display:flex; gap: var(--mx-gap) }
+
+  @keyframes mxpp-scroll{
+    from{ transform: translateX(0) }
+    to{ transform: translateX(calc(-50% - (var(--mx-gap)/2))) }
+  }
+
+  /* ---------------- FIX OVERLAP + SIZE: use viewport width ---------------- */
+  /* 2.5 cards across: 2.5 * 40vw = 100vw */
+  #Mx-Reviews-{{ section.id }}{ --mx-card-w: 40vw }
+
+  /* Card */
+  #Mx-Reviews-{{ section.id }} .mxpp-card{
+    box-sizing: border-box;
+    background: var(--mx-card-bg);
+    color: var(--mx-text);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    text-decoration: none;
+
+    display: grid;
+    grid-template-columns: 40% 1fr;  /* image / content */
+    column-gap: 20px;
+    padding: 16px;
+    align-items: stretch;
+
+    flex: 0 0 var(--mx-card-w);      /* critical: fixed width per card */
+    width: var(--mx-card-w);
+    height: 350px;                   /* requested fixed height */
+  }
+
+  /* Image fills full card height */
+  #Mx-Reviews-{{ section.id }} .mxpp-img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background:#eee;
+  }
+  #Mx-Reviews-{{ section.id }} .mxpp-img img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  #Mx-Reviews-{{ section.id }} .mxpp-img--ph{ width:100%; height:100%; background:#eee }
+
+  /* Content pieces */
+  #Mx-Reviews-{{ section.id }} .mxpp-product{
+    font-size: 20px; font-weight: 600; margin: 4px 0 6px;
+  }
+
+  #Mx-Reviews-{{ section.id }} .mxpp-stars{
+    display: inline-flex; gap: 6px; margin: 0 0 12px;
+  }
+  #Mx-Reviews-{{ section.id }} .mxpp-stars svg{ width: 18px; height: 18px; fill: none; stroke: currentColor; opacity:.9 }
+  #Mx-Reviews-{{ section.id }} .mxpp-stars svg.fill{ fill: currentColor; stroke: currentColor }
+
+  #Mx-Reviews-{{ section.id }} .mxpp-review{
+    font-size: 15px; line-height: 1.6; color: var(--mx-text);
+    margin: 0 0 16px;
+  }
+
+  #Mx-Reviews-{{ section.id }} .mxpp-sig{
+    display:flex; align-items:center; gap:14px; margin-top:auto;
+  }
+  #Mx-Reviews-{{ section.id }} .mxpp-sig-line{
+    display:block; height:1px; width:88px; background:#222; opacity:.5;
+  }
+  #Mx-Reviews-{{ section.id }} .mxpp-sig-name{
+    font-size:14px; color: var(--mx-text); font-weight:500;
+  }
+
+  /* ---------------- Responsive tuning ---------------- */
+  @media (max-width: 1280px){
+    #Mx-Reviews-{{ section.id }}{ --mx-card-w: 45vw }   /* ~2.2 cards */
+  }
+  @media (max-width: 1024px){
+    #Mx-Reviews-{{ section.id }}{ --mx-card-w: 55vw }   /* ~1.8 cards */
+  }
+  @media (max-width: 740px){
+    #Mx-Reviews-{{ section.id }}{ --mx-card-w: 92vw }   /* single card */
+    #Mx-Reviews-{{ section.id }} .mxpp-card{
+      grid-template-columns: 44% 1fr;
+      column-gap:16px;
+      height: auto;                 /* let text wrap on phones */
+      padding:16px;
+    }
+    #Mx-Reviews-{{ section.id }} .mxpp-img{
+      height: auto; padding-bottom:130%; /* portrait feel on small screens */
+    }
+    #Mx-Reviews-{{ section.id }} .mxpp-stars{ gap:4px; margin-bottom:10px }
+    #Mx-Reviews-{{ section.id }} .mxpp-stars svg{ width:16px; height:16px }
+    #Mx-Reviews-{{ section.id }} .mxpp-product{ font-size:18px }
+    #Mx-Reviews-{{ section.id }} .mxpp-review{ font-size:14px }
+  }
+</style>
+
+</section>
+
+{% schema %}
+{
+  "name": "Mx-Reviews",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "LET CUSTOMERS SPEAK FOR US" },
+    { "type": "select", "id": "title_align", "label": "Heading alignment", "options": [
+      { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "range", "id": "title_size", "min": 18, "max": 48, "step": 1, "label": "Heading size", "default": 28 },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": false },
+    { "type": "checkbox", "id": "cream_bg", "label": "Cream background", "default": true },
+    { "type": "range", "id": "speed", "label": "Scroll duration (slower → larger number)", "min": 16, "max": 60, "step": 1, "default": 28 }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "textarea", "id": "review_text", "label": "Review text", "default": "Love the fit and print. Material is also very soft and sewing is of very high quality. Highly recommend!" },
+      { "type": "product", "id": "product", "label": "Product" },
+      { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+      { "type": "text", "id": "reviewer", "label": "Reviewer name (optional)", "default": "Yaya Khan" }
+    ] }
+  ],
+  "max_blocks": 16,
+  "presets": [{ "name": "Mx-Reviews", "category": "Testimonials" }]
+}
+{% endschema %}

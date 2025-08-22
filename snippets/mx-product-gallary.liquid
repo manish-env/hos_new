@@ -1,0 +1,103 @@
+{% assign media_items = product.media %}
+<style>
+  #mx-gallery {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+  }
+  #mx-gallery .thumbs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  #mx-gallery .thumb {
+    width: 96px;
+    aspect-ratio: 1/1;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  #mx-gallery .thumb[aria-current="true"] {
+    border-color: #000;
+  }
+  #mx-gallery .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #mx-gallery .main img,
+  #mx-gallery .main video,
+  #mx-gallery .main model-viewer {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+  }
+  @media(max-width:768px){
+    #mx-gallery {
+      grid-template-columns:1fr;
+    }
+    #mx-gallery .main {
+      order: 1; /* main image first */
+    }
+    #mx-gallery .thumbs {
+      order: 2; /* thumbnails below */
+      flex-direction: row;
+      overflow-x: auto;
+      max-height:none;
+    }
+    #mx-gallery .thumb{
+      width:80px;
+      flex:0 0 auto;
+    }
+  }
+</style>
+
+<div id="mx-gallery">
+  <div class="thumbs">
+    {% for media in media_items %}
+      {% assign preview = media.preview_image | image_url: width: 300 %}
+      <button class="thumb" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+        data-type="{{ media.media_type }}"
+        data-src="{% if media.media_type == 'image' %}{{ media | image_url: width: 1600 }}{% else %}{{ media.sources[0].url }}{% endif %}"
+        data-mime="{% if media.media_type != 'image' %}{{ media.sources[0].mime_type }}{% endif %}"
+        data-alt="{{ media.alt | escape }}">
+        <img src="{{ preview }}" alt="{{ media.alt | escape }}">
+      </button>
+    {% endfor %}
+  </div>
+  <div class="main">
+    {% assign first = media_items.first %}
+    {% if first.media_type == 'image' %}
+      <img id="mx-main" src="{{ first | image_url: width: 1600 }}" alt="{{ first.alt | escape }}">
+    {% elsif first.media_type == 'video' or first.media_type == 'external_video' %}
+      <video id="mx-main" controls><source src="{{ first.sources[0].url }}" type="{{ first.sources[0].mime_type }}"></video>
+    {% elsif first.media_type == 'model' %}
+      <model-viewer id="mx-main" src="{{ first.sources[0].url }}" alt="{{ first.alt | escape }}" auto-rotate camera-controls></model-viewer>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('mx-gallery'),
+      main=root.querySelector('#mx-main'),
+      thumbs=root.querySelectorAll('.thumb');
+  function setActive(btn){
+    thumbs.forEach(t=>{t.setAttribute('aria-current','false')});
+    btn.setAttribute('aria-current','true');
+  }
+  thumbs.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      var type=btn.dataset.type,src=btn.dataset.src,alt=btn.dataset.alt||'',mime=btn.dataset.mime||'';
+      setActive(btn);
+      if(type==='image'){main.outerHTML='<img id="mx-main" src="'+src+'" alt="'+alt+'">';}
+      else if(type==='video'||type==='external_video'){main.outerHTML='<video id="mx-main" controls><source src="'+src+'"'+(mime?' type="'+mime+'"':'')+'></video>';}
+      else if(type==='model'){main.outerHTML='<model-viewer id="mx-main" src="'+src+'" alt="'+alt+'" auto-rotate camera-controls></model-viewer>';}
+      main=root.querySelector('#mx-main');
+    });
+  });
+})();
+</script>
