@@ -1,10 +1,7 @@
 {% comment %}
   Mx Navbar – Primary (Search L, Logo C, Auth/Wishlist/Cart R)
-  Secondary centered nav with MEGA dropdown:
-    - 4 columns (headings with underline)
-    - Optional right promo image (configurable)
-    - Auto "Shop by Color" swatches if column title == "SHOP BY COLOR"
-  Three tabs bar
+  + Secondary centered nav with full-width MEGA dropdown (4 cols + right promo image)
+  + Three tabs bar
 {% endcomment %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -60,31 +57,33 @@
   /* no hover/active underline effects */
   .cw-nav > li > a::after{display:none !important;}
 
-  /* MEGA DROPDOWN */
+  /* MEGA DROPDOWN (full viewport width, solid background) */
   .cw-mega{
-    position:absolute; left:0; right:0; top:100%; background:#fff; border-top:1px solid var(--border);
-    display:none; z-index:30; box-shadow:0 12px 28px rgba(0,0,0,.06);
+    position:absolute; top:100%;
+    left:50%; transform:translateX(-50%); width:100vw; /* FULL WIDTH */
+    background:#fff; border-top:1px solid #f0f0f0;
+    display:none; z-index:1000; box-shadow:0 12px 28px rgba(0,0,0,.08);
   }
   .cw-nav > li:focus-within .cw-mega,
   .cw-nav > li:hover .cw-mega{display:block;}
 
+  /* Inner container stays constrained & centered */
+  .cw-mega > .cw-container{padding:18px 20px;}
+
   /* Inner grid: 4 columns + right promo (fixed width) */
   .cw-mega-inner{
-    display:grid; grid-template-columns:repeat(4, minmax(0,1fr)) 300px; gap:28px; padding:18px 20px;
+    display:grid; grid-template-columns:repeat(4, minmax(0,1fr)) 300px; gap:28px;
   }
 
-  /* Column title w/ underline like screenshot */
+  /* Column title w/ thin underline */
   .cw-mega .col-title{margin:0 0 10px; font-size:12.5px; color:var(--hdr-muted); text-transform:uppercase; letter-spacing:.04em; font-weight:600;}
   .cw-mega .col-title-wrap{border-top:0; position:relative; padding-top:12px;}
-  .cw-mega .col-title-wrap:before{
-    content:""; position:absolute; left:0; top:0; width:160px; height:2px; background:#dcdcdc;
-  }
+  .cw-mega .col-title-wrap:before{content:""; position:absolute; left:0; top:0; width:160px; height:2px; background:#dcdcdc;}
 
   .cw-mega .links a{display:block; padding:7px 0; text-decoration:none; color:var(--hdr-text); font-size:14px;}
   .cw-mega .links a:hover{color:var(--hdr-accent);}
 
   /* Right promo image */
-  .cw-mega-media{display:block;}
   .cw-mega-media a{display:block;}
   .cw-mega-media img{width:100%; height:auto; display:block; object-fit:cover; border:1px solid #eee;}
 
@@ -106,7 +105,7 @@
   .cw-tab:nth-child(1){background:#efefef;} .cw-tab:nth-child(2){background:#ffecee;} .cw-tab:nth-child(3){background:#efefef;}
   .cw-tab:hover{color:var(--hdr-accent);}
 
-  /* MOBILE */
+  /* RESPONSIVE */
   @media (max-width: 1200px){
     .cw-mega-inner{grid-template-columns:repeat(3,minmax(0,1fr)) 260px;}
   }
@@ -123,8 +122,9 @@
     .cw-secondary .cw-container{justify-content:space-between;}
     .cw-nav{flex-direction:column; align-items:flex-start; gap:8px;}
     .cw-nav > li > a{padding:10px 0;}
-    .cw-mega{position:static; display:block; border:none; box-shadow:none; padding:0;}
-    .cw-mega-inner{grid-template-columns:1fr; gap:14px; padding:10px 0;}
+    .cw-mega{position:static; transform:none; width:100%; border:none; box-shadow:none; padding:0;}
+    .cw-mega > .cw-container{padding:10px 0;}
+    .cw-mega-inner{grid-template-columns:1fr; gap:14px;}
     .cw-mega-media{order:5;}
   }
 </style>
