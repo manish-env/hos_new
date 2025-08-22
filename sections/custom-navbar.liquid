@@ -1,0 +1,241 @@
+{% comment %}
+  Header – Custom (Primary + Secondary + Tabs)
+  - Primary: Search (L), Logo (C), Account/Wishlist/Cart (R)
+  - Secondary: Mega menu with nested links
+  - Tabs: 3 quick links bar
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  :root{
+    --hdr-text:#111;
+    --hdr-muted:#666;
+    --hdr-accent:#ff4aa2; /* tweak if you want */
+    --hdr-bg:#fff;
+    --border:#eee;
+  }
+
+  .cw-header{position:relative; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border);}
+  .cw-container{max-width:1400px; margin:0 auto; padding:0 16px;}
+
+  /* PRIMARY BAR */
+  .cw-primary{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; height:80px;}
+  .cw-search{display:flex; align-items:center; max-width:420px;}
+  .cw-search form{width:100%; display:flex; gap:8px; align-items:center;}
+  .cw-search input{
+    width:100%; border:1px solid var(--border); border-radius:999px; padding:10px 14px;
+    font-size:14px; outline:none;
+  }
+  .cw-search button{border:none; background:transparent; cursor:pointer; font-size:16px; padding:8px; color:var(--hdr-muted);}
+  .cw-logo{display:flex; justify-content:center;}
+  .cw-logo a{display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:inherit;}
+  .cw-logo img{max-height:44px; display:block;}
+  .cw-logo .text{font-size:28px; font-weight:600; letter-spacing:.5px;}
+
+  .cw-right{display:flex; gap:18px; justify-content:flex-end; align-items:center;}
+  .cw-right a{color:var(--hdr-text); text-decoration:none; font-size:14px;}
+  .cw-icons{display:flex; gap:14px; align-items:center;}
+  .cw-icons a{position:relative; font-size:18px; color:var(--hdr-text);}
+  .cw-cart-count{
+    position:absolute; top:-6px; right:-8px; min-width:16px; height:16px; border-radius:999px;
+    background:var(--hdr-accent); color:#fff; font-size:11px; line-height:16px; text-align:center; padding:0 4px;
+  }
+
+  /* SECONDARY BAR / MEGA MENU */
+  .cw-secondary{border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  .cw-nav{display:flex; gap:20px; overflow-x:auto; white-space:nowrap;}
+  .cw-nav > li{list-style:none; position:relative;}
+  .cw-nav > li > a{
+    display:block; padding:14px 8px; text-decoration:none; color:var(--hdr-text); font-size:14px; font-weight:500;
+  }
+  .cw-nav > li:hover > a{color:var(--hdr-accent);}
+  .cw-mega{
+    position:absolute; left:0; right:0; top:100%; background:#fff; border-top:1px solid var(--border);
+    display:none; z-index:30; box-shadow:0 12px 28px rgba(0,0,0,.04);
+  }
+  .cw-nav > li:focus-within .cw-mega,
+  .cw-nav > li:hover .cw-mega{display:block;}
+  .cw-mega-inner{display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:24px; padding:20px;}
+  .cw-mega h4{margin:0 0 8px; font-size:13px; color:var(--hdr-muted); text-transform:uppercase; letter-spacing:.04em;}
+  .cw-mega a{display:block; padding:6px 0; text-decoration:none; color:var(--hdr-text); font-size:14px;}
+  .cw-mega a:hover{color:var(--hdr-accent);}
+
+  /* TABS BAR */
+  .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:10px 0;}
+  .cw-tab{
+    text-align:center; font-size:13px; padding:10px 12px; border:1px solid var(--border); border-radius:999px;
+    text-decoration:none; color:var(--hdr-text);
+  }
+  .cw-tab:hover{border-color:var(--hdr-accent); color:var(--hdr-accent);}
+
+  /* MOBILE */
+  @media (max-width: 990px){
+    .cw-primary{grid-template-columns:1fr auto 1fr; height:72px;}
+    .cw-mega-inner{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .cw-tabs{grid-template-columns:1fr; }
+  }
+
+  /* Simple mobile menu button (optional) */
+  .cw-burger{display:none;}
+  @media (max-width: 820px){
+    .cw-burger{display:inline-flex; align-items:center; gap:8px; font-size:24px; cursor:pointer;}
+    .cw-nav-wrap{display:none;}
+    .cw-nav-wrap.open{display:block;}
+    .cw-secondary .cw-container{padding:0 16px;}
+    .cw-nav{flex-direction:column; padding:8px 0;}
+    .cw-nav > li > a{padding:10px 0;}
+    .cw-mega{position:static; display:block; border:none; box-shadow:none; padding:0;}
+    .cw-mega-inner{padding:0 0 10px;}
+  }
+</style>
+
+<header class="cw-header">
+  <!-- PRIMARY NAVBAR -->
+  <div class="cw-container">
+    <div class="cw-primary">
+      <!-- Left: Search -->
+      <div class="cw-search">
+        <form action="{{ routes.search_url }}" method="get" role="search">
+          <input type="search" name="q" placeholder="Search your style" value="{{ search.terms | escape }}">
+          <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+          <input type="hidden" name="type" value="product">
+        </form>
+      </div>
+
+      <!-- Center: Logo -->
+      <div class="cw-logo">
+        <a href="{{ routes.root_url }}">
+          {% if section.settings.logo != blank %}
+            <img src="{{ section.settings.logo | img_url: '200x' }}" alt="{{ shop.name }}">
+          {% else %}
+            <span class="text">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+      </div>
+
+      <!-- Right: Account / Wishlist / Cart -->
+      <div class="cw-right">
+        <div class="cw-auth">
+          {% if customer %}
+            <a href="{{ routes.account_url }}">Account</a>
+            <span style="color:var(--hdr-muted)">/</span>
+            <a href="{{ routes.account_logout_url }}">Log out</a>
+          {% else %}
+            <a href="{{ routes.account_register_url }}">Register</a>
+            <span style="color:var(--hdr-muted)">|</span>
+            <a href="{{ routes.account_login_url }}">Log in</a>
+          {% endif %}
+        </div>
+        <div class="cw-icons">
+          {% if section.settings.wishlist_url != blank %}
+            <a href="{{ section.settings.wishlist_url }}" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a>
+          {% endif %}
+          <a href="{{ routes.cart_url }}" aria-label="Cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            {% if cart.item_count > 0 %}
+              <span class="cw-cart-count">{{ cart.item_count }}</span>
+            {% endif %}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECONDARY NAVBAR + MEGA MENU -->
+  <div class="cw-secondary">
+    <div class="cw-container">
+      <div class="cw-secondary-inner" style="display:flex; align-items:center; justify-content:space-between;">
+        <button class="cw-burger" aria-controls="cw-nav" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <nav id="cw-nav" class="cw-nav-wrap">
+          {% assign nav = section.settings.main_menu %}
+          {% if nav != blank %}
+            <ul class="cw-nav" role="list">
+              {% for top in nav.links %}
+                <li>
+                  <a href="{{ top.url }}">{{ top.title }}</a>
+
+                  {% if top.links.size > 0 %}
+                    <div class="cw-mega">
+                      <div class="cw-container">
+                        <div class="cw-mega-inner">
+                          {% for col in top.links %}
+                            <div>
+                              <h4>{{ col.title }}</h4>
+                              {% if col.links.size > 0 %}
+                                {% for leaf in col.links %}
+                                  <a href="{{ leaf.url }}">{{ leaf.title }}</a>
+                                {% endfor %}
+                              {% else %}
+                                <a href="{{ col.url }}">{{ col.title }}</a>
+                              {% endif %}
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p style="padding:14px 0; color:var(--hdr-muted);">Select a menu in section settings.</p>
+          {% endif %}
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- THREE TABS BAR -->
+  <div class="cw-container">
+    <div class="cw-tabs" role="navigation" aria-label="Quick links">
+      {% if section.settings.tab1_text != blank %}
+        <a class="cw-tab" href="{{ section.settings.tab1_link }}">{{ section.settings.tab1_text }}</a>
+      {% endif %}
+      {% if section.settings.tab2_text != blank %}
+        <a class="cw-tab" href="{{ section.settings.tab2_link }}">{{ section.settings.tab2_text }}</a>
+      {% endif %}
+      {% if section.settings.tab3_text != blank %}
+        <a class="cw-tab" href="{{ section.settings.tab3_link }}">{{ section.settings.tab3_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+<script>
+  // Simple mobile toggle for secondary nav
+  (function(){
+    var burger = document.querySelector('.cw-burger');
+    var wrap = document.querySelector('.cw-nav-wrap');
+    if(!burger || !wrap) return;
+    burger.addEventListener('click', function(){
+      wrap.classList.toggle('open');
+      var expanded = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!expanded));
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mx Navbar",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "link_list", "id": "main_menu", "label": "Secondary menu (mega)", "default": "main-menu" },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist URL (optional)" },
+
+    { "type": "text", "id": "tab1_text", "label": "Tab 1 text", "default": "PERFECT TAILORING, DELIVERED AT DOORSTEPS" },
+    { "type": "url", "id": "tab1_link", "label": "Tab 1 link" },
+
+    { "type": "text", "id": "tab2_text", "label": "Tab 2 text", "default": "FREE DELIVERY ACROSS INDIA" },
+    { "type": "url", "id": "tab2_link", "label": "Tab 2 link" },
+
+    { "type": "text", "id": "tab3_text", "label": "Tab 3 text", "default": "TRENDIEST TOP QUALITY DRESSES" },
+    { "type": "url", "id": "tab3_link", "label": "Tab 3 link" }
+  ],
+  "blocks": [],
+  "presets": [{ "name": "Mx Navbar" }]
+}
+{% endschema %}
