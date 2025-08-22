@@ -219,124 +219,7 @@
        justify-content:center;
      }
      
-       /* Mobile drawer content - hidden by default */
-  .cw-mobile-drawer-content{
-    display:none !important;
-    position:fixed;
-    top:0;
-    left:0;
-    width:80%;
-    height:100vh;
-    background:var(--hdr-bg);
-    z-index:1002;
-    border-right:1px solid var(--border);
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-    overflow-y:auto;
-  }
-  
-  /* Mobile drawer header - hidden by default on desktop */
-  .cw-drawer-header{
-    display:none !important;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 20px 15px 20px;
-    border-bottom:1px solid var(--border);
-    background:var(--hdr-bg);
-  }
-  
-  /* Force hide all mobile drawer elements on desktop */
-  @media (min-width: 769px) {
-    .cw-drawer-header,
-    .cw-search-mobile-drawer,
-    .cw-close-drawer {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-  }
-  .cw-drawer-header h3{
-    margin:0;
-    font-size:18px;
-    font-weight:600;
-    color:var(--hdr-text);
-  }
-  .cw-close-drawer{
-    background:none;
-    border:none;
-    font-size:20px;
-    color:var(--hdr-text);
-    cursor:pointer;
-    padding:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  
-  /* Mobile search bar below header */
-  .cw-search-mobile-drawer{
-    padding:20px;
-    border-bottom:1px solid var(--border);
-    background:var(--hdr-bg);
-    margin:0 0 20px 0;
-  }
-  .cw-search-mobile-drawer .cw-search{
-    display:flex;
-    max-width:100%;
-  }
-  .cw-search-mobile-drawer .cw-search input{
-    background:#ffecee;
-    border-radius:4px;
-    padding:12px 15px;
-    font-size:14px;
-    font-weight:500;
-  }
-  .cw-search-mobile-drawer .cw-search input::placeholder{
-    color:#666;
-    font-weight:500;
-  }
-  
-  /* Show mobile drawer content when navigation is open */
-  .cw-nav-wrap.open + .cw-mobile-drawer-content,
-  .cw-nav-wrap.open ~ .cw-mobile-drawer-content{
-    display:block;
-  }
-  
-  /* Show drawer header on mobile when drawer is open */
-  .cw-nav-wrap.open ~ .cw-mobile-drawer-content .cw-drawer-header,
-  .cw-nav-wrap.open + .cw-mobile-drawer-content .cw-drawer-header{
-    display:flex;
-  }
-  
-  /* Ensure mobile drawer content is completely hidden on desktop */
-  @media (min-width: 769px) {
-    .cw-mobile-drawer-content {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      position: absolute !important;
-      left: -9999px !important;
-      top: -9999px !important;
-      width: 0 !important;
-      height: 0 !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-    }
-  }
-  
-  /* Additional desktop hiding - force hide on all desktop sizes */
-  .cw-mobile-drawer-content {
-    display: none !important;
-  }
-  
-  /* Only show on mobile when explicitly opened */
-  @media (max-width: 768px) {
-    .cw-nav-wrap.open ~ .cw-mobile-drawer-content,
-    .cw-nav-wrap.open + .cw-mobile-drawer-content {
-      display: block !important;
-    }
-  }
+       
      
      .cw-nav{flex-direction:column; align-items:flex-start; gap:0; margin-top:10px;}
      .cw-nav > li{width:100%;}
@@ -445,29 +328,7 @@
     </div>
   </div>
 
-  <!-- MOBILE DRAWER CONTENT (Hidden by default) -->
-  <div class="cw-mobile-drawer-content">
-    <!-- Mobile Drawer Header -->
-    <div class="cw-drawer-header">
-      <h3>MENU</h3>
-      <button class="cw-close-drawer" aria-label="Close menu">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-    
-    <!-- Mobile Search Bar below header -->
-    <div class="cw-search-mobile-drawer">
-      <div class="cw-search">
-        <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Site search">
-          <span class="mail"><i class="fa-regular fa-envelope"></i></span>
-          <span class="divider"></span>
-          <input type="search" name="q" placeholder="SEARCH YOUR STYLE" value="{{ search.terms | escape }}" autocomplete="off">
-          <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-          <input type="hidden" name="type" value="product">
-        </form>
-      </div>
-    </div>
-  </div>
+
 
   <!-- SECONDARY NAVBAR + MEGA MENU -->
   <div class="cw-secondary">
@@ -582,28 +443,12 @@
          // Mobile menu toggle
      var burger = document.querySelector('.cw-burger');
      var wrap = document.querySelector('.cw-nav-wrap');
-     var closeBtn = document.querySelector('.cw-close-drawer');
-     var mobileDrawer = document.querySelector('.cw-mobile-drawer-content');
      
      if(burger && wrap) {
        burger.addEventListener('click', function(){
          wrap.classList.toggle('open');
-         if(mobileDrawer) {
-           mobileDrawer.style.display = wrap.classList.contains('open') ? 'block' : 'none';
-         }
          var expanded = burger.getAttribute('aria-expanded') === 'true';
          burger.setAttribute('aria-expanded', String(!expanded));
-       });
-     }
-     
-     // Close drawer with close button
-     if(closeBtn && wrap) {
-       closeBtn.addEventListener('click', function(){
-         wrap.classList.remove('open');
-         if(mobileDrawer) {
-           mobileDrawer.style.display = 'none';
-         }
-         burger.setAttribute('aria-expanded', 'false');
        });
      }
     
@@ -624,11 +469,8 @@
     
          // Close menu when clicking outside
      document.addEventListener('click', function(e) {
-       if(wrap && wrap.classList.contains('open') && !e.target.closest('.cw-nav-wrap') && !e.target.closest('.cw-burger') && !e.target.closest('.cw-mobile-drawer-content')) {
+       if(wrap && wrap.classList.contains('open') && !e.target.closest('.cw-nav-wrap') && !e.target.closest('.cw-burger')) {
          wrap.classList.remove('open');
-         if(mobileDrawer) {
-           mobileDrawer.style.display = 'none';
-         }
          burger.setAttribute('aria-expanded', 'false');
        }
      });
