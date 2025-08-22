@@ -48,7 +48,29 @@
   .header__custom-search {
     display: flex;
     align-items: center;
+    gap: 1rem;
     transition: all 0.3s ease;
+  }
+
+  /* Email Icon Styles */
+  .header__email-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(var(--color-foreground), 0.7);
+    transition: color 0.3s ease;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+  }
+
+  .header__email-icon:hover {
+    color: rgb(var(--color-foreground));
+  }
+
+  .header__email-icon svg {
+    width: 20px;
+    height: 20px;
   }
 
   .custom-search-form {
@@ -463,6 +485,14 @@
         {%- else -%}
           <search-form class="custom-search-form">
         {%- endif -%}
+        
+        <!-- Email Icon -->
+        <a href="mailto:manishbsn188@gmail.com" class="header__email-icon" aria-label="Send email to manishbsn188@gmail.com">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
         
         <form action="{{ routes.search_url }}" method="get" role="search" class="search custom-search-form">
           <div class="field">
