@@ -49,162 +49,95 @@
     transition: all 0.3s ease;
   }
 
+  /* Custom Search Bar Styles */
+  .header__custom-search {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .custom-search-form {
+    width: 100%;
+  }
+
+  .custom-search-input {
+    width: 100%;
+    padding: 0.8rem 3.5rem 0.8rem 1.2rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 4px;
+    font-size: 1.4rem;
+    background: rgb(var(--color-background));
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    height: 4rem;
+    line-height: 1.4;
+  }
+
+  .custom-search-input:focus {
+    outline: none;
+    border-color: rgb(var(--color-foreground));
+    box-shadow: 0 0 0 1px rgb(var(--color-foreground));
+  }
+
+  .custom-search-input::placeholder {
+    color: rgba(var(--color-foreground), 0.6);
+    opacity: 1;
+  }
+
+  .custom-search-submit {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: rgb(var(--color-foreground));
+    transition: color 0.3s ease;
+  }
+
+  .custom-search-submit:hover {
+    color: rgba(var(--color-foreground), 0.8);
+  }
+
+  .custom-search-reset {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: rgba(var(--color-foreground), 0.6);
+    transition: color 0.3s ease;
+  }
+
+  .custom-search-reset:hover {
+    color: rgb(var(--color-foreground));
+  }
+
+  .custom-search-reset.hidden {
+    display: none;
+  }
+
+  .custom-search-form .field {
+    position: relative;
+  }
+
   /* Show expanded search on desktop */
   @media screen and (min-width: 990px) {
-    .header__icons .header__search {
+    .header__custom-search {
       width: 300px;
       max-width: 400px;
     }
 
-    .header__icons .header__search details {
+    .custom-search-input {
       width: 100%;
-    }
-
-    .header__icons .header__search summary {
-      width: 100%;
-      display: flex;
-      align-items: center;
-    }
-
-    /* Force the search details to be open on desktop */
-    .header__icons .header__search details[open] {
-      display: block;
-    }
-
-    .header__icons .header__search details:not([open]) {
-      display: block;
-    }
-
-    /* Style the search summary to look like a proper search bar */
-    .header__icons .header__search summary {
-      cursor: text;
-      padding: 0;
-      border: none;
-      background: transparent;
-    }
-
-    .header__icons .header__search summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .header__icons .header__search summary:focus {
-      outline: none;
-    }
-
-    /* Hide the search icon on desktop and show the input directly */
-    .header__icons .header__search summary .header__icon--search {
-      display: none;
-    }
-
-    /* Hide the search icon on desktop and show the input directly */
-    .header__icons .header__search summary .header__icon--search,
-    .header__icons .header__search summary .modal__toggle {
-      display: none;
-    }
-
-    /* Ensure the summary element doesn't show any icon content */
-    .header__icons .header__search summary > * {
-      display: none;
-    }
-
-    /* Show the search input directly in place of the icon */
-    .header__icons .header__search .search-modal {
-      position: static;
-      opacity: 1;
-      border: none;
-      min-height: auto;
-      height: auto;
-      background: transparent;
-      display: block !important;
-    }
-
-    .header__icons .header__search .search-modal__content {
-      padding: 0;
-      position: static;
-      background: transparent;
-    }
-
-    .header__icons .header__search .search-modal__form {
-      width: 100%;
-    }
-
-    .header__icons .header__search .search-modal__form .field {
-      position: relative;
-      width: 100%;
-    }
-
-    .header__icons .header__search .search-modal__form .search__input {
-      width: 100%;
-      padding: 0.8rem 3.5rem 0.8rem 1.2rem;
-      border: 1px solid rgba(var(--color-foreground), 0.08);
-      border-radius: 4px;
-      font-size: 1.4rem;
-      background: rgb(var(--color-background));
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      height: 4rem;
-      line-height: 1.4;
-    }
-
-    .header__icons .header__search .search-modal__form .search__input:focus {
-      outline: none;
-      border-color: rgb(var(--color-foreground));
-      box-shadow: 0 0 0 1px rgb(var(--color-foreground));
-    }
-
-    .header__icons .header__search .search-modal__form .search__input::placeholder {
-      color: rgba(var(--color-foreground), 0.6);
-      opacity: 1;
-    }
-
-    .header__icons .header__search .search-modal__form .search__button {
-      position: absolute;
-      right: 0.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      padding: 0.5rem;
-      cursor: pointer;
-      color: rgb(var(--color-foreground));
-      transition: color 0.3s ease;
-    }
-
-    .header__icons .header__search .search-modal__form .search__button:hover {
-      color: rgba(var(--color-foreground), 0.8);
-    }
-
-    .header__icons .header__search .search-modal__form .reset__button {
-      position: absolute;
-      right: 3rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      padding: 0.5rem;
-      cursor: pointer;
-      color: rgba(var(--color-foreground), 0.6);
-      transition: color 0.3s ease;
-    }
-
-    .header__icons .header__search .search-modal__form .reset__button:hover {
-      color: rgb(var(--color-foreground));
-    }
-
-    .header__icons .header__search .search-modal__form .reset__button.hidden {
-      display: none;
-    }
-
-    /* Hide modal overlay and close button on desktop */
-    .header__icons .header__search .modal-overlay {
-      display: none;
-    }
-
-    .header__icons .header__search .search-modal__close-button {
-      display: none;
     }
 
     /* Show predictive search results inline */
-    .header__icons .header__search .predictive-search {
+    .header__custom-search .predictive-search {
       position: absolute;
       top: 100%;
       left: 0;
@@ -219,33 +152,28 @@
     }
   }
 
-  /* Mobile: show modal search as before */
+  /* Mobile: hide custom search, show original modal search */
   @media screen and (max-width: 989px) {
-    .header__icons .header__search {
-      width: auto;
+    .header__custom-search {
+      display: none;
     }
+  }
 
-    .header__icons .header__search .search-modal {
-      position: fixed;
-      opacity: 0;
-      border: 1px solid rgba(var(--color-foreground), 0.08);
-      min-height: calc(100% + var(--inputs-margin-offset) + (2 * var(--inputs-border-width)));
-      height: 100%;
-      background: rgb(var(--color-background));
+  /* Mobile: hide custom search, show original modal search */
+  @media screen and (max-width: 989px) {
+    .header__custom-search {
+      display: none;
     }
-
-    .header__icons .header__search .search-modal__content {
-      padding: 0 5rem 0 1rem;
-      position: absolute;
-      background: rgb(var(--color-background));
-    }
-
-    .header__icons .header__search .modal-overlay {
+    
+    .header__mobile-search {
       display: block;
     }
+  }
 
-    .header__icons .header__search .search-modal__close-button {
-      display: block;
+  /* Desktop: show custom search, hide mobile search */
+  @media screen and (min-width: 990px) {
+    .header__mobile-search {
+      display: none;
     }
   }
 
@@ -576,7 +504,75 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      <!-- Custom Search Bar -->
+      <div class="header__custom-search">
+        {%- if settings.predictive_search_enabled -%}
+          <predictive-search class="custom-search-form" data-loading-text="{{ 'accessibility.loading' | t }}">
+        {%- else -%}
+          <search-form class="custom-search-form">
+        {%- endif -%}
+        
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search custom-search-form">
+          <div class="field">
+            <input
+              class="search__input field__input custom-search-input"
+              id="Header-Custom-Search"
+              type="search"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="{{ 'general.search.search' | t }}"
+              {%- if settings.predictive_search_enabled -%}
+                role="combobox"
+                aria-expanded="false"
+                aria-owns="predictive-search-results"
+                aria-controls="predictive-search-results"
+                aria-haspopup="listbox"
+                aria-autocomplete="list"
+                autocorrect="off"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+              {%- endif -%}
+            >
+            <label class="field__label" for="Header-Custom-Search">{{ 'general.search.search' | t }}</label>
+            <input type="hidden" name="options[prefix]" value="last">
+            
+            <button
+              type="reset"
+              class="reset__button field__button custom-search-reset{% if search.terms == blank %} hidden{% endif %}"
+              aria-label="{{ 'general.search.reset' | t }}"
+            >
+              <svg class="icon icon-close" aria-hidden="true" focusable="false">
+                <use xlink:href="#icon-reset">
+              </svg>
+            </button>
+            
+            <button class="search__button field__button custom-search-submit" aria-label="{{ 'general.search.search' | t }}">
+              <svg class="icon icon-search" aria-hidden="true" focusable="false">
+                <use href="#icon-search">
+              </svg>
+            </button>
+          </div>
+
+          {%- if settings.predictive_search_enabled -%}
+            <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+              {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
+            </div>
+            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+          {%- endif -%}
+        </form>
+        
+        {%- if settings.predictive_search_enabled -%}
+          </predictive-search>
+        {%- else -%}
+          </search-form>
+        {%- endif -%}
+      </div>
+
+      <!-- Mobile Search (Original Modal) -->
+      <div class="header__mobile-search">
+        {% render 'header-search', input_id: 'Search-In-Modal-Mobile' %}
+      </div>
 
       {%- if shop.customer_accounts_enabled -%}
         <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}">
@@ -665,9 +661,9 @@
     }
 
     initExpandedSearch() {
-      // Find the existing search input and reset button in the header icons
-      const searchInput = this.querySelector('.header__icons .search__input');
-      const resetButton = this.querySelector('.header__icons .reset__button');
+      // Find the custom search input and reset button
+      const searchInput = this.querySelector('.custom-search-input');
+      const resetButton = this.querySelector('.custom-search-reset');
       
       if (searchInput && resetButton) {
         // Show/hide reset button based on input value
@@ -691,35 +687,6 @@
 
         // Initial state
         toggleResetButton();
-      }
-
-      // Auto-open search on desktop
-      this.autoOpenSearch();
-    }
-
-    autoOpenSearch() {
-      const searchDetails = this.querySelector('.header__icons .header__search details');
-      
-      if (searchDetails && window.innerWidth >= 990) {
-        // Force the search details to be open on desktop
-        searchDetails.setAttribute('open', '');
-        
-        // Prevent the details from being closed on desktop
-        searchDetails.addEventListener('toggle', (e) => {
-          if (window.innerWidth >= 990) {
-            e.preventDefault();
-            searchDetails.setAttribute('open', '');
-          }
-        });
-        
-        // Listen for window resize to handle responsive behavior
-        window.addEventListener('resize', () => {
-          if (window.innerWidth >= 990) {
-            searchDetails.setAttribute('open', '');
-          } else {
-            searchDetails.removeAttribute('open');
-          }
-        });
       }
     }
 
