@@ -38,6 +38,8 @@
     "social_instagram_link": "https://www.instagram.com/houseofsonali/",
     "social_youtube_link": "https://www.youtube.com/@HouseOfSonali",
     "social_pinterest_link": "https://in.pinterest.com/houseofsonali/",
+    "predictive_search_show_vendor": true,
+    "predictive_search_show_price": true,
     "cart_type": "drawer",
     "show_cart_note": true,
     "cart_drawer_collection": "wedding",
@@ -184,8 +186,8 @@
         "settings": {
           "background": "#000000",
           "background_gradient": "",
-          "text": "#FFFFFF",
-          "button": "#FFFFFF",
+          "text": "#ffffff",
+          "button": "#ffffff",
           "button_label": "#ffffff",
           "secondary_button_label": "#f6f1eb",
           "shadow": "#483730"
