@@ -216,33 +216,67 @@
      }
          .cw-nav-wrap.open{display:block;}
      
-     /* Mobile drawer header */
-     .cw-drawer-header{
-       display:flex;
-       justify-content:space-between;
-       align-items:center;
-       padding:20px 20px 15px 20px;
-       border-bottom:1px solid var(--border);
-       margin:-20px -20px 0 -20px;
-       background:var(--hdr-bg);
-     }
-     .cw-drawer-header h3{
-       margin:0;
-       font-size:18px;
-       font-weight:600;
-       color:var(--hdr-text);
-     }
-     .cw-close-drawer{
-       background:none;
-       border:none;
-       font-size:20px;
-       color:var(--hdr-text);
-       cursor:pointer;
-       padding:0;
-       display:flex;
-       align-items:center;
-       justify-content:center;
-     }
+           /* Mobile drawer header */
+      .cw-drawer-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:20px 20px 15px 20px;
+        border-bottom:1px solid var(--border);
+        margin:-20px -20px 0 -20px;
+        background:var(--hdr-bg);
+      }
+      .cw-drawer-header h3{
+        margin:0;
+        font-size:18px;
+        font-weight:600;
+        color:var(--hdr-text);
+      }
+      .cw-close-drawer{
+        background:none;
+        border:none;
+        font-size:20px;
+        color:var(--hdr-text);
+        cursor:pointer;
+        padding:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+      
+      /* Mobile search bar in drawer */
+      .cw-search-mobile-drawer{
+        margin:15px 0;
+        padding:0 0 15px 0;
+        border-bottom:1px solid var(--border);
+      }
+      .cw-search-mobile-drawer form{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        background:#ffecee;
+        border-radius:8px;
+        padding:12px 15px;
+      }
+      .cw-search-mobile-drawer input{
+        flex:1;
+        border:none;
+        background:transparent;
+        outline:none;
+        font-size:14px;
+        color:var(--hdr-text);
+      }
+      .cw-search-mobile-drawer input::placeholder{
+        color:#999;
+      }
+      .cw-search-mobile-drawer button{
+        background:none;
+        border:none;
+        color:var(--hdr-accent);
+        font-size:16px;
+        cursor:pointer;
+        padding:0;
+      }
      
        
      
@@ -397,6 +431,22 @@
     <div class="cw-container">
       <div class="cw-secondary-inner">
         <nav id="cw-nav" class="cw-nav-wrap">
+          <!-- Mobile drawer header -->
+          <div class="cw-drawer-header">
+            <h3>MENU</h3>
+            <button class="cw-close-drawer" aria-label="Close menu">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          
+          <!-- Mobile search bar -->
+          <div class="cw-search-mobile-drawer">
+            <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Mobile search">
+              <input type="search" name="q" placeholder="Search Your Style" value="{{ search.terms | escape }}" autocomplete="off">
+              <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <input type="hidden" name="type" value="product">
+            </form>
+          </div>
           {% assign nav = section.settings.main_menu %}
           {% if nav != blank %}
             <ul class="cw-nav" role="list">
@@ -529,13 +579,16 @@
        }
      });
      
-          // Close menu when clicking outside
-      document.addEventListener('click', function(e) {
-        if(wrap && wrap.classList.contains('open') && !e.target.closest('.cw-nav-wrap') && !e.target.closest('.cw-burger')) {
-          wrap.classList.remove('open');
-          burger.setAttribute('aria-expanded', 'false');
-        }
-      });
+                 // Close menu when clicking outside or on close button
+       document.addEventListener('click', function(e) {
+         if(wrap && wrap.classList.contains('open')) {
+           // Close if clicking outside the menu or on close button
+           if (!e.target.closest('.cw-nav-wrap') || e.target.closest('.cw-close-drawer')) {
+             wrap.classList.remove('open');
+             burger.setAttribute('aria-expanded', 'false');
+           }
+         }
+       });
       
       // Auto-scroll tabs on mobile
       function autoScrollTabs() {
