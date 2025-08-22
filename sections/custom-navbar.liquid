@@ -150,8 +150,8 @@
   }
 
   /* THREE TABS */
-  .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
-  .cw-tab{border:none; border-radius:0; padding:12px; font-size:13px; text-decoration:none; color:var(--hdr-text); text-align:center; transition:var(--transition);}
+  .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:0; width:100%; max-width:100%;}
+  .cw-tab{border:none; border-radius:0; padding:12px; font-size:13px; text-decoration:none; color:var(--hdr-text); text-align:center; transition:var(--transition); white-space:normal; word-wrap:break-word;}
   .cw-tab:nth-child(1){background:#efefef;} .cw-tab:nth-child(2){background:#ffecee;} .cw-tab:nth-child(3){background:#efefef;}
   .cw-tab:hover{color:var(--hdr-accent); background:rgba(0,0,0,0.05);}
 
@@ -245,24 +245,38 @@
     .cw-swatches{grid-template-columns:repeat(5, 22px);}
   }
   
-  @media (max-width: 768px){
-    .cw-primary{grid-template-columns: auto 1fr auto; gap:10px; height:60px;padding:15px; !important}
-    .cw-search{display:none;} /* Hide search in primary bar on mobile */
-    .cw-logo{order:2; justify-content:center;}
-    .cw-right{order:3; justify-content:flex-end;}
-    
-    /* Show burger menu on left */
-    .cw-burger{display:flex; order:1; justify-content:flex-start;}
-    
-    /* Adjust header height for smaller mobile */
-    :root { --header-height: 160px; }
-    
-    /* Adjust tabs for mobile */
-    .cw-tabs{grid-template-columns:1fr; gap:5px;}
-    .cw-tab{padding:10px; font-size:12px;}
-    
-    
-  }
+     @media (max-width: 768px){
+     .cw-primary{grid-template-columns: auto 1fr auto; gap:10px; height:60px;padding:15px; !important}
+     .cw-search{display:none;} /* Hide search in primary bar on mobile */
+     .cw-logo{order:2; justify-content:center;}
+     .cw-right{order:3; justify-content:flex-end;}
+     
+     /* Show burger menu on left */
+     .cw-burger{display:flex; order:1; justify-content:flex-start;}
+     
+     /* Adjust header height for smaller mobile */
+     :root { --header-height: 160px; }
+     
+     /* Fix tabs for mobile - prevent horizontal scroll */
+     .cw-tabs{
+       grid-template-columns: 1fr; 
+       gap: 0;
+       width: 100%;
+       overflow-x: hidden;
+     }
+     .cw-tab{
+       padding: 10px; 
+       font-size: 12px;
+       white-space: normal;
+       word-wrap: break-word;
+     }
+     
+     /* Ensure container doesn't overflow */
+     .cw-container{
+       overflow-x: hidden;
+       width: 100%;
+     }
+   }
   
   @media (max-width: 480px){
     .cw-primary{height:60px;}
