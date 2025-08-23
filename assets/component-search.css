@@ -151,15 +151,5 @@ input::-webkit-search-decoration {
   opacity: 1; /* ensure visible across browsers */
 }
 
-/* Positioned red dot between input content and search icon */
-.header__search-inline--clean .header__search-dot {
-  position: absolute;
-  right: 3.6rem; /* just left of the search icon button */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
-  background: #E4002B; /* vivid red */
-  border-radius: 50%;
-  pointer-events: none;
-}
+/* Removed red dot by request */
+.header__search-inline--clean .header__search-dot { display: none !important; }
