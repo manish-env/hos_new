@@ -98,8 +98,9 @@
   text-decoration: none !important; /* prevent default underline */
 }
 .header__inline-menu .header__menu-item:hover,
-.header__inline-menu .header__menu-item:focus-visible {
-  text-decoration: none !important;
+.header__inline-menu .header__menu-item:focus-visible,
+.header__inline-menu .header__menu-item:active {
+  text-decoration: none !important; /* ensure no black underline */
 }
 .header__inline-menu .header__menu-item::after {
   content: '';
@@ -113,10 +114,9 @@
   transform-origin: left;  /* animate left -> right */
   transition: transform 180ms ease;
 }
-.header__inline-menu .header__menu-item:active::after,
-.header__inline-menu .header__menu-item:focus-visible::after,
-.header__inline-menu .mega-menu[open] > summary.header__menu-item::after {
-  transform: scaleX(1);
+.header__inline-menu .header__menu-item:hover::after,
+.header__inline-menu .header__menu-item:focus-visible::after {
+  transform: scaleX(1); /* show underline on hover/focus */
 }
 
 /* Ensure active state doesn't add default underline */
@@ -125,7 +125,7 @@
 /* Also handle simple links (without dropdown) */
 .header__inline-menu a.list-menu__item.link.link--text {
   position: relative;
-  text-decoration: none !important;
+  text-decoration: none !important; /* remove black underline */
 }
 .header__inline-menu a.list-menu__item.link.link--text::after {
   content: '';
@@ -139,10 +139,9 @@
   transform-origin: left;
   transition: transform 180ms ease;
 }
-.header__inline-menu a.list-menu__item.link.link--text:active::after,
-.header__inline-menu a.list-menu__item.link.link--text:focus-visible::after,
-.header__inline-menu a.list-menu__item.link.link--text[aria-current]:not([aria-current='false'])::after {
-  transform: scaleX(1);
+.header__inline-menu a.list-menu__item.link.link--text:hover::after,
+.header__inline-menu a.list-menu__item.link.link--text:focus-visible::after {
+  transform: scaleX(1); /* underline on hover/focus for simple links */
 }
 
 .mega-menu__link--level-2 {
