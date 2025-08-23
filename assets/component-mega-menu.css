@@ -10,7 +10,8 @@
 }
 
 /* Ensure the dropdown positions relative to the nav links bar */
-.header__inline-menu {
+/* Make the full header the positioning context */
+.header {
   position: relative;
   z-index: 3;
 }
@@ -20,11 +21,13 @@
   border-left: 0;
   border-radius: 0;
   border-right: 0;
-  /* Center the panel exactly below the nav links */
-  left: 50%;
-  right: auto;
-  width: min(70vw, var(--page-width));
-  transform: translateX(-50%);
+  /* Center the panel within the header without causing horizontal scroll */
+  left: 0;
+  right: 0;
+  width: min(70vw, var(--page-width), calc(100vw - 2rem));
+  margin-left: auto;
+  margin-right: auto;
+  transform: none;
   overflow-y: auto;
   overflow-x: hidden;
   padding-bottom: 3rem;
