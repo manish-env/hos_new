@@ -87,6 +87,7 @@
     border-top:1px solid #eaeaea;
     box-sizing:border-box;
   }
+  .mx-footer-utils, .mx-footer-utils *{ box-sizing: border-box; }
 
   /* page-width wrapper (theme controls width/padding) */
   .mx-fw.page-width{
@@ -95,6 +96,9 @@
     gap:20px;
     align-items:center;
     padding-top:18px; padding-bottom:18px; /* gentle vertical space */
+    width:100%;
+    max-width:100%;
+    overflow-x: clip; /* prevent accidental horizontal scroll */
   }
 
   /* Mobile order: Badges → Subscribe → Socials */
@@ -121,14 +125,14 @@
 
   /* Subscribe */
   .mx-subscribe{display:flex; flex-direction:column; gap:8px;}
-  .mx-input-wrap{display:flex; align-items:center; width:100%;}
+  .mx-input-wrap{display:flex; align-items:center; width:100%; min-width:0; flex-wrap: nowrap;}
   .mx-input{
     height:44px; padding:0 12px; border:1px solid #cfcfcf; background:#fff;
-    flex:1 1 auto; min-width:0;
+    flex:1 1 0%; min-width:0; max-width:100%;
   }
   .mx-btn{
     height:44px; padding:0 16px; border:none; background:#111; color:#fff; cursor:pointer;
-    margin-left:8px; white-space:nowrap;
+    margin-left:8px; white-space:nowrap; flex:0 0 auto;
   }
   .mx-msg{font-size:13px; margin-top:6px}
   .mx-success{color:#17803d}
@@ -138,7 +142,7 @@
   /* Desktop split: 20% | 60% | 20% inside page width */
   @media (min-width: 992px){
     .mx-fw.page-width{
-      grid-template-columns: 20% 60% 20%;
+      grid-template-columns: minmax(0,20%) minmax(0,60%) minmax(0,20%);
       gap:24px;
     }
     .mx-socials{order:1; justify-content:flex-start;}
@@ -150,6 +154,12 @@
   /* Wider screens: allow 4–5 badges gracefully if you add more blocks */
   @media (min-width: 1280px){
     .mx-badges{grid-template-columns: repeat(5, minmax(0,1fr));}
+  }
+
+  /* Extra safety for very narrow viewports: allow input/button to wrap */
+  @media (max-width: 360px){
+    .mx-input-wrap{flex-wrap: wrap;}
+    .mx-btn{margin-left:0; margin-top:8px; width:100%;}
   }
 </style>
 
