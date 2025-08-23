@@ -2854,17 +2854,16 @@ details[open] > .header__menu-item .header__active-menu-item {
 
 /* Reduce internal padding inside mega menu */
 .mega-menu__content {
-  padding-top: 1.2rem !important;
-  padding-bottom: 1.2rem !important;
+  padding: 15px !important;
 }
 .mega-menu__content .mega-menu__list {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding: 0 !important;
+  margin: 0;
 }
 .mega-menu__content .mega-menu__list > li {
   /* tighten column inner spacing */
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0;
+  padding-right: 0;
 }
 .mega-menu__content .list-unstyled li a.mega-menu__link {
   /* tighten vertical rhythm for links */
