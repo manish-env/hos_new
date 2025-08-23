@@ -89,33 +89,37 @@
   word-wrap: break-word;
 }
 
-/* Top-level nav links: animated underline on hover with pink color */
-.header__inline-menu .list-menu__item.link {
+/* Hide previous underline rule if loaded earlier */
+.header__inline-menu .list-menu__item.link::after { display: none; }
+
+/* Clean, subtle underline on header menu items (no gradients) */
+.header__inline-menu .header__menu-item {
   position: relative;
-  text-decoration: none;
+  text-decoration: none !important; /* prevent default underline */
 }
-.header__inline-menu .list-menu__item.link::after {
+.header__inline-menu .header__menu-item:hover,
+.header__inline-menu .header__menu-item:focus-visible {
+  text-decoration: none !important;
+}
+.header__inline-menu .header__menu-item::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.3rem;
-  height: 2px;
-  background-color: #FB3DED; /* requested pink */
-  transform: scaleX(0);
+  left: 50%;
+  width: 60%; /* shorter line */
+  bottom: -0.2rem; /* close to text */
+  height: 2px; /* visible but refined */
+  background-color: #FB3DED;
+  transform: translateX(-50%) scaleX(0);
   transform-origin: center;
-  transition: transform var(--duration-short) ease;
+  transition: transform 180ms ease;
 }
-.header__inline-menu .list-menu__item.link:hover::after,
-.header__inline-menu .list-menu__item.link:focus-visible::after,
-.header__inline-menu .list-menu__item.header__active-menu-item::after {
-  transform: scaleX(1);
+.header__inline-menu .header__menu-item:hover::after,
+.header__inline-menu .header__menu-item:focus-visible::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
-/* Remove any default text underline on hover for top-level links */
-.header__inline-menu .list-menu__item.link:hover {
-  text-decoration: none;
-}
+/* Ensure active state doesn't add default underline */
+.header__inline-menu .header__active-menu-item { text-decoration: none !important; }
 
 .mega-menu__link--level-2 {
   font-weight: 400; /* normal weight */
