@@ -1,0 +1,339 @@
+{% comment %}
+  Mx Footer (stable)
+  - Top row: Socials (optional) • 3 USP badges • Newsletter
+  - Middle: 1–5 link columns (desktop grid, mobile accordions)
+  - Bottom: currency (optional) • copyright • payment icons (optional)
+{% endcomment %}
+
+<section id="mx-footer" class="mx-footer">
+  <div class="mx-wrap">
+
+    {%- comment -%} ===== TOP STRIP ===== {%- endcomment -%}
+    <div class="mx-top">
+      <div class="mx-socials">
+        {% if section.settings.show_socials %}
+          <ul class="mx-social-list" role="list">
+            {% if settings.social_facebook_link != blank %}
+              <li><a href="{{ settings.social_facebook_link }}" aria-label="Facebook" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7h-2.5V12h2.5V9.7c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+              </a></li>
+            {% endif %}
+            {% if settings.social_instagram_link != blank %}
+              <li><a href="{{ settings.social_instagram_link }}" aria-label="Instagram" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm8-2.5A2.5 2.5 0 0 0 17.5 2h-11A2.5 2.5 0 0 0 4 4.5v11A2.5 2.5 0 0 0 6.5 18h11a2.5 2.5 0 0 0 2.5-2.5v-11zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.2-3a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6z"/></svg>
+              </a></li>
+            {% endif %}
+            {% if settings.social_youtube_link != blank %}
+              <li><a href="{{ settings.social_youtube_link }}" aria-label="YouTube" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24"><path d="M23 7.1a3 3 0 0 0-2-2.1C19.4 4.5 12 4.5 12 4.5s-7.4 0-9 .5a3 3 0 0 0-2 2.1A31.3 31.3 0 0 0 1 12a31.3 31.3 0 0 0 0 4.9 3 3 0 0 0 2 2.1c1.6.5 9 .5 9 .5s7.4 0 9-.5a3 3 0 0 0 2-2.1A31.3 31.3 0 0 0 23 12a31.3 31.3 0 0 0 0-4.9zM9.8 15.5v-7l6 3.5-6 3.5z"/></svg>
+              </a></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="mx-usps">
+        {% for block in section.blocks %}
+          {% if block.type == 'usp' %}
+            <a class="mx-usp" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+              {% case block.settings.icon %}
+                {% when 'truck' %}
+                  <svg viewBox="0 0 24 24"><path d="M3 6h11v7h-1.5a3 3 0 1 0 0 2H16a3 3 0 1 0 2.8-2h-.8V9l-2-3H3V6zm14 1.5 1.3 2.1H17V7.5zM8.5 18.5A1.5 1.5 0 1 1 7 17a1.5 1.5 0 0 1 1.5 1.5zm9 0A1.5 1.5 0 1 1 16 17a1.5 1.5 0 0 1 1.5 1.5z"/></svg>
+                {% when 'globe' %}
+                  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm7.9 9h-3.4A15.7 15.7 0 0 0 15 4.7 8.1 8.1 0 0 1 19.9 11zM12 3.9c1.1 1.2 2 3.2 2.4 5.9H9.6c.4-2.7 1.3-4.7 2.4-5.9zM4.1 13h3.4c.2 2.5.9 4.6 1.9 6.3A8.1 8.1 0 0 1 4.1 13zm3.4-2H4.1A8.1 8.1 0 0 1 9.4 4.7 15.7 15.7 0 0 0 7.5 11zM12 20.1c-1.1-1.2-2-3.2-2.4-5.9h4.8c-.4 2.7-1.3 4.7-2.4 5.9zM14.6 13c-.2 2.5-.9 4.6-1.9 6.3a8.1 8.1 0 0 0 5.3-6.3h-3.4z"/></svg>
+                {% when 'needle' %}
+                  <svg viewBox="0 0 24 24"><path d="M20.3 3.7c-.9-.9-2.5-.9-3.4 0l-6.3 6.3-4.6 8.2 8.2-4.6 6.3-6.3c.9-.9.9-2.5 0-3.4l-.2-.2zM6 21l3.1-5.5L9.5 17 6 21z"/></svg>
+                {% else %}
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+              {% endcase %}
+              <span class="mx-usp-title">{{ block.settings.title | escape }}</span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="mx-newsletter">
+        {% if section.settings.enable_newsletter %}
+          {% form 'customer', id: 'mx-newsletter-form', class: 'mx-news-form' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input class="mx-input" type="email" name="contact[email]" required placeholder="{{ section.settings.news_placeholder | default: 'Enter your email address' }}">
+            <button class="mx-btn" type="submit">{{ section.settings.news_button | default: 'SUBSCRIBE' }}</button>
+            {% if form.posted_successfully? %}<p class="mx-success" role="status">{{ 'general.newsletter_form.confirmation' | t }}</p>{% endif %}
+            {% if form.errors %}<p class="mx-error" role="alert">{{ form.errors | default_errors }}</p>{% endif %}
+          {% endform %}
+        {% endif %}
+      </div>
+    </div>
+
+    <hr class="mx-sep">
+
+    {%- comment -%} ===== LINK COLUMNS (no array tricks) ===== {%- endcomment -%}
+    <div class="mx-columns" role="navigation" aria-label="Footer">
+      {% assign m1 = section.settings.menu_1 %}
+      {% assign m2 = section.settings.menu_2 %}
+      {% assign m3 = section.settings.menu_3 %}
+      {% assign m4 = section.settings.menu_4 %}
+      {% assign m5 = section.settings.menu_5 %}
+
+      {% if m1 != blank %}
+        <div class="mx-col" data-accordion>
+          <button class="mx-col-head" aria-expanded="false">
+            <span>{{ section.settings.menu_1_title | default: 'SHOPPING' }}</span>
+            <svg class="mx-plus" viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>
+          </button>
+          <ul class="mx-col-list" role="list">
+            {% for link in linklists[m1].links %}
+              <li><a href="{{ link.url }}" class="{% if link.current %}is-active{% endif %}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if m2 != blank %}
+        <div class="mx-col" data-accordion>
+          <button class="mx-col-head" aria-expanded="false">
+            <span>{{ section.settings.menu_2_title | default: 'COLLECTION' }}</span>
+            <svg class="mx-plus" viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>
+          </button>
+          <ul class="mx-col-list" role="list">
+            {% for link in linklists[m2].links %}
+              <li><a href="{{ link.url }}" class="{% if link.current %}is-active{% endif %}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if m3 != blank %}
+        <div class="mx-col" data-accordion>
+          <button class="mx-col-head" aria-expanded="false">
+            <span>{{ section.settings.menu_3_title | default: 'INFORMATION' }}</span>
+            <svg class="mx-plus" viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>
+          </button>
+          <ul class="mx-col-list" role="list">
+            {% for link in linklists[m3].links %}
+              <li><a href="{{ link.url }}" class="{% if link.current %}is-active{% endif %}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if m4 != blank %}
+        <div class="mx-col" data-accordion>
+          <button class="mx-col-head" aria-expanded="false">
+            <span>{{ section.settings.menu_4_title | default: 'POLICIES' }}</span>
+            <svg class="mx-plus" viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>
+          </button>
+          <ul class="mx-col-list" role="list">
+            {% for link in linklists[m4].links %}
+              <li><a href="{{ link.url }}" class="{% if link.current %}is-active{% endif %}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if m5 != blank %}
+        <div class="mx-col" data-accordion>
+          <button class="mx-col-head" aria-expanded="false">
+            <span>{{ section.settings.menu_5_title | default: 'LIKE A DIVA' }}</span>
+            <svg class="mx-plus" viewBox="0 0 24 24"><path d="M11 5h2v14h-2z"/><path d="M5 11h14v2H5z"/></svg>
+          </button>
+          <ul class="mx-col-list" role="list">
+            {% for link in linklists[m5].links %}
+              <li><a href="{{ link.url }}" class="{% if link.current %}is-active{% endif %}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+
+    {%- comment -%} ===== BOTTOM STRIP ===== {%- endcomment -%}
+    <div class="mx-bottom">
+      <div class="mx-left">
+        {% if section.settings.show_currency_selector and shop.enabled_currencies.size > 1 %}
+          <form class="mx-currency" method="post" action="{{ routes.currency_url }}">
+            <select name="currency" aria-label="Currency">
+              {% for c in shop.enabled_currencies %}
+                <option value="{{ c.iso_code }}" {% if cart.currency.iso_code == c.iso_code %}selected{% endif %}>{{ c.iso_code }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        {% endif %}
+      </div>
+
+      <div class="mx-center">
+        <p class="mx-copy">
+          {{ section.settings.copyright_prefix | default: 'Copyright ©' }}
+          {{ 'now' | date: '%Y' }}
+          {{ section.settings.brand_name | default: shop.name }}.
+          {{ section.settings.copyright_suffix | default: 'All rights reserved.' }}
+        </p>
+        {% if section.settings.powered_by != blank %}
+          <p class="mx-small">{{ section.settings.powered_by }}</p>
+        {% endif %}
+      </div>
+
+      <div class="mx-right">
+        {% if section.settings.show_payment_icons %}
+          <ul class="mx-payments" role="list">
+            {% for type in shop.enabled_payment_types %}
+              <li>{{ type | payment_type_svg_tag }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    :root{
+      --mx-text:#111; --mx-muted:#666; --mx-accent:#ff4aa2; --mx-bg:#fff; --mx-border:#eee;
+    }
+    .mx-footer{background:var(--mx-bg); color:var(--mx-text); border-top:1px solid var(--mx-border)}
+    .mx-wrap{max-width:1200px; margin:0 auto; padding:24px 16px 32px}
+
+    /* Top */
+    .mx-top{display:grid; grid-template-columns:1fr 2fr 1fr; align-items:center; gap:16px; padding:8px 0 20px}
+    .mx-social-list{display:flex; gap:16px; align-items:center}
+    .mx-social-list a{display:inline-flex; width:28px; height:28px; border:1px solid var(--mx-border); border-radius:50%; align-items:center; justify-content:center; transition:transform .12s}
+    .mx-social-list a:hover{transform:translateY(-1px)}
+    .mx-social-list svg{width:16px; height:16px; fill:currentColor}
+
+    .mx-usps{display:flex; gap:28px; justify-content:center; overflow:auto}
+    .mx-usp{display:inline-flex; gap:8px; align-items:center; text-decoration:none; color:inherit}
+    .mx-usp svg{width:28px; height:28px; fill:currentColor}
+    .mx-usp-title{font-size:14px; font-weight:600; letter-spacing:.2px}
+
+    .mx-news-form{display:flex; gap:10px; justify-content:flex-end}
+    .mx-input{flex:1; min-width:220px; height:40px; border:1px solid var(--mx-border); padding:0 12px}
+    .mx-btn{height:40px; padding:0 14px; border:1px solid var(--mx-border); background:#111; color:#fff; font-weight:600; letter-spacing:.4px}
+    .mx-success,.mx-error{font-size:12px; margin-top:6px}
+
+    .mx-sep{border:0; border-top:1px solid var(--mx-border); margin:16px 0 8px}
+
+    /* Columns */
+    .mx-columns{display:grid; grid-template-columns:repeat(5,1fr); gap:32px; padding:16px 0 8px}
+    .mx-col-head{all:unset; display:flex; align-items:center; justify-content:space-between; width:100%; font-weight:600; font-size:14px; padding:10px 0}
+    .mx-plus{display:none; width:16px; height:16px}
+    .mx-col-list{list-style:none; margin:0; padding:0}
+    .mx-col-list a{display:block; padding:6px 0; color:var(--mx-muted); text-decoration:none; font-size:14px}
+    .mx-col-list a:hover{color:var(--mx-text)}
+    .mx-col-list a.is-active{color:var(--mx-accent)}
+
+    /* Bottom */
+    .mx-bottom{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; margin-top:12px}
+    .mx-copy{margin:0; text-align:center; font-size:13px}
+    .mx-small{margin:4px 0 0; text-align:center; font-size:12px; color:var(--mx-muted)}
+    .mx-payments{display:flex; justify-content:flex-end; gap:8px; list-style:none; margin:0; padding:0}
+    .mx-payments svg{width:46px; height:28px}
+
+    /* Mobile */
+    @media (max-width: 989px){
+      .mx-top{grid-template-columns:1fr; gap:12px}
+      .mx-news-form{justify-content:stretch}
+      .mx-input{min-width:0}
+      .mx-columns{grid-template-columns:1fr; border-top:1px solid var(--mx-border); margin-top:8px}
+      .mx-col{border-bottom:1px solid var(--mx-border)}
+      .mx-plus{display:block}
+      .mx-col-head{cursor:pointer}
+      .mx-col-list{display:none; padding-bottom:10px}
+      .mx-bottom{grid-template-columns:1fr; gap:6px}
+      .mx-payments{justify-content:flex-start; flex-wrap:wrap}
+      .mx-copy,.mx-small{text-align:left}
+    }
+  </style>
+
+  <script>
+    (function(){
+      const root = document.currentScript.closest('#mx-footer');
+      if(!root) return;
+
+      // Mobile accordion behavior
+      root.querySelectorAll('[data-accordion]').forEach(function(col){
+        const btn = col.querySelector('.mx-col-head');
+        const list = col.querySelector('.mx-col-list');
+        btn.addEventListener('click', function(){
+          if(!window.matchMedia('(max-width: 989px)').matches) return;
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', (!expanded).toString());
+          list.style.display = expanded ? 'none' : 'block';
+        });
+      });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Mx Footer",
+  "tag": "section",
+  "class": "section-mx-footer",
+  "settings": [
+    { "type": "checkbox", "id": "show_socials", "label": "Show social icons", "default": true },
+
+    { "type": "header", "content": "Feature badges (USPs)" },
+
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "enable_newsletter", "label": "Enable newsletter signup", "default": true },
+    { "type": "text", "id": "news_placeholder", "label": "Email placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "news_button", "label": "Button label", "default": "SUBSCRIBE" },
+
+    { "type": "header", "content": "Link columns" },
+    { "type": "text", "id": "menu_1_title", "label": "Column 1 title", "default": "SHOPPING" },
+    { "type": "link_list", "id": "menu_1", "label": "Column 1 menu" },
+
+    { "type": "text", "id": "menu_2_title", "label": "Column 2 title", "default": "COLLECTION" },
+    { "type": "link_list", "id": "menu_2", "label": "Column 2 menu" },
+
+    { "type": "text", "id": "menu_3_title", "label": "Column 3 title", "default": "INFORMATION" },
+    { "type": "link_list", "id": "menu_3", "label": "Column 3 menu" },
+
+    { "type": "text", "id": "menu_4_title", "label": "Column 4 title", "default": "POLICIES" },
+    { "type": "link_list", "id": "menu_4", "label": "Column 4 menu" },
+
+    { "type": "text", "id": "menu_5_title", "label": "Column 5 title", "default": "LIKE A DIVA" },
+    { "type": "link_list", "id": "menu_5", "label": "Column 5 menu" },
+
+    { "type": "header", "content": "Bottom row" },
+    { "type": "checkbox", "id": "show_currency_selector", "label": "Show currency selector", "default": true },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "text", "id": "brand_name", "label": "Brand name (optional)",  },
+    { "type": "text", "id": "copyright_prefix", "label": "Copyright prefix", "default": "Copyright ©" },
+    { "type": "text", "id": "copyright_suffix", "label": "Copyright suffix", "default": "All rights reserved." },
+    { "type": "text", "id": "powered_by", "label": "Powered by text (optional)", "default": "e–Commerce by KOL Limited" }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "Feature badge",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Truck (Track Order / Shipping)" },
+            { "value": "globe", "label": "Globe (International delivery)" },
+            { "value": "needle", "label": "Needle (Boutique stitching)" },
+            { "value": "dot", "label": "Dot" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Text", "default": "TRACK ORDER" },
+        { "type": "url", "id": "link", "label": "Link (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mx Footer – Classic",
+      "blocks": [
+        { "type": "usp", "settings": { "icon": "truck", "title": "TRACK ORDER" } },
+        { "type": "usp", "settings": { "icon": "globe", "title": "INTERNATIONAL DELIVERY" } },
+        { "type": "usp", "settings": { "icon": "needle", "title": "BOUTIQUE STYLE STITCHING" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
