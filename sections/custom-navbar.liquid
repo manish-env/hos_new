@@ -32,8 +32,6 @@
     padding-top: var(--header-height);
   }
   
-
-
   .cw-header{position:fixed; top:0; left:0; right:0; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border); z-index:1000; width:100%;}
   .cw-container{max-width:1400px; margin:0 auto;}
 
@@ -155,8 +153,14 @@
   .cw-tab:nth-child(1){background:#efefef;} .cw-tab:nth-child(2){background:#ffecee;} .cw-tab:nth-child(3){background:#efefef;}
   .cw-tab:hover{color:var(--hdr-accent); background:rgba(0,0,0,0.05);}
 
-  /* BURGER MENU */
+  /* BURGER MENU - Hidden on desktop by default */
   .cw-burger{display:none; align-items:center; gap:8px; font-size:24px; cursor:pointer; background:none; border:none; color:var(--hdr-text);}
+  
+  /* Mobile drawer elements - Hidden on desktop by default */
+  .cw-drawer-header,
+  .cw-search-mobile-drawer {
+    display: none;
+  }
   
   /* RESPONSIVE */
   @media (max-width: 1200px){
@@ -171,105 +175,105 @@
     /* Adjust header height for mobile */
     :root { --header-height: 180px; }
     
-         /* Mobile menu styling */
-     .cw-burger{display:flex;}
-     .cw-nav-wrap{
-       display:none;
-       position:absolute;
-       top:100%;
-       left:0;
-       width:80%;
-       background:var(--hdr-bg);
-       z-index:1001;
-       padding:20px;
-       box-shadow:0 5px 15px rgba(0,0,0,0.1);
-       border-top:1px solid var(--border);
-       border-right:1px solid var(--border);
-       height:100vh;
-       overflow-y:auto;
-       transition:var(--transition);
-     }
-         .cw-nav-wrap.open{display:block;}
-     
-     /* Mobile drawer header */
-     .cw-drawer-header{
-       display:flex;
-       justify-content:space-between;
-       align-items:center;
-       padding:20px 20px 15px 20px;
-       border-bottom:1px solid var(--border);
-       margin:-20px -20px 0 -20px;
-       background:var(--hdr-bg);
-     }
-     .cw-drawer-header h3{
-       margin:0;
-       font-size:18px;
-       font-weight:600;
-       color:var(--hdr-text);
-     }
-     .cw-close-drawer{
-       background:none;
-       border:none;
-       font-size:20px;
-       color:var(--hdr-text);
-       cursor:pointer;
-       padding:0;
-       display:flex;
-       align-items:center;
-       justify-content:center;
-     }
-     
-     /* Mobile search bar below header - only show in mobile drawer */
-     .cw-search-mobile-drawer{
-       display:none; /* Hidden by default */
-       padding:20px;
-       border-bottom:1px solid var(--border);
-       background:var(--hdr-bg);
-       margin:0 -20px 20px -20px;
-     }
-     .cw-search-mobile-drawer .cw-search{
-       display:flex;
-       max-width:100%;
-     }
-     .cw-search-mobile-drawer .cw-search input{
-       background:#ffecee;
-       border-radius:4px;
-       padding:12px 15px;
-       font-size:14px;
-       font-weight:500;
-     }
-     .cw-search-mobile-drawer .cw-search input::placeholder{
-       color:#666;
-       font-weight:500;
-     }
-     
-     /* Show mobile search bar only when drawer is open */
-     .cw-nav-wrap.open .cw-search-mobile-drawer{
-       display:block;
-     }
-     
-     .cw-nav{flex-direction:column; align-items:flex-start; gap:0; margin-top:10px;}
-     .cw-nav > li{width:100%;}
-     .cw-nav > li > a{display:block; padding:15px 0; width:100%; border-bottom:1px solid #f5f5f5; font-size:16px; font-weight:500;}
-    
-    /* Mobile mega menu */
-    .cw-nav > li:hover .cw-mega{display:none;} /* Disable hover on mobile */
-    .cw-mega{
-      position:static;
-      width:100%;
-      box-shadow:none;
-      border:none;
-      padding:10px 0 10px 15px;
+    /* Mobile menu styling */
+    .cw-burger{display:flex;}
+    .cw-nav-wrap{
       display:none;
-      opacity:1;
-      visibility:visible;
+      position:absolute;
+      top:100%;
+      left:0;
+      width:80%;
+      background:var(--hdr-bg);
+      z-index:1001;
+      padding:20px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+      border-top:1px solid var(--border);
+      border-right:1px solid var(--border);
+      height:100vh;
+      overflow-y:auto;
+      transition:var(--transition);
     }
-    .cw-mega.open{display:block;}
-    .cw-mega-inner{grid-template-columns:1fr; gap:14px;}
-    .cw-mega-media{order:-1;} /* Move promo image to top on mobile */
+    .cw-nav-wrap.open{display:block;}
     
-    /* Mobile color swatches */
-    .cw-swatches{grid-template-columns:repeat(5, 22px);}
+    /* Mobile drawer header */
+    .cw-drawer-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:20px 20px 15px 20px;
+      border-bottom:1px solid var(--border);
+      margin:-20px -20px 0 -20px;
+      background:var(--hdr-bg);
+    }
+    .cw-drawer-header h3{
+      margin:0;
+      font-size:18px;
+      font-weight:600;
+      color:var(--hdr-text);
+    }
+    .cw-close-drawer{
+      background:none;
+      border:none;
+      font-size:20px;
+      color:var(--hdr-text);
+      cursor:pointer;
+      padding:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    
+    /* Mobile search bar below header - only show in mobile drawer */
+    .cw-search-mobile-drawer{
+      display:none; /* Hidden by default */
+      padding:20px;
+      border-bottom:1px solid var(--border);
+      background:var(--hdr-bg);
+      margin:0 -20px 20px -20px;
+    }
+    .cw-search-mobile-drawer .cw-search{
+      display:flex;
+      max-width:100%;
+    }
+    .cw-search-mobile-drawer .cw-search input{
+      background:#ffecee;
+      border-radius:4px;
+      padding:12px 15px;
+      font-size:14px;
+      font-weight:500;
+    }
+    .cw-search-mobile-drawer .cw-search input::placeholder{
+      color:#666;
+      font-weight:500;
+    }
+    
+    /* Show mobile search bar only when drawer is open */
+    .cw-nav-wrap.open .cw-search-mobile-drawer{
+      display:block;
+    }
+    
+    .cw-nav{flex-direction:column; align-items:flex-start; gap:0; margin-top:10px;}
+    .cw-nav > li{width:100%;}
+    .cw-nav > li > a{display:block; padding:15px 0; width:100%; border-bottom:1px solid #f5f5f5; font-size:16px; font-weight:500;}
+   
+   /* Mobile mega menu */
+   .cw-nav > li:hover .cw-mega{display:none;} /* Disable hover on mobile */
+   .cw-mega{
+     position:static;
+     width:100%;
+     box-shadow:none;
+     border:none;
+     padding:10px 0 10px 15px;
+     display:none;
+     opacity:1;
+     visibility:visible;
+   }
+   .cw-mega.open{display:block;}
+   .cw-mega-inner{grid-template-columns:1fr; gap:14px;}
+   .cw-mega-media{order:-1;} /* Move promo image to top on mobile */
+   
+   /* Mobile color swatches */
+   .cw-swatches{grid-template-columns:repeat(5, 22px);}
   }
   
   @media (max-width: 768px){
@@ -287,8 +291,6 @@
     /* Adjust tabs for mobile */
     .cw-tabs{grid-template-columns:1fr; gap:5px;}
     .cw-tab{padding:10px; font-size:12px;}
-    
-    
   }
   
   @media (max-width: 480px){
@@ -333,57 +335,55 @@
         </a>
       </div>
 
-             <!-- Right: Account / Wishlist / Cart -->
-       <div class="cw-right">
-         <div class="cw-icons">
-           {% if customer %}
-             <a href="{{ routes.account_url }}" aria-label="Account"><i class="fa-regular fa-user"></i></a>
-           {% else %}
-             <a href="{{ routes.account_login_url }}" aria-label="Login"><i class="fa-regular fa-user"></i></a>
-           {% endif %}
-           {% if section.settings.wishlist_url != blank %}
-             <a href="{{ section.settings.wishlist_url }}" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a>
-           {% endif %}
-           <a href="{{ routes.cart_url }}" aria-label="Cart">
-             <i class="fa-solid fa-bag-shopping"></i>
-             {% if cart.item_count > 0 %}
-               <span class="cw-cart-count">{{ cart.item_count }}</span>
-             {% endif %}
-           </a>
-         </div>
-       </div>
+      <!-- Right: Account / Wishlist / Cart -->
+      <div class="cw-right">
+        <div class="cw-icons">
+          {% if customer %}
+            <a href="{{ routes.account_url }}" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+          {% else %}
+            <a href="{{ routes.account_login_url }}" aria-label="Login"><i class="fa-regular fa-user"></i></a>
+          {% endif %}
+          {% if section.settings.wishlist_url != blank %}
+            <a href="{{ section.settings.wishlist_url }}" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a>
+          {% endif %}
+          <a href="{{ routes.cart_url }}" aria-label="Cart">
+            <i class="fa-solid fa-bag-shopping"></i>
+            {% if cart.item_count > 0 %}
+              <span class="cw-cart-count">{{ cart.item_count }}</span>
+            {% endif %}
+          </a>
+        </div>
+      </div>
     </div>
-    
-    
   </div>
 
   <!-- SECONDARY NAVBAR + MEGA MENU -->
   <div class="cw-secondary">
     <div class="cw-container">
       <div class="cw-secondary-inner">
-                          <nav id="cw-nav" class="cw-nav-wrap">
-           <!-- Mobile Drawer Header -->
-           <div class="cw-drawer-header">
-             <h3>MENU</h3>
-             <button class="cw-close-drawer" aria-label="Close menu">
-               <i class="fa-solid fa-xmark"></i>
-             </button>
-           </div>
-           
-           <!-- Mobile Search Bar below header -->
-           <div class="cw-search-mobile-drawer">
-             <div class="cw-search">
-               <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Site search">
-                 <span class="mail"><i class="fa-regular fa-envelope"></i></span>
-                 <span class="divider"></span>
-                 <input type="search" name="q" placeholder="SEARCH YOUR STYLE" value="{{ search.terms | escape }}" autocomplete="off">
-                 <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                 <input type="hidden" name="type" value="product">
-               </form>
-             </div>
-           </div>
-           
-           {% assign nav = section.settings.main_menu %}
+        <nav id="cw-nav" class="cw-nav-wrap">
+          <!-- Mobile Drawer Header -->
+          <div class="cw-drawer-header">
+            <h3>MENU</h3>
+            <button class="cw-close-drawer" aria-label="Close menu">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          
+          <!-- Mobile Search Bar below header -->
+          <div class="cw-search-mobile-drawer">
+            <div class="cw-search">
+              <form action="{{ routes.search_url }}" method="get" role="search" aria-label="Site search">
+                <span class="mail"><i class="fa-regular fa-envelope"></i></span>
+                <span class="divider"></span>
+                <input type="search" name="q" placeholder="SEARCH YOUR STYLE" value="{{ search.terms | escape }}" autocomplete="off">
+                <button aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="hidden" name="type" value="product">
+              </form>
+            </div>
+          </div>
+          
+          {% assign nav = section.settings.main_menu %}
           {% if nav != blank %}
             <ul class="cw-nav" role="list">
               {% for top in nav.links %}
@@ -488,26 +488,26 @@
 
 <script>
   (function(){
-         // Mobile menu toggle
-     var burger = document.querySelector('.cw-burger');
-     var wrap = document.querySelector('.cw-nav-wrap');
-     var closeBtn = document.querySelector('.cw-close-drawer');
-     
-     if(burger && wrap) {
-       burger.addEventListener('click', function(){
-         wrap.classList.toggle('open');
-         var expanded = burger.getAttribute('aria-expanded') === 'true';
-         burger.setAttribute('aria-expanded', String(!expanded));
-       });
-     }
-     
-     // Close drawer with close button
-     if(closeBtn && wrap) {
-       closeBtn.addEventListener('click', function(){
-         wrap.classList.remove('open');
-         burger.setAttribute('aria-expanded', 'false');
-       });
-     }
+    // Mobile menu toggle
+    var burger = document.querySelector('.cw-burger');
+    var wrap = document.querySelector('.cw-nav-wrap');
+    var closeBtn = document.querySelector('.cw-close-drawer');
+    
+    if(burger && wrap) {
+      burger.addEventListener('click', function(){
+        wrap.classList.toggle('open');
+        var expanded = burger.getAttribute('aria-expanded') === 'true';
+        burger.setAttribute('aria-expanded', String(!expanded));
+      });
+    }
+    
+    // Close drawer with close button
+    if(closeBtn && wrap) {
+      closeBtn.addEventListener('click', function(){
+        wrap.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    }
     
     // Mobile submenu toggle
     var navItems = document.querySelectorAll('.cw-nav > li');
