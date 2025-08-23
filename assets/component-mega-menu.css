@@ -89,6 +89,34 @@
   word-wrap: break-word;
 }
 
+/* Top-level nav links: animated underline on hover with pink color */
+.header__inline-menu .list-menu__item.link {
+  position: relative;
+  text-decoration: none;
+}
+.header__inline-menu .list-menu__item.link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.3rem;
+  height: 2px;
+  background-color: #FB3DED; /* requested pink */
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--duration-short) ease;
+}
+.header__inline-menu .list-menu__item.link:hover::after,
+.header__inline-menu .list-menu__item.link:focus-visible::after,
+.header__inline-menu .list-menu__item.header__active-menu-item::after {
+  transform: scaleX(1);
+}
+
+/* Remove any default text underline on hover for top-level links */
+.header__inline-menu .list-menu__item.link:hover {
+  text-decoration: none;
+}
+
 .mega-menu__link--level-2 {
   font-weight: 400; /* normal weight */
   display: inline-block;
