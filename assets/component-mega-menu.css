@@ -63,7 +63,7 @@
 }
 
 .mega-menu__link {
-  color: rgba(var(--color-foreground), 0.75);
+  color: rgb(var(--color-foreground)); /* children black */
   display: block;
   line-height: calc(1 + 0.3 / var(--font-body-scale));
   padding-bottom: 0.6rem;
@@ -79,6 +79,7 @@
   padding-bottom: 0.4rem;
   margin-bottom: 0.6rem;
   border-bottom: 1px solid rgba(var(--color-foreground), 0.15); /* light grey underline */
+  color: rgba(var(--color-foreground), 0.8); /* heading dark grey */
 }
 
 .header--top-center .mega-menu__list {
@@ -95,11 +96,11 @@
 .mega-menu__link:hover,
 .mega-menu__link--active {
   color: rgb(var(--color-foreground));
-  text-decoration: underline;
+  text-decoration: none; /* remove hover underline */
 }
 
 .mega-menu__link--active:hover {
-  text-decoration-thickness: 0.2rem;
+  text-decoration: none; /* ensure no line on hover */
 }
 
 .mega-menu .mega-menu__list--condensed {
