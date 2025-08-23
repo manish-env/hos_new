@@ -1,16 +1,8 @@
-{% comment %}
-  Section: MX Footer Utilities (Page-Width, 20/60/20)
-  - Desktop (>=992px): 20% Socials | 60% Badges (centered) | 20% Subscribe
-  - Mobile: Badges → Subscribe → Socials (stacked)
-  - Uses Font Awesome 6 (free) for icons
-{% endcomment %}
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <section class="mx-footer-utils" style="background: {{ section.settings.bg | default: '#f5f5f5' }};">
-  <!-- Use theme container so it never overflows -->
   <div class="mx-fw page-width">
-
+    
     <!-- SOCIALS (20%) -->
     <div class="mx-socials" aria-label="Social links">
       {%- if section.settings.facebook_url != blank -%}
@@ -82,74 +74,201 @@
 </section>
 
 <style>
-  .mx-footer-utils{
-    color:#111;
-    border-top:1px solid #eaeaea;
-    box-sizing:border-box;
+  .mx-footer-utils {
+    color: #111;
+    border-top: 1px solid #eaeaea;
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
   }
-  .mx-footer-utils, .mx-footer-utils *{ box-sizing: border-box; }
-  .mx-footer-utils{ overflow-x: hidden; }
-
-  /* page-width wrapper (theme controls width/padding) */
-  .mx-fw.page-width{
-    display:flex;
-    flex-wrap:wrap; /* mobile stack */
-    gap:20px;
-    align-items:center;
-    padding-top:18px; padding-bottom:18px; /* gentle vertical space */
-    width:100%;
-    max-width:100%;
-    overflow-x: hidden; /* prevent accidental horizontal scroll */
-    min-width:0;
+  
+  .mx-footer-utils * { 
+    box-sizing: border-box; 
   }
-
-  /* Mobile: stacked full-width */
-  .mx-socials, .mx-badges, .mx-subscribe { flex: 1 1 100%; min-width:0; }
-
+  
+  .mx-fw.page-width {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    padding: 18px 20px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Mobile-first: stacked full-width */
+  .mx-socials, 
+  .mx-badges, 
+  .mx-subscribe { 
+    flex: 1 1 100%; 
+    min-width: 0;
+  }
+  
   /* Socials */
-  .mx-socials{display:flex; gap:18px; align-items:center; justify-content:flex-start; flex-wrap:wrap; min-width:0;}
-  .mx-social{display:inline-flex; width:40px; height:40px; border:1px solid #cfcfcf; align-items:center; justify-content:center;}
-  .mx-social i{font-size:18px;}
-
+  .mx-socials {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    justify-content: center;
+    order: 3; /* Mobile: appears last */
+  }
+  
+  .mx-social {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #cfcfcf;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .mx-social i {
+    font-size: 18px;
+  }
+  
   /* Badges (center column) */
-  .mx-badges{ /* centered and can wrap safely without causing overflow */
-    display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:24px; text-align:center; min-width:0;
+  .mx-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+    order: 1; /* Mobile: appears first */
   }
-  .mx-badge{display:flex; flex-direction:column; align-items:center; gap:8px;}
-  .mx-badge i{font-size:34px;}
-  .mx-badge-text{font-size:14px; line-height:1.2; color:#333; text-transform:uppercase; letter-spacing:.02em;}
-
+  
+  .mx-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+  }
+  
+  .mx-badge i {
+    font-size: 34px;
+  }
+  
+  .mx-badge-text {
+    font-size: 14px;
+    line-height: 1.2;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  
   /* Subscribe */
-  .mx-subscribe{display:flex; flex-direction:column; gap:8px; min-width:0;}
-  .mx-input-wrap{display:flex; align-items:center; width:100%; min-width:0; flex-wrap: nowrap;}
-  .mx-input{
-    height:44px; padding:0 12px; border:1px solid #cfcfcf; background:#fff;
-    flex:1 1 0%; min-width:0; max-width:100%;
+  .mx-subscribe {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    order: 2; /* Mobile: appears second */
   }
-  .mx-btn{
-    height:44px; padding:0 16px; border:none; background:#111; color:#fff; cursor:pointer;
-    margin-left:8px; white-space:nowrap; flex:0 0 auto;
+  
+  .mx-input-wrap {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
   }
-  .mx-msg{font-size:13px; margin-top:6px}
-  .mx-success{color:#17803d}
-  .mx-error{color:#b00020}
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
-
-  /* Desktop: three columns that auto-fit (25% | auto-centered 50% | 25%) */
-  @media (min-width: 992px){
-    .mx-socials  { flex: 1 1 25%; justify-content:flex-start; }
-    .mx-badges   { flex: 1 1 50%; }
-    .mx-subscribe{ flex: 1 1 25%; align-items:flex-end; }
-    .mx-input-wrap{max-width:420px; width:100%;}
+  
+  .mx-input {
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid #cfcfcf;
+    background: #fff;
+    flex: 1 1 auto;
+    min-width: 0;
   }
-
-  /* Wider screens: allow 4–5 badges gracefully if you add more blocks */
-  @media (min-width: 1280px){ /* keep centered; no extra grid constraints needed */ }
-
-  /* Extra safety for very narrow viewports: allow input/button to wrap */
-  @media (max-width: 360px){
-    .mx-input-wrap{flex-wrap: wrap;}
-    .mx-btn{margin-left:0; margin-top:8px; width:100%;}
+  
+  .mx-btn {
+    height: 44px;
+    padding: 0 16px;
+    border: none;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 8px;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  
+  .mx-msg {
+    font-size: 13px;
+    margin-top: 6px;
+  }
+  
+  .mx-success {
+    color: #17803d;
+  }
+  
+  .mx-error {
+    color: #b00020;
+  }
+  
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+  }
+  
+  /* Desktop layout */
+  @media (min-width: 992px) {
+    .mx-fw.page-width {
+      flex-wrap: nowrap;
+      justify-content: space-between;
+    }
+    
+    .mx-socials {
+      flex: 0 0 20%;
+      justify-content: flex-start;
+      order: 1;
+    }
+    
+    .mx-badges {
+      flex: 0 0 60%;
+      order: 2;
+    }
+    
+    .mx-subscribe {
+      flex: 0 0 20%;
+      align-items: flex-end;
+      order: 3;
+    }
+    
+    .mx-input-wrap {
+      max-width: 280px;
+    }
+  }
+  
+  /* Adjust for very narrow screens */
+  @media (max-width: 360px) {
+    .mx-badges {
+      gap: 15px;
+    }
+    
+    .mx-badge {
+      flex: 0 0 calc(50% - 15px);
+    }
+    
+    .mx-input-wrap {
+      flex-wrap: wrap;
+    }
+    
+    .mx-btn {
+      margin-left: 0;
+      margin-top: 8px;
+      width: 100%;
+    }
   }
 </style>
 
