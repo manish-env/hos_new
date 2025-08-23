@@ -114,22 +114,7 @@
 .header__inline-menu .header__menu-item:active {
   text-decoration: none !important; /* ensure no black underline */
 }
-.header__inline-menu .header__menu-item::after {
-  content: '';
-  position: absolute;
-  left: 0;                 /* start at left edge */
-  width: 60%;              /* cover 60% of text width */
-  bottom: 0.05rem;         /* tuck directly under text */
-  height: 2px;             /* requested thickness */
-  background-color: #FA0FE9; /* requested pink */
-  transform: scaleX(0);
-  transform-origin: left;  /* animate left -> right */
-  transition: transform 180ms ease;
-}
-.header__inline-menu .header__menu-item:hover::after,
-.header__inline-menu .header__menu-item:focus-visible::after {
-  transform: scaleX(1); /* show underline on hover/focus */
-}
+.header__inline-menu .header__menu-item::after { display: none !important; content: none !important; }
 
 /* Ensure active state doesn't add default underline */
 .header__inline-menu .header__active-menu-item { text-decoration: none !important; }
@@ -143,22 +128,7 @@
 .header__inline-menu a.list-menu__item.link.link--text:focus-visible {
   text-decoration: none !important; /* keep default underline off */
 }
-.header__inline-menu a.list-menu__item.link.link--text::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 60%;
-  bottom: 0.05rem;         /* tuck directly under text */
-  height: 2px;
-  background-color: #FA0FE9;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 180ms ease;
-}
-.header__inline-menu a.list-menu__item.link.link--text:hover::after,
-.header__inline-menu a.list-menu__item.link.link--text:focus-visible::after {
-  transform: scaleX(1); /* underline on hover/focus for simple links */
-}
+.header__inline-menu a.list-menu__item.link.link--text::after { display: none !important; content: none !important; }
 
 .mega-menu__link--level-2 {
   font-weight: 400; /* normal weight */
