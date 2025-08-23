@@ -3,7 +3,7 @@
 <section class="mx-footer-utils" style="background: {{ section.settings.bg | default: '#f5f5f5' }};">
   <div class="mx-fw page-width">
     
-    <!-- SOCIALS (20%) -->
+    <!-- SOCIALS (LEFT) -->
     <div class="mx-socials" aria-label="Social links">
       {%- if section.settings.facebook_url != blank -%}
         <a class="mx-social" href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">
@@ -27,7 +27,7 @@
       {%- endif -%}
     </div>
 
-    <!-- BADGES (60%) -->
+    <!-- BADGES (CENTER) -->
     <div class="mx-badges" aria-label="Trust badges">
       {%- for block in section.blocks -%}
         {%- if block.type == 'badge' -%}
@@ -39,7 +39,7 @@
       {%- endfor -%}
     </div>
 
-    <!-- SUBSCRIBE (20%) -->
+    <!-- SUBSCRIBE (RIGHT) -->
     <div class="mx-subscribe">
       {%- form 'customer', id: 'mx-newsletter' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
@@ -89,7 +89,6 @@
   .mx-fw.page-width {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
     align-items: center;
     padding: 18px 20px;
     width: 100%;
@@ -229,18 +228,18 @@
     }
     
     .mx-socials {
-      flex: 0 0 20%;
+      flex: 0 0 25%;
       justify-content: flex-start;
       order: 1;
     }
     
     .mx-badges {
-      flex: 0 0 60%;
+      flex: 0 0 50%;
       order: 2;
     }
     
     .mx-subscribe {
-      flex: 0 0 20%;
+      flex: 0 0 25%;
       align-items: flex-end;
       order: 3;
     }
