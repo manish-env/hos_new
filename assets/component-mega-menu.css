@@ -90,7 +90,7 @@
 }
 
 /* Hide previous underline rule if loaded earlier */
-.header__inline-menu .list-menu__item.link::after { display: none; }
+/* Underline effect for secondary navbar (top-level) */
 
 /* Clean, subtle underline on header menu items (no gradients) */
 .header__inline-menu .header__menu-item {
@@ -104,22 +104,46 @@
 .header__inline-menu .header__menu-item::after {
   content: '';
   position: absolute;
-  left: 50%;
-  width: 60%; /* shorter line */
-  bottom: -0.2rem; /* close to text */
-  height: 2px; /* visible but refined */
-  background-color: #FB3DED;
-  transform: translateX(-50%) scaleX(0);
-  transform-origin: center;
+  left: 0;                 /* start at left edge */
+  width: 60%;              /* cover 60% of text width */
+  bottom: -0.2rem;         /* close to text */
+  height: 2px;             /* requested thickness */
+  background-color: #FA0FE9; /* requested pink */
+  transform: scaleX(0);
+  transform-origin: left;  /* animate left -> right */
   transition: transform 180ms ease;
 }
-.header__inline-menu .header__menu-item:hover::after,
-.header__inline-menu .header__menu-item:focus-visible::after {
-  transform: translateX(-50%) scaleX(1);
+.header__inline-menu .header__menu-item:active::after,
+.header__inline-menu .header__menu-item:focus-visible::after,
+.header__inline-menu .mega-menu[open] > summary.header__menu-item::after {
+  transform: scaleX(1);
 }
 
 /* Ensure active state doesn't add default underline */
 .header__inline-menu .header__active-menu-item { text-decoration: none !important; }
+
+/* Also handle simple links (without dropdown) */
+.header__inline-menu a.list-menu__item.link.link--text {
+  position: relative;
+  text-decoration: none !important;
+}
+.header__inline-menu a.list-menu__item.link.link--text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 60%;
+  bottom: -0.2rem;
+  height: 2px;
+  background-color: #FA0FE9;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.header__inline-menu a.list-menu__item.link.link--text:active::after,
+.header__inline-menu a.list-menu__item.link.link--text:focus-visible::after,
+.header__inline-menu a.list-menu__item.link.link--text[aria-current]:not([aria-current='false'])::after {
+  transform: scaleX(1);
+}
 
 .mega-menu__link--level-2 {
   font-weight: 400; /* normal weight */
