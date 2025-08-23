@@ -76,10 +76,60 @@
         "padding_top": 44,
         "padding_bottom": 36
       }
+    },
+    "csutom_collections_BMFka7": {
+      "type": "csutom-collections",
+      "blocks": {
+        "collection_hbHGwM": {
+          "type": "collection",
+          "settings": {
+            "collection": "bridal-lahenga-choli",
+            "custom_title": ""
+          }
+        },
+        "collection_9wpHTH": {
+          "type": "collection",
+          "settings": {
+            "collection": "wedding-sarees",
+            "custom_title": ""
+          }
+        },
+        "collection_BmMCtw": {
+          "type": "collection",
+          "settings": {
+            "collection": "lahenga-choli",
+            "custom_title": ""
+          }
+        },
+        "collection_rFUcae": {
+          "type": "collection",
+          "settings": {
+            "collection": "readymade-salwar-suit",
+            "custom_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_hbHGwM",
+        "collection_9wpHTH",
+        "collection_BmMCtw",
+        "collection_rFUcae"
+      ],
+      "name": "Mx Collections",
+      "settings": {
+        "heading": "Shop by Category",
+        "full_width": true,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "gap": 16,
+        "radius": 12,
+        "cover": true
+      }
     }
   },
   "order": [
     "image_banner",
-    "featured_collection"
+    "featured_collection",
+    "csutom_collections_BMFka7"
   ]
 }
