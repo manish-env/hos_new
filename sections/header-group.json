@@ -11,49 +11,24 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "custom_navbar_pFe9kc": {
-      "type": "custom-navbar",
-      "name": "Mx Navbar",
+    "header": {
+      "type": "header",
+      "disabled": true,
+      "custom_css": [],
       "settings": {
-        "logo": "shopify://shop_images/Fashion_Brand_Lettermark_with_Mandala_Design-removebg-preview.png",
         "main_menu": "main-menu",
         "wishlist_url": "",
         "mega_image_link": "",
-        "tab1_text": "PERFECT TAILORING, DELIVERED AT DOORSTEPS",
+        "tab1_text": "PERFECT TAILORING , DELIVERED AT DOORSTEPS",
         "tab1_link": "",
         "tab2_text": "FREE DELIVERY ACROSS INDIA",
         "tab2_link": "",
         "tab3_text": "TRENDIEST TOP QUALITY DRESSES",
         "tab3_link": ""
       }
-    },
-    "header": {
-      "type": "header",
-      "disabled": true,
-      "custom_css": [],
-      "settings": {
-        "logo_position": "top-center",
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
-        "color_scheme": "background-2",
-        "menu_color_scheme": "background-2",
-        "enable_country_selector": false,
-        "enable_language_selector": false,
-        "mobile_logo_position": "center",
-        "margin_bottom": 0,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "show_promotional_tabs": true,
-        "tab_1_text": "New Arrivals",
-        "tab_2_text": "Sale",
-        "tab_3_text": "Best Sellers"
-      }
     }
   },
   "order": [
-    "custom_navbar_pFe9kc",
     "header"
   ]
 }
