@@ -47,7 +47,7 @@
         "promo_text_1": "PERFECT TAILORING , DELIVERED AT DOORSTEPS",
         "promo_text_2": "FREE DELIVERY ACROSS INDIA",
         "promo_text_3": "TRENDIEST TOP QUALITY DRESSES",
-        "sticky_header_type": "on-scroll-up",
+        "sticky_header_type": "always",
         "show_line_separator": true,
         "color_scheme": "scheme-1",
         "menu_color_scheme": "scheme-1",
