@@ -92,6 +92,32 @@
                       {%- endif -%}
                     </li>
                   {%- endfor -%}
+                  {%- comment -%}
+                    Fifth column: Parent collection promo image linking to the parent link
+                    Attempts to use the collection from the top-level link. If not a collection link,
+                    tries to resolve collection by URL handle.
+                  {%- endcomment -%}
+                  {%- liquid
+                    assign parent_collection = nil
+                    if link.type == 'collection_link' and link.object
+                      assign parent_collection = link.object
+                    else
+                      if link.url contains '/collections/'
+                        assign _after = link.url | split: '/collections/' | last
+                        assign _handle = _after | split: '?' | first | split: '#' | first | split: '/' | first
+                        if _handle != blank
+                          assign parent_collection = collections[_handle]
+                        endif
+                      endif
+                    endif
+                  -%}
+                  {%- if parent_collection and parent_collection.image -%}
+                    <li class="mega-menu__promo">
+                      <a href="{{ link.url }}" class="mega-menu__promo-link" aria-label="{{ parent_collection.title | default: link.title | escape }}">
+                        {{ parent_collection.image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 540, 700', sizes: '(min-width: 1200px) 16vw, 30vw', alt: parent_collection.title }}
+                      </a>
+                    </li>
+                  {%- endif -%}
                 </ul>
               </div>
             </details>
