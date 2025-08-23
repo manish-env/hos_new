@@ -2846,8 +2846,7 @@ details[open] > .header__menu-item .header__active-menu-item {
 
 /* Mega menu width to 90% and centered */
 .mega-menu__content .mega-menu__list.page-width {
-  max-width: 90% !important;
-  width: 90% !important;
+  padding:16px !important;
   margin-left: auto;
   margin-right: auto;
 }
