@@ -164,13 +164,11 @@
                   {{- block.settings.text -}}
                 </p>
               {%- when 'title' -%}
-                <h2 class="product__title {{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
-                  {%- if product.title != blank -%}
-                    {{ product.title | escape }}
-                  {%- else -%}
-                    {{ 'onboarding.product_title' | t }}
-                  {%- endif -%}
-                </h2>
+                {%- if product.title != blank -%}
+                  {% render 'section-title', title: product.title %}
+                {%- else -%}
+                  {% render 'section-title', title: 'onboarding.product_title' | t %}
+                {%- endif -%}
               {%- when 'price' -%}
                 <div class="no-js-hidden" id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                   {%- render 'price',
