@@ -2813,6 +2813,7 @@ details[open] > .header__submenu {
 
 details[open] > .header__menu-item {
   text-decoration: underline;
+  color: #FA05E8;
 }
 
 details[open]:hover > .header__menu-item {
