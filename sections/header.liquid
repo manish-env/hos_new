@@ -88,9 +88,9 @@
   {%- endif -%}
 
   /* Promo tabs styles */
-  .header-promo-tabs { margin-top: 0.75rem; }
+  .header-promo-tabs { margin-top: 0.75rem; width: 100%; max-width: 100vw; overflow: hidden; }
   .header-promo-track { display: flex; gap: 0; transition: transform 400ms ease; }
-  .header-promo-item { flex: 0 0 100%; text-align: center; padding: 0.875rem 1rem; font-weight: 600; }
+  .header-promo-item { flex: 0 0 100%; box-sizing: border-box; text-align: center; padding: 0.875rem 1rem; font-weight: 600; }
   .header-promo-item:nth-child(2n) { background: rgba(0,0,0,0.04); }
   .header-promo-item:nth-child(2n+1) { background: rgba(0,0,0,0.06); }
   @media screen and (min-width: 990px) {
