@@ -6,6 +6,7 @@
 {%- assign loading_text = 'accessibility.loading' | t -%}
 {%- assign search_placeholder = 'general.search.search' | t -%}
 
+<div class="header__search-inline header__search-inline--clean">
 {%- if settings.predictive_search_enabled -%}
   <predictive-search class="header__search-inline" data-loading-text="{{ loading_text }}">
 {%- else -%}
@@ -54,3 +55,4 @@
 {%- else -%}
   </search-form>
 {%- endif -%}
+</div>

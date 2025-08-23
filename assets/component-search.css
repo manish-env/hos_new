@@ -74,26 +74,38 @@ input::-webkit-search-decoration {
 }
 
 /* Inline header search cleanup */
-.header__search-inline .field__label {
+.header__search-inline--clean .field__label {
   display: none !important; /* hide 'Search' label text */
 }
-.header__search-inline .field,
-.header__search-inline .search__input.field__input {
+.header__search-inline--clean .field,
+.header__search-inline--clean .search__input.field__input {
   border: 0 !important;
   box-shadow: none !important;
   outline: none !important;
 }
-.header__search-inline .search__input.field__input:focus,
-.header__search-inline .search__input.field__input:focus-visible {
+.header__search-inline--clean .search__input.field__input:focus,
+.header__search-inline--clean .search__input.field__input:focus-visible {
   border: 0 !important;
   box-shadow: none !important;
   outline: none !important;
 }
-.header__search-inline .field__button,
-.header__search-inline .field__button:focus,
-.header__search-inline .field__button:focus-visible {
+.header__search-inline--clean .field__button,
+.header__search-inline--clean .field__button:focus,
+.header__search-inline--clean .field__button:focus-visible {
   box-shadow: none !important;
   outline: none !important;
 }
 /* Remove thin divider line injected by reset button in inline search */
-.header__search-inline .reset__button::after { display: none !important; }
+.header__search-inline--clean .reset__button::after { display: none !important; }
+
+/* Remove Dawn field pseudo borders for clean variant */
+.header__search-inline--clean .field::before,
+.header__search-inline--clean .field::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Ensure input background is seamless */
+.header__search-inline--clean .search__input.field__input {
+  background: transparent !important;
+}

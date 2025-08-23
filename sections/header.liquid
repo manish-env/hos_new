@@ -173,9 +173,7 @@
     -%}
 
     {%- if section.settings.desktop_search_style == 'input' -%}
-      <div class="header__search-inline small-hide">
-        {%- render 'header-search-inline-clean' -%}
-      </div>
+      {%- render 'header-search-inline-clean' -%}
     {%- endif -%}
 
     {%- if section.settings.logo_position != 'middle-center' -%}
