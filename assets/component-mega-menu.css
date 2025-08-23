@@ -9,6 +9,12 @@
   position: static;
 }
 
+/* Ensure the dropdown positions relative to the nav links bar */
+.header__inline-menu {
+  position: relative;
+  z-index: 3;
+}
+
 .mega-menu__content {
   background-color: rgb(var(--color-background));
   border-left: 0;
@@ -27,6 +33,7 @@
   padding-top: 3rem;
   position: absolute;
   top: 100%;
+  z-index: 4; /* above promo tabs or other content under the header */
 }
 
 .shopify-section-header-sticky .mega-menu__content {
