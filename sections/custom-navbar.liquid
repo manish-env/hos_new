@@ -1,7 +1,7 @@
 {% comment %}
   Mx Navbar – Primary (Search L, Logo C, Auth/Wishlist/Cart R)
   + Secondary centered nav with MEGA dropdown (centered under parent, 4 cols + right promo image)
-  + Three tabs bar
+  + Three tabs bar with mobile carousel
 {% endcomment %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -33,7 +33,7 @@
   }
   
   .cw-header{position:fixed; top:0; left:0; right:0; background:var(--hdr-bg); color:var(--hdr-text); border-bottom:1px solid var(--border); z-index:1000; width:100%;}
-  .cw-container{max-width:1400px; margin:0 auto;}
+  .cw-container{max-width:1400px; margin:0 auto; padding: 0 20px;}
 
   /* PRIMARY BAR */
   .cw-primary{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:16px; height:80px;}
@@ -147,11 +147,65 @@
     line-height:1; margin-top:6px; margin-bottom:6px;
   }
 
-  /* THREE TABS */
+  /* THREE TABS - Desktop */
   .cw-tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:0;}
   .cw-tab{border:none; border-radius:0; padding:12px; font-size:13px; text-decoration:none; color:var(--hdr-text); text-align:center; transition:var(--transition);}
   .cw-tab:nth-child(1){background:#efefef;} .cw-tab:nth-child(2){background:#ffecee;} .cw-tab:nth-child(3){background:#efefef;}
   .cw-tab:hover{color:var(--hdr-accent); background:rgba(0,0,0,0.05);}
+
+  /* THREE TABS - Mobile Carousel */
+  .cw-tabs-carousel {
+    display: none;
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+  }
+  .cw-tab-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    text-decoration: none;
+    color: var(--hdr-text);
+    font-size: 13px;
+    text-align: center;
+  }
+  .cw-tab-slide.active {
+    opacity: 1;
+  }
+  .cw-tab-slide:nth-child(1){background:#efefef;}
+  .cw-tab-slide:nth-child(2){background:#ffecee;}
+  .cw-tab-slide:nth-child(3){background:#efefef;}
+
+  /* Carousel indicators */
+  .cw-carousel-indicators {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    z-index: 10;
+  }
+  .cw-carousel-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .cw-carousel-indicator.active {
+    background: var(--hdr-accent);
+  }
 
   /* BURGER MENU - Hidden on desktop by default */
   .cw-burger{display:none; align-items:center; gap:8px; font-size:24px; cursor:pointer; background:none; border:none; color:var(--hdr-text);}
@@ -170,7 +224,10 @@
   @media (max-width: 990px){
     .cw-primary{grid-template-columns: 1fr auto 1fr; height:72px;}
     .cw-mega-inner{grid-template-columns:repeat(2,minmax(0,1fr));}
-    .cw-tabs{grid-template-columns:1fr;}
+    
+    /* Switch to carousel on mobile */
+    .cw-tabs{display:none;}
+    .cw-tabs-carousel{display:block;}
     
     /* Adjust header height for mobile */
     :root { --header-height: 180px; }
@@ -287,10 +344,6 @@
     
     /* Adjust header height for smaller mobile */
     :root { --header-height: 160px; }
-    
-    /* Adjust tabs for mobile */
-    .cw-tabs{grid-template-columns:1fr; gap:5px;}
-    .cw-tab{padding:10px; font-size:12px;}
   }
   
   @media (max-width: 480px){
@@ -470,7 +523,7 @@
     </div>
   </div>
 
-  <!-- THREE TABS BAR -->
+  <!-- THREE TABS BAR - Desktop -->
   <div class="cw-container">
     <div class="cw-tabs" role="navigation" aria-label="Quick links">
       {% if section.settings.tab1_text != blank %}
@@ -482,6 +535,22 @@
       {% if section.settings.tab3_text != blank %}
         <a class="cw-tab" href="{{ section.settings.tab3_link }}">{{ section.settings.tab3_text }}</a>
       {% endif %}
+    </div>
+  </div>
+
+  <!-- THREE TABS BAR - Mobile Carousel -->
+  <div class="cw-container">
+    <div class="cw-tabs-carousel" role="navigation" aria-label="Quick links">
+      {% if section.settings.tab1_text != blank %}
+        <a class="cw-tab-slide" href="{{ section.settings.tab1_link }}">{{ section.settings.tab1_text }}</a>
+      {% endif %}
+      {% if section.settings.tab2_text != blank %}
+        <a class="cw-tab-slide" href="{{ section.settings.tab2_link }}">{{ section.settings.tab2_text }}</a>
+      {% endif %}
+      {% if section.settings.tab3_text != blank %}
+        <a class="cw-tab-slide" href="{{ section.settings.tab3_link }}">{{ section.settings.tab3_text }}</a>
+      {% endif %}
+      <div class="cw-carousel-indicators"></div>
     </div>
   </div>
 </header>
@@ -531,6 +600,82 @@
         burger.setAttribute('aria-expanded', 'false');
       }
     });
+
+    // Tabs Carousel functionality
+    var carousel = document.querySelector('.cw-tabs-carousel');
+    if (carousel) {
+      var slides = carousel.querySelectorAll('.cw-tab-slide');
+      var indicatorsContainer = carousel.querySelector('.cw-carousel-indicators');
+      var currentSlide = 0;
+      var slideInterval;
+      
+      // Create indicators
+      slides.forEach(function(slide, index) {
+        var indicator = document.createElement('div');
+        indicator.className = 'cw-carousel-indicator';
+        if (index === 0) indicator.classList.add('active');
+        indicator.addEventListener('click', function() {
+          goToSlide(index);
+        });
+        indicatorsContainer.appendChild(indicator);
+      });
+      
+      var indicators = indicatorsContainer.querySelectorAll('.cw-carousel-indicator');
+      
+      // Function to go to a specific slide
+      function goToSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        indicators[currentSlide].classList.remove('active');
+        
+        currentSlide = n;
+        
+        slides[currentSlide].classList.add('active');
+        indicators[currentSlide].classList.add('active');
+      }
+      
+      // Function to go to the next slide
+      function nextSlide() {
+        var next = (currentSlide + 1) % slides.length;
+        goToSlide(next);
+      }
+      
+      // Start the auto-rotation
+      function startSlideShow() {
+        slideInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
+      }
+      
+      // Initialize the carousel
+      function initCarousel() {
+        if (window.innerWidth <= 990) {
+          // Only show first slide initially
+          slides.forEach(function(slide, index) {
+            if (index === 0) {
+              slide.classList.add('active');
+            } else {
+              slide.classList.remove('active');
+            }
+          });
+          
+          startSlideShow();
+          
+          // Pause on hover
+          carousel.addEventListener('mouseenter', function() {
+            clearInterval(slideInterval);
+          });
+          
+          carousel.addEventListener('mouseleave', function() {
+            startSlideShow();
+          });
+        } else {
+          // On desktop, clear the interval if it exists
+          clearInterval(slideInterval);
+        }
+      }
+      
+      // Initialize and reinitialize on resize
+      initCarousel();
+      window.addEventListener('resize', initCarousel);
+    }
   })();
 </script>
 
