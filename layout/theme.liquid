@@ -255,6 +255,20 @@
       }
     {% endstyle %}
 
+    <!-- Load Kumbh Sans font and override to use it site-wide -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --font-body-family: 'Kumbh Sans', Arial, Helvetica, sans-serif;
+        --font-heading-family: 'Kumbh Sans', Arial, Helvetica, sans-serif;
+      }
+      body, .h0, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-body-family) !important;
+      }
+    </style>
+
     {{ 'base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
