@@ -1,56 +1,15 @@
 {% comment %}
-  Section: MX Footer Utilities
-  Layout:
-    - Desktop: socials (left) • badges (center) • subscribe (right)
-    - Mobile: badges → subscribe → socials (stacked)
-  Notes:
-    - Uses Font Awesome 6 (free). Change icon via block setting (e.g., "fa-truck", "fa-globe", "fa-scissors").
+  MX Footer Utilities (Full Width)
+  Desktop: 20% Socials | 60% Badges | 20% Subscribe
+  Mobile:  Badges → Subscribe → Socials (stacked)
 {% endcomment %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <section class="mx-footer-utils" style="background: {{ section.settings.bg | default: '#f5f5f5' }};">
-  <div class="mx-container">
+  <div class="mx-fw">
 
-    {%- comment -%} BADGES (shown first on mobile) {%- endcomment -%}
-    <div class="mx-badges" aria-label="Trust badges">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'badge' -%}
-          <div class="mx-badge" {{ block.shopify_attributes }}>
-            <i class="fa-solid {{ block.settings.icon | escape }}" aria-hidden="true"></i>
-            <span class="mx-badge-text">{{ block.settings.label | escape }}</span>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-
-    {%- comment -%} SUBSCRIBE {%- endcomment -%}
-    <div class="mx-subscribe">
-      {%- if section.settings.subscribe_title != blank -%}
-        <div class="mx-subscribe-title">{{ section.settings.subscribe_title }}</div>
-      {%- endif -%}
-      {%- form 'customer', id: 'mx-newsletter' -%}
-        <input type="hidden" name="contact[tags]" value="newsletter">
-        <label class="sr-only" for="mx-newsletter-email">{{ 'newsletter.label' | t: default: 'Enter your email address' }}</label>
-        <input
-          id="mx-newsletter-email"
-          class="mx-input"
-          type="email"
-          name="contact[email]"
-          value="{{ form.email }}"
-          placeholder="{{ section.settings.placeholder | escape }}"
-          required
-          >
-        <button class="mx-btn" type="submit">{{ section.settings.button_label }}</button>
-        {%- if form.posted_successfully? -%}
-          <p class="mx-msg mx-success">{{ section.settings.success_msg }}</p>
-        {%- elsif form.errors -%}
-          <p class="mx-msg mx-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
-        {%- endif -%}
-      {%- endform -%}
-    </div>
-
-    {%- comment -%} SOCIALS (shown last on mobile) {%- endcomment -%}
+    <!-- SOCIALS (20%) -->
     <div class="mx-socials" aria-label="Social links">
       {%- if section.settings.facebook_url != blank -%}
         <a class="mx-social" href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">
@@ -74,46 +33,107 @@
       {%- endif -%}
     </div>
 
+    <!-- BADGES (60%) -->
+    <div class="mx-badges" aria-label="Trust badges">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'badge' -%}
+          <div class="mx-badge" {{ block.shopify_attributes }}>
+            <i class="fa-solid {{ block.settings.icon | escape }}" aria-hidden="true"></i>
+            <span class="mx-badge-text">{{ block.settings.label | escape }}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- SUBSCRIBE (20%) -->
+    <div class="mx-subscribe">
+      {%- form 'customer', id: 'mx-newsletter' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="sr-only" for="mx-newsletter-email">{{ 'newsletter.label' | t | default: 'Enter your email address' }}</label>
+        <div class="mx-input-wrap">
+          <input
+            id="mx-newsletter-email"
+            class="mx-input"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ section.settings.placeholder | escape }}"
+            required
+          >
+          <button class="mx-btn" type="submit">{{ section.settings.button_label }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="mx-msg mx-success">{{ section.settings.success_msg }}</p>
+        {%- elsif form.errors -%}
+          <p class="mx-msg mx-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+
   </div>
 </section>
 
 <style>
+  /* Full-bleed wrapper */
   .mx-footer-utils{color:#111; border-top:1px solid #eaeaea;}
-  .mx-container{max-width:1400px; margin:0 auto; padding:18px 16px; display:grid; gap:20px;
-    grid-template-columns: 1fr; grid-auto-flow: row;}
-  /* order on mobile (stacked): badges -> subscribe -> socials */
+  .mx-fw{
+    width:100%;
+    margin:0;                         /* full page width */
+    padding:18px 16px;
+    display:grid;
+    gap:20px;
+    grid-template-columns: 1fr;       /* mobile default (stacked) */
+    align-items:center;
+  }
+
+  /* Order on mobile: badges → subscribe → socials */
   .mx-badges{order:1;}
   .mx-subscribe{order:2;}
   .mx-socials{order:3;}
 
-  /* badges */
-  .mx-badges{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px; align-items:center; justify-items:center;}
-  .mx-badge{display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center;}
-  .mx-badge i{font-size:32px;}
+  /* Socials */
+  .mx-socials{display:flex; gap:18px; align-items:center; justify-content:flex-start;}
+  .mx-social{display:inline-flex; width:36px; height:36px; border:1px solid #cfcfcf; align-items:center; justify-content:center;}
+  .mx-social i{font-size:16px;}
+
+  /* Badges */
+  .mx-badges{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; justify-items:center;}
+  .mx-badge{display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;}
+  .mx-badge i{font-size:34px;}
   .mx-badge-text{font-size:14px; line-height:1.2; color:#333; text-transform:uppercase; letter-spacing:.02em;}
 
-  /* subscribe */
-  .mx-subscribe{display:flex; flex-direction:column; align-items:flex-start; gap:10px;}
-  .mx-subscribe-title{font-weight:600; font-size:14px; color:#333;}
-  .mx-input{height:42px; padding:0 12px; border:1px solid #cfcfcf; background:#fff; width:100%; max-width:360px;}
-  .mx-btn{height:42px; padding:0 16px; border:none; background:#111; color:#fff; cursor:pointer; margin-left:8px;}
-  #mx-newsletter{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
-  .mx-msg{font-size:13px; margin-top:4px}
+  /* Subscribe */
+  .mx-subscribe{display:flex; flex-direction:column; gap:8px; justify-self:stretch;}
+  .mx-input-wrap{display:flex; align-items:center; width:100%;}
+  .mx-input{
+    height:44px; padding:0 12px; border:1px solid #cfcfcf; background:#fff;
+    flex:1 1 auto; min-width:0;
+  }
+  .mx-btn{
+    height:44px; padding:0 16px; border:none; background:#111; color:#fff; cursor:pointer;
+    margin-left:8px; white-space:nowrap;
+  }
+  .mx-msg{font-size:13px; margin-top:6px}
   .mx-success{color:#17803d}
   .mx-error{color:#b00020}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
-  /* socials */
-  .mx-socials{display:flex; gap:16px; align-items:center;}
-  .mx-social{display:inline-flex; width:36px; height:36px; border:1px solid #cfcfcf; align-items:center; justify-content:center;}
-  .mx-social i{font-size:16px;}
-
-  /* desktop */
+  /* Desktop: 20% | 60% | 20% */
   @media (min-width: 992px){
-    .mx-container{grid-template-columns: 1fr auto 1fr; align-items:center;}
-    .mx-socials{justify-self:start; order:1;}
-    .mx-badges{grid-template-columns: repeat(3, minmax(0,1fr)); order:2;}
-    .mx-subscribe{justify-self:end; order:3;}
+    .mx-fw{
+      grid-template-columns: 20% 60% 20%;
+      gap:24px;
+      padding:22px 32px;
+    }
+    .mx-socials{order:1; justify-content:flex-start;}
+    .mx-badges{order:2; grid-template-columns:repeat(3, minmax(0,1fr));}
+    .mx-subscribe{order:3; align-items:flex-end;}
+    .mx-input-wrap{max-width:420px; width:100%;}
+  }
+
+  /* Optional: scale to 4–5 badges nicely on wide screens */
+  @media (min-width: 1280px){
+    .mx-badges{grid-template-columns:repeat(5, minmax(0,1fr));}
   }
 </style>
 
@@ -122,7 +142,6 @@
   "name": "MX Footer Utilities",
   "settings": [
     { "type": "color", "id": "bg", "label": "Background color", "default": "#f5f5f5" },
-    { "type": "text", "id": "subscribe_title", "label": "Subscribe title" },
     { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Enter your email address" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "SUBSCRIBE" },
     { "type": "text", "id": "success_msg", "label": "Success message", "default": "Thanks for subscribing!" },
@@ -137,19 +156,19 @@
       "type": "badge",
       "name": "Badge",
       "settings": [
-        { "type": "text", "id": "icon", "label": "FA icon class (without 'fa-solid ')", "default": "fa-truck-fast" },
+        { "type": "text", "id": "icon", "label": "FA icon (without 'fa-solid ')", "default": "fa-truck-fast" },
         { "type": "text", "id": "label", "label": "Label", "default": "Track Order" }
       ]
     }
   ],
-  "max_blocks": 6,
+  "max_blocks": 8,
   "presets": [
     {
       "name": "MX Footer Utilities",
       "blocks": [
         { "type": "badge", "settings": { "icon": "fa-truck-fast", "label": "Track Order" } },
         { "type": "badge", "settings": { "icon": "fa-globe", "label": "International Delivery" } },
-        { "type": "badge", "settings": { "icon": "fa-scissors", "label": "Boutique Stitching" } }
+        { "type": "badge", "settings": { "icon": "fa-scissors", "label": "Boutique Style Stitching" } }
       ]
     }
   ]
