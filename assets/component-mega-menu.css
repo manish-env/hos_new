@@ -58,7 +58,7 @@
 .mega-menu__list {
   display: grid;
   gap: 1.8rem 4rem;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   list-style: none;
 }
 
@@ -78,15 +78,14 @@
 }
 
 .header--top-center .mega-menu__list {
-  display: flex;
-  justify-content: flex-start; /* align from left instead of centered */
-  flex-wrap: wrap;
-  column-gap: 0;
+  display: grid; /* ensure consistent 5-column grid even for top-center header */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.8rem 4rem;
 }
 
 .header--top-center .mega-menu__list > li {
-  width: 16%;
-  padding-right: 2.4rem;
+  width: auto; /* grid controls sizing */
+  padding-right: 0;
 }
 
 .mega-menu__link:hover,
