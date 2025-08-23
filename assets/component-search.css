@@ -111,12 +111,18 @@ input::-webkit-search-decoration {
   border-bottom: 1px solid rgba(var(--color-foreground), 0.25) !important; /* only bottom border */
   border-radius: 0 !important;
   padding-left: 0 !important; /* align with text */
+  padding-right: 9.8rem; /* maintain room for buttons */
+  box-sizing: border-box;
 }
 
-/* Keep bottom border on focus and optionally darken slightly */
+/* Keep identical visual on hover/focus/active (no shift, no removal) */
+.header__search-inline--clean .search__input.field__input:hover,
 .header__search-inline--clean .search__input.field__input:focus,
-.header__search-inline--clean .search__input.field__input:focus-visible {
-  border-bottom-color: rgba(var(--color-foreground), 0.45) !important;
+.header__search-inline--clean .search__input.field__input:focus-visible,
+.header__search-inline--clean .search__input.field__input:active {
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.25) !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* Placeholder style */
