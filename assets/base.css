@@ -2852,6 +2852,26 @@ details[open] > .header__menu-item .header__active-menu-item {
   margin-right: auto;
 }
 
+/* Reduce internal padding inside mega menu */
+.mega-menu__content {
+  padding-top: 1.2rem !important;
+  padding-bottom: 1.2rem !important;
+}
+.mega-menu__content .mega-menu__list {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.mega-menu__content .mega-menu__list > li {
+  /* tighten column inner spacing */
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.mega-menu__content .list-unstyled li a.mega-menu__link {
+  /* tighten vertical rhythm for links */
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
 .global-settings-popup,
 .header__submenu.global-settings-popup {
   border-radius: var(--popup-corner-radius);
