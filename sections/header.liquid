@@ -152,7 +152,9 @@
       endif
 
       if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
+        unless section.settings.desktop_search_style == 'input'
+          render 'header-search', input_id: 'Search-In-Modal-1'
+        endunless
       endif
     -%}
 
