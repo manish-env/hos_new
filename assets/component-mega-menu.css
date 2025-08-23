@@ -93,10 +93,16 @@
   padding-right: 0;
 }
 
+/* Remove underline on hover/active globally */
 .mega-menu__link:hover,
 .mega-menu__link--active {
-  color: rgb(var(--color-foreground));
-  text-decoration: none; /* remove hover underline */
+  text-decoration: none;
+}
+
+/* Child links (under headings) hover/focus color */
+.mega-menu__link:not(.mega-menu__link--level-2):hover,
+.mega-menu__link:not(.mega-menu__link--level-2):focus-visible {
+  color: #FA05E8;
 }
 
 .mega-menu__link--active:hover {
