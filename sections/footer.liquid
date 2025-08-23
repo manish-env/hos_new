@@ -1,387 +1,176 @@
-{% comment %}theme-check-disable UndefinedObject{% endcomment %}
-{{ 'section-footer.css' | asset_url | stylesheet_tag }}
-{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{% comment %}
+  MX Footer Utilities (Full Width)
+  Desktop: 20% Socials | 60% Badges | 20% Subscribe
+  Mobile:  Badges → Subscribe → Socials (stacked)
+{% endcomment %}
 
-{%- style -%}
-  .footer {
-    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
-  }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
+<section class="mx-footer-utils" style="background: {{ section.settings.bg | default: '#f5f5f5' }};">
+  <div class="mx-fw">
 
-  @media screen and (min-width: 750px) {
-    .footer {
-      margin-top: {{ section.settings.margin_top }}px;
-    }
-
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
-{%- liquid
-  assign has_social_icons = true
-  if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
-    assign has_social_icons = false
-  endif
--%}
-
-<footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
-  <div class="footer__utility-bar page-width">
-    <div class="footer__utility-left">
-      {%- if section.settings.show_social and has_social_icons -%}
-        {%- render 'social-icons', class: 'footer__list-social' -%}
+    <!-- SOCIALS (20%) -->
+    <div class="mx-socials" aria-label="Social links">
+      {%- if section.settings.facebook_url != blank -%}
+        <a class="mx-social" href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.blog_url != blank -%}
+        <a class="mx-social" href="{{ section.settings.blog_url }}" aria-label="Blog">
+          <i class="fa-solid fa-rss" aria-hidden="true"></i>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.instagram_url != blank -%}
+        <a class="mx-social" href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+        </a>
+      {%- endif -%}
+      {%- if section.settings.youtube_url != blank -%}
+        <a class="mx-social" href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube">
+          <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+        </a>
       {%- endif -%}
     </div>
-    <div class="footer__utility-center">
-      <ul class="footer__utility-features" role="list">
-        <li class="utility-feature">
-          <i class="fa-solid fa-truck" aria-hidden="true"></i>
-          <span>Track Order</span>
-        </li>
-        <li class="utility-feature">
-          <i class="fa-solid fa-globe" aria-hidden="true"></i>
-          <span>International Delivery</span>
-        </li>
-        <li class="utility-feature">
-          <i class="fa-solid fa-scissors" aria-hidden="true"></i>
-          <span>Boutique Style Stitching</span>
-        </li>
-      </ul>
-    </div>
-    <div class="footer__utility-right">
-      {%- if section.settings.newsletter_enable -%}
-        <div class="footer__utility-newsletter">
-          {%- form 'customer', id: 'ContactFooterUtility', class: 'newsletter-form' -%}
-            <input type="hidden" name="contact[tags]" value="newsletter">
-            <div class="newsletter-form__field-wrapper">
-              <div class="field field--inline">
-                <input
-                  id="NewsletterFormUtility--{{ section.id }}"
-                  type="email"
-                  name="contact[email]"
-                  class="field__input"
-                  value="{{ form.email }}"
-                  aria-required="true"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  autocomplete="email"
-                  placeholder="{{ 'newsletter.label' | t }}"
-                  required
-                >
-                <label class="field__label" for="NewsletterFormUtility--{{ section.id }}">
-                  {{ 'newsletter.label' | t }}
-                </label>
-                <button type="submit" class="button button--primary newsletter-submit" name="commit" aria-label="{{ 'newsletter.button_label' | t }}">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          {%- endform -%}
-        </div>
-      {%- endif -%}
-    </div>
-  </div>
-  {% comment %} Removed legacy second row (original footer__content-top and extra newsletter/social) {% endcomment %}
 
-  <div
-    class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    {% if settings.animations_reveal_on_scroll %}
-      data-cascade
-    {% endif %}
-  >
-    <div class="footer__content-bottom-wrapper page-width">
-      <div class="footer__column footer__localization isolate">
-        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-          <localization-form>
-            {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-              <div>
-                <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
-                {%- render 'country-localization', localPosition: 'FooterCountry' -%}
-              </div>
-            {%- endform -%}
-          </localization-form>
-        {%- endif -%}
-
-        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-          <localization-form>
-            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-              <div>
-                <h2 class="caption-large text-body" id="FooterLanguageLabel">
-                  {{ 'localization.language_label' | t }}
-                </h2>
-                {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
-              </div>
-            {%- endform -%}
-          </localization-form>
-        {%- endif -%}
-      </div>
-      <div class="footer__column footer__column--info">
-        {%- if section.settings.payment_enable -%}
-          <div class="footer__payment">
-            <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
-            <ul class="list list-payment" role="list">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="list-payment__item">
-                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                </li>
-              {%- endfor -%}
-            </ul>
+    <!-- BADGES (60%) -->
+    <div class="mx-badges" aria-label="Trust badges">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'badge' -%}
+          <div class="mx-badge" {{ block.shopify_attributes }}>
+            <i class="fa-solid {{ block.settings.icon | escape }}" aria-hidden="true"></i>
+            <span class="mx-badge-text">{{ block.settings.label | escape }}</span>
           </div>
         {%- endif -%}
-      </div>
+      {%- endfor -%}
     </div>
-    <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
-      <div class="footer__copyright caption">
-        <small class="copyright__content"
-          >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
-        </small>
-        <small class="copyright__content">{{ powered_by_link }}</small>
-        {%- if section.settings.show_policy -%}
-          <ul class="policies list-unstyled">
-            {%- for policy in shop.policies -%}
-              {%- if policy != blank -%}
-                <li>
-                  <small class="copyright__content"
-                    ><a href="{{ policy.url }}">{{ policy.title | escape }}</a></small
-                  >
-                </li>
-              {%- endif -%}
-            {%- endfor -%}
-          </ul>
+
+    <!-- SUBSCRIBE (20%) -->
+    <div class="mx-subscribe">
+      {%- form 'customer', id: 'mx-newsletter' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label class="sr-only" for="mx-newsletter-email">{{ 'newsletter.label' | t | default: 'Enter your email address' }}</label>
+        <div class="mx-input-wrap">
+          <input
+            id="mx-newsletter-email"
+            class="mx-input"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ section.settings.placeholder | escape }}"
+            required
+          >
+          <button class="mx-btn" type="submit">{{ section.settings.button_label }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="mx-msg mx-success">{{ section.settings.success_msg }}</p>
+        {%- elsif form.errors -%}
+          <p class="mx-msg mx-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
         {%- endif -%}
-      </div>
+      {%- endform -%}
     </div>
+
   </div>
-</footer>
+</section>
+
+<style>
+  /* Full-bleed wrapper */
+  .mx-footer-utils{color:#111; border-top:1px solid #eaeaea;}
+  .mx-fw{
+    width:100%;
+    margin:0;                         /* full page width */
+    padding:18px 16px;
+    display:grid;
+    gap:20px;
+    grid-template-columns: 1fr;       /* mobile default (stacked) */
+    align-items:center;
+  }
+
+  /* Order on mobile: badges → subscribe → socials */
+  .mx-badges{order:1;}
+  .mx-subscribe{order:2;}
+  .mx-socials{order:3;}
+
+  /* Socials */
+  .mx-socials{display:flex; gap:18px; align-items:center; justify-content:flex-start;}
+  .mx-social{display:inline-flex; width:36px; height:36px; border:1px solid #cfcfcf; align-items:center; justify-content:center;}
+  .mx-social i{font-size:16px;}
+
+  /* Badges */
+  .mx-badges{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; justify-items:center;}
+  .mx-badge{display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;}
+  .mx-badge i{font-size:34px;}
+  .mx-badge-text{font-size:14px; line-height:1.2; color:#333; text-transform:uppercase; letter-spacing:.02em;}
+
+  /* Subscribe */
+  .mx-subscribe{display:flex; flex-direction:column; gap:8px; justify-self:stretch;}
+  .mx-input-wrap{display:flex; align-items:center; width:100%;}
+  .mx-input{
+    height:44px; padding:0 12px; border:1px solid #cfcfcf; background:#fff;
+    flex:1 1 auto; min-width:0;
+  }
+  .mx-btn{
+    height:44px; padding:0 16px; border:none; background:#111; color:#fff; cursor:pointer;
+    margin-left:8px; white-space:nowrap;
+  }
+  .mx-msg{font-size:13px; margin-top:6px}
+  .mx-success{color:#17803d}
+  .mx-error{color:#b00020}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+  /* Desktop: 20% | 60% | 20% */
+  @media (min-width: 992px){
+    .mx-fw{
+      grid-template-columns: 20% 60% 20%;
+      gap:24px;
+      padding:22px 32px;
+    }
+    .mx-socials{order:1; justify-content:flex-start;}
+    .mx-badges{order:2; grid-template-columns:repeat(3, minmax(0,1fr));}
+    .mx-subscribe{order:3; align-items:flex-end;}
+    .mx-input-wrap{max-width:420px; width:100%;}
+  }
+
+  /* Optional: scale to 4–5 badges nicely on wide screens */
+  @media (min-width: 1280px){
+    .mx-badges{grid-template-columns:repeat(5, minmax(0,1fr));}
+  }
+</style>
 
 {% schema %}
 {
-  "name": "t:sections.footer.name",
+  "name": "MX Footer Utilities",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Background color", "default": "#f5f5f5" },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "SUBSCRIBE" },
+    { "type": "text", "id": "success_msg", "label": "Success message", "default": "Thanks for subscribing!" },
+
+    { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "url", "id": "youtube_url", "label": "YouTube URL" },
+    { "type": "url", "id": "blog_url", "label": "Blog URL" }
+  ],
   "blocks": [
     {
-      "type": "@app"
-    },
-    {
-      "type": "link_list",
-      "name": "t:sections.footer.blocks.link_list.name",
+      "type": "badge",
+      "name": "Badge",
       "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "default": "t:sections.footer.blocks.link_list.settings.heading.default",
-          "label": "t:sections.footer.blocks.link_list.settings.heading.label"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "default": "footer",
-          "label": "t:sections.footer.blocks.link_list.settings.menu.label"
-        }
-      ]
-    },
-    {
-      "type": "brand_information",
-      "name": "t:sections.footer.blocks.brand_information.name",
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "t:sections.footer.blocks.brand_information.settings.paragraph.content"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_social",
-          "default": true,
-          "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
-          "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "name": "t:sections.footer.blocks.text.name",
-      "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "default": "t:sections.footer.blocks.text.settings.heading.default",
-          "label": "t:sections.footer.blocks.text.settings.heading.label"
-        },
-        {
-          "type": "richtext",
-          "id": "subtext",
-          "default": "t:sections.footer.blocks.text.settings.subtext.default",
-          "label": "t:sections.footer.blocks.text.settings.subtext.label"
-        }
-      ]
-    },
-    {
-      "type": "image",
-      "name": "Image",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "range",
-          "id": "image_width",
-          "min": 50,
-          "max": 550,
-          "step": 5,
-          "unit": "px",
-          "label": "Width",
-          "default": 100
-        },
-        {
-          "type": "select",
-          "id": "alignment",
-          "label": "Alignment",
-          "options": [
-            {
-              "value": "",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "right",
-              "label": "Right"
-            }
-          ],
-          "default": "center"
-        }
+        { "type": "text", "id": "icon", "label": "FA icon (without 'fa-solid ')", "default": "fa-truck-fast" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Track Order" }
       ]
     }
   ],
-  "settings": [
+  "max_blocks": 8,
+  "presets": [
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.footer.settings.header__1.content",
-      "info": "t:sections.footer.settings.header__1.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "newsletter_enable",
-      "default": true,
-      "label": "t:sections.footer.settings.newsletter_enable.label"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "newsletter_heading",
-      "default": "t:sections.footer.settings.newsletter_heading.default",
-      "label": "t:sections.footer.settings.newsletter_heading.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.footer.settings.header__9.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_follow_on_shop",
-      "default": true,
-      "label": "t:sections.footer.settings.enable_follow_on_shop.label",
-      "info": "t:sections.footer.settings.enable_follow_on_shop.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_social",
-      "default": true,
-      "label": "t:sections.footer.settings.show_social.label",
-      "info": "t:sections.footer.settings.show_social.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_country_selector",
-      "default": true,
-      "label": "t:sections.footer.settings.enable_country_selector.label",
-      "info": "t:sections.footer.settings.enable_country_selector.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_language_selector",
-      "default": true,
-      "label": "t:sections.footer.settings.enable_language_selector.label",
-      "info": "t:sections.footer.settings.enable_language_selector.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "payment_enable",
-      "default": true,
-      "label": "t:sections.footer.settings.payment_enable.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_policy",
-      "default": true,
-      "label": "t:sections.footer.settings.show_policy.label",
-      "info": "t:sections.footer.settings.show_policy.info"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.spacing"
-    },
-    {
-      "type": "range",
-      "id": "margin_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.footer.settings.margin_top.label",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "name": "MX Footer Utilities",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "fa-truck-fast", "label": "Track Order" } },
+        { "type": "badge", "settings": { "icon": "fa-globe", "label": "International Delivery" } },
+        { "type": "badge", "settings": { "icon": "fa-scissors", "label": "Boutique Style Stitching" } }
+      ]
     }
-  ],
-  "default": {
-    "blocks": [
-      {
-        "type": "link_list"
-      },
-      {
-        "type": "text"
-      }
-    ]
-  }
+  ]
 }
 {% endschema %}
