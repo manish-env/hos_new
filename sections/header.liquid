@@ -99,12 +99,13 @@
   }
 
   /* Account text instead of profile icon */
-  .header__account-text { display: block; }
-  .header__account-text a { color: rgb(var(--color-foreground)); text-decoration: none; }
+  .header__account-text { display: inline-flex; align-items: center; }
+  .header__account-text a { color: rgb(var(--color-foreground)); text-decoration: none; display: inline-block; line-height: 1; }
   .header__account-text a:hover { opacity: 0.8; }
   .header__account-text .account-sep { margin: 0 0.4rem; color: rgba(var(--color-foreground), 0.7); }
 
   /* Ensure all header icon links are inline-flex and have no underline */
+  .header .header__icons { display: inline-flex; align-items: center; }
   .header .header__icons a.header__icon { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; line-height: 0; text-decoration: none !important; border-bottom: 0 !important; text-decoration-color: transparent !important; }
   .header .header__icons a.header__icon:hover,
   .header .header__icons a.header__icon:focus { text-decoration: none !important; border-bottom: 0 !important; }
@@ -113,8 +114,8 @@
   .header__icon--heart { color: #FA05E8; margin: 0 0.4rem; }
   .header__icon--heart i { font-size: 20px; line-height: 1; display: block; vertical-align: middle; }
   .header__icon--cart { color: #FA05E8; margin-left: 0; }
+  .header__icon--cart i { font-size: 20px; line-height: 1; display: block; vertical-align: middle; }
   .header__icon .svg-wrapper { display: block; line-height: 0; }
-  .header__icon--cart .svg-wrapper svg { width: 20px; height: 20px; display: block; vertical-align: middle; }
 </style>
 
 {%- style -%}
@@ -322,11 +323,7 @@
       </a>
 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-        {% if cart == empty %}
-          <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
-        {% else %}
-          <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
-        {% endif %}
+        <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
         <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
         {%- if cart != empty -%}
           <div class="cart-count-bubble">
