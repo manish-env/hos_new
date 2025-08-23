@@ -31,22 +31,6 @@
     padding-left: calc(4rem / var(--font-body-scale));
     padding-right: calc(4rem / var(--font-body-scale));
   }
-  
-  /* Mobile brand info styling */
-  .footer-block__brand-info .rte {
-    font-size: 1.3rem;
-    max-width: 100%;
-    text-align: center;
-  }
-  
-  .footer-block__brand-info .footer-block__heading {
-    font-size: 1.6rem;
-    text-align: center;
-  }
-  
-  .footer-block__brand-info .footer-block__image-wrapper {
-    margin: 0 auto 1.5rem auto;
-  }
 }
 
 @media screen and (min-width: 750px) {
@@ -296,12 +280,6 @@
   }
 }
 
-@media screen and (max-width: 989px) {
-  .footer__localization noscript {
-    width: 100%;
-  }
-}
-
 @media screen and (min-width: 750px) {
   .footer__payment {
     margin-top: 1.5rem;
@@ -438,33 +416,6 @@
   text-align: left;
 }
 
-/* Brand description styling */
-.footer-block__brand-info .rte {
-  margin-top: 1.5rem;
-  font-size: 1.4rem;
-  line-height: 1.6;
-  color: rgba(var(--color-foreground), 0.75);
-  max-width: 300px;
-}
-
-.footer-block__brand-info .rte p {
-  margin: 0 0 1rem 0;
-}
-
-.footer-block__brand-info .rte p:last-child {
-  margin-bottom: 0;
-}
-
-/* Brand headline styling */
-.footer-block__brand-info .footer-block__heading {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: var(--color-foreground);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
 .footer-block:only-child .footer-block__brand-info {
   text-align: center;
 }
@@ -485,8 +436,6 @@
 
 .footer-block__brand-info .footer__list-social.list-social {
   justify-content: flex-start;
-  margin-left: -1.3rem;
-  margin-right: -1.3rem;
 }
 
 .footer-block__details-content .placeholder-svg {

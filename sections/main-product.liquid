@@ -1,7 +1,13 @@
-<section
+<product-info
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
   data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+  {% if section.settings.image_zoom == 'hover' %}
+    data-zoom-on-hover
+  {% endif %}
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
@@ -9,8 +15,6 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
-  {{ 'component-mobile-sticky-buy-bar.css' | asset_url | stylesheet_tag }}
-  {{ 'component-desktop-sticky-buy-bar.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -26,19 +30,6 @@
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-    
-    /* Remove outlines and borders */
-    #ProductInfo-{{ section.id }},
-    #ProductInfo-{{ section.id }} *:focus,
-    #ProductInfo-{{ section.id }} *:active,
-    .product__info-container,
-    .product__info-container *:focus,
-    .product__info-container *:active,
-    .simple-size-btn:focus,
-    .simple-size-btn:active {
-      outline: none !important;
-      box-shadow: none !important;
-    }
 
     @media screen and (min-width: 750px) {
       .section-{{ section.id }}-padding {
@@ -46,922 +37,14 @@
         padding-bottom: {{ section.settings.padding_bottom }}px;
       }
     }
-    
-    /* Optimized badge styling */
-    .badge {
-      background-color: #483730 !important;
-      color: #F6F1EB !important;
-      font-weight: bold;
-    }
-
-    /* Discount badge styling */
-    .price__badge-sale {
-      background-color: #C71E64 !important;
-    }
-    
-         /* Price styling */
-     .price-item--regular {
-       font-size: 0.9rem !important;
-     }
-
-     .price-item--sale {
-       font-size: 1.5rem !important;
-       font-weight: 600 !important;
-     }
-     
-         /* Stitching Services Styling */
-    .stitching-services {
-      margin: 2rem 0;
-      padding: 1.5rem;
-      border: 1px solid rgba(var(--color-foreground), 0.08);
-      border-radius: 8px;
-      background: rgba(var(--color-background), 0.8);
-      /* Removed box-shadow for cleaner look */
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stitching-services::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #520000, #483730);
-      border-radius: 8px 8px 0 0;
-    }
-
-     .stitching-services__title {
-       font-size: 18px;
-       font-weight: 500;
-       margin: 0 0 1.25rem 0;
-       color: rgb(var(--color-foreground));
-       font-family: inherit;
-       display: flex;
-       align-items: center;
-       gap: 0.5rem;
-     }
-
-     .stitching-services__title::before {
-       content: '';
-       display: none;
-     }
-
-     .stitching-services__options {
-       display: flex;
-       flex-direction: column;
-       gap: 0.75rem;
-       margin-bottom: 1.5rem;
-     }
-
-     .stitching-option {
-       display: flex;
-       align-items: flex-start;
-       cursor: pointer;
-       padding: 0.75rem 1rem;
-       border-radius: 6px;
-       border: 1px solid rgba(var(--color-foreground), 0.08);
-       background: rgba(var(--color-background), 0.5);
-       transition: all 0.3s ease;
-       position: relative;
-       flex-direction: column;
-       gap: 0.25rem;
-     }
-
-     .stitching-option:hover {
-       background: rgba(var(--color-foreground), 0.03);
-       border-color: rgba(var(--color-foreground), 0.15);
-       transform: translateY(-1px);
-       box-shadow: 0 4px 12px rgba(var(--color-foreground), 0.08);
-     }
-
-     .stitching-option input[type="radio"] {
-       position: absolute;
-       top: 0.75rem;
-       left: 1rem;
-       margin: 0;
-       accent-color: transparent;
-       transform: scale(1.2);
-       opacity: 0;
-     }
-
-     .stitching-option input[type="radio"]:checked + .stitching-option__label {
-       color: #520000;
-       font-weight: 600;
-     }
-
-     .stitching-option input[type="radio"]:checked ~ .stitching-option {
-       border-color: #520000;
-       background: rgba(82, 0, 0, 0.05);
-     }
-
-     .stitching-option:has(input[type="radio"]:checked) {
-       border-color: #520000;
-       background: rgba(82, 0, 0, 0.05);
-       /* Removed box-shadow to fix multiple border layers */
-     }
-
-     .stitching-option:focus-within {
-       /* outline removed to prevent additional borders */
-     }
-
-     .stitching-option input[type="radio"]:focus {
-       outline: none;
-     }
-
-     .stitching-option__label {
-       font-size: 16px;
-       font-weight: 500;
-       color: rgb(var(--color-foreground));
-       font-family: inherit;
-       flex: 1;
-       margin-left: 2.5rem;
-       line-height: 1.3;
-       transition: color 0.2s ease;
-     }
-
-     .stitching-option__description {
-       font-size: 14px;
-       color: rgba(var(--color-foreground), 0.7);
-       margin-left: 2.5rem;
-       line-height: 1.4;
-       font-weight: 400;
-       transition: color 0.2s ease;
-     }
-     
-     .stitching-option__price {
-       font-size: 16px;
-       font-weight: 600;
-       color: #C71E64;
-       margin-left: 2.5rem;
-       margin-top: 0.25rem;
-       display: block;
-       background: rgba(199, 30, 100, 0.1);
-       padding: 0.25rem 0.5rem;
-       border-radius: 4px;
-       border: 1px solid rgba(199, 30, 100, 0.2);
-     }
-
-     .stitching-option:hover .stitching-option__description {
-       color: rgba(var(--color-foreground), 0.8);
-     }
-
-     .stitching-option:has(input[type="radio"]:checked) .stitching-option__description {
-       color: rgba(82, 0, 0, 0.8);
-     }
-     
-     /* Total Price Display Styling */
-     .stitching-total-price {
-       margin-top: 1.5rem;
-       padding: 1.5rem;
-       background: rgba(var(--color-background), 0.8);
-       border: 1px solid rgba(var(--color-foreground), 0.1);
-       border-radius: 8px;
-       animation: fadeInUp 0.4s ease-out;
-     }
-     
-     .total-price-row {
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-       margin-bottom: 0.75rem;
-       padding: 0.5rem 0;
-       border-bottom: 1px solid rgba(var(--color-foreground), 0.05);
-     }
-     
-     .total-price-row:last-child {
-       margin-bottom: 0;
-       border-bottom: none;
-     }
-     
-     .total-price-label {
-       font-size: 16px;
-       font-weight: 500;
-       color: rgb(var(--color-foreground));
-     }
-     
-     .total-price-value {
-       font-size: 16px;
-       font-weight: 600;
-       color: rgb(var(--color-foreground));
-     }
-     
-     .total-price-final {
-       margin-top: 1rem;
-       padding-top: 1rem;
-       border-top: 2px solid rgba(var(--color-foreground), 0.1);
-       font-size: 18px;
-       font-weight: 700;
-     }
-     
-     .total-price-final .total-price-value {
-       color: #C71E64;
-       font-size: 18px;
-     }
-
-     .stitching-sizes {
-       margin-top: 1rem;
-       padding: 1.25rem;
-       border: 1px solid rgba(var(--color-foreground), 0.06);
-       border-radius: 6px;
-       background: rgba(var(--color-background), 0.6);
-       animation: fadeInUp 0.4s ease-out;
-       position: relative;
-     }
-
-     .stitching-sizes::before {
-       content: '';
-       position: absolute;
-       top: 0;
-       left: 0;
-       right: 0;
-       height: 2px;
-       background: linear-gradient(90deg, rgba(82, 0, 0, 0.3), rgba(72, 55, 48, 0.3));
-       border-radius: 6px 6px 0 0;
-     }
-
-     @keyframes fadeInUp {
-       from {
-         opacity: 0;
-         transform: translateY(10px);
-       }
-       to {
-         opacity: 1;
-         transform: translateY(0);
-       }
-     }
-
-
-     
-     .AirReviews-Blocks--Rate{
-      background:transparent !important;
-     }
-
-     .AirReviews-Blocks--List{
-      background:transparent !important;
-     }
-     .AirReviews-Widget__FloatButton{
-      display:none !important;
-     }
-
-     AirReviews-Blocks--Actions{
-background:transparent !important;
-     }
-     .stitching-sizes__title {
-       font-size: 16px;
-       font-weight: 600;
-       margin: 0 0 1rem 0;
-       color: rgb(var(--color-foreground));
-       font-family: inherit;
-       display: flex;
-       align-items: center;
-       gap: 0.5rem;
-     }
-
-     .stitching-sizes__title::before {
-       content: '';
-       display: none;
-     }
-
-     .stitching-sizes__options {
-       display: flex;
-       flex-wrap: wrap;
-       gap: 0.75rem;
-     }
-
-     .size-option {
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       cursor: pointer;
-       padding: 0.6rem 1rem;
-       border: 1px solid rgba(var(--color-foreground), 0.1);
-       border-radius: 4px;
-       background: rgba(var(--color-background), 0.8);
-       transition: all 0.3s ease;
-       min-width: 60px;
-       position: relative;
-     }
-
-     .size-option:hover {
-       background: rgba(var(--color-foreground), 0.05);
-       border-color: rgba(var(--color-foreground), 0.2);
-       transform: translateY(-1px);
-       box-shadow: 0 2px 8px rgba(var(--color-foreground), 0.1);
-     }
-
-     .size-option:focus-within {
-       /* outline removed to prevent additional borders */
-     }
-
-     .size-option input[type="radio"] {
-       position: absolute;
-       opacity: 0;
-       pointer-events: none;
-     }
-
-     .size-option input[type="radio"]:checked + .size-option__label {
-       color: #520000;
-       font-weight: 600;
-     }
-
-     .size-option:has(input[type="radio"]:checked) {
-       border-color: #520000;
-       background: rgba(82, 0, 0, 0.08);
-     }
-
-     .size-option__label {
-       font-size: 16px;
-       font-weight: 500;
-       color: rgb(var(--color-foreground));
-       font-family: inherit;
-       text-align: center;
-       min-width: 20px;
-       transition: color 0.2s ease;
-       display: block; /* Centered content */
-       width: 100%; /* Centered content */
-     }
-     #wishlisthero-product-page-button-container{
-      display:none !important;
-     }
-
-     @media screen and (max-width: 749px) {
-       .stitching-services {
-         margin: 1.5rem 0;
-         padding: 1.25rem;
-         border-radius: 6px;
-       }
-
-       .stitching-services__title {
-         font-size: 17px;
-         margin-bottom: 1rem;
-       }
-
-       .stitching-option {
-         padding: 0.6rem 0.8rem;
-         gap: 0.2rem;
-       }
-
-       .stitching-option input[type="radio"] {
-         top: 0.6rem;
-         left: 0.8rem;
-       }
-
-       .stitching-option__label,
-       .stitching-option__description {
-         margin-left: 2.2rem;
-       }
-
-       .stitching-sizes {
-         padding: 1rem;
-         margin-top: 0.75rem;
-       }
-
-       .stitching-sizes__options {
-         gap: 0.6rem;
-       }
-
-       .size-option {
-         padding: 0.5rem 0.8rem;
-         min-width: 55px;
-       }
-       
-       .stitching-total-price {
-         margin-top: 1rem;
-         padding: 1.25rem;
-       }
-       
-       .total-price-row {
-         font-size: 15px;
-         margin-bottom: 0.5rem;
-       }
-       
-       .total-price-final {
-         font-size: 17px;
-       }
-     }
-     
-     /* Performance optimizations */
-    .product__media-wrapper img {
-      will-change: transform;
-      backface-visibility: hidden;
-    }
-
-
-
-    /* Enhanced sticky behavior */
-    .product__column-sticky {
-      transition: top 0.3s ease;
-    }
-
-    /* Improved loading states */
-    .product__media-wrapper.loading {
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
-    }
-
-    /* Enhanced accessibility */
-    .product__info-container:focus-within {
-      outline: 2px solid rgba(var(--color-foreground), 0.5);
-      outline-offset: 2px;
-    }
-    
-
-      color: rgb(var(--color-foreground));
-      font-size: 1.4rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      min-width: 4rem;
-      text-align: center;
-    }
-    
-    .size-btn:hover {
-      border-color: rgba(var(--color-foreground), 0.4);
-      background: rgba(var(--color-foreground), 0.05);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(var(--color-foreground), 0.1);
-    }
-    
-    .size-btn.selected {
-      background: rgb(var(--color-foreground));
-      color: rgb(var(--color-background));
-      border-color: rgb(var(--color-foreground));
-    }
-    
-    /* Custom Measurements Form Styling */
-    .custom-measurements-form {
-      margin-top: 1rem;
-      padding: 1.5rem;
-      border: 2px solid rgba(var(--color-foreground), 0.1);
-      border-radius: 0.8rem;
-      background: rgba(var(--color-foreground), 0.02);
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-    
-    .custom-measurements-form.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .custom-measurements-form h4 {
-      margin: 0 0 1.5rem 0;
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: rgb(var(--color-foreground));
-      text-align: center;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid rgba(var(--color-foreground), 0.1);
-    }
-    
-    .measurements-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-    
-    .measurement-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      position: relative;
-    }
-    
-    .measurement-field label {
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: rgb(var(--color-foreground));
-    }
-    
-    .measurement-input {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid rgba(var(--color-foreground), 0.2);
-      border-radius: 0.4rem;
-      font-size: 1.4rem;
-      background: white;
-      transition: all 0.2s ease;
-    }
-    
-    .measurement-input:focus {
-      outline: none;
-      border-color: rgb(var(--color-foreground));
-      box-shadow: 0 0 0 2px rgba(var(--color-foreground), 0.1);
-    }
-    
-    .measurement-input:hover {
-      border-color: rgba(var(--color-foreground), 0.4);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(var(--color-foreground), 0.1);
-    }
-    
-    .unit {
-      position: absolute;
-      right: 1rem;
-      top: 2.8rem;
-      font-size: 1.2rem;
-      color: rgba(var(--color-foreground), 0.6);
-      pointer-events: none;
-    }
-    
-    .selected-size-display {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(var(--color-foreground), 0.05);
-      border-radius: 0.4rem;
-      border: 1px solid rgba(var(--color-foreground), 0.1);
-      text-align: center;
-    }
-    
-    .selected-size-label {
-      font-weight: 500;
-      margin-right: 0.5rem;
-    }
-    
-    .selected-size-text {
-      font-weight: 600;
-      color: rgb(var(--color-foreground));
-    }
-    
-    /* Processing Note Styling */
-    .processing-note {
-      margin-top: 1rem;
-      padding: 1rem;
-      background: rgba(255, 193, 7, 0.1);
-      border: 1px solid rgba(255, 193, 7, 0.3);
-      border-radius: 0.4rem;
-      text-align: center;
-    }
-    
-    .processing-note em {
-      color: #856404;
-      font-size: 1.3rem;
-    }
-    
-
-    
-
-      color: #666;
-    }
-    
-    .measurement-item strong {
-      color: #333;
-    }
-    
-    /* Product Title H2 Styling */
-    .product-title-h2 {
-      font-weight: 500;
-      font-size: 2.4rem;
-      line-height: 1.2;
-      margin: 0 0 1rem 0;
-      color: rgb(var(--color-foreground));
-    }
-    
-    @media screen and (max-width: 749px) {
-      .product-title-h2 {
-        font-size: 2rem;
-      }
-    }
-    
-    /* Custom Measurements Styles */
-    .custom-measurements {
-      margin-top: 1rem;
-      /* Removed padding and border for cleaner look */
-      /* padding: 1.25rem; */
-      /* border: 1px solid rgba(var(--color-foreground), 0.06); */
-      border-radius: 6px;
-      background: rgba(var(--color-background), 0.6);
-      animation: fadeInUp 0.4s ease-out;
-      position: relative;
-    }
-    .custom-measurements::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(82, 0, 0, 0.3), rgba(72, 55, 48, 0.3));
-      border-radius: 6px 6px 0 0;
-    }
-    
-    .custom-measurements__title {
-       font-size: 16px;
-       font-weight: 400; /* Changed from 600 to normal */
-       margin: 0 0 1rem 0;
-       color: rgb(var(--color-foreground));
-       font-family: inherit;
-       display: flex;
-       align-items: center;
-       justify-content: flex-start; /* Changed from center to left-align */
-       gap: 0.5rem;
-     }
-     
-     .custom-measurements::before {
-       /* Removed separator line */
-       display: none;
-     }
-     
-    .custom-measurements__inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .measurement-row {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap; /* Added to prevent overflow */
-    }
-    
-    .measurement-input {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      min-width: 0; /* Added to prevent flex item overflow */
-    }
-    
-    .measurement-input label {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgb(var(--color-foreground));
-      font-family: inherit;
-    }
-    
-    .measurement-input input {
-      padding: 0.75rem;
-      border: 1px solid rgba(var(--color-foreground), 0.1);
-      border-radius: 4px;
-      background: rgba(var(--color-background), 0.8);
-      font-size: 16px;
-      font-family: inherit;
-      color: rgb(var(--color-foreground));
-      transition: all 0.3s ease;
-    }
-    
-    .measurement-input input:focus {
-      outline: none;
-      border-color: #520000;
-      box-shadow: 0 0 0 2px rgba(82, 0, 0, 0.1);
-    }
-    
-    .measurement-input input::placeholder {
-      color: rgba(var(--color-foreground), 0.5);
-    }
-    
-    /* Mobile responsive adjustments */
-    @media screen and (max-width: 749px) {
-      .measurement-row {
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-      
-      .custom-measurements {
-        padding: 1rem;
-      }
-      
-      .custom-measurements__title {
-        font-size: 15px;
-      }
-      
-      .measurement-input input {
-        font-size: 15px;
-        padding: 0.6rem;
-      }
-      
-      /* Ensure proper column layout on mobile */
-      .measurement-input {
-        flex: none;
-        width: 100%;
-      }
-    }
-
-    /* Summary total with stitching styling */
-    .stitching-summary-price {
-      background: rgba(var(--color-foreground), 0.03);
-      border: 1px solid rgba(var(--color-foreground), 0.08);
-      border-radius: 6px;
-      padding: 0.75rem 1rem;
-    }
-    .stitching-summary-row { display: flex; justify-content: space-between; align-items: center; }
-    .stitching-summary-label { font-size: 1.4rem; font-weight: 500; color: rgba(var(--color-foreground), 0.9); }
-    .stitching-summary-value { font-size: 1.5rem; font-weight: 700; color: #C71E64; }
-
   {%- endstyle -%}
 
-  <!-- Optimized script loading with preload hints -->
-  <link rel="preload" href="{{ 'product-info.js' | asset_url }}" as="script">
-  <link rel="preload" href="{{ 'product-form.js' | asset_url }}" as="script">
-  
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   {%- if product.quantity_price_breaks_configured? -%}
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
-
-  <!-- Enhanced image loading optimization -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Enhanced image loading optimization
-      const productImages = document.querySelectorAll('.product__media-wrapper img');
-      productImages.forEach(img => {
-        if (img.loading !== 'lazy') {
-          img.loading = 'lazy';
-        }
-        
-        // Add intersection observer for better performance
-        if ('IntersectionObserver' in window) {
-          const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                const img = entry.target;
-                img.classList.remove('loading');
-                observer.unobserve(img);
-              }
-            });
-          });
-          
-          imageObserver.observe(img);
-        }
-      });
-    });
-  </script>
-
-  <!-- Stitching Services JavaScript -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const sectionId = '{{ section.id }}';
-      const stitchingServiceRadios = document.querySelectorAll('input[name="stitching-service"]');
-      const stitchingOptionLabels = document.querySelectorAll('.stitching-option');
-      const stitchingSizes = document.getElementById(`stitching-sizes-${sectionId}`);
-      const customMeasurements = document.getElementById(`custom-measurements-${sectionId}`);
-      const sizeRadios = document.querySelectorAll('input[name="stitching-size"]');
-      
-      // Track current variant price (cents)
-      let currentVariantPrice = {{ product.selected_or_first_available_variant.price }};
-      
-      // Read service prices from DOM data attributes to avoid template desync
-      function getServicePrices() {
-        const stdEl = document.getElementById('standard-stitching-price');
-        const cusEl = document.getElementById('custom-stitching-price');
-        const std = stdEl && stdEl.dataset.priceCents ? parseInt(stdEl.dataset.priceCents, 10) : 0;
-        const cus = cusEl && cusEl.dataset.priceCents ? parseInt(cusEl.dataset.priceCents, 10) : 0;
-        return { std: isNaN(std) ? 0 : std, cus: isNaN(cus) ? 0 : cus };
-      }
-      
-      function toggleServiceSections() {
-        const selected = document.querySelector('input[name="stitching-service"]:checked');
-        const selectedService = selected ? selected.value : 'unstitched';
-        if (stitchingSizes) stitchingSizes.style.display = 'none';
-        if (customMeasurements) customMeasurements.style.display = 'none';
-        if (selectedService === 'standard-stitching' && stitchingSizes) {
-          stitchingSizes.style.display = 'block';
-          if (!document.querySelector('input[name="stitching-size"]:checked')) {
-            const m = document.querySelector('input[name="stitching-size"][value="M"]');
-            if (m) m.checked = true;
-          }
-        } else if (selectedService === 'custom-stitching' && customMeasurements) {
-          customMeasurements.style.display = 'block';
-        }
-        updatePricingDisplay(selectedService);
-      }
-      
-      function updatePricingDisplay(selectedService) {
-        const totalPriceDisplay = document.getElementById(`stitching-total-${sectionId}`);
-        const servicePriceRow = document.getElementById(`service-price-row-${sectionId}`);
-        const servicePriceValue = document.getElementById(`service-price-${sectionId}`);
-        const finalTotalValue = document.getElementById(`final-total-${sectionId}`);
-        const productPriceEl = document.getElementById(`product-price-${sectionId}`);
-        const summaryWrap = document.getElementById(`stitching-summary-${sectionId}`);
-        const summaryValue = document.getElementById(`stitching-summary-value-${sectionId}`);
-        
-        if (productPriceEl) productPriceEl.textContent = formatMoney(currentVariantPrice);
-        const prices = getServicePrices();
-        let svc = 0;
-        if (selectedService === 'standard-stitching') svc = prices.std;
-        if (selectedService === 'custom-stitching') svc = prices.cus;
-        
-        if (selectedService === 'unstitched') {
-          if (summaryWrap) summaryWrap.style.display = 'none';
-          if (totalPriceDisplay) totalPriceDisplay.style.display = 'none';
-          if (servicePriceRow) servicePriceRow.style.display = 'none';
-          if (finalTotalValue) finalTotalValue.textContent = formatMoney(currentVariantPrice);
-          return;
-        }
-        
-        if (summaryWrap) summaryWrap.style.display = 'block';
-        if (summaryValue) summaryValue.textContent = formatMoney(currentVariantPrice + svc);
-        if (totalPriceDisplay) totalPriceDisplay.style.display = 'block';
-        if (servicePriceRow) {
-          servicePriceRow.style.display = 'flex';
-          if (servicePriceValue) servicePriceValue.textContent = formatMoney(svc);
-        }
-        if (finalTotalValue) finalTotalValue.textContent = formatMoney(currentVariantPrice + svc);
-      }
-      
-      function formatMoney(cents) {
-        return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 2 }).format(cents / 100);
-      }
-      
-      // Ensure clicking anywhere on the option label toggles the radio and updates UI
-      stitchingOptionLabels.forEach(label => {
-        label.addEventListener('click', function(e) {
-          const input = this.querySelector('input[type="radio"][name="stitching-service"]');
-          if (input) {
-            input.checked = true;
-            // Force change event for consistency
-            const evt = new Event('change', { bubbles: true });
-            input.dispatchEvent(evt);
-          }
-        });
-      });
-      
-      stitchingServiceRadios.forEach(radio => radio.addEventListener('change', toggleServiceSections));
-      toggleServiceSections();
-      const variantSelects = document.querySelector('variant-selects');
-      if (variantSelects) {
-        variantSelects.addEventListener('variant:change', function(event) {
-          if (event && event.detail && event.detail.variant) {
-            currentVariantPrice = event.detail.variant.price;
-          }
-          const selectedService = document.querySelector('input[name="stitching-service"]:checked');
-          if (selectedService) updatePricingDisplay(selectedService.value);
-        });
-      }
-      
-      // Intercept form submission to add stitching properties and add service item
-      const mainForm = document.querySelector('form[data-type="add-to-cart-form"]');
-      if (mainForm) {
-        mainForm.addEventListener('submit', async function(e) {
-          e.preventDefault();
-          const selectedService = document.querySelector('input[name="stitching-service"]:checked').value;
-          const formData = new FormData(mainForm);
-          formData.append('properties[Stitching Service]', selectedService);
-          let selectedSizeValue = '';
-          let customFields = {};
-          if (selectedService === 'standard-stitching') {
-            const selectedSize = document.querySelector('input[name="stitching-size"]:checked');
-            if (selectedSize) {
-              selectedSizeValue = selectedSize.value;
-              formData.append('properties[Selected Size]', selectedSize.value);
-            }
-          } else if (selectedService === 'custom-stitching') {
-            const ids = ['bust','waist','hip','length','shoulder','sleeve'];
-            ids.forEach(name => {
-              const el = document.getElementById(name + '-{{ section.id }}');
-              if (el && el.value.trim()) {
-                customFields[name] = el.value.trim();
-                const label = name.charAt(0).toUpperCase() + name.slice(1);
-                formData.append(`properties[${label}]`, el.value.trim());
-              }
-            });
-          }
-          try {
-            const response = await fetch('/cart/add.js', { method: 'POST', body: formData });
-            if (response.ok) {
-              if (selectedService === 'standard-stitching') {
-                const stitchingForm = document.getElementById(`stitching-form-${sectionId}`);
-                if (stitchingForm) {
-                  const stitchingFormData = new FormData(stitchingForm);
-                  await fetch('/cart/add.js', { method: 'POST', body: stitchingFormData });
-                }
-              }
-              if (selectedService === 'custom-stitching') {
-                const csForm = document.getElementById(`custom-stitching-form-${sectionId}`);
-                if (csForm) {
-                  const csFormData = new FormData(csForm);
-                  await fetch('/cart/add.js', { method: 'POST', body: csFormData });
-                }
-              }
-              // Set cart note with stitching details
-              let note = `Stitching: ${selectedService === 'standard-stitching' ? 'Standard' : (selectedService === 'custom-stitching' ? 'Custom' : 'Unstitched')}`;
-              if (selectedService === 'standard-stitching' && selectedSizeValue) note += `\nSize: ${selectedSizeValue}`;
-              if (selectedService === 'custom-stitching') {
-                const order = ['bust','waist','hip','length','shoulder','sleeve'];
-                order.forEach(name => {
-                  if (customFields[name]) {
-                    const label = name.charAt(0).toUpperCase() + name.slice(1);
-                    note += `\n${label}: ${customFields[name]}`;
-                  }
-                });
-              }
-              try { await fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ note }) }); } catch (e) {}
-              window.location.href = '/cart';
-            } else {
-              console.error('Error adding product to cart');
-            }
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        });
-      }
-    });
-  </script>
 
   {% if section.settings.image_zoom == 'hover' %}
     <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
@@ -992,885 +75,668 @@ background:transparent !important;
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="page-width">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
-     
-    <!--  Image gallary-->
-     
-     <div class="grid__item product__media-wrapper">
-  {% render 'mx-product-gallary', variant_images: variant_images %}
-</div>
-
-    <!--  Image gallary-->
+      <div class="grid__item product__media-wrapper">
+        {% render 'product-media-gallery', variant_images: variant_images %}
+      </div>
       <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      <product-info
-        id="ProductInfo-{{ section.id }}"
-        data-section="{{ section.id }}"
-        data-url="{{ product.url }}"
-        class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
-        style="outline: none !important;"
-      >
-        {%- assign product_form_id = 'product-form-' | append: section.id -%}
+        <section
+          id="ProductInfo-{{ section.id }}"
+          class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
+        >
+          {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
-        {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            {%- when '@app' -%}
-              {% render block %}
-            {%- when 'text' -%}
-              <p
-                class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
-                {{ block.shopify_attributes }}
-              >
-                {{- block.settings.text -}}
-              </p>
-            {%- when 'title' -%}
-              <div class="product__title" {{ block.shopify_attributes }}>
-                <h2 class="product-title-h2">{{ product.title | escape }}</h2>
-              </div>
-            {%- when 'price' -%}
-              <div class="no-js-hidden" id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
-                {%- render 'price',
-                  product: product,
-                  use_variant: true,
-                  show_badges: true,
-                  price_class: 'price--large'
-                -%}
-              </div>
-              {%- if product.quantity_price_breaks_configured? -%}
-                <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
-                  <span>{{ 'products.product.volume_pricing.note' | t }}</span>
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+              {%- when 'text' -%}
+                <p
+                  class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {{- block.settings.text -}}
+                </p>
+              {%- when 'title' -%}
+                <div class="product__title" {{ block.shopify_attributes }}>
+                  <h1>{{ product.title | escape }}</h1>
+                  <a href="{{ product.url }}" class="product__title">
+                    <h2 class="h1">
+                      {{ product.title | escape }}
+                    </h2>
+                  </a>
                 </div>
-              {%- endif -%}
-                <div class="product__tax caption rte">
-                  {%- if cart.taxes_included -%}
-                    {{ 'products.product.include_taxes' | t }}
-                  {%- endif -%}
-                  {%- comment -%}
-                  {%- if shop.shipping_policy.body != blank -%}
-                    {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
-                  {%- endif -%}
-                  {%- endcomment -%}
+              {%- when 'price' -%}
+                <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+                  {%- render 'price',
+                    product: product,
+                    use_variant: true,
+                    show_badges: true,
+                    price_class: 'price--large'
+                  -%}
                 </div>
-              <div {{ block.shopify_attributes }}>
-                {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
-                {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
-                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                  {{ form | payment_terms }}
-                {%- endform -%}
-              </div>
-              
-              {% assign standard_stitching_product = all_products['standard-stitiching'] %}
-              {% if standard_stitching_product %}{% assign standard_stitching_variant = standard_stitching_product.selected_or_first_available_variant %}{% endif %}
-              {% assign custom_stitching_product = all_products['custom-stitching'] %}
-              {% if custom_stitching_product %}{% assign custom_stitching_variant = custom_stitching_product.selected_or_first_available_variant %}{% endif %}
-              
-              <!-- Summary total with stitching (shown above buy buttons) -->
-              <div class="stitching-summary-price" id="stitching-summary-{{ section.id }}" style="display: none; margin-top: 0.75rem;">
-                <div class="stitching-summary-row">
-                  <span class="stitching-summary-label">Total with stitching:</span>
-                  <span class="stitching-summary-value" id="stitching-summary-value-{{ section.id }}"></span>
-                </div>
-              </div>
-              
-              <!-- Stitching Services -->
-              <div class="stitching-services" {{ block.shopify_attributes }}>
-                <h3 class="stitching-services__title">Stitching Services</h3>
-                <div class="stitching-services__options">
-                  <label class="stitching-option">
-                    <input type="radio" name="stitching-service" value="unstitched" checked>
-                    <span class="stitching-option__label">Unstitched</span>
-                    <span class="stitching-option__description">Ready to wear as is</span>
-                  </label>
-                  <label class="stitching-option">
-                    <input type="radio" name="stitching-service" value="standard-stitching">
-                    <span class="stitching-option__label">Standard Stitching</span>
-                    <span class="stitching-option__description">Professional tailoring service</span>
-                    <span class="stitching-option__price" id="standard-stitching-price" data-price-cents="{% if standard_stitching_variant %}{{ standard_stitching_variant.price }}{% else %}0{% endif %}">{% if standard_stitching_variant %}+ {{ standard_stitching_variant.price | money }}{% endif %}</span>
-                  </label>
-                  <label class="stitching-option">
-                    <input type="radio" name="stitching-service" value="custom-stitching">
-                    <span class="stitching-option__label">Custom Stitching</span>
-                    <span class="stitching-option__description">Custom measurements for perfect fit</span>
-                    <span class="stitching-option__price" id="custom-stitching-price" data-price-cents="{% if custom_stitching_variant %}{{ custom_stitching_variant.price }}{% else %}0{% endif %}">{% if custom_stitching_variant %}+ {{ custom_stitching_variant.price | money }}{% endif %}</span>
-                  </label>
-                </div>
-                
-                <!-- Size Selection (only shown when Standard Stitching is selected) -->
-                <div class="stitching-sizes" id="stitching-sizes-{{ section.id }}" style="display: none;">
-                  <h4 class="stitching-sizes__title">Select Size:</h4>
-                  <div class="stitching-sizes__options">
-                    <label class="size-option"><input type="radio" name="stitching-size" value="XS"><span class="size-option__label">XS</span></label>
-                    <label class="size-option"><input type="radio" name="stitching-size" value="S"><span class="size-option__label">S</span></label>
-                    <label class="size-option"><input type="radio" name="stitching-size" value="M" checked><span class="size-option__label">M</span></label>
-                    <label class="size-option"><input type="radio" name="stitching-size" value="L"><span class="size-option__label">L</span></label>
-                    <label class="size-option"><input type="radio" name="stitching-size" value="XL"><span class="size-option__label">XL</span></label>
+                {%- if product.quantity_price_breaks_configured? -%}
+                  <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
+                    <span>{{ 'products.product.volume_pricing.note' | t }}</span>
                   </div>
-                </div>
-                
-                <!-- Custom Measurements (only shown when Custom Stitching is selected) -->
-                <div class="custom-measurements" id="custom-measurements-{{ section.id }}" style="display: none;">
-                  <h4 class="custom-measurements__title">Custom Measurements (in inches):</h4>
-                  <div class="custom-measurements__inputs">
-                    <div class="measurement-row">
-                      <div class="measurement-input">
-                        <label for="bust-{{ section.id }}">Bust</label>
-                        <input type="number" id="bust-{{ section.id }}" name="bust" step="0.1" min="0" placeholder="36">
-                      </div>
-                      <div class="measurement-input">
-                        <label for="waist-{{ section.id }}">Waist</label>
-                        <input type="number" id="waist-{{ section.id }}" name="waist" step="0.1" min="0" placeholder="28">
-                      </div>
-                    </div>
-                    <div class="measurement-row">
-                      <div class="measurement-input">
-                        <label for="hip-{{ section.id }}">Hip</label>
-                        <input type="number" id="hip-{{ section.id }}" name="hip" step="0.1" min="0" placeholder="38">
-                      </div>
-                      <div class="measurement-input">
-                        <label for="length-{{ section.id }}">Length</label>
-                        <input type="number" id="length-{{ section.id }}" name="length" step="0.1" min="0" placeholder="42">
-                      </div>
-                    </div>
-                    <div class="measurement-row">
-                      <div class="measurement-input">
-                        <label for="shoulder-{{ section.id }}">Shoulder</label>
-                        <input type="number" id="shoulder-{{ section.id }}" name="shoulder" step="0.1" min="0" placeholder="14">
-                      </div>
-                      <div class="measurement-input">
-                        <label for="sleeve-{{ section.id }}">Sleeve</label>
-                        <input type="number" id="sleeve-{{ section.id }}" name="sleeve" step="0.1" min="0" placeholder="24">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Hidden forms for adding services to cart -->
-                <form id="stitching-form-{{ section.id }}" style="display: none;">
-                  <input type="hidden" name="id" value="{% if standard_stitching_variant %}{{ standard_stitching_variant.id }}{% endif %}">
-                  <input type="hidden" name="quantity" value="1">
-                </form>
-                <form id="custom-stitching-form-{{ section.id }}" style="display: none;">
-                  <input type="hidden" name="id" value="{% if custom_stitching_variant %}{{ custom_stitching_variant.id }}{% endif %}">
-                  <input type="hidden" name="quantity" value="1">
-                </form>
-                
-                <!-- Total Price Display -->
-                <div class="stitching-total-price" id="stitching-total-{{ section.id }}" style="display: none;">
-                  <div class="total-price-row">
-                    <span class="total-price-label">Product Price:</span>
-                    <span class="total-price-value" id="product-price-{{ section.id }}">{{ product.selected_or_first_available_variant.price | money }}</span>
-                  </div>
-                  <div class="total-price-row" id="service-price-row-{{ section.id }}" style="display: none;">
-                    <span class="total-price-label">Stitching Service:</span>
-                    <span class="total-price-value" id="service-price-{{ section.id }}">{% if standard_stitching_variant %}{{ standard_stitching_variant.price | money }}{% endif %}</span>
-                  </div>
-                  <div class="total-price-row total-price-final">
-                    <span class="total-price-label">Total:</span>
-                    <span class="total-price-value" id="final-total-{{ section.id }}">{{ product.selected_or_first_available_variant.price | money }}</span>
-                  </div>
-                </div>
-              </div>
-             
-             
-            {%- when 'inventory' -%}
-              <p
-                class="product__inventory no-js-hidden{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.inventory_management != 'shopify' %} visibility-hidden{% endif %}"
-                {{ block.shopify_attributes }}
-                id="Inventory-{{ section.id }}"
-                role="status"
-              >
-                {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
-                  {%- if product.selected_or_first_available_variant.inventory_quantity > 0 -%}
-                    {%- if product.selected_or_first_available_variant.inventory_quantity <= block.settings.inventory_threshold -%}
-                      <svg width="15" height="15" aria-hidden="true">
-                        <circle cx="7.5" cy="7.5" r="7.5" fill="rgb(238,148,65, 0.3)"/>
-                        <circle cx="7.5" cy="7.5" r="5" stroke="rgb(255, 255, 255)" stroke-width="1" fill="rgb(238,148,65)"/>
-                      </svg>
-                      {%- if block.settings.show_inventory_quantity -%}
-                        {{- 'products.product.inventory_low_stock_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}
-                      {%- else -%}
-                        {{- 'products.product.inventory_low_stock' | t -}}
-                      {%- endif -%}
-                    {%- else -%}
-                      <svg width="15" height="15" aria-hidden="true">
-                        <circle cx="7.5" cy="7.5" r="7.5" fill="rgb(62,214,96, 0.3)"/>
-                        <circle cx="7.5" cy="7.5" r="5" stroke="rgb(255, 255, 255)" stroke-width="1" fill="rgb(62,214,96)"/>
-                      </svg>
-                      {%- if block.settings.show_inventory_quantity -%}
-                        {{- 'products.product.inventory_in_stock_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}
-                      {%- else -%}
-                          {{- 'products.product.inventory_in_stock' | t -}}
-                      {%- endif -%}
-                    {%- endif -%}
-                  {%- else -%}
-                    {%- if product.selected_or_first_available_variant.inventory_policy == 'continue' -%}
-                      <svg width="15" height="15" aria-hidden="true">
-                        <circle cx="7.5" cy="7.5" r="7.5" fill="rgb(62,214,96, 0.3)"/>
-                        <circle cx="7.5" cy="7.5" r="5" stroke="rgb(255, 255, 255)" stroke-width="1" fill="rgb(62,214,96)"/>
-                      </svg>
-                      {{- 'products.product.inventory_out_of_stock_continue_selling' | t -}}
-                    {%- else -%}
-                      <svg width="15" height="15" aria-hidden="true">
-                        <circle cx="7.5" cy="7.5" r="7.5" fill="rgb(200,200,200, 0.3)"/>
-                        <circle cx="7.5" cy="7.5" r="5" stroke="rgb(255, 255, 255)" stroke-width="1" fill="rgb(200,200,200)"/>
-                      </svg>
-                      {{- 'products.product.inventory_out_of_stock' | t -}}
-                    {%- endif -%}
-                  {%- endif -%}
                 {%- endif -%}
-              </p>
-            {%- when 'description' -%}
-              {%- if product.description != blank -%}
-                <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                  {{ product.description }}
+                {%- if cart.taxes_included or cart.duties_included or shop.shipping_policy.body != blank -%}
+                  <div class="product__tax caption rte">
+                    {%- if cart.duties_included and cart.taxes_included -%}
+                      {{ 'products.product.duties_and_taxes_included' | t }}
+                    {%- elsif cart.taxes_included -%}
+                      {{ 'products.product.taxes_included' | t }}
+                    {%- elsif cart.duties_included -%}
+                      {{ 'products.product.duties_included' | t }}
+                    {%- endif -%}
+                    {%- if shop.shipping_policy.body != blank -%}
+                      {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                <div {{ block.shopify_attributes }}>
+                  {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
+                  {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                    {{ form | payment_terms }}
+                  {%- endform -%}
                 </div>
-              {%- endif -%}
-            {%- when 'sku' -%}
-              <p
-                class="product__sku no-js-hidden{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
-                id="Sku-{{ section.id }}"
-                role="status"
-                {{ block.shopify_attributes }}
-              >
-                <span class="visually-hidden">{{ 'products.product.sku' | t }}:</span> {{- product.selected_or_first_available_variant.sku -}}
-              </p>
-            {%- when 'custom_liquid' -%}
-              {{ block.settings.custom_liquid }}
-            {%- when 'collapsible_tab' -%}
-              <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
-                <details id="Details-{{ block.id }}-{{ section.id }}">
-                  <summary>
-                    <div class="summary__title">
-                      {% render 'icon-accordion', icon: block.settings.icon %}
-                      <h2 class="h4 accordion__title inline-richtext">
-                        {{ block.settings.heading | default: block.settings.page.title }}
-                      </h2>
-                    </div>
-                    {% render 'icon-caret' %}
-                  </summary>
-                  <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                    {% if block.settings.heading == 'STYLING TIPS' %}
-                      {% if product.metafields.custom.styling_tips != blank %}
-                        <div class="styling-tips-content">
-                          {{ product.metafields.custom.styling_tips | metafield_tag }}
-                        </div>
-                      {% else %}
-                        {{ block.settings.content }}
-                        {{ block.settings.page.content }}
-                      {% endif %}
-                    {% elsif block.settings.heading == 'WASH & CARE TIPS' %}
-                      {% if product.metafields.custom.wash_care != blank %}
-                        <div class="wash-care-content">
-                          {{ product.metafields.custom.wash_care | metafield_tag }}
-                        </div>
-                      {% else %}
-                        {% assign explorer_found = false %}
-                        {% for collection in product.collections %}
-                          {% if collection.handle == 'the-explorer' %}
-                            {% assign explorer_found = true %}
-                          {% endif %}
-                        {% endfor %}
-                        
-                        {% if explorer_found %}
-                          <ul>
-                          
-                            <li>Merchandise is pre-washed and ready to wear</li>
-                            <li>Gentle hand wash or quick cycle machine wash</li>
-                            <li>Wash in cold water using a mild detergent</li>
-                            <li>Do not tumble dry, wring, soak, or bleach</li>
-                            <li>Dry in shade. Use a warm iron</li>
-                          </ul>
-                        {% else %}
-                          <ul>
-                      
-                            <li>Merchandise is pre-washed and ready to wear</li>
-                            <li>Dry clean only</li>
-                          </ul>
-                        {% endif %}
-                      {% endif %}
-                    {% else %}
+              {%- when 'inventory' -%}
+                <p
+                  class="product__inventory{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.inventory_management != 'shopify' %} visibility-hidden{% endif %}"
+                  {{ block.shopify_attributes }}
+                  id="Inventory-{{ section.id }}"
+                  role="status"
+                >
+                  {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+                    {%- if product.selected_or_first_available_variant.inventory_quantity > 0 -%}
+                      {%- if product.selected_or_first_available_variant.inventory_quantity
+                          <= block.settings.inventory_threshold
+                      -%}
+                        <span class="svg-wrapper" style="color: rgb(238, 148, 65)">
+                          {{- 'icon-inventory-status.svg' | inline_asset_content -}}
+                        </span>
+                        {%- if block.settings.show_inventory_quantity -%}
+                          {{-
+                            'products.product.inventory_low_stock_show_count'
+                            | t: quantity: product.selected_or_first_available_variant.inventory_quantity
+                          -}}
+                        {%- else -%}
+                          {{- 'products.product.inventory_low_stock' | t -}}
+                        {%- endif -%}
+                      {%- else -%}
+                        <span class="svg-wrapper" style="color: rgb(62, 214, 96)">
+                          {{- 'icon-inventory-status.svg' | inline_asset_content -}}
+                        </span>
+                        {%- if block.settings.show_inventory_quantity -%}
+                          {{-
+                            'products.product.inventory_in_stock_show_count'
+                            | t: quantity: product.selected_or_first_available_variant.inventory_quantity
+                          -}}
+                        {%- else -%}
+                          {{- 'products.product.inventory_in_stock' | t -}}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- else -%}
+                      {%- if product.selected_or_first_available_variant.inventory_policy == 'continue' -%}
+                        <span class="svg-wrapper" style="color: rgb(62, 214, 96)">
+                          {{- 'icon-inventory-status.svg' | inline_asset_content -}}
+                        </span>
+                        {{- 'products.product.inventory_out_of_stock_continue_selling' | t -}}
+                      {%- else -%}
+                        <span class="svg-wrapper" style="color: rgb(200, 200, 200)">
+                          {{- 'icon-inventory-status.svg' | inline_asset_content -}}
+                        </span>
+                        {{- 'products.product.inventory_out_of_stock' | t -}}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                </p>
+              {%- when 'description' -%}
+                {%- if product.description != blank -%}
+                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                    {{ product.description }}
+                  </div>
+                {%- endif -%}
+              {%- when 'sku' -%}
+                <p
+                  class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
+                  id="Sku-{{ section.id }}"
+                  role="status"
+                  {{ block.shopify_attributes }}
+                >
+                  <span class="visually-hidden">{{ 'products.product.sku' | t }}:</span>
+                  {{- product.selected_or_first_available_variant.sku -}}
+                </p>
+              {%- when 'custom_liquid' -%}
+                {{ block.settings.custom_liquid }}
+              {%- when 'collapsible_tab' -%}
+                <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
+                  <details id="Details-{{ block.id }}-{{ section.id }}">
+                    <summary>
+                      <div class="summary__title">
+                        {% render 'icon-accordion', icon: block.settings.icon %}
+                        <h2 class="h4 accordion__title inline-richtext">
+                          {{ block.settings.heading | default: block.settings.page.title | escape }}
+                        </h2>
+                      </div>
+                      {{- 'icon-caret.svg' | inline_asset_content -}}
+                    </summary>
+                    <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
                       {{ block.settings.content }}
                       {{ block.settings.page.content }}
-                    {% endif %}
-                  </div>
-                </details>
-              </div>
-            {%- when 'quantity_selector' -%}
-              <!-- Quantity selector moved to buy-buttons snippet -->
-            {%- when 'popup' -%}
-              <modal-opener
-                class="product-popup-modal__opener no-js-hidden quick-add-hidden"
-                data-modal="#PopupModal-{{ block.id }}"
-                {{ block.shopify_attributes }}
-              >
-                <button
-                  id="ProductPopup-{{ block.id }}"
-                  class="product-popup-modal__button link"
-                  type="button"
-                  aria-haspopup="dialog"
-                >
-                  {{ block.settings.text | default: block.settings.page.title }}
-                </button>
-              </modal-opener>
-              <a href="{{ block.settings.page.url }}" class="product-popup-modal__button link no-js">
-                {{- block.settings.text -}}
-              </a>
-            {%- when 'share' -%}
-              {% comment %}
-              Share button has been moved to the product title section
-              {% assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin %}
-              {% render 'share-button',
-                block: block,
-                share_link: share_url
-              %}
-              {% endcomment %}
-            {%- when 'variant_picker' -%}
-              {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-              
-              {% comment %}Simple size selector for standard stitched variant{% endcomment %}
-              <!-- Standard Stitched Size Selector -->
-              <div id="simple-size-selector" style="display: none; background-color: #F6F1EB;">
-                
-                <div style="background-color: #fff; padding: 15px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                  <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-                    <button type="button" class="simple-size-btn" data-size="XS" style="padding: 0.6rem 1rem; background: white; border: 1px solid #483730; border-radius: 4px; cursor: pointer; min-width: 3.5rem; font-weight: 500; color: #483730; transition: all 0.2s ease; outline: none;">XS</button>
-                    <button type="button" class="simple-size-btn" data-size="S" style="padding: 0.6rem 1rem; background: white; border: 1px solid #483730; border-radius: 4px; cursor: pointer; min-width: 3.5rem; font-weight: 500; color: #483730; transition: all 0.2s ease; outline: none;">S</button>
-                    <button type="button" class="simple-size-btn" data-size="M" style="padding: 0.6rem 1rem; background: white; border: 1px solid #483730; border-radius: 4px; cursor: pointer; min-width: 3.5rem; font-weight: 500; color: #483730; transition: all 0.2s ease; outline: none;">M</button>
-                    <button type="button" class="simple-size-btn" data-size="L" style="padding: 0.6rem 1rem; background: white; border: 1px solid #483730; border-radius: 4px; cursor: pointer; min-width: 3.5rem; font-weight: 500; color: #483730; transition: all 0.2s ease; outline: none;">L</button>
-                    <button type="button" class="simple-size-btn" data-size="XL" style="padding: 0.6rem 1rem; background: white; border: 1px solid #483730; border-radius: 4px; cursor: pointer; min-width: 3.5rem; font-weight: 500; color: #483730; transition: all 0.2s ease; outline: none;">XL</button>
-                  </div>
-                  
-                  <div id="simple-selected-size" style="margin-top: 15px; padding: 10px; background: #483730; color: white; border-radius: 4px; text-align: center; display: none;">
-                    <span style="font-weight: 500;">Selected Size: </span>
-                    <span id="simple-size-text" style="font-weight: bold;"></span>
-                  </div>
+                    </div>
+                  </details>
                 </div>
-                
-                <!-- Size Chart -->
-                <div style="margin-top: 20px; background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                  <h5 style="margin: 0; padding: 10px; font-weight: 600; color: #483730; font-size: 0.95em; border-bottom: 1px solid #eee;">Size Chart:</h5>
-                  <table style="width: 100%; border-collapse: collapse; font-size: 0.85em; color: #483730;">
-                    <thead>
-                      <tr style="border-bottom: 1px solid #483730;">
-                        <th style="padding: 5px; text-align: left;">Size</th>
-                        <th style="padding: 5px; text-align: center;">Chest</th>
-                        <th style="padding: 5px; text-align: center;">Waist</th>
-                        <th style="padding: 5px; text-align: center;">Hip</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 5px; font-weight: 500;">XS</td>
-                        <td style="padding: 5px; text-align: center;">32-34"</td>
-                        <td style="padding: 5px; text-align: center;">26-28"</td>
-                        <td style="padding: 5px; text-align: center;">34-36"</td>
-                      </tr>
-                      <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 5px; font-weight: 500;">S</td>
-                        <td style="padding: 5px; text-align: center;">34-36"</td>
-                        <td style="padding: 5px; text-align: center;">28-30"</td>
-                        <td style="padding: 5px; text-align: center;">36-38"</td>
-                      </tr>
-                      <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 5px; font-weight: 500;">M</td>
-                        <td style="padding: 5px; text-align: center;">36-38"</td>
-                        <td style="padding: 5px; text-align: center;">30-32"</td>
-                        <td style="padding: 5px; text-align: center;">38-40"</td>
-                      </tr>
-                      <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 5px; font-weight: 500;">L</td>
-                        <td style="padding: 5px; text-align: center;">38-40"</td>
-                        <td style="padding: 5px; text-align: center;">32-34"</td>
-                        <td style="padding: 5px; text-align: center;">40-42"</td>
-                      </tr>
-                      <tr>
-                        <td style="padding: 5px; font-weight: 500;">XL</td>
-                        <td style="padding: 5px; text-align: center;">40-42"</td>
-                        <td style="padding: 5px; text-align: center;">34-36"</td>
-                        <td style="padding: 5px; text-align: center;">42-44"</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                
-                <input type="hidden" name="properties[Size]" id="simple-size-input">
-              </div>
-              
-              <!-- Custom Stitched Measurements Form -->
-              <div id="custom-measurements-form" style="display: none; background-color: #F6F1EB;">                
-                <!-- Size Template Dropdown -->
-                <div style="margin-bottom: 20px; background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                  <label for="size-template" style="display: block; margin: 0; padding: 10px; font-weight: 500; color: #483730; border-bottom: 1px solid #eee;">Start with a size template:</label>
-                  <select id="size-template" style="width: 100%; margin: 0; padding: 10px; border: none; border-radius: 0 0 4px 4px; font-family: inherit; background-color: white; color: #483730; cursor: pointer;">
-                    <option value="">Select a size template (optional)</option>
-                    <option value="XS">XS (Chest: 32-34", Waist: 26-28", Hip: 34-36")</option>
-                    <option value="S">S (Chest: 34-36", Waist: 28-30", Hip: 36-38")</option>
-                    <option value="M">M (Chest: 36-38", Waist: 30-32", Hip: 38-40")</option>
-                    <option value="L">L (Chest: 38-40", Waist: 32-34", Hip: 40-42")</option>
-                    <option value="XL">XL (Chest: 40-42", Waist: 34-36", Hip: 42-44")</option>
-                  </select>
-                </div>
-                
-              
-                
-                <!-- Measurement Fields -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                  <!-- Required Fields -->
-                  <div style="background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <label for="chest-measurement" style="display: block; margin: 0; padding: 10px; font-weight: 500; color: #483730; border-bottom: 1px solid #eee;">
-                      Chest: <span style="color: #a05c37;">*</span>
-                    </label>
-                    <div style="position: relative; padding: 10px;">
-                      <input type="number" id="chest-measurement" name="properties[Chest]" placeholder="Inches" step="0.1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">
-                      <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #483730;">in</span>
-                    </div>
-                  </div>
-                  
-                  <div style="background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <label for="waist-measurement" style="display: block; margin: 0; padding: 10px; font-weight: 500; color: #483730; border-bottom: 1px solid #eee;">
-                      Waist: <span style="color: #a05c37;">*</span>
-                    </label>
-                    <div style="position: relative; padding: 10px;">
-                      <input type="number" id="waist-measurement" name="properties[Waist]" placeholder="Inches" step="0.1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">
-                      <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #483730;">in</span>
-                    </div>
-                  </div>
-                  
-                  <div style="background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <label for="hip-measurement" style="display: block; margin: 0; padding: 10px; font-weight: 500; color: #483730; border-bottom: 1px solid #eee;">
-                      Hip: <span style="color: #a05c37;">*</span>
-                    </label>
-                    <div style="position: relative; padding: 10px;">
-                      <input type="number" id="hip-measurement" name="properties[Hip]" placeholder="Inches" step="0.1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">
-                      <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #483730;">in</span>
-                    </div>
-                  </div>
-                  
-                  <!-- Optional Fields -->
-                  <div style="background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <label for="length-measurement" style="display: block; margin: 0; padding: 10px; font-weight: 500; color: #483730; border-bottom: 1px solid #eee;">Length:</label>
-                    <div style="position: relative; padding: 10px;">
-                      <input type="number" id="length-measurement" name="properties[Length]" placeholder="Inches" step="0.1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">
-                      <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #483730;">in</span>
-                    </div>
-                  </div>
-                  
-                  <div style="background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <label for="shoulder-measurement" style="display: block; margin: 0; padding: 10px; font-weight: 500; color: #483730; border-bottom: 1px solid #eee;">Shoulder:</label>
-                    <div style="position: relative; padding: 10px;">
-                      <input type="number" id="shoulder-measurement" name="properties[Shoulder]" placeholder="Inches" step="0.1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">
-                      <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #483730;">in</span>
-                    </div>
-                  </div>
-                  
-                  <div style="background-color: #fff; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <label for="sleeve-measurement" style="display: block; margin: 0; padding: 10px; font-weight: 500; color: #483730; border-bottom: 1px solid #eee;">Sleeve Length:</label>
-                    <div style="position: relative; padding: 10px;">
-                      <input type="number" id="sleeve-measurement" name="properties[Sleeve]" placeholder="Inches" step="0.1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-family: inherit;">
-                      <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #483730;">in</span>
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
-              
-              <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                  // Elements
-                  const radios = document.querySelectorAll('input[type="radio"][name^="options["]');
-                  const selects = document.querySelectorAll('select[name^="options["]');
-                  const standardSizeSelector = document.getElementById('simple-size-selector');
-                  const customMeasurementsForm = document.getElementById('custom-measurements-form');
-                  const sizeTemplateSelect = document.getElementById('size-template');
-                  
-                  // Size templates (average values)
-                  const sizeTemplates = {
-                    'XS': { chest: 33, waist: 27, hip: 35, length: 26, shoulder: 15, sleeve: 23 },
-                    'S': { chest: 35, waist: 29, hip: 37, length: 27, shoulder: 16, sleeve: 24 },
-                    'M': { chest: 37, waist: 31, hip: 39, length: 28, shoulder: 17, sleeve: 25 },
-                    'L': { chest: 39, waist: 33, hip: 41, length: 29, shoulder: 18, sleeve: 26 },
-                    'XL': { chest: 41, waist: 35, hip: 43, length: 30, shoulder: 19, sleeve: 27 }
-                  };
-                  
-                  // Function to check variants and show appropriate form
-                  function checkVariants() {
-                    let standardStitchSelected = false;
-                    let customStitchSelected = false;
-                    
-                    // Check radio buttons
-                    radios.forEach(radio => {
-                      if (radio.checked) {
-                        const value = radio.value.toLowerCase();
-                        if (value.includes('standard')) {
-                          standardStitchSelected = true;
-                        } else if (value.includes('custom')) {
-                          customStitchSelected = true;
-                        }
-                      }
-                    });
-                    
-                    // Check dropdowns
-                    selects.forEach(select => {
-                      const option = select.options[select.selectedIndex];
-                      if (option) {
-                        const value = option.value.toLowerCase();
-                        if (value.includes('standard')) {
-                          standardStitchSelected = true;
-                        } else if (value.includes('custom')) {
-                          customStitchSelected = true;
-                        }
-                      }
-                    });
-                    
-                    // Show/hide appropriate form
-                    standardSizeSelector.style.display = standardStitchSelected ? 'block' : 'none';
-                    customMeasurementsForm.style.display = customStitchSelected ? 'block' : 'none';
-                  }
-                  
-                  // Add event listeners to variant selectors
-                  radios.forEach(radio => {
-                    radio.addEventListener('change', checkVariants);
-                  });
-                  
-                  selects.forEach(select => {
-                    select.addEventListener('change', checkVariants);
-                  });
-                  
-                  // Size button click handling
-                  document.querySelectorAll('.simple-size-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                      // Reset all buttons
-                      document.querySelectorAll('.simple-size-btn').forEach(b => {
-                        b.style.background = 'white';
-                        b.style.color = '#483730';
-                        b.style.borderColor = '#483730';
-                        b.style.boxShadow = 'none';
-                      });
-                      
-                      // Highlight selected button
-                      this.style.background = '#483730';
-                      this.style.color = 'white';
-                      this.style.borderColor = '#483730';
-                      this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
-                      
-                      // Update display and hidden input
-                      const size = this.getAttribute('data-size');
-                      document.getElementById('simple-selected-size').style.display = 'block';
-                      document.getElementById('simple-size-text').textContent = size;
-                      document.getElementById('simple-size-input').value = size;
-                    });
-                  });
-                  
-                  // Size template change handler
-                  if (sizeTemplateSelect) {
-                    sizeTemplateSelect.addEventListener('change', function() {
-                      const selectedSize = this.value;
-                      if (selectedSize && sizeTemplates[selectedSize]) {
-                        const template = sizeTemplates[selectedSize];
-                        document.getElementById('chest-measurement').value = template.chest;
-                        document.getElementById('waist-measurement').value = template.waist;
-                        document.getElementById('hip-measurement').value = template.hip;
-                        document.getElementById('length-measurement').value = template.length;
-                        document.getElementById('shoulder-measurement').value = template.shoulder;
-                        document.getElementById('sleeve-measurement').value = template.sleeve;
-                      }
-                    });
-                  }
-                  
-                  // Initial check
-                  checkVariants();
-                  
-                  // Form validation
-                  const form = document.querySelector('form[action="/cart/add"]');
-                  if (form) {
-                    form.addEventListener('submit', function(e) {
-                      // Check standard size validation
-                      if (standardSizeSelector.style.display === 'block' && !document.getElementById('simple-size-input').value) {
-                        e.preventDefault();
-                        alert('Please select a size for your standard stitched item.');
-                        return;
-                      }
-                      
-                      // Check custom measurements validation
-                      if (customMeasurementsForm.style.display === 'block') {
-                        const requiredFields = ['chest-measurement', 'waist-measurement', 'hip-measurement'];
-                        let missingFields = [];
-                        
-                        requiredFields.forEach(field => {
-                          if (!document.getElementById(field).value) {
-                            missingFields.push(field.split('-')[0]);
-                          }
-                        });
-                        
-                        if (missingFields.length > 0) {
-                          e.preventDefault();
-                          alert('Please provide measurements for: ' + missingFields.join(', '));
-                        }
-                      }
-                    });
-                  }
-                });
-              </script>
-
-            {%- when 'buy_buttons' -%}
-              {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
-            {%- when 'rating' -%}
-              {%- if product.metafields.reviews.rating.value != blank -%}
-                {% liquid
-                  assign rating_decimal = 0
-                  assign decimal = product.metafields.reviews.rating.value.rating | modulo: 1
-                  if decimal >= 0.3 and decimal <= 0.7
-                    assign rating_decimal = 0.5
-                  elsif decimal > 0.7
-                    assign rating_decimal = 1
-                  endif
-                %}
+              {%- when 'quantity_selector' -%}
                 <div
-                  class="rating"
-                  role="img"
-                  aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: product.metafields.reviews.rating.value, rating_max: product.metafields.reviews.rating.value.scale_max }}"
+                  id="Quantity-Form-{{ section.id }}"
+                  class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
+                  {{ block.shopify_attributes }}
                 >
-                  <span
-                    aria-hidden="true"
-                    class="rating-star"
-                    style="--rating: {{ product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"
-                  ></span>
-                </div>
-                <p class="rating-text caption">
-                  <span aria-hidden="true">
-                    {{- product.metafields.reviews.rating.value }} /
-                    {{ product.metafields.reviews.rating.value.scale_max -}}
+                  {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
+                  {% # theme-check-disable %}
+                  {%- assign cart_qty = cart
+                    | item_count_for_variant: product.selected_or_first_available_variant.id
+                  -%}
+                  {% # theme-check-enable %}
+                  <span class="visually-hidden" id="quantity-label-{{ section.id }}">
+                    {%- if cart_qty > 0 -%}
+                      {{- 'products.product.quantity.in_cart_aria_label' | t: quantity: cart_qty -}}
+                    {%- else -%}
+                      {{- 'products.product.quantity.label' | t -}}
+                    {%- endif -%}
                   </span>
-                </p>
-                <p class="rating-count caption">
-                  <span aria-hidden="true">({{ product.metafields.reviews.rating_count }})</span>
-                  <span class="visually-hidden">
-                    {{- product.metafields.reviews.rating_count }}
-                    {{ 'accessibility.total_reviews' | t -}}
-                  </span>
-                </p>
-              {%- endif -%}
-            {%- when 'complementary' -%}
-              <product-recommendations class="complementary-products quick-add-hidden no-js-hidden{% if block.settings.make_collapsible_row %} is-accordion{% endif %}{% if block.settings.enable_quick_add %} complementary-products-contains-quick-add{% endif %}" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ block.settings.product_list_limit }}&intent=complementary">
-                {%- if recommendations.performed and recommendations.products_count > 0 -%}
-                  <aside aria-label="{{ 'accessibility.complementary_products' | t }}" {{ block.shopify_attributes }}{% if block.settings.make_collapsible_row %} class="product__accordion accordion"{% endif %}>
-                    <div class="complementary-products__container">
-                      {%- if block.settings.make_collapsible_row -%}
-                        <details id="Details-{{ block.id }}-{{ section.id }}" open>
-                          <summary>
-                      {%- endif %}
-                      <div class="summary__title">
-                        {%- if block.settings.make_collapsible_row -%}
-                          {% render 'icon-accordion', icon: block.settings.icon %}
-                          <h2 class="h4 accordion__title">{{ block.settings.block_heading }}</h2>
+                  <label
+                    class="quantity__label form__label"
+                    for="Quantity-{{ section.id }}"
+                    aria-labelledby="quantity-label-{{ section.id }}"
+                  >
+                    <span aria-hidden="true">{{ 'products.product.quantity.label' | t }}</span>
+                    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}" aria-hidden="true">
+                      {%- render 'loading-spinner' -%}
+                      <span
+                        >(
+                        {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
+                        )</span
+                      >
+                    </span>
+                  </label>
+                  <div class="price-per-item__container">
+                    <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                      <button class="quantity__button" name="minus" type="button">
+                        <span class="visually-hidden">
+                          {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                        </span>
+                        <span class="svg-wrapper">
+                          {{- 'icon-minus.svg' | inline_asset_content -}}
+                        </span>
+                      </button>
+                      <input
+                        class="quantity__input"
+                        type="number"
+                        name="quantity"
+                        id="Quantity-{{ section.id }}"
+                        data-cart-quantity="{{ cart_qty }}"
+                        data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        {% if product.selected_or_first_available_variant.quantity_rule.max != null %}
+                          data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                          max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                        {% endif %}
+                        step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                        value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                        form="{{ product_form_id }}"
+                      >
+                      <button class="quantity__button" name="plus" type="button">
+                        <span class="visually-hidden">
+                          {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                        </span>
+                        <span class="svg-wrapper">
+                          {{- 'icon-plus.svg' | inline_asset_content -}}
+                        </span>
+                      </button>
+                    </quantity-input>
+                    {%- liquid
+                      assign volume_pricing_array = product.selected_or_first_available_variant.quantity_price_breaks | sort: 'quantity' | reverse
+                      assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.min
+                      if cart_qty > 0
+                        assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.increment
+                      endif
+                    -%}
+                    {%- if product.quantity_price_breaks_configured? -%}
+                      <price-per-item
+                        id="Price-Per-Item-{{ section.id }}"
+                        data-section-id="{{ section.id }}"
+                        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                      >
+                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+                          {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
+                          <div class="price-per-item">
+                            {%- if variant_price_compare -%}
+                              <dl class="price-per-item--current">
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.regular_price' | t }}
+                                </dt>
+                                <dd>
+                                  <s class="variant-item__old-price">
+                                    {{ variant_price_compare | money_with_currency }}
+                                  </s>
+                                </dd>
+                              </dl>
+                            {%- endif -%}
+                            {%- if current_qty_for_volume_pricing < volume_pricing_array.last.minimum_quantity -%}
+                              {%- assign variant_price = product.selected_or_first_available_variant.price
+                                | money_with_currency
+                              -%}
+                              <span class="price-per-item--current">
+                                {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
+                              </span>
+                            {%- else -%}
+                              {%- for price_break in volume_pricing_array -%}
+                                {%- if current_qty_for_volume_pricing >= price_break.minimum_quantity -%}
+                                  {%- assign price_break_price = price_break.price | money_with_currency -%}
+                                  <span class="price-per-item--current">
+                                    {{-
+                                      'products.product.volume_pricing.price_at_each_html'
+                                      | t: price: price_break_price
+                                    -}}
+                                  </span>
+                                  {%- break -%}
+                                {%- endif -%}
+                              {%- endfor -%}
+                            {%- endif -%}
+                          </div>
                         {%- else -%}
-                          <h2 class="h3 accordion__title">{{ block.settings.block_heading }}</h2>
-                        {%- endif -%}
-                      </div>
-                      {%- if block.settings.make_collapsible_row -%}
-                          {% render 'icon-caret' %}
-                        </summary>
-                      {%- endif -%}
-                      <slideshow-component class="slider-mobile-gutter">
-                        {%- assign number_of_slides = recommendations.products_count | plus: 0.0 | divided_by: block.settings.products_per_page | ceil -%}
-                        <div id="Slider-{{ block.id }}" class="contains-card contains-card--product complementary-slider grid grid--1-col slider slider--everywhere" role="list"{% if number_of_slides > 1 %} aria-label="{{ 'general.slider.name' | t }}"{% endif %}>
-                          {%- for i in (1..number_of_slides) -%}
-                            <div id="Slide-{{ block.id }}-{{ forloop.index }}" class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide" tabindex="-1" role="group"{% if number_of_slides > 1 %} aria-roledescription="{{ 'sections.slideshow.slide' | t }}" aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"{% endif %}>
-                              <ul class="list-unstyled" role="list">
-                                {%- for product in recommendations.products limit: block.settings.products_per_page offset: continue -%}
-                                  <li>
-                                    {% render 'card-product',
-                                      card_product: product,
-                                      media_aspect_ratio: block.settings.image_ratio,
-                                      show_secondary_image: false,
-                                      lazy_load: false,
-                                      show_quick_add: block.settings.enable_quick_add,
-                                      section_id: section.id,
-                                      horizontal_class: true,
-                                      horizontal_quick_add: true
-                                    %}
-                                  </li>
-                                {%- endfor -%}
-                              </ul>
-                            </div>
-                          {%- endfor -%}
-                        </div>
-                        {%- if number_of_slides > 1 -%}
-                          <div class="slider-buttons no-js-hidden">
-                            <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">{% render 'icon-caret' %}</button>
-                            <div class="slider-counter slider-counter--{{ block.settings.pagination_style }}{% if block.settings.pagination_style == 'counter' or block.settings.pagination_style == 'numbers' %} caption{% endif %}">
-                              {%- if block.settings.pagination_style == 'counter' -%}
-                                <span class="slider-counter--current">1</span>
-                                <span aria-hidden="true"> / </span>
-                                <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
-                                <span class="slider-counter--total">{{ number_of_slides }}</span>
-                              {%- else -%}
-                                <div class="slideshow__control-wrapper">
-                                  {%- for i in (1..number_of_slides) -%}
-                                    <button class="slider-counter__link slider-counter__link--{{ block.settings.pagination_style }} link" aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}" aria-controls="Slider-{{ block.id }}">
-                                      {%- if block.settings.pagination_style == 'numbers' -%}{{ forloop.index }}{% else %}<span class="dot"></span>{%- endif -%}
-                                    </button>
-                                  {%- endfor -%}
-                                </div>
-                              {%- endif -%}
-                            </div>
-                            <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">{% render 'icon-caret' %}</button>
+                          {%- assign variant_price = product.selected_or_first_available_variant.price
+                            | money_with_currency
+                          -%}
+                          {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
+                          <div class="price-per-item">
+                            {%- if variant_price_compare -%}
+                              <dl class="price-per-item--current">
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.regular_price' | t }}
+                                </dt>
+                                <dd>
+                                  <s class="variant-item__old-price">
+                                    {{ variant_price_compare | money_with_currency }}
+                                  </s>
+                                </dd>
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.sale_price' | t }}
+                                </dt>
+                                <dd>
+                                  <span class="price-per-item--current">
+                                    {{-
+                                      'products.product.volume_pricing.price_at_each_html'
+                                      | t: price: variant_price
+                                    -}}
+                                  </span>
+                                </dd>
+                              </dl>
+                            {%- else -%}
+                              <span class="price-per-item--current">
+                                {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
+                              </span>
+                            {%- endif -%}
                           </div>
                         {%- endif -%}
-                      </slideshow-component>
-                      {%- if block.settings.make_collapsible_row -%}
-                        </details>
+                      </price-per-item>
+                    {%- endif -%}
+                  </div>
+                  <div class="quantity__rules caption" id="Quantity-Rules-{{ section.id }}">
+                    {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
+                      <span class="divider">
+                        {{-
+                          'products.product.quantity.multiples_of'
+                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.increment
+                        -}}
+                      </span>
+                    {%- endif -%}
+                    {%- if product.selected_or_first_available_variant.quantity_rule.min > 1 -%}
+                      <span class="divider">
+                        {{-
+                          'products.product.quantity.minimum_of'
+                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.min
+                        -}}
+                      </span>
+                    {%- endif -%}
+                    {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
+                      <span class="divider">
+                        {{-
+                          'products.product.quantity.maximum_of'
+                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.max
+                        -}}
+                      </span>
+                    {%- endif -%}
+                  </div>
+                  {%- if product.quantity_price_breaks_configured? -%}
+                    <volume-pricing class="parent-display" id="Volume-{{ section.id }}">
+                      {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
+                        <span class="caption-large">{{ 'products.product.volume_pricing.title' | t }}</span>
+                        <ul class="list-unstyled">
+                          <li>
+                            <span>{{ product.selected_or_first_available_variant.quantity_rule.min }}+</span>
+                            {%- assign price = product.selected_or_first_available_variant.price
+                              | money_with_currency
+                            -%}
+                            <span data-text="{{ 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price }}">
+                              {{- 'sections.quick_order_list.each' | t: money: price -}}
+                            </span>
+                          </li>
+                          {%- for price_break in product.selected_or_first_available_variant.quantity_price_breaks -%}
+                            {%- assign price_break_price = price_break.price | money_with_currency -%}
+                            <li class="{%- if forloop.index >= 3 -%}show-more-item hidden{%- endif -%}">
+                              <span>
+                                {{- price_break.minimum_quantity -}}
+                                <span aria-hidden="true">+</span></span
+                              >
+                              <span data-text="{{ 'products.product.volume_pricing.price_at_each_html' | t: price: price_break_price }}">
+                                {{- 'sections.quick_order_list.each' | t: money: price_break_price -}}
+                              </span>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size >= 3 -%}
+                          <show-more-button>
+                            <button
+                              class="button-show-more link underlined-link"
+                              id="Show-More-{{ section.id }}"
+                              type="button"
+                            >
+                              <span class="label-show-more label-text"
+                                ><span aria-hidden="true">+ </span>{{ 'products.facets.show_more' | t }}
+                              </span>
+                            </button>
+                          </show-more-button>
+                        {%- endif -%}
                       {%- endif -%}
+                    </volume-pricing>
+                  {%- endif -%}
+                </div>
+              {%- when 'popup' -%}
+                <modal-opener
+                  class="product-popup-modal__opener quick-add-hidden"
+                  data-modal="#PopupModal-{{ block.id }}"
+                  {{ block.shopify_attributes }}
+                >
+                  <button
+                    id="ProductPopup-{{ block.id }}"
+                    class="product-popup-modal__button link"
+                    type="button"
+                    aria-haspopup="dialog"
+                  >
+                    {{ block.settings.text | default: block.settings.page.title | escape }}
+                  </button>
+                </modal-opener>
+              {%- when 'share' -%}
+                {% liquid
+                  assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
+                  render 'share-button', block: block, share_link: share_url
+                %}
+
+              {%- when 'variant_picker' -%}
+                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+              {%- when 'buy_buttons' -%}
+                {%- render 'buy-buttons',
+                  block: block,
+                  product: product,
+                  product_form_id: product_form_id,
+                  section_id: section.id,
+                  show_pickup_availability: true
+                -%}
+              {%- when 'rating' -%}
+                {%- if product.metafields.reviews.rating.value != blank -%}
+                  <div class="rating-wrapper">
+                    {% liquid
+                      assign rating_decimal = 0
+                      assign decimal = product.metafields.reviews.rating.value.rating | modulo: 1
+                      if decimal >= 0.3 and decimal <= 0.7
+                        assign rating_decimal = 0.5
+                      elsif decimal > 0.7
+                        assign rating_decimal = 1
+                      endif
+                    %}
+                    <div
+                      class="rating"
+                      role="img"
+                      aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: product.metafields.reviews.rating.value, rating_max: product.metafields.reviews.rating.value.scale_max }}"
+                    >
+                      <span
+                        aria-hidden="true"
+                        class="rating-star"
+                        style="--rating: {{ product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"
+                      ></span>
                     </div>
-                  </aside>
+                    <p class="rating-text caption">
+                      <span aria-hidden="true">
+                        {{- product.metafields.reviews.rating.value }} /
+                        {{ product.metafields.reviews.rating.value.scale_max -}}
+                      </span>
+                    </p>
+                    <p class="rating-count caption">
+                      <span aria-hidden="true">({{ product.metafields.reviews.rating_count }})</span>
+                      <span class="visually-hidden">
+                        {{- product.metafields.reviews.rating_count }}
+                        {{ 'accessibility.total_reviews' | t -}}
+                      </span>
+                    </p>
+                  </div>
                 {%- endif -%}
-                {{ 'component-card.css' | asset_url | stylesheet_tag }}
-                {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
-                {%- if block.settings.enable_quick_add -%}
-                  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
-                  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
-                {%- endif -%}
-              </product-recommendations>
-            {%- when 'icon-with-text' -%}
-              {% render 'icon-with-text',
-                block: block
-              %}
-          {%- endcase -%}
-        {%- endfor -%}
-        <a href="{{ product.url }}" class="link product__view-details animate-arrow">
-          {{ 'products.product.view_full_details' | t }}
-          {% render 'icon-arrow' %}
-        </a>
-      </product-info>
+              {%- when 'complementary' -%}
+                <product-recommendations
+                  class="complementary-products quick-add-hidden{% if block.settings.make_collapsible_row %} is-accordion{% endif %}{% if block.settings.enable_quick_add %} complementary-products-contains-quick-add{% endif %}"
+                  data-url="{{ routes.product_recommendations_url }}?limit={{ block.settings.product_list_limit }}&intent=complementary"
+                  data-section-id="{{ section.id }}"
+                  data-product-id="{{ product.id }}"
+                >
+                  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+                    <aside
+                      aria-label="{{ 'accessibility.complementary_products' | t }}"
+                      {{ block.shopify_attributes -}}
+                      {% if block.settings.make_collapsible_row %}
+                        class="product__accordion accordion"
+                      {% endif %}
+                    >
+                      <div class="complementary-products__container">
+                        {%- if block.settings.make_collapsible_row -%}
+                          <details id="Details-{{ block.id }}-{{ section.id }}" open>
+                            <summary>
+                        {%- endif %}
+                        <div class="summary__title">
+                          {%- if block.settings.make_collapsible_row -%}
+                            {% render 'icon-accordion', icon: block.settings.icon %}
+                            <h2 class="h4 accordion__title">{{ block.settings.block_heading }}</h2>
+                          {%- else -%}
+                            <h2 class="h3 accordion__title">{{ block.settings.block_heading }}</h2>
+                          {%- endif -%}
+                        </div>
+                        {%- if block.settings.make_collapsible_row -%}
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                          </summary>
+                        {%- endif -%}
+                        <slideshow-component class="slider-mobile-gutter">
+                          {%- assign number_of_slides = recommendations.products_count
+                            | plus: 0.0
+                            | divided_by: block.settings.products_per_page
+                            | ceil
+                          -%}
+                          <div
+                            id="Slider-{{ block.id }}"
+                            class="contains-card contains-card--product complementary-slider grid grid--1-col slider slider--everywhere"
+                            role="list"
+                            {% if number_of_slides > 1 %}
+                              aria-label="{{ 'general.slider.name' | t }}"
+                            {% endif %}
+                          >
+                            {% assign skip_card_product_styles = false %}
+                            {%- for i in (1..number_of_slides) -%}
+                              <div
+                                id="Slide-{{ block.id }}-{{ forloop.index }}"
+                                class="complementary-slide complementary-slide--{{ settings.card_style }} grid__item slider__slide slideshow__slide"
+                                tabindex="-1"
+                                role="group"
+                                {% if number_of_slides > 1 %}
+                                  aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+                                  aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                                {% endif %}
+                              >
+                                <ul class="list-unstyled" role="list">
+                                  {%- for product in recommendations.products
+                                    limit: block.settings.products_per_page
+                                    offset: continue
+                                  -%}
+                                    <li>
+                                      {%- if block.settings.enable_quick_add -%}
+                                        {% assign quick_add = 'standard' %}
+                                      {%- else -%}
+                                        {% assign quick_add = 'none' %}
+                                      {%- endif -%}
+                                      {% render 'card-product',
+                                        card_product: product,
+                                        media_aspect_ratio: block.settings.image_ratio,
+                                        show_secondary_image: false,
+                                        lazy_load: false,
+                                        skip_styles: skip_card_product_styles,
+                                        quick_add: quick_add,
+                                        section_id: section.id,
+                                        horizontal_class: true,
+                                        horizontal_quick_add: true
+                                      %}
+                                    </li>
+                                    {%- assign skip_card_product_styles = true -%}
+                                  {%- endfor -%}
+                                </ul>
+                              </div>
+                            {%- endfor -%}
+                          </div>
+                          {%- if number_of_slides > 1 -%}
+                            <div class="slider-buttons">
+                              <button
+                                type="button"
+                                class="slider-button slider-button--prev"
+                                name="previous"
+                                aria-label="{{ 'general.slider.previous_slide' | t }}"
+                              >
+                                <span class="svg-wrapper">
+                                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                                </span>
+                              </button>
+                              <div class="slider-counter slider-counter--{{ block.settings.pagination_style }}{% if block.settings.pagination_style == 'counter' or block.settings.pagination_style == 'numbers' %} caption{% endif %}">
+                                {%- if block.settings.pagination_style == 'counter' -%}
+                                  <span class="slider-counter--current">1</span>
+                                  <span aria-hidden="true"> / </span>
+                                  <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+                                  <span class="slider-counter--total">{{ number_of_slides }}</span>
+                                {%- else -%}
+                                  <div class="slideshow__control-wrapper">
+                                    {%- for i in (1..number_of_slides) -%}
+                                      <button
+                                        class="slider-counter__link slider-counter__link--{{ block.settings.pagination_style }} link"
+                                        aria-label="{{ 'sections.slideshow.load_slide' | t }} {{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                                        aria-controls="Slider-{{ block.id }}"
+                                      >
+                                        {%- if block.settings.pagination_style == 'numbers' -%}
+                                          {{ forloop.index -}}
+                                        {%- else -%}
+                                          <span class="dot"></span>
+                                        {%- endif -%}
+                                      </button>
+                                    {%- endfor -%}
+                                  </div>
+                                {%- endif -%}
+                              </div>
+                              <button
+                                type="button"
+                                class="slider-button slider-button--next"
+                                name="next"
+                                aria-label="{{ 'general.slider.next_slide' | t }}"
+                              >
+                                <span class="svg-wrapper">
+                                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                                </span>
+                              </button>
+                            </div>
+                          {%- endif -%}
+                        </slideshow-component>
+                        {%- if block.settings.make_collapsible_row -%}
+                          </details>
+                        {%- endif -%}
+                      </div>
+                    </aside>
+                  {%- endif -%}
+                  {{ 'component-card.css' | asset_url | stylesheet_tag }}
+                  {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
+                  {%- if block.settings.enable_quick_add -%}
+                    {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+                    <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+                  {%- endif -%}
+                </product-recommendations>
+              {%- when 'icon-with-text' -%}
+                {% render 'icon-with-text', block: block %}
+            {%- endcase -%}
+          {%- endfor -%}
+          <a href="{{ product.url }}" class="link product__view-details animate-arrow">
+            {{ 'products.product.view_full_details' | t }}
+            {{- 'icon-arrow.svg' | inline_asset_content -}}
+          </a>
+        </section>
       </div>
-      {%- if section.settings.media_position == 'right' -%}
-        {% comment %} Duplicate gallery to display after product content on tablet/desktop breakpoint {% endcomment %}
-        <div class="grid__item product__media-wrapper small-hide">
-          {% render 'product-media-gallery', variant_images: variant_images, is_duplicate: true %}
-        </div>
-      {%- endif -%}
     </div>
-  </div>
 
-  {% render 'product-media-modal' variant_images: variant_images %}
+    {% render 'product-media-modal', variant_images: variant_images %}
 
-  {% assign popups = section.blocks | where: 'type', 'popup' %}
-  {%- for block in popups -%}
-    {%- render 'product-popup-modal', block: block, product: product -%}
-  {%- endfor -%}
+    {% assign popups = section.blocks | where: 'type', 'popup' %}
+    {%- for block in popups -%}
+      <modal-dialog id="PopupModal-{{ block.id }}" class="product-popup-modal" {{ block.shopify_attributes }}>
+        <div
+          role="dialog"
+          aria-label="{{ block.settings.text }}"
+          aria-modal="true"
+          class="product-popup-modal__content"
+          tabindex="-1"
+        >
+          <button
+            id="ModalClose-{{ block.id }}"
+            type="button"
+            class="product-popup-modal__toggle"
+            aria-label="{{ 'accessibility.close' | t }}"
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+          <div class="product-popup-modal__content-info">
+            <h1 class="h2">{{ block.settings.page.title | escape }}</h1>
+            {{ block.settings.page.content }}
+          </div>
+        </div>
+      </modal-dialog>
+    {%- endfor -%}
 
-  {% render 'mobile-sticky-buy-buttons', product: product, product_form_id: product_form_id, section_id: section.id %}
-  {% render 'desktop-sticky-buy-buttons', product: product, product_form_id: product_form_id, section_id: section.id %}
+    {%- if product.media.size > 0 -%}
+      <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
 
-  {%- if product.media.size > 0 -%}
-    <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
-  {%- endif -%}
+    {%- if first_3d_model -%}
+      <script type="application/json" id="ProductJSON-{{ product.id }}">
+        {{ product.media | where: 'media_type', 'model' | json }}
+      </script>
+      <script src="{{ 'product-model.js' | asset_url }}" defer></script>
+    {%- endif -%}
 
-  <script src="{{ 'mobile-sticky-buy-bar.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'desktop-sticky-buy-bar.js' | asset_url }}" defer="defer"></script>
+    {%- liquid
+      if product.selected_or_first_available_variant.featured_media
+        assign seo_media = product.selected_or_first_available_variant.featured_media
+      else
+        assign seo_media = product.featured_media
+      endif
+    -%}
 
-  {%- if first_3d_model -%}
-    <script type="application/json" id="ProductJSON-{{ product.id }}">
-      {{ product.media | where: 'media_type', 'model' | json }}
+    <script type="application/ld+json">
+      {{ product | structured_data }}
     </script>
-    <script src="{{ 'product-model.js' | asset_url }}" defer></script>
-  {%- endif -%}
-  
-
-
-  <script>
-  const interval = setInterval(() => {
-  const actionBlock = document.querySelector('.AirReviews-Blocks--Actions');
-  
-  if (actionBlock) {
-    for (let node of actionBlock.childNodes) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        node.textContent = 'Write a review '; // New text
-        clearInterval(interval);
-        break;
-      }
-    }
-  }
-}, 500); // check every 500ms
-
-    document.addEventListener('DOMContentLoaded', function () {
-      function isIE() {
-        const ua = window.navigator.userAgent;
-        const msie = ua.indexOf('MSIE ');
-        const trident = ua.indexOf('Trident/');
-
-        return msie > 0 || trident > 0;
-      }
-
-      if (!isIE()) return;
-      const hiddenInput = document.querySelector('#{{ product_form_id }} input[name="id"]');
-      const noScriptInputWrapper = document.createElement('div');
-      const variantPicker = document.querySelector('variant-selects[data-section="{{ section.id }}"]');
-      noScriptInputWrapper.innerHTML = document.querySelector(
-        '.product-form__noscript-wrapper-{{ section.id }}'
-      ).textContent;
-      variantPicker.outerHTML = noScriptInputWrapper.outerHTML;
-
-      document.querySelector('#Variants-{{ section.id }}').addEventListener('change', function (event) {
-        hiddenInput.value = event.currentTarget.value;
-      });
-    });
-  </script>
-
-  {%- liquid
-    if product.selected_or_first_available_variant.featured_media
-      assign seo_media = product.selected_or_first_available_variant.featured_media
-    else
-      assign seo_media = product.featured_media
-    endif
-  -%}
-
-  <script type="application/ld+json">
-    {
-      "@context": "http://schema.org/",
-      "@type": "Product",
-      "name": {{ product.title | json }},
-      "url": {{ request.origin | append: product.url | json }},
-      {% if seo_media -%}
-        "image": [
-          {{ seo_media | image_url: width: 1920 | prepend: "https:" | json }}
-        ],
-      {%- endif %}
-      "description": {{ product.description | strip_html | json }},
-      {% if product.selected_or_first_available_variant.sku != blank -%}
-        "sku": {{ product.selected_or_first_available_variant.sku | json }},
-      {%- endif %}
-      "brand": {
-        "@type": "Brand",
-        "name": {{ product.vendor | json }}
-      },
-      "offers": [
-        {%- for variant in product.variants -%}
-          {
-            "@type" : "Offer",
-            {%- if variant.sku != blank -%}
-              "sku": {{ variant.sku | json }},
-            {%- endif -%}
-            {%- if variant.barcode.size == 12 -%}
-              "gtin12": {{ variant.barcode }},
-            {%- endif -%}
-            {%- if variant.barcode.size == 13 -%}
-              "gtin13": {{ variant.barcode }},
-            {%- endif -%}
-            {%- if variant.barcode.size == 14 -%}
-              "gtin14": {{ variant.barcode }},
-            {%- endif -%}
-            "availability" : "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
-            "price" : {{ variant.price | divided_by: 100.00 | json }},
-            "priceCurrency" : {{ cart.currency.iso_code | json }},
-            "url" : {{ request.origin | append: variant.url | json }}
-          }{% unless forloop.last %},{% endunless %}
-        {%- endfor -%}
-      ]
-    }
-  </script>
-  
-
-</section>
+  </div>
+</product-info>
 
 {% schema %}
 {
@@ -1888,7 +754,7 @@ background:transparent !important;
         {
           "type": "inline_richtext",
           "id": "text",
-          "default": "Text block",
+          "default": "t:sections.main-product.blocks.text.settings.text.default",
           "label": "t:sections.main-product.blocks.text.settings.text.label"
         },
         {
@@ -1982,7 +848,6 @@ background:transparent !important;
           "min": 0,
           "max": 100,
           "step": 1,
-          "info": "t:sections.main-product.blocks.inventory.settings.inventory_threshold.info",
           "default": 10
         },
         {
@@ -2042,7 +907,6 @@ background:transparent !important;
         }
       ]
     },
-
     {
       "type": "buy_buttons",
       "name": "t:sections.main-product.blocks.buy_buttons.name",
@@ -2077,16 +941,8 @@ background:transparent !important;
         {
           "type": "text",
           "id": "share_label",
-          "default": "Share",
-          "label": "t:sections.main-product.blocks.share.settings.text.label"
-        },
-        {
-          "type": "paragraph",
-          "content": "t:sections.main-product.blocks.share.settings.featured_image_info.content"
-        },
-        {
-          "type": "paragraph",
-          "content": "t:sections.main-product.blocks.share.settings.title_info.content"
+          "label": "t:sections.main-product.blocks.share.settings.text.label",
+          "default": "t:sections.main-product.blocks.share.settings.text.default"
         }
       ]
     },
@@ -2109,8 +965,7 @@ background:transparent !important;
         {
           "type": "text",
           "id": "heading",
-          "default": "Collapsible row",
-          "info": "t:sections.main-product.blocks.collapsible_tab.settings.heading.info",
+          "default": "t:sections.main-product.blocks.collapsible_tab.settings.heading.default",
           "label": "t:sections.main-product.blocks.collapsible_tab.settings.heading.label"
         },
         {
@@ -2316,7 +1171,7 @@ background:transparent !important;
         {
           "type": "text",
           "id": "text",
-          "default": "Pop-up link text",
+          "default": "t:sections.main-product.blocks.popup.settings.link_label.default",
           "label": "t:sections.main-product.blocks.popup.settings.link_label.label"
         },
         {
@@ -2349,7 +1204,7 @@ background:transparent !important;
         {
           "type": "text",
           "id": "block_heading",
-          "default": "Pairs well with",
+          "default": "t:sections.main-product.blocks.complementary_products.settings.heading.default",
           "label": "t:sections.main-product.blocks.complementary_products.settings.heading.label"
         },
         {
@@ -2631,8 +1486,8 @@ background:transparent !important;
         },
         {
           "type": "header",
-          "content": "t:sections.main-product.blocks.icon_with_text.settings.content.label",
-          "info": "t:sections.main-product.blocks.icon_with_text.settings.content.info"
+          "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_1.label",
+          "info": "t:sections.main-product.blocks.icon_with_text.settings.pairing_1.info"
         },
         {
           "type": "select",
@@ -2826,9 +1681,13 @@ background:transparent !important;
         {
           "type": "inline_richtext",
           "id": "heading_1",
-          "default": "Heading",
+          "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_1.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_1.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_2.label"
         },
         {
           "type": "select",
@@ -3022,9 +1881,13 @@ background:transparent !important;
         {
           "type": "inline_richtext",
           "id": "heading_2",
-          "default": "Heading",
+          "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_2.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_2.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main-product.blocks.icon_with_text.settings.pairing_3.label"
         },
         {
           "type": "select",
@@ -3218,7 +2081,7 @@ background:transparent !important;
         {
           "type": "inline_richtext",
           "id": "heading_3",
-          "default": "Heading",
+          "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
         }
@@ -3240,8 +2103,7 @@ background:transparent !important;
     },
     {
       "type": "header",
-      "content": "t:sections.main-product.settings.header.content",
-      "info": "t:sections.main-product.settings.header.info"
+      "content": "t:sections.main-product.settings.header.content"
     },
     {
       "type": "select",
@@ -3261,8 +2123,7 @@ background:transparent !important;
         }
       ],
       "default": "large",
-      "label": "t:sections.main-product.settings.media_size.label",
-      "info": "t:sections.main-product.settings.media_size.info"
+      "label": "t:sections.main-product.settings.media_size.label"
     },
     {
       "type": "checkbox",
@@ -3312,6 +2173,26 @@ background:transparent !important;
     },
     {
       "type": "select",
+      "id": "mobile_thumbnails",
+      "options": [
+        {
+          "value": "columns",
+          "label": "t:sections.main-product.settings.mobile_thumbnails.options__1.label"
+        },
+        {
+          "value": "show",
+          "label": "t:sections.main-product.settings.mobile_thumbnails.options__2.label"
+        },
+        {
+          "value": "hide",
+          "label": "t:sections.main-product.settings.mobile_thumbnails.options__3.label"
+        }
+      ],
+      "default": "hide",
+      "label": "t:sections.main-product.settings.mobile_thumbnails.label"
+    },
+    {
+      "type": "select",
       "id": "media_position",
       "options": [
         {
@@ -3324,8 +2205,7 @@ background:transparent !important;
         }
       ],
       "default": "left",
-      "label": "t:sections.main-product.settings.media_position.label",
-      "info": "t:sections.main-product.settings.media_position.info"
+      "label": "t:sections.main-product.settings.media_position.label"
     },
     {
       "type": "select",
@@ -3345,28 +2225,7 @@ background:transparent !important;
         }
       ],
       "default": "lightbox",
-      "label": "t:sections.main-product.settings.image_zoom.label",
-      "info": "t:sections.main-product.settings.image_zoom.info"
-    },
-    {
-      "type": "select",
-      "id": "mobile_thumbnails",
-      "options": [
-        {
-          "value": "columns",
-          "label": "t:sections.main-product.settings.mobile_thumbnails.options__1.label"
-        },
-        {
-          "value": "show",
-          "label": "t:sections.main-product.settings.mobile_thumbnails.options__2.label"
-        },
-        {
-          "value": "hide",
-          "label": "t:sections.main-product.settings.mobile_thumbnails.options__3.label"
-        }
-      ],
-      "default": "hide",
-      "label": "t:sections.main-product.settings.mobile_thumbnails.label"
+      "label": "t:sections.main-product.settings.image_zoom.label"
     },
     {
       "type": "checkbox",

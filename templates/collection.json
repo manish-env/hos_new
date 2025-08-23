@@ -1,294 +1,25 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "banner": {
       "type": "main-collection-banner",
-      "blocks": {
-        "collection_banner_B4ahkz": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "gifts-for-him"
-          }
-        },
-        "collection_banner_NcDGjU": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "combo"
-          }
-        },
-        "collection_banner_EzWx3N": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "gift-for-women"
-          }
-        },
-        "collection_banner_VDDFQc": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "mens-stole"
-          }
-        },
-        "collection_banner_yWdDMC": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "men-scarf"
-          }
-        },
-        "collection_banner_U4RCe7": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "pocket-square"
-          }
-        },
-        "collection_banner_V3mNAT": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "dupatta"
-          }
-        },
-        "collection_banner_pDNFyN": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "stole"
-          }
-        },
-        "collection_banner_7XBWFB": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "square-scarf"
-          }
-        },
-        "collection_banner_exRHPc": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "embroidered-saree"
-          }
-        },
-        "collection_banner_kRJc8B": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "printed-saree"
-          }
-        },
-        "collection_banner_zYjXKY": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "saree"
-          }
-        },
-        "collection_banner_gzkm67": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "skirt-set"
-          }
-        },
-        "collection_banner_Jpkgng": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "dress"
-          }
-        },
-        "collection_banner_FPV33c": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "jacket"
-          }
-        },
-        "collection_banner_CVmgHB": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "shirt"
-          }
-        },
-        "collection_banner_QLUhW9": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "tunics"
-          }
-        },
-        "collection_banner_4dedBx": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "kurta-sets"
-          }
-        },
-        "collection_banner_HmP8JR": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "co-ords"
-          }
-        },
-        "collection_banner_eYBb7g": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "all-apparel"
-          }
-        },
-        "collection_banner_Hh4tLC": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "lenora"
-          }
-        },
-        "collection_banner_4aRRMk": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "huvina"
-          }
-        },
-        "collection_banner_XfqaA3": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "raas-leela"
-          }
-        },
-        "collection_banner_md6YHM": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "the-explorer"
-          }
-        },
-        "collection_banner_ye6MnJ": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "shirts-under-3000"
-          }
-        },
-        "collection_banner_VGVMTe": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "festive-edit"
-          }
-        },
-        "collection_banner_rexk6w": {
-          "type": "collection_banner",
-          "settings": {
-            "collection": "3pc-suit-sets"
-          }
-        }
-      },
-      "block_order": [
-        "collection_banner_B4ahkz",
-        "collection_banner_NcDGjU",
-        "collection_banner_EzWx3N",
-        "collection_banner_VDDFQc",
-        "collection_banner_yWdDMC",
-        "collection_banner_U4RCe7",
-        "collection_banner_V3mNAT",
-        "collection_banner_pDNFyN",
-        "collection_banner_7XBWFB",
-        "collection_banner_exRHPc",
-        "collection_banner_kRJc8B",
-        "collection_banner_zYjXKY",
-        "collection_banner_gzkm67",
-        "collection_banner_Jpkgng",
-        "collection_banner_FPV33c",
-        "collection_banner_CVmgHB",
-        "collection_banner_QLUhW9",
-        "collection_banner_4dedBx",
-        "collection_banner_HmP8JR",
-        "collection_banner_eYBb7g",
-        "collection_banner_Hh4tLC",
-        "collection_banner_4aRRMk",
-        "collection_banner_XfqaA3",
-        "collection_banner_md6YHM",
-        "collection_banner_ye6MnJ",
-        "collection_banner_VGVMTe",
-        "collection_banner_rexk6w"
-      ],
-      "disabled": true,
-      "custom_css": [
-        "@media screen and (min-width: 750px) {.collection-hero__title {text-align: center; margin: 1.5rem 0; font-size: 21px; } .collection-hero__description {max-width: 80%; margin: 0 auto; }}",
-        ".collection-hero__title {font-size: 21px;}"
-      ],
       "settings": {
         "show_collection_description": true,
-        "show_collection_image": true,
-        "banner_height": 350,
-        "color_scheme": "background-1"
-      }
-    },
-    "image_banner_pBKU3Q": {
-      "type": "image-banner",
-      "name": "t:sections.image-banner.presets.name",
-      "settings": {
-        "image": "shopify://shop_images/saree_110d66d1-aa2f-41bd-b2f4-9a50843e316c.jpg",
-        "image_overlay_opacity": 0,
-        "image_height": "small",
-        "desktop_content_position": "middle-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "",
-        "image_behavior": "none",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": true
-      }
-    },
-    "collection_list_EYVbii": {
-      "type": "collection-list",
-      "blocks": {
-        "featured_collection_dBegdW": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "gift-for-women"
-          }
-        },
-        "featured_collection_LVbhar": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "gift-for-men"
-          }
-        },
-        "featured_collection_gFnNX9": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "combo"
-          }
-        }
-      },
-      "block_order": [
-        "featured_collection_dBegdW",
-        "featured_collection_LVbhar",
-        "featured_collection_gFnNX9"
-      ],
-      "disabled": true,
-      "settings": {
-        "title": "",
-        "heading_size": "h2",
-        "image_ratio": "square",
-        "columns_desktop": 3,
-        "color_scheme": "",
-        "show_view_all": false,
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "show_collection_image": false,
+        "color_scheme": "scheme-1"
       }
     },
     "product-grid": {
       "type": "main-collection-product-grid",
-      "custom_css": [
-        "h3 {font-weight: Bolder;}"
-      ],
       "settings": {
-        "products_per_page": 24,
+        "products_per_page": 16,
         "columns_desktop": 4,
-        "color_scheme": "background-1",
-        "image_ratio": "portrait",
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
         "image_shape": "default",
-        "show_secondary_image": true,
+        "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
-        "enable_quick_add": true,
+        "quick_add": "none",
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
@@ -296,23 +27,10 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "custom_liquid_UVyWri": {
-      "type": "custom-liquid",
-      "name": "t:sections.custom-liquid.presets.name",
-      "settings": {
-        "custom_liquid": "{% if collection %}\n<div id=\"mx-col-head\" class=\"page-width\">\n  <h2 class=\"mx-col-title\">{{ collection.title | escape }}</h2>\n  {% if collection.description != blank %}\n    <div class=\"mx-col-desc rte\">\n      {{ collection.description }}\n    </div>\n  {% endif %}\n</div>\n\n<style>\n  /* Minimal, theme-friendly, left-aligned */\n  #mx-col-head {\n    \n    padding-bottom: 10px;\n    border-bottom: 1px solid #ececec; /* subtle divider */\n  }\n\n  #mx-col-head .mx-col-title {\n    margin: 0 0 8px;\n    font-size: clamp(22px, 2.6vw, 34px);\n    line-height: 1.2;\n    font-weight: 500; /* premium but not loud */\n    letter-spacing: .2px;\n    color: inherit; /* use theme color */\n  }\n\n  #mx-col-head .mx-col-desc {\n    margin-top: 6px;\n    font-size: 15.5px;\n    line-height: 1.7;\n    color: rgba(0,0,0,.78);\n  }\n\n  #mx-col-head .mx-col-desc p {\n    margin: .4em 0;\n  }\n\n  /* Respect dark themes if used */\n  @media (prefers-color-scheme: dark) {\n    #mx-col-head { border-bottom: 1px solid rgba(255,255,255,.14); }\n    #mx-col-head .mx-col-desc { color: rgba(255,255,255,.82); }\n  }\n</style>\n{% endif %}",
-        "color_scheme": "",
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
     }
   },
   "order": [
     "banner",
-    "image_banner_pBKU3Q",
-    "collection_list_EYVbii",
-    "product-grid",
-    "custom_liquid_UVyWri"
+    "product-grid"
   ]
 }
