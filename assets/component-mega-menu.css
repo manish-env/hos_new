@@ -97,6 +97,18 @@
   position: relative;
   text-decoration: none !important; /* prevent default underline */
 }
+.header__inline-menu .list-menu__item,
+.header__inline-menu .list-menu__item a,
+.header__inline-menu .list-menu__item span,
+.header__inline-menu .list-menu__item:hover,
+.header__inline-menu .list-menu__item a:hover,
+.header__inline-menu .list-menu__item a:focus,
+.header__inline-menu .list-menu__item a:focus-visible,
+.header__inline-menu .header__active-menu-item {
+  text-decoration: none !important; /* kill black underline from theme */
+  text-decoration-color: transparent !important;
+  border-bottom: 0 !important;
+}
 .header__inline-menu .header__menu-item:hover,
 .header__inline-menu .header__menu-item:focus-visible,
 .header__inline-menu .header__menu-item:active {
@@ -126,6 +138,10 @@
 .header__inline-menu a.list-menu__item.link.link--text {
   position: relative;
   text-decoration: none !important; /* remove black underline */
+}
+.header__inline-menu a.list-menu__item.link.link--text:hover,
+.header__inline-menu a.list-menu__item.link.link--text:focus-visible {
+  text-decoration: none !important; /* keep default underline off */
 }
 .header__inline-menu a.list-menu__item.link.link--text::after {
   content: '';
