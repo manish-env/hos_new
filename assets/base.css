@@ -2844,6 +2844,14 @@ details[open] > .header__menu-item .header__active-menu-item {
   transition: opacity var(--duration-default) ease, transform var(--duration-default) ease;
 }
 
+/* Mega menu width to 90% and centered */
+.mega-menu__content .mega-menu__list.page-width {
+  max-width: 90% !important;
+  width: 90% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .global-settings-popup,
 .header__submenu.global-settings-popup {
   border-radius: var(--popup-corner-radius);
