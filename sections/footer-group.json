@@ -11,6 +11,49 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "trustbadges_kiYKmr": {
+      "type": "trustbadges",
+      "blocks": {
+        "badge_H8X9JF": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-truck-fast",
+            "label": "Track Order"
+          }
+        },
+        "badge_CgdqL4": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-globe",
+            "label": "International Delivery"
+          }
+        },
+        "badge_QwFQMF": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-scissors",
+            "label": "Boutique Stitching"
+          }
+        }
+      },
+      "block_order": [
+        "badge_H8X9JF",
+        "badge_CgdqL4",
+        "badge_QwFQMF"
+      ],
+      "name": "MX Footer Utilities",
+      "settings": {
+        "bg": "#f5f5f5",
+        "subscribe_title": "",
+        "placeholder": "Enter your email address",
+        "button_label": "SUBSCRIBE",
+        "success_msg": "Thanks for subscribing!",
+        "facebook_url": "https://house-of-sonali.myshopify.com/",
+        "instagram_url": "https://house-of-sonali.myshopify.com/",
+        "youtube_url": "https://house-of-sonali.myshopify.com/",
+        "blog_url": ""
+      }
+    },
     "footer": {
       "type": "footer",
       "disabled": true,
@@ -31,6 +74,7 @@
     }
   },
   "order": [
+    "trustbadges_kiYKmr",
     "footer"
   ]
 }
