@@ -25,12 +25,17 @@
 .footer__utility-left .list-social {
   gap: 1.2rem;
 }
+/* Ensure links don't add extra padding shrinking the icon */
+.footer__utility-left .list-social__link { padding: 0 !important; }
 
-/* Increase social icon size in the left column */
-.footer__utility-left .list-social__link .icon,
-.footer__utility-left .list-social .icon {
-  width: 28px;
-  height: 28px;
+/* Increase social icon size in the left column (very strong specificity) */
+.footer .footer__utility-left .list-social .list-social__link .icon,
+.footer .footer__utility-left .list-social .list-social__link svg,
+.footer .footer__utility-left .list-social .list-social__link use,
+.footer .footer__utility-left .list-social .icon {
+  width: 40px !important;
+  height: 40px !important;
+  display: inline-block !important;
 }
 
 .footer__utility-center { display: flex; justify-content: center; text-align: center; }
@@ -55,12 +60,23 @@
   align-items: center;
   gap: 0.6rem;
 }
-.footer__utility-right .field__input { height: 3.2rem; padding: 0 1rem; border: 1px solid rgba(var(--color-foreground), 0.25); background: transparent; box-shadow: none; outline: none; }
-/* Remove Dawn focus ring/box-shadow for the inline input to prevent double outline */
-.footer__utility-right .field:focus-within .field__input { box-shadow: none; }
-.footer__utility-right .field__input:focus { box-shadow: none; outline: none; }
-.footer__utility-right .field::after { border: 0 !important; }
-.footer__utility-right .field { box-shadow: none; }
+/* Remove wrapper borders/shadows that create a double border */
+.footer__utility-right .newsletter-form .newsletter-form__field-wrapper { border: 0 !important; box-shadow: none !important; background: transparent; }
+.footer__utility-right .newsletter-form .field { border: 0 !important; background: transparent; box-shadow: none !important; }
+.footer__utility-right .newsletter-form .field::after,
+.footer__utility-right .newsletter-form .field::before { content: none !important; border: 0 !important; box-shadow: none !important; }
+.footer__utility-right .newsletter-form .field__input { height: 3.2rem; padding: 0 1rem; border: 1px solid rgba(var(--color-foreground), 0.25) !important; background: transparent; box-shadow: none !important; outline: none; }
+/* Remove Dawn focus ring/box-shadow and pseudo-border to prevent double outline */
+.footer__utility-right .newsletter-form .field:focus-within .field__input { box-shadow: none !important; border-color: rgba(var(--color-foreground), 0.45) !important; }
+.footer__utility-right .newsletter-form .field__input:focus { box-shadow: none !important; outline: none; }
+.footer__utility-right .newsletter-form .field__input:invalid { box-shadow: none !important; outline: none !important; }
+.footer__utility-right .newsletter-form .field__input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit;
+}
+.footer__utility-right .newsletter-form .field::after { content: none !important; border: 0 !important; box-shadow: none !important; }
+.footer__utility-right .newsletter-submit { border: 0 !important; }
 .footer__utility-right .field__label { display: none; }
 .footer__utility-right .newsletter-submit { height: 3.2rem; padding: 0 1.2rem; font-size: 1.2rem; text-transform: uppercase; }
 
