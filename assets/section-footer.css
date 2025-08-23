@@ -14,7 +14,7 @@
 /* Utility bar at top of footer */
 .footer__utility-bar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 25% 50% 25%;
   align-items: center;
   gap: 2rem;
   padding-bottom: 1.6rem;
