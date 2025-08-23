@@ -111,10 +111,20 @@
                       endif
                     endif
                   -%}
-                  {%- if parent_collection and parent_collection.image -%}
+                  {%- liquid
+                    assign promo_image = nil
+                    if parent_collection
+                      if parent_collection.image
+                        assign promo_image = parent_collection.image
+                      elsif parent_collection.featured_image
+                        assign promo_image = parent_collection.featured_image
+                      endif
+                    endif
+                  -%}
+                  {%- if promo_image -%}
                     <li class="mega-menu__promo">
                       <a href="{{ link.url }}" class="mega-menu__promo-link" aria-label="{{ parent_collection.title | default: link.title | escape }}">
-                        {{ parent_collection.image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 540, 700', sizes: '(min-width: 1200px) 16vw, 30vw', alt: parent_collection.title }}
+                        {{ promo_image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 540, 700', sizes: '(min-width: 1200px) 16vw, 30vw', alt: parent_collection.title }}
                       </a>
                     </li>
                   {%- endif -%}
