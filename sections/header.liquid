@@ -86,6 +86,17 @@
     .header__search-inline .search { width: 100%; }
   }
   {%- endif -%}
+
+  /* Promo tabs styles */
+  .header-promo-tabs { margin-top: 0.75rem; }
+  .header-promo-track { display: flex; gap: 0; transition: transform 400ms ease; }
+  .header-promo-item { flex: 0 0 100%; text-align: center; padding: 0.875rem 1rem; font-weight: 600; }
+  .header-promo-item:nth-child(2n) { background: rgba(0,0,0,0.04); }
+  .header-promo-item:nth-child(2n+1) { background: rgba(0,0,0,0.06); }
+  @media screen and (min-width: 990px) {
+    .header-promo-track { display: grid; grid-template-columns: repeat(3, 1fr); transform: none !important; }
+    .header-promo-item { flex: unset; }
+  }
 </style>
 
 {%- style -%}
@@ -372,6 +383,21 @@
       </a>
     </div>
   </header>
+  {%- if section.settings.show_promo_tabs -%}
+    <div class="header-promo-tabs page-width" role="region" aria-label="Header promotions">
+      <div class="header-promo-track">
+        {%- if section.settings.promo_text_1 != blank -%}
+          <div class="header-promo-item">{{ section.settings.promo_text_1 }}</div>
+        {%- endif -%}
+        {%- if section.settings.promo_text_2 != blank -%}
+          <div class="header-promo-item">{{ section.settings.promo_text_2 }}</div>
+        {%- endif -%}
+        {%- if section.settings.promo_text_3 != blank -%}
+          <div class="header-promo-item">{{ section.settings.promo_text_3 }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
 </{{ header_tag }}>
 
 {%- if settings.cart_type == 'notification' -%}
@@ -493,6 +519,25 @@
   }
 
   customElements.define('sticky-header', StickyHeader);
+
+  // Auto-slide promo tabs on small screens
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.header-promo-tabs');
+    if (!container) return;
+    const track = container.querySelector('.header-promo-track');
+    const items = track ? Array.from(track.children) : [];
+    if (!track || items.length <= 1) return;
+
+    let index = 0;
+    const advance = () => {
+      // Desktop shows 3 in a row, no sliding
+      if (window.matchMedia('(min-width: 990px)').matches) return;
+      index = (index + 1) % items.length;
+      track.style.transform = `translateX(-${index * 100}%)`;
+    };
+
+    setInterval(advance, 4000);
+  });
 {% endjavascript %}
 
 <script type="application/ld+json">
@@ -617,6 +662,34 @@
         { "value": "input", "label": "Inline input on desktop" }
       ],
       "default": "icon"
+    },
+    {
+      "type": "header",
+      "content": "Header promo tabs"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_promo_tabs",
+      "default": false,
+      "label": "Show header promo tabs"
+    },
+    {
+      "type": "text",
+      "id": "promo_text_1",
+      "label": "Promo text 1",
+      "default": "PERFECT TAILORING , DELIVERED AT DOORSTEPS"
+    },
+    {
+      "type": "text",
+      "id": "promo_text_2",
+      "label": "Promo text 2",
+      "default": "FREE DELIVERY ACROSS INDIA"
+    },
+    {
+      "type": "text",
+      "id": "promo_text_3",
+      "label": "Promo text 3",
+      "default": "TRENDIEST TOP QUALITY DRESSES"
     },
     {
       "type": "select",
