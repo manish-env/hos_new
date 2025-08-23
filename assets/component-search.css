@@ -77,6 +77,23 @@ input::-webkit-search-decoration {
 .header__search-inline--clean .field__label {
   display: none !important; /* hide 'Search' label text */
 }
+.header__search-inline--clean .header__search-inline-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.header__search-inline--clean .header__mail-link {
+  display: inline-flex;
+  align-items: center;
+  color: rgb(var(--color-foreground));
+}
+.header__search-inline--clean .header__mail-link:hover { opacity: 0.85; }
+.header__search-inline--clean .header__search-sep {
+  width: 1px;
+  height: 16px;
+  background: rgba(var(--color-foreground), 0.4);
+  display: inline-block;
+}
 .header__search-inline--clean .field,
 .header__search-inline--clean .search__input.field__input {
   border: 0 !important;
