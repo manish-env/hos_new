@@ -14,12 +14,15 @@
   border-left: 0;
   border-radius: 0;
   border-right: 0;
-  /* Center the panel and constrain width */
-  left: 50%;
-  right: auto;
-  width: 70%;
-  transform: translateX(-50%);
+  /* Center the panel and constrain width without shifting */
+  left: 0;
+  right: 0;
+  width: 70vw;               /* 70% of viewport */
+  max-width: var(--page-width);
+  margin-left: auto;
+  margin-right: auto;
   overflow-y: auto;
+  overflow-x: hidden;
   padding-bottom: 3rem;
   padding-top: 3rem;
   position: absolute;
