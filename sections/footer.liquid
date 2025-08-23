@@ -92,25 +92,24 @@
 
   /* page-width wrapper (theme controls width/padding) */
   .mx-fw.page-width{
-    display:grid;
-    grid-template-columns: 1fr; /* mobile stack */
+    display:flex;
+    flex-wrap:wrap; /* mobile stack */
     gap:20px;
     align-items:center;
     padding-top:18px; padding-bottom:18px; /* gentle vertical space */
     width:100%;
     max-width:100%;
     overflow-x: hidden; /* prevent accidental horizontal scroll */
+    min-width:0;
   }
 
-  /* Mobile order: Badges → Subscribe → Socials */
-  .mx-badges{order:1;}
-  .mx-subscribe{order:2;}
-  .mx-socials{order:3;}
+  /* Mobile: stacked full-width */
+  .mx-socials, .mx-badges, .mx-subscribe { flex: 1 1 100%; min-width:0; }
 
   /* Socials */
   .mx-socials{display:flex; gap:18px; align-items:center; justify-content:flex-start; flex-wrap:wrap; min-width:0;}
-  .mx-social{display:inline-flex; width:36px; height:36px; border:1px solid #cfcfcf; align-items:center; justify-content:center;}
-  .mx-social i{font-size:16px;}
+  .mx-social{display:inline-flex; width:40px; height:40px; border:1px solid #cfcfcf; align-items:center; justify-content:center;}
+  .mx-social i{font-size:18px;}
 
   /* Badges (center column) */
   .mx-badges{ /* centered and can wrap safely without causing overflow */
@@ -136,15 +135,11 @@
   .mx-error{color:#b00020}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
-  /* Desktop split: 20% | 60% | 20% inside page width */
+  /* Desktop: three columns that auto-fit (25% | auto-centered 50% | 25%) */
   @media (min-width: 992px){
-    .mx-fw.page-width{
-      grid-template-columns: minmax(0,20%) minmax(0,60%) minmax(0,20%);
-      gap:24px;
-    }
-    .mx-socials{order:1; justify-content:flex-start;}
-    .mx-badges{order:2;}
-    .mx-subscribe{order:3; align-items:flex-end;}
+    .mx-socials  { flex: 1 1 25%; justify-content:flex-start; }
+    .mx-badges   { flex: 1 1 50%; }
+    .mx-subscribe{ flex: 1 1 25%; align-items:flex-end; }
     .mx-input-wrap{max-width:420px; width:100%;}
   }
 
