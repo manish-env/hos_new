@@ -108,4 +108,19 @@ input::-webkit-search-decoration {
 /* Ensure input background is seamless */
 .header__search-inline--clean .search__input.field__input {
   background: transparent !important;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.25) !important; /* only bottom border */
+  border-radius: 0 !important;
+  padding-left: 0 !important; /* align with text */
+}
+
+/* Keep bottom border on focus and optionally darken slightly */
+.header__search-inline--clean .search__input.field__input:focus,
+.header__search-inline--clean .search__input.field__input:focus-visible {
+  border-bottom-color: rgba(var(--color-foreground), 0.45) !important;
+}
+
+/* Placeholder style */
+.header__search-inline--clean .search__input.field__input::placeholder {
+  color: rgba(var(--color-foreground), 0.5);
+  opacity: 1; /* ensure visible across browsers */
 }
