@@ -106,6 +106,7 @@
 
   /* Wishlist heart and cart color to brand pink */
   .header__icon--heart { color: #FA05E8; margin-right: 0.6rem; }
+  .header__icon--heart i { font-size: 22px; line-height: 1; display: inline-block; }
   .header__icon--cart { color: #FA05E8; }
   .header__icon .svg-wrapper svg { display: block; }
 </style>
@@ -311,12 +312,9 @@
       {%- endfor -%}
 
       <a class="header__icon header__icon--heart link focus-inset" href="#" aria-label="Wishlist">
-        <span class="svg-wrapper" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-            <path d="M12 20s-7-4.534-9.5-8.25C.5 8.5 2.5 5 6 5c2 0 3.5 1.5 4 2.5C10.5 6.5 12 5 14 5c3.5 0 5.5 3.5 3.5 6.75C19 15.466 12 20 12 20z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
+        <i class="fa-regular fa-heart" aria-hidden="true"></i>
       </a>
+
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {% if cart == empty %}
           <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
