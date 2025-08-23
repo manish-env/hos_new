@@ -1,5 +1,5 @@
 {% comment %}
-  Mx – Collection List (bottom-centered title + grow-from-center border hover)
+  Mx – Collection List (bottom-centered title + grow-from-center border hover, no radius)
 {% endcomment %}
 
 <section class="mx-coll-list" style="--mx-cols-d: {{ section.settings.columns_desktop }}; --mx-cols-m: {{ section.settings.columns_mobile }}; --mx-gap: {{ section.settings.gap }}px;">
@@ -16,7 +16,6 @@
             class="mx-card"
             href="{{ coll.url }}"
             {{ block.shopify_attributes }}
-            style="--mx-radius: {{ section.settings.radius }}px;"
           >
             <div class="mx-imgwrap {% if section.settings.cover %}mx-cover{% else %}mx-contain{% endif %}">
               {% assign img = block.settings.image | default: coll.image %}
@@ -25,6 +24,8 @@
               {% else %}
                 {{ 'collection-1' | placeholder_svg_tag: 'mx-ph' }}
               {% endif %}
+
+              {%- comment -%} Grow-from-center lines (2px) on all four sides {%- endcomment -%}
               <span class="mx-line top"></span>
               <span class="mx-line right"></span>
               <span class="mx-line bottom"></span>
@@ -61,8 +62,9 @@
 
   .mx-card{ display:block; text-decoration:none; color:inherit }
   .mx-imgwrap{
-    position: relative; overflow: hidden; border-radius: var(--mx-radius, 10px);
+    position: relative; overflow: hidden; border-radius: 0; /* no radius */
     aspect-ratio: 4/5; background: #f6f6f6;
+    color:#ffffff; /* line color (white over photo) */
   }
   .mx-imgwrap.mx-cover .mx-img{ width:100%; height:100%; object-fit:cover; display:block }
   .mx-imgwrap.mx-contain .mx-img{ width:100%; height:100%; object-fit:contain; display:block; background:#fff }
@@ -86,26 +88,36 @@
     color:#fff; text-align:center;
   }
 
-  /* Grow-from-center border lines */
-  .mx-line{ position:absolute; display:block; background: currentColor; pointer-events:none; }
+  /* Grow-from-center border lines (2px), meeting at corners simultaneously */
+  .mx-line{ position:absolute; display:block; background: currentColor; pointer-events:none; opacity:1; }
   .mx-line.top,
-  .mx-line.bottom{ height:2px; left:10px; right:10px; transform: scaleX(0); transform-origin:center; }
+  .mx-line.bottom{
+    height:2px; left:0; right:0;
+    transform: scaleX(0); transform-origin:center;
+  }
   .mx-line.left,
-  .mx-line.right{ width:2px; top:10px; bottom:10px; transform: scaleY(0); transform-origin:center; }
-  .mx-line.top{ top:10px; }
-  .mx-line.bottom{ bottom:10px; }
-  .mx-line.left{ left:10px; }
-  .mx-line.right{ right:10px; }
-  .mx-imgwrap{ color:#ffffff; } /* line color (white over photo) */
+  .mx-line.right{
+    width:2px; top:0; bottom:0;
+    transform: scaleY(0); transform-origin:center;
+  }
+  .mx-line.top{ top:0; }
+  .mx-line.bottom{ bottom:0; }
+  .mx-line.left{ left:0; }
+  .mx-line.right{ right:0; }
 
+  /* Animate all sides together so they join neatly at corners */
   .mx-card:hover .mx-line.top,
-  .mx-card:focus-visible .mx-line.top{ transform: scaleX(1); transition: transform .35s ease; }
+  .mx-card:focus-visible .mx-line.top,
   .mx-card:hover .mx-line.bottom,
-  .mx-card:focus-visible .mx-line.bottom{ transform: scaleX(1); transition: transform .35s ease .05s; }
+  .mx-card:focus-visible .mx-line.bottom{
+    transition: transform .35s ease; transform: scaleX(1);
+  }
   .mx-card:hover .mx-line.left,
-  .mx-card:focus-visible .mx-line.left{ transform: scaleY(1); transition: transform .35s ease .1s; }
+  .mx-card:focus-visible .mx-line.left,
   .mx-card:hover .mx-line.right,
-  .mx-card:focus-visible .mx-line.right{ transform: scaleY(1); transition: transform .35s ease .15s; }
+  .mx-card:focus-visible .mx-line.right{
+    transition: transform .35s ease; transform: scaleY(1);
+  }
 
   /* Optional subtle lift */
   .mx-card .mx-imgwrap{ transition: transform .35s ease }
@@ -119,7 +131,7 @@
   "class": "section",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by Category" },
-    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": false },
     { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 2, "max": 5, "step": 1, "default": 4 },
     {
       "type": "select",
@@ -132,7 +144,6 @@
       ]
     },
     { "type": "range", "id": "gap", "label": "Card gap (px)", "min": 0, "max": 40, "step": 2, "default": 16 },
-    { "type": "range", "id": "radius", "label": "Card radius (px)", "min": 0, "max": 24, "step": 1, "default": 12 },
     { "type": "checkbox", "id": "cover", "label": "Image fit: cover (else contain)", "default": true }
   ],
   "blocks": [
