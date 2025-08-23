@@ -90,9 +90,12 @@ input::-webkit-search-decoration {
 .header__search-inline--clean .header__mail-link:hover { opacity: 0.85; }
 .header__search-inline--clean .header__search-sep {
   width: 1px;
-  height: 16px;
+  height: 18px; /* slightly taller like reference */
   background: rgba(var(--color-foreground), 0.4);
   display: inline-block;
+}
+.header__search-inline--clean .field {
+  position: relative; /* allow absolute-positioned dot */
 }
 .header__search-inline--clean .field,
 .header__search-inline--clean .search__input.field__input {
@@ -125,7 +128,7 @@ input::-webkit-search-decoration {
 /* Ensure input background is seamless */
 .header__search-inline--clean .search__input.field__input {
   background: transparent !important;
-  border-bottom: 1px solid rgba(var(--color-foreground), 0.25) !important; /* only bottom border */
+  border-bottom: 2px solid rgba(var(--color-foreground), 0.85) !important; /* thicker bottom line like reference */
   border-radius: 0 !important;
   padding-left: 0 !important; /* align with text */
   padding-right: 9.8rem; /* maintain room for buttons */
@@ -137,7 +140,7 @@ input::-webkit-search-decoration {
 .header__search-inline--clean .search__input.field__input:focus,
 .header__search-inline--clean .search__input.field__input:focus-visible,
 .header__search-inline--clean .search__input.field__input:active {
-  border-bottom: 1px solid rgba(var(--color-foreground), 0.25) !important;
+  border-bottom: 2px solid rgba(var(--color-foreground), 0.85) !important;
   box-shadow: none !important;
   outline: none !important;
 }
@@ -146,4 +149,17 @@ input::-webkit-search-decoration {
 .header__search-inline--clean .search__input.field__input::placeholder {
   color: rgba(var(--color-foreground), 0.5);
   opacity: 1; /* ensure visible across browsers */
+}
+
+/* Positioned red dot between input content and search icon */
+.header__search-inline--clean .header__search-dot {
+  position: absolute;
+  right: 3.6rem; /* just left of the search icon button */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: #E4002B; /* vivid red */
+  border-radius: 50%;
+  pointer-events: none;
 }

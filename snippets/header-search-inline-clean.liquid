@@ -4,7 +4,7 @@
 {%- endcomment -%}
 
 {%- assign loading_text = 'accessibility.loading' | t -%}
-{%- assign search_placeholder = 'Search…' -%}
+{%- assign search_placeholder = 'Search Your Style' -%}
 
 <div class="header__search-inline header__search-inline--clean">
   <div class="header__search-inline-row">
@@ -47,6 +47,7 @@
           {%- endif -%}
         >
         <input type="hidden" name="options[prefix]" value="last">
+        <span class="header__search-dot" aria-hidden="true"></span>
         <button type="reset" class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}" aria-label="{{ 'general.search.reset' | t }}">
           <span class="svg-wrapper">{{- 'icon-reset.svg' | inline_asset_content -}}</span>
         </button>
