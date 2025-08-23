@@ -1,13 +1,15 @@
 {% comment %}
-  MX Footer Utilities (Full Width)
-  Desktop: 20% Socials | 60% Badges | 20% Subscribe
-  Mobile:  Badges → Subscribe → Socials (stacked)
+  Section: MX Footer Utilities (Page-Width, 20/60/20)
+  - Desktop (>=992px): 20% Socials | 60% Badges (centered) | 20% Subscribe
+  - Mobile: Badges → Subscribe → Socials (stacked)
+  - Uses Font Awesome 6 (free) for icons
 {% endcomment %}
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <section class="mx-footer-utils" style="background: {{ section.settings.bg | default: '#f5f5f5' }};">
-  <div class="mx-fw">
+  <!-- Use theme container so it never overflows -->
+  <div class="mx-fw page-width">
 
     <!-- SOCIALS (20%) -->
     <div class="mx-socials" aria-label="Social links">
@@ -49,7 +51,10 @@
     <div class="mx-subscribe">
       {%- form 'customer', id: 'mx-newsletter' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
-        <label class="sr-only" for="mx-newsletter-email">{{ 'newsletter.label' | t | default: 'Enter your email address' }}</label>
+        <label class="sr-only" for="mx-newsletter-email">
+          {{ 'newsletter.label' | t | default: 'Enter your email address' }}
+        </label>
+
         <div class="mx-input-wrap">
           <input
             id="mx-newsletter-email"
@@ -62,10 +67,13 @@
           >
           <button class="mx-btn" type="submit">{{ section.settings.button_label }}</button>
         </div>
+
         {%- if form.posted_successfully? -%}
           <p class="mx-msg mx-success">{{ section.settings.success_msg }}</p>
         {%- elsif form.errors -%}
-          <p class="mx-msg mx-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</p>
+          <p class="mx-msg mx-error">
+            {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+          </p>
         {%- endif -%}
       {%- endform -%}
     </div>
@@ -74,36 +82,45 @@
 </section>
 
 <style>
-  /* Full-bleed wrapper */
-  .mx-footer-utils{color:#111; border-top:1px solid #eaeaea;}
-  .mx-fw{
-    width:100%;
-    margin:0;                         /* full page width */
-    padding:18px 16px;
-    display:grid;
-    gap:20px;
-    grid-template-columns: 1fr;       /* mobile default (stacked) */
-    align-items:center;
+  .mx-footer-utils{
+    color:#111;
+    border-top:1px solid #eaeaea;
+    box-sizing:border-box;
   }
 
-  /* Order on mobile: badges → subscribe → socials */
+  /* page-width wrapper (theme controls width/padding) */
+  .mx-fw.page-width{
+    display:grid;
+    grid-template-columns: 1fr; /* mobile stack */
+    gap:20px;
+    align-items:center;
+    padding-top:18px; padding-bottom:18px; /* gentle vertical space */
+  }
+
+  /* Mobile order: Badges → Subscribe → Socials */
   .mx-badges{order:1;}
   .mx-subscribe{order:2;}
   .mx-socials{order:3;}
 
   /* Socials */
-  .mx-socials{display:flex; gap:18px; align-items:center; justify-content:flex-start;}
+  .mx-socials{display:flex; gap:18px; align-items:center; justify-content:flex-start; flex-wrap:wrap;}
   .mx-social{display:inline-flex; width:36px; height:36px; border:1px solid #cfcfcf; align-items:center; justify-content:center;}
   .mx-social i{font-size:16px;}
 
-  /* Badges */
-  .mx-badges{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:24px; justify-items:center;}
-  .mx-badge{display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;}
+  /* Badges (center column) */
+  .mx-badges{
+    display:grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap:24px;
+    place-items:center; /* center icon + text blocks perfectly */
+    text-align:center;
+  }
+  .mx-badge{display:flex; flex-direction:column; align-items:center; gap:8px;}
   .mx-badge i{font-size:34px;}
   .mx-badge-text{font-size:14px; line-height:1.2; color:#333; text-transform:uppercase; letter-spacing:.02em;}
 
   /* Subscribe */
-  .mx-subscribe{display:flex; flex-direction:column; gap:8px; justify-self:stretch;}
+  .mx-subscribe{display:flex; flex-direction:column; gap:8px;}
   .mx-input-wrap{display:flex; align-items:center; width:100%;}
   .mx-input{
     height:44px; padding:0 12px; border:1px solid #cfcfcf; background:#fff;
@@ -118,28 +135,27 @@
   .mx-error{color:#b00020}
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
 
-  /* Desktop: 20% | 60% | 20% */
+  /* Desktop split: 20% | 60% | 20% inside page width */
   @media (min-width: 992px){
-    .mx-fw{
+    .mx-fw.page-width{
       grid-template-columns: 20% 60% 20%;
       gap:24px;
-      padding:22px 32px;
     }
     .mx-socials{order:1; justify-content:flex-start;}
-    .mx-badges{order:2; grid-template-columns:repeat(3, minmax(0,1fr));}
+    .mx-badges{order:2;}
     .mx-subscribe{order:3; align-items:flex-end;}
     .mx-input-wrap{max-width:420px; width:100%;}
   }
 
-  /* Optional: scale to 4–5 badges nicely on wide screens */
+  /* Wider screens: allow 4–5 badges gracefully if you add more blocks */
   @media (min-width: 1280px){
-    .mx-badges{grid-template-columns:repeat(5, minmax(0,1fr));}
+    .mx-badges{grid-template-columns: repeat(5, minmax(0,1fr));}
   }
 </style>
 
 {% schema %}
 {
-  "name": "MX Footer Utilities",
+  "name": "MX Footer Utilities (Page Width)",
   "settings": [
     { "type": "color", "id": "bg", "label": "Background color", "default": "#f5f5f5" },
     { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Enter your email address" },
@@ -164,7 +180,7 @@
   "max_blocks": 8,
   "presets": [
     {
-      "name": "MX Footer Utilities",
+      "name": "MX Footer Utilities (Page Width)",
       "blocks": [
         { "type": "badge", "settings": { "icon": "fa-truck-fast", "label": "Track Order" } },
         { "type": "badge", "settings": { "icon": "fa-globe", "label": "International Delivery" } },
