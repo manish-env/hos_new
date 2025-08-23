@@ -2835,6 +2835,11 @@ details[open] > .header__menu-item .icon-caret {
   text-decoration-thickness: 0.2rem;
 }
 
+/* When mega menu (details) is open, color the active nav link */
+details[open] > .header__menu-item .header__active-menu-item {
+  color: #FA05E8;
+}
+
 .header__submenu {
   transition: opacity var(--duration-default) ease, transform var(--duration-default) ease;
 }
