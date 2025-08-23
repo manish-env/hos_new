@@ -28,6 +28,61 @@
 {%- endstyle -%}
 
 <footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="footer__utility-bar page-width">
+    <div class="footer__utility-left">
+      {%- if section.settings.show_social and has_social_icons -%}
+        {%- render 'social-icons', class: 'footer__list-social' -%}
+      {%- endif -%}
+    </div>
+    <div class="footer__utility-center">
+      <ul class="footer__utility-features" role="list">
+        <li class="utility-feature">
+          <i class="fa-solid fa-truck" aria-hidden="true"></i>
+          <span>Track Order</span>
+        </li>
+        <li class="utility-feature">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span>International Delivery</span>
+        </li>
+        <li class="utility-feature">
+          <i class="fa-solid fa-scissors" aria-hidden="true"></i>
+          <span>Boutique Style Stitching</span>
+        </li>
+      </ul>
+    </div>
+    <div class="footer__utility-right">
+      {%- if section.settings.newsletter_enable -%}
+        <div class="footer__utility-newsletter">
+          {%- form 'customer', id: 'ContactFooterUtility', class: 'newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="newsletter-form__field-wrapper">
+              <div class="field field--inline">
+                <input
+                  id="NewsletterFormUtility--{{ section.id }}"
+                  type="email"
+                  name="contact[email]"
+                  class="field__input"
+                  value="{{ form.email }}"
+                  aria-required="true"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  placeholder="{{ 'newsletter.label' | t }}"
+                  required
+                >
+                <label class="field__label" for="NewsletterFormUtility--{{ section.id }}">
+                  {{ 'newsletter.label' | t }}
+                </label>
+                <button type="submit" class="button button--primary newsletter-submit" name="commit" aria-label="{{ 'newsletter.button_label' | t }}">
+                  Subscribe
+                </button>
+              </div>
+            </div>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
   {%- liquid
     assign has_social_icons = true
     if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
