@@ -26,6 +26,14 @@
   gap: 1.2rem;
 }
 
+/* Increase social icon size in the left column */
+.footer__utility-left .list-social__link .icon,
+.footer__utility-left .list-social .icon {
+  width: 28px;
+  height: 28px;
+}
+
+.footer__utility-center { display: flex; justify-content: center; text-align: center; }
 .footer__utility-center .footer__utility-features {
   list-style: none;
   display: grid;
@@ -47,7 +55,12 @@
   align-items: center;
   gap: 0.6rem;
 }
-.footer__utility-right .field__input { height: 3.2rem; padding: 0 1rem; border: 1px solid rgba(var(--color-foreground), 0.25); background: transparent; }
+.footer__utility-right .field__input { height: 3.2rem; padding: 0 1rem; border: 1px solid rgba(var(--color-foreground), 0.25); background: transparent; box-shadow: none; outline: none; }
+/* Remove Dawn focus ring/box-shadow for the inline input to prevent double outline */
+.footer__utility-right .field:focus-within .field__input { box-shadow: none; }
+.footer__utility-right .field__input:focus { box-shadow: none; outline: none; }
+.footer__utility-right .field::after { border: 0 !important; }
+.footer__utility-right .field { box-shadow: none; }
 .footer__utility-right .field__label { display: none; }
 .footer__utility-right .newsletter-submit { height: 3.2rem; padding: 0 1.2rem; font-size: 1.2rem; text-transform: uppercase; }
 
