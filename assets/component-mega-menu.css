@@ -1,3 +1,10 @@
+/* Avoid inner UL being re-centered/limited by .page-width utility */
+.mega-menu__content .page-width {
+  max-width: none;
+  margin: 0; /* start from left */
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 .mega-menu {
   position: static;
 }
@@ -7,12 +14,15 @@
   border-left: 0;
   border-radius: 0;
   border-right: 0;
-  left: 0;
+  /* Center the panel and constrain width */
+  left: 50%;
+  right: auto;
+  width: 70%;
+  transform: translateX(-50%);
   overflow-y: auto;
   padding-bottom: 3rem;
   padding-top: 3rem;
   position: absolute;
-  right: 0;
   top: 100%;
 }
 
