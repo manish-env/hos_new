@@ -85,3 +85,42 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
+
+/* Color swatch block inside mega menu */
+.mega-menu__color-block {
+  margin-top: 0.6rem;
+}
+
+.mega-menu__colors {
+  display: grid;
+  grid-template-columns: repeat(8, 1.6rem);
+  gap: 0.6rem 1rem;
+}
+
+@media screen and (min-width: 1200px) {
+  .mega-menu__colors {
+    grid-template-columns: repeat(10, 1.6rem);
+  }
+}
+
+.color-swatch {
+  --swatch: #ccc;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: inline-block;
+  border: 1px solid rgba(var(--color-foreground), 0.25);
+  background: var(--swatch);
+  border-radius: 0.2rem;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+  text-decoration: none;
+}
+
+.color-swatch:hover,
+.color-swatch:focus {
+  outline: 2px solid rgba(var(--color-foreground), 0.5);
+  outline-offset: 1px;
+}
+
+.color-swatch:active {
+  transform: scale(0.95);
+}
