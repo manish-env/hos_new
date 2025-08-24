@@ -1365,3 +1365,29 @@ input.mobile-facets__checkbox {
 .sort-disclosure > summary .icon-minus { display: none; }
 .sort-disclosure[open] > summary .icon-plus { display: none; }
 .sort-disclosure[open] > summary .icon-minus { display: inline-block; }
+
+/* ============== Drawer filters: headings + grid ============== */
+.mobile-facets__summary {
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+}
+.mobile-facets__details + .mobile-facets__details .mobile-facets__summary {
+  border-top: 1px solid rgba(var(--color-foreground), 0.12);
+}
+.mobile-facets__summary > div { position: relative; padding-right: 2.2rem; }
+.mobile-facets__summary .mobile-facets__arrow { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+.mobile-facets__summary .icon-minus { display: none; }
+.mobile-facets__details[open] > .mobile-facets__summary .icon-plus { display: none; }
+.mobile-facets__details[open] > .mobile-facets__summary .icon-minus { display: inline-block; }
+
+/* Multi-column checkbox grid inside drawer */
+.mobile-facets__submenu .facets-layout-list { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  column-gap: 1.6rem; 
+  row-gap: 1rem; 
+}
+.mobile-facets__submenu .facets-layout-list .mobile-facets__item { margin: 0; }
+.mobile-facets__submenu .facets-layout-list .mobile-facets__label { padding-left: 2.5rem; }
+
+/* Optional: subtle divider before price range area */
+.mobile-facets__details[open] > .mobile-facets__submenu { border-top: 1px solid rgba(var(--color-foreground), 0.08); }
