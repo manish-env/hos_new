@@ -13,8 +13,14 @@ Required params:
 <div class="hos-filter-drawer">
   {%- for filter in results.filters -%}
     {% liquid
-      assign is_list = filter.type == 'list' or filter.type == 'boolean'
-      assign is_price = filter.type == 'price_range'
+      assign is_list = false
+      if filter.type == 'list' or filter.type == 'boolean'
+        assign is_list = true
+      endif
+      assign is_price = false
+      if filter.type == 'price_range'
+        assign is_price = true
+      endif
     %}
 
     {%- if is_list or is_price -%}
