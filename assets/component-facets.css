@@ -1394,49 +1394,62 @@ input.mobile-facets__checkbox {
 
   /* Sticky filter/sort bar and 2-col list for small screens */
   @media screen and (max-width: 749px) {
-  /* Sticky container and 2-col layout for split buttons */
+  /* Reset container – we'll attach sticky to the new toolbar instead */
   .facets-container {
+    position: static;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    display: block;
+  }
+
+  /* Hide old mobile triggers completely */
+  .mobile-facets__open-wrapper,
+  #FacetSortMobileBar,
+  .active-facets-mobile { display: none !important; }
+
+  /* Normalize inner wrappers */
+  /* New clean flexbox toolbar */
+  .hos-mobile-toolbar {
     position: sticky;
     top: 0;
     z-index: 50;
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.6rem 1rem;
     background: rgb(var(--color-background));
     border-top: 1px solid rgba(var(--color-foreground), 0.12);
     border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
-    padding: 0.6rem 1rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    align-items: stretch;
   }
-
-  /* Place direct children in grid columns: left = drawer trigger, right = sort */
-  .facets-container > .mobile-facets__wrapper { grid-column: 1; margin: 0; }
-  .facets-container > facet-filters-form.medium-hide.large-up-hide { grid-column: 2; margin: 0; display: block; }
-
-  /* Make both grid children fill their columns and never overlap */
-  .facets-container > .mobile-facets__wrapper,
-  .facets-container > facet-filters-form.medium-hide.large-up-hide {
-    width: 100%;
-    min-width: 0; /* allow content to shrink properly */
-    align-self: stretch;
+  .hos-mobile-toolbar__btn {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    line-height: 44px;
+    border: 1px solid rgba(var(--color-foreground), 0.18);
+    border-radius: var(--buttons-radius);
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    padding: 0 0.9rem;
+    gap: 0.6rem;
   }
+  .hos-mobile-toolbar__icon svg { width: 16px; height: 16px; display: block; }
+  .hos-mobile-toolbar__label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* Remove any stray margins from internal wrappers */
-  .facets-container > .mobile-facets__wrapper *,
-  .facets-container > facet-filters-form.medium-hide.large-up-hide * {
-    box-sizing: border-box;
+  .hos-mobile-toolbar__sort { flex: 1 1 0; position: relative; }
+  .hos-mobile-toolbar__select {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 44px; line-height: 44px;
+    border: 1px solid rgba(var(--color-foreground), 0.18);
+    border-radius: var(--buttons-radius);
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    padding: 0 2.2rem 0 0.9rem;
+    font-size: 1.4rem;
   }
-  .facets-container > facet-filters-form.medium-hide.large-up-hide .facets__form { margin: 0; }
-
-  /* Normalize inner wrappers */
-  .mobile-facets__open-wrapper { display: block; margin: 0; }
-  .mobile-facets__open-wrapper, #FacetSortMobileBar .sort-disclosure { width: 100%; }
-  #FacetSortMobileBar .sort-disclosure { max-width: none !important; width: 100% !important; margin: 0; }
-  .facets-container > .mobile-facets__wrapper > summary { display: block; width: 100%; }
-  .facet-filters__field { width: 100%; justify-content: center; border: 0; }
-  .facet-filters__summary { min-width: 0; width: 100%; margin: 0; padding: 0; }
-  .facet-filters { padding-left: 0; margin: 0; }
-  #FacetSortMobileBar { margin: 0; }
+  .hos-mobile-toolbar__chevron { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
 
   /* Visual: make both look like a split button */
   .mobile-facets__open-wrapper {

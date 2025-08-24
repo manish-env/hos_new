@@ -29,6 +29,28 @@
 -%}
 
 <div class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+  {%- comment -%} New clean mobile toolbar (small only) {%- endcomment -%}
+  <div class="hos-mobile-toolbar medium-hide large-up-hide">
+    <button type="button" class="hos-mobile-toolbar__btn" onclick="(function(btn){ var det = btn.closest('.facets-container').querySelector('.mobile-facets__disclosure'); if(det){ det.open = true; det.classList.add('menu-opening'); } })(this)">
+      <span class="hos-mobile-toolbar__icon">{{- 'icon-filter.svg' | inline_asset_content -}}</span>
+      <span class="hos-mobile-toolbar__label">{{ 'products.facets.filter_button' | t }}</span>
+    </button>
+
+    <form class="hos-mobile-toolbar__sort" method="get" action="{{ results_url | default: request.path }}">
+      {%- if results.terms -%}
+        <input type="hidden" name="q" value="{{ results.terms | escape }}">
+        <input name="options[prefix]" type="hidden" value="last">
+      {%- endif -%}
+      <label class="visually-hidden" for="HosSortByMobile">{{ 'products.facets.sort_by_label' | t }}</label>
+      {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+      <select id="HosSortByMobile" class="hos-mobile-toolbar__select" name="sort_by" aria-describedby="a11y-refresh-page-message" onchange="this.form.submit()">
+        {%- for option in results.sort_options -%}
+          <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected{% endif %}>{{ option.name | escape }}</option>
+        {%- endfor -%}
+      </select>
+      <span class="hos-mobile-toolbar__chevron">{{- 'icon-chevron.svg' | inline_asset_content | default: '' -}}</span>
+    </form>
+  </div>
   {%- if filter_type == 'vertical' or filter_type == 'horizontal' -%}
     <facet-filters-form class="facets small-hide">
       <form
