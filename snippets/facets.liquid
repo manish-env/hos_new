@@ -828,32 +828,31 @@
       <form id="FacetSortDrawerForm" class="facets__form">
         <div class="facet-filters sorting caption small-hide">
           <div class="facet-filters__field">
-            <h2 class="facet-filters__label caption-large text-body">
-              <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
-            </h2>
-            <div class="select">
-              {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
-              <select
-                name="sort_by"
-                class="facet-filters__sort select__select caption-large"
-                id="SortBy"
-                aria-describedby="a11y-refresh-page-message"
-              >
-                {%- for option in results.sort_options -%}
-                  <option
-                    value="{{ option.value | escape }}"
-                    {% if option.value == sort_by %}
-                      selected="selected"
-                    {% endif %}
-                  >
-                    {{ option.name | escape }}
-                  </option>
-                {%- endfor -%}
-              </select>
-              <span class="svg-wrapper">
-                {{- 'icon-caret.svg' | inline_asset_content -}}
-              </span>
-            </div>
+            {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+            <details class="sort-disclosure">
+              <summary class="facet-filters__label caption-large text-body">
+                <span>{{ 'products.facets.sort_by_label' | t }}</span>
+                <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+              </summary>
+              <div class="sort-disclosure__content">
+                <ul class="no-js-hidden">
+                  {%- for option in results.sort_options -%}
+                    <li class="sort-disclosure__item">
+                      <label class="sort-disclosure__label">
+                        <input
+                          type="radio"
+                          name="sort_by"
+                          value="{{ option.value | escape }}"
+                          class="mobile-facets__checkbox"
+                          {% if option.value == sort_by %}checked{% endif %}
+                        >
+                        <span>{{ option.name | escape }}</span>
+                      </label>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </details>
           </div>
         </div>
 
@@ -868,26 +867,7 @@
       </form>
     </facet-filters-form>
   {%- endif -%}
-  <div
-    class="product-count light{% if filter_type == 'vertical' or filter_type == 'horizontal' %} medium-hide large-up-hide{% endif %}"
-    role="status"
-  >
-    <h2 class="product-count__text text-body">
-      <span id="ProductCount">
-        {%- if results.results_count -%}
-          {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
-        {%- elsif results.products_count == results.all_products_count -%}
-          {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
-        {%- else -%}
-          {{
-            'products.facets.product_count'
-            | t: product_count: results.products_count, count: results.all_products_count
-          }}
-        {%- endif -%}
-      </span>
-    </h2>
-    {%- render 'loading-spinner' -%}
-  </div>
+  {# Product count removed per customization #}
   {%- if filter_type == 'drawer' -%}
     <facet-filters-form class="facets facets-pill small-hide">
       <form id="FacetFiltersPillsForm" class="facets__form">
