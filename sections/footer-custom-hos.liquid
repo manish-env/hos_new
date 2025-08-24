@@ -1,0 +1,230 @@
+{% comment %}
+Footer (HOS) — Responsive, Dawn-aligned
+- Uses Dawn color scheme system and section padding controls
+- Top row: Social (left) | Badges (center) | Newsletter (right)
+- Bottom row: 4 menus + right rich text column
+{% endcomment %}
+
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-margin {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+  }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media (min-width: 750px){
+    .section-{{ section.id }}-margin { margin-top: {{ section.settings.margin_top }}px; }
+    .section-{{ section.id }}-padding { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; }
+  }
+
+  /* Base */
+  .hos-footer {
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    border-top: 1px solid rgba(var(--color-foreground), 0.12);
+  }
+  .hos-footer .page-width{ max-width: var(--page-width, 1200px); margin: 0 auto; padding-left: 1.6rem; padding-right: 1.6rem; }
+
+  /* Top row */
+  .hos-top{ display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; padding-bottom: 18px; }
+  .hos-social{ display: flex; align-items: center; gap: 14px; }
+  .hos-badges{ justify-self: center; display: flex; gap: 36px; align-items: center; min-height: 44px; flex-wrap: nowrap; }
+  .hos-badge{ display: grid; grid-template-columns: 40px auto; gap: 10px; align-items: center; }
+  .hos-badge .ico{ width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; }
+  .hos-badge .t1{ font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: rgba(var(--color-foreground), .7); line-height: 1.2; }
+  .hos-badge .t2{ font-size: 14px; font-weight: 600; line-height: 1.2; }
+
+  .hos-news{ justify-self: end; min-width: 280px; max-width: 360px; width: 100%; }
+  .hos-news .newsletter-form{ display: flex; gap: 8px; }
+  .hos-news .field__input{ height: 40px; }
+  .hos-news .newsletter-form__button{ height: 40px; }
+
+  .hos-divider{ height: 1px; background: rgba(var(--color-foreground), 0.12); margin: 0; }
+
+  /* Bottom row */
+  .hos-bottom{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; padding-top: 20px; }
+  .hos-col h4{ font-size: 14px; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 10px 0; }
+  .hos-links{ display: flex; flex-direction: column; gap: 8px; }
+  .hos-links a{ color: rgb(var(--color-foreground)); text-decoration: none; font-size: 14px; }
+  .hos-links a:hover{ text-decoration: underline; }
+  .hos-col .rte{ font-size: 14px; line-height: 1.65; }
+
+  /* Responsive */
+  @media (max-width: 989px){
+    .hos-top{ grid-template-columns: 1fr 1fr; }
+    .hos-badges{ grid-column: 1 / 3; order: 2; justify-self: center; margin-top: 12px; }
+    .hos-news{ grid-column: 2 / 3; justify-self: end; }
+  }
+  @media (max-width: 749px){
+    .hos-top{ grid-template-columns: 1fr; row-gap: 12px; }
+    .hos-social{ justify-self: start; }
+    .hos-badges{ justify-content: flex-start; justify-self: start; gap: 20px; flex-wrap: wrap; }
+    .hos-news{ justify-self: stretch; max-width: none; }
+    .hos-bottom{ grid-template-columns: 1fr 1fr; gap: 18px; }
+    .hos-badge{ grid-template-columns: 32px auto; }
+    .hos-badge .ico{ width: 32px; height: 32px; }
+  }
+{%- endstyle -%}
+
+<footer class="hos-footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-margin section-{{ section.id }}-padding">
+  <div class="page-width">
+    <!-- Row 1 -->
+    <div class="hos-top">
+      <!-- Left: Social (use Dawn social-icons for theme consistency) -->
+      <div class="hos-social">
+        {%- render 'social-icons', class: 'footer__list-social' -%}
+      </div>
+
+      <!-- Center: Badges (up to 3) -->
+      <div class="hos-badges">
+        {%- assign added = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'feature' -%}
+            {%- assign added = added | plus: 1 -%}
+            <div class="hos-badge" {{ block.shopify_attributes }}>
+              <div class="ico" aria-hidden="true">
+                {%- case block.settings.icon -%}
+                  {%- when 'truck' -%}
+                    <svg viewBox="0 0 24 24" width="40" height="40" role="img" aria-hidden="true"><path d="M3 5h11v8h-1.5a3.5 3.5 0 1 0 3.5 3.5h2a3.5 3.5 0 1 0 3.5-3.5H21V9l-3-4h-4V5H3v10h3.5a3.5 3.5 0 1 0 0 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm15 4h2.8L21 11h-3V9zM7.5 18.5a1.5 1.5 0 1 1 3.001.001A1.5 1.5 0 0 1 7.5 18.5zm10 0a1.5 1.5 0 1 1 3.001.001A1.5 1.5 0 0 1 17.5 18.5z"/></svg>
+                  {%- when 'globe' -%}
+                    <svg viewBox="0 0 24 24" width="40" height="40" role="img" aria-hidden="true"><path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2zm7.93 9h-3.18a15.7 15.7 0 0 0-1.04-5.07A8.03 8.03 0 0 1 19.93 11zM12 4c.88 0 2.34 1.86 3.04 5H8.96C9.66 5.86 11.12 4 12 4zM4.07 13h3.18c.2 1.72.65 3.45 1.33 4.93A8.03 8.03 0 0 1 4.07 13zm3.18-2H4.07A8.03 8.03 0 0 1 8.58 5.07 15.7 15.7 0 0 0 7.25 11zM12 20c-.88 0-2.34-1.86-3.04-5h6.08C14.34 18.14 12.88 20 12 20zm3.42-2.07c.68-1.48 1.13-3.21 1.33-4.93h3.18a8.03 8.03 0 0 1-4.51 4.93z"/></svg>
+                  {%- when 'sewing' -%}
+                    <svg viewBox="0 0 24 24" width="40" height="40" role="img" aria-hidden="true"><path d="M4 18h16v2H4v-2zm8-15a5 5 0 0 0 0 10h7a3 3 0 0 0 0-6h-1.18A5.99 5.99 0 0 0 12 3zm-3 5a3 3 0 1 1 6.001.001A3 3 0 0 1 9 8z"/></svg>
+                {%- endcase -%}
+              </div>
+              <div class="txt">
+                {%- if block.settings.line1 != blank -%}<div class="t1">{{ block.settings.line1 }}</div>{%- endif -%}
+                {%- if block.settings.line2 != blank and block.settings.line2 != ' ' -%}<div class="t2">{{ block.settings.line2 }}</div>{%- endif -%}
+              </div>
+            </div>
+            {%- if added == 3 -%}{% break %}{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <!-- Right: Newsletter -->
+      <div class="hos-news">
+        {%- form 'customer', id: 'HOSFooterNewsletter', class: 'newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="field" style="display:flex; gap:8px; width:100%">
+            <input id="NewsletterForm--{{ section.id }}"
+                   type="email"
+                   name="contact[email]"
+                   class="field__input"
+                   value="{{ form.email }}"
+                   aria-required="true"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   autocomplete="email"
+                   placeholder="{{ section.settings.news_placeholder | default: 'Enter your email address' }}"
+                   required>
+            <button type="submit" class="newsletter-form__button button button--primary" name="commit" id="Subscribe">
+              {{ section.settings.news_button | default: 'Subscribe' }}
+            </button>
+          </div>
+          {%- if form.errors -%}
+            <small class="newsletter-form__message form__message" id="HOSFooterNewsletter-error">
+              {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
+            </small>
+          {%- endif -%}
+          {%- if form.posted_successfully? -%}
+            <p class="newsletter-form__message newsletter-form__message--success form__message" id="HOSFooterNewsletter-success" tabindex="-1">{{ 'newsletter.success' | t }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+
+    <div class="hos-divider"></div>
+
+    <!-- Row 2 -->
+    <div class="hos-bottom">
+      {%- assign menus_printed = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'menu' -%}
+          {%- assign menus_printed = menus_printed | plus: 1 -%}
+          <div class="hos-col" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}<h4>{{ block.settings.title }}</h4>{%- endif -%}
+            {%- if block.settings.menu != blank -%}
+              <nav class="hos-links" aria-label="{{ block.settings.title | escape }}">
+                {%- for link in linklists[block.settings.menu].links -%}
+                  <a class="link link--text" href="{{ link.url | escape }}">{{ link.title }}</a>
+                {%- endfor -%}
+              </nav>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if menus_printed == 4 -%}{% break %}{%- endif -%}
+      {%- endfor -%}
+
+      <!-- Right-most text column -->
+      <div class="hos-col">
+        {%- if section.settings.right_title != blank -%}<h4>{{ section.settings.right_title }}</h4>{%- endif -%}
+        <div class="rte">{{ section.settings.right_richtext }}</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer (HOS)",
+  "class": "section-hos-footer",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colors", "default": "scheme-1" },
+
+    { "type": "text", "id": "news_placeholder", "label": "Newsletter placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "news_button", "label": "Newsletter button label", "default": "Subscribe" },
+
+    { "type": "text", "id": "right_title", "label": "Right column title", "default": "LIKE A DIVA" },
+    { "type": "richtext", "id": "right_richtext", "label": "Right column text", "default": "<p>Copyright © {{ 'now' | date: '%Y' }} Like A Diva.<br>All rights reserved.<br>e-Commerce by KOL Limited</p>" },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "margin_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 36 }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Top feature",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+          { "value": "truck", "label": "Truck" },
+          { "value": "globe", "label": "Globe" },
+          { "value": "sewing", "label": "Sewing" }
+        ]},
+        { "type": "text", "id": "line1", "label": "Top line (small)", "default": "TRACK ORDER" },
+        { "type": "text", "id": "line2", "label": "Bottom line (bold)", "default": "" }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Bottom menu",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Menu title", "default": "SHOPPING" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer (HOS)",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "truck", "line1": "TRACK ORDER", "line2": "" } },
+        { "type": "feature", "settings": { "icon": "globe", "line1": "INTERNATIONAL", "line2": "DELIVERY" } },
+        { "type": "feature", "settings": { "icon": "sewing", "line1": "BOUTIQUE STYLE", "line2": "STITCHING" } },
+
+        { "type": "menu", "settings": { "title": "SHOPPING" } },
+        { "type": "menu", "settings": { "title": "COLLECTION" } },
+        { "type": "menu", "settings": { "title": "INFORMATION" } },
+        { "type": "menu", "settings": { "title": "POLICIES" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
