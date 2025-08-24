@@ -196,20 +196,9 @@
       if section.settings.menu != blank
         render 'header-drawer'
       endif
-
-      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        unless section.settings.desktop_search_style == 'input'
-          render 'header-search', input_id: 'Search-In-Modal-1'
-        endunless
-      endif
     -%}
 
-    {%- comment -%}
-      Mobile-only search trigger positioned next to the hamburger menu
-    {%- endcomment -%}
-    <div class="header__search--mobile-left medium-hide large-up-hide">
-      {% render 'header-search', input_id: 'Search-In-Modal-Mobile' %}
-    </div>
+    {%- comment -%} Mobile search icon removed {%- endcomment -%}
 
     {%- if section.settings.desktop_search_style == 'input' -%}
       {%- render 'header-search-inline-clean' -%}
@@ -315,9 +304,7 @@
           </localization-form>
         {%- endif -%}
       </div>
-      <div class="header__search-icon">
-        {% render 'header-search', input_id: 'Search-In-Modal' %}
-      </div>
+      {%- comment -%} Right-side search icon removed {%- endcomment -%}
 
       {%- if shop.customer_accounts_enabled -%}
         <div class="header__account-text{% if section.settings.menu != blank %} small-hide{% endif %}">
