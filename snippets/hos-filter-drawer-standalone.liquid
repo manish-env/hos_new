@@ -1,95 +1,269 @@
-{%- comment -%}
-Standalone Custom Filter Drawer (HOS)
-- Self-contained: markup + styles + script in one file
-- Plus/minus dropdown per filter
-- Multi-column checkbox grid
-- Custom Apply/Remove All with URL navigation
-Params:
-  results: object
-  section_id: string
-  results_url: string (optional, fallback to results.url)
-{%- endcomment -%}
-
 <style>
-/***** Standalone Drawer Styles *****/
-.hos2-filter-drawer { display:block; padding:15px 15px 96px; }
+/***** Optimized Drawer Styles *****/
+.hos2-filter-drawer { 
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 15px 15px 0;
+}
+
 .hos2-filter-drawer, .hos2-filter-drawer * { box-sizing: border-box; }
-.hos2-header { padding:0.4rem 0 0.8rem; }
-.hos2-heading { margin:0; }
-.hos2-count { margin-top:0.25rem; color: rgba(var(--color-foreground), 0.6); }
+
+.hos2-header { padding: 0.4rem 0 0.8rem; }
+
+.hos2-heading { margin: 0; }
+
+.hos2-count { margin-top: 0.25rem; color: rgba(var(--color-foreground), 0.6); }
+
 .hos2-filter__group { border-bottom: 1px solid rgba(var(--color-foreground), 0.12); }
-.hos2-filter__summary { display:flex; align-items:center; justify-content:space-between; width:100%; padding:1.1rem 0; cursor:pointer; background:transparent; border:0; color:rgb(var(--color-foreground)); text-align:left; }
-.hos2-filter__title { font-weight:var(--font-heading-weight); letter-spacing: calc(var(--font-heading-scale) * 0.06rem); text-transform:uppercase; font-size:1.3rem; font-family: var(--font-heading-family); color:rgb(var(--color-foreground)); }
-.hos2-filter__icon { width:14px; height:14px; display:inline-block; }
-.hos2-filter__icon svg { width:14px; height:14px; display:block; }
-.hos2-filter__icon--minus { display:none; }
-.hos2-filter__group.is-open .hos2-filter__icon--plus { display:none; }
-.hos2-filter__group.is-open .hos2-filter__icon--minus { display:inline-block; }
-.hos2-filter__content { padding:0.8rem 0 1.2rem; }
-.hos2-filter__group.is-open .hos2-filter__content { border-top:1px solid rgba(var(--color-foreground), 0.08); }
-.hos2-filter__grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:0.8rem 1.4rem; padding:0; margin:0; list-style:none; }
-.hos2-filter__item { margin:0; }
-.hos2-filter__label { display:flex; align-items:center; gap:0.6rem; position:relative; padding:0.35rem 0; font-size:1.3rem; line-height:1.7; color:rgb(var(--color-foreground)); font-family: var(--font-body-family); }
-.hos2-filter__label.is-disabled { opacity:0.5; cursor:not-allowed; }
+
+.hos2-filter__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.1rem 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  color: rgb(var(--color-foreground));
+  text-align: left;
+}
+
+.hos2-filter__title {
+  font-weight: var(--font-heading-weight);
+  letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  font-family: var(--font-heading-family);
+  color: rgb(var(--color-foreground));
+}
+
+.hos2-filter__icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+}
+
+.hos2-filter__icon svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.hos2-filter__icon--minus { display: none; }
+
+.hos2-filter__group.is-open .hos2-filter__icon--plus { display: none; }
+
+.hos2-filter__group.is-open .hos2-filter__icon--minus { display: inline-block; }
+
+.hos2-filter__content {
+  padding: 0.8rem 0 1.2rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.hos2-filter__group.is-open .hos2-filter__content {
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.hos2-filter__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem 1.4rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.hos2-filter__item { margin: 0; }
+
+.hos2-filter__label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  padding: 0.35rem 0;
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: rgb(var(--color-foreground));
+  font-family: var(--font-body-family);
+}
+
+.hos2-filter__label.is-disabled { opacity: 0.5; cursor: not-allowed; }
+
 .hos2-filter__summary:focus-visible,
 .hos2-footer .button:focus-visible,
-.hos2-filter__label:focus-within { outline:2px solid rgba(var(--color-foreground), 0.45); outline-offset:2px; border-radius:4px; }
-.hos2-filter__checkbox { position:absolute; opacity:0; width:1px; height:1px; pointer-events:none; left:-9999px; }
-.hos2-filter__box { width:18px; height:18px; border:1.6px solid rgba(var(--color-foreground), 0.45); border-radius:3px; background:rgb(var(--color-background)); flex-shrink:0; position:relative; box-shadow: 0 0 0 1px rgba(var(--color-foreground),0.02) inset; }
-.hos2-filter__checkbox:checked + .hos2-filter__box { border-color:rgb(var(--color-foreground)); }
-.hos2-filter__checkbox:checked + .hos2-filter__box::after { content:''; position:absolute; left:4px; top:4px; width:10px; height:10px; background:rgb(var(--color-foreground)); border-radius:2px; }
-.hos2-filter__text { line-height:1.5; }
-.hos2-swatch { width:14px; height:14px; margin-left:6px; border-radius:50%; border:1px solid rgba(0,0,0,0.2); background-size:cover; background-position:center; flex-shrink:0; }
-.hos2-filter__label .hos2-filter__box + .hos2-filter__text { margin-left:6px; }
-.hos2-price { display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; }
-.hos2-price input[type="number"] { width:8rem; padding:0.6rem 0.8rem; border:1px solid rgba(var(--color-foreground), 0.3); border-radius:4px; font:inherit; background: rgb(var(--color-background)); color: rgb(var(--color-foreground)); }
-.hos2-footer { display:flex; justify-content:space-between; gap:1rem; padding:1rem 0.6rem; position:sticky; bottom:0; background:rgb(var(--color-background)); border-top:1px solid rgba(var(--color-foreground), 0.12); z-index: 2; }
-.hos2-footer > * { width:50%; }
-.hos2-footer .button { width:100%; padding:1rem 1.2rem; }
-/* Apply button custom color */
-.hos2-footer .button--primary { background:#FFEEEE !important; color: rgb(var(--color-foreground)) !important; border-color: rgba(var(--color-foreground), 0.15) !important; }
-.hos2-footer .button--primary:hover, .hos2-footer .button--primary:focus { filter: brightness(0.98); }
-/* Hide Dawn native footer under our drawer */
-.mobile-facets__main .mobile-facets__footer { display:none !important; }
+.hos2-filter__label:focus-within {
+  outline: 2px solid rgba(var(--color-foreground), 0.45);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
 
-/* Keep footer sticky and full-width of drawer; avoids viewport-based shifting */
-.mobile-facets__inner .hos2-footer {
+.hos2-filter__checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  left: -9999px;
+}
+
+.hos2-filter__box {
+  width: 18px;
+  height: 18px;
+  border: 1.6px solid rgba(var(--color-foreground), 0.45);
+  border-radius: 3px;
+  background: rgb(var(--color-background));
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(var(--color-foreground), 0.02) inset;
+}
+
+.hos2-filter__checkbox:checked + .hos2-filter__box {
+  border-color: rgb(var(--color-foreground));
+}
+
+.hos2-filter__checkbox:checked + .hos2-filter__box::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  background: rgb(var(--color-foreground));
+  border-radius: 2px;
+}
+
+.hos2-filter__text { line-height: 1.5; }
+
+.hos2-swatch {
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+.hos2-filter__label .hos2-filter__box + .hos2-filter__text { margin-left: 6px; }
+
+.hos2-price {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hos2-price input[type="number"] {
+  width: 8rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid rgba(var(--color-foreground), 0.3);
+  border-radius: 4px;
+  font: inherit;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+}
+
+/* Optimized footer with better sticky behavior */
+.hos2-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 0.6rem;
   position: sticky;
-  left: auto;
-  right: auto;
   bottom: 0;
-  width: 100%;
   background: rgb(var(--color-background));
   border-top: 1px solid rgba(var(--color-foreground), 0.12);
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
-  z-index: 3;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  margin-top: auto; /* Push footer to bottom */
+}
+
+.hos2-footer > * { width: 50%; }
+
+.hos2-footer .button {
+  width: 100%;
+  padding: 1.2rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* Apply button custom color */
+.hos2-footer .button--primary {
+  background: #FFEEEE !important;
+  color: rgb(var(--color-foreground)) !important;
+  border: 1px solid rgba(var(--color-foreground), 0.15) !important;
+}
+
+.hos2-footer .button--primary:hover,
+.hos2-footer .button--primary:focus {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+.hos2-footer .button--secondary {
+  background: transparent !important;
+  color: rgb(var(--color-foreground)) !important;
+  border: 1px solid rgba(var(--color-foreground), 0.2) !important;
+}
+
+.hos2-footer .button--secondary:hover {
+  background: rgba(var(--color-foreground), 0.05) !important;
+}
+
+/* Hide Dawn native footer under our drawer */
+.mobile-facets__main .mobile-facets__footer { display: none !important; }
+
+/* Scrollable content area */
+.hos2-filters-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 1rem;
 }
 
 /* Responsive: fallback to 2 columns on narrow screens */
 @media (max-width: 360px) {
   .hos2-filter__grid { grid-template-columns: repeat(2, 1fr); }
+  .hos2-footer { padding: 1rem 0.6rem; }
+  .hos2-footer .button { padding: 1rem; }
 }
 
 /* Width override for Dawn mobile filter drawer container */
 .mobile-facets__inner {
-  /* Default Dawn: width: calc(100% - 5rem); max-width: 37.5rem; */
-  width: calc(100% - 2rem) !important; /* reduce side gutter */
-  max-width: 48rem !important;        /* increase drawer max width */
-  position: relative; /* make sticky children behave predictably */
+  width: calc(100% - 2rem) !important;
+  max-width: 48rem !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* Use Dawn top header only: left align title, hide counts */
-.mobile-facets__header { justify-content: space-between; text-align: left; padding: 15px; }
-.mobile-facets__heading { text-align: left; margin: 0; font-size:18px !important }
+.mobile-facets__header {
+  justify-content: space-between;
+  text-align: left;
+  padding: 1rem 1.5rem;
+  flex-shrink: 0;
+}
+
+.mobile-facets__heading {
+  text-align: left;
+  margin: 0;
+  font-size: 1.6rem !important;
+  font-weight: 600;
+}
+
 .mobile-facets__count { display: none !important; }
 
 /* Place close icon at drawer's right edge */
 .mobile-facets__close {
-  /* default is fixed positioned; compute right gap so it sits at drawer edge */
   right: calc(100vw - min(48rem, 100vw - 2rem) - 1rem);
 }
 
-/* Swatch color mapping (basic) */
+/* Swatch color mapping (basic) - unchanged from original */
 .hos2-swatch[data-swatch-name="black"]{background:#000}
 .hos2-swatch[data-swatch-name="white"],
 .hos2-swatch[data-swatch-name="off-white"],
@@ -127,111 +301,113 @@ Params:
 </style>
 
 <div class="hos2-filter-drawer" data-hos2-root>
-  {%- for filter in results.filters -%}
-    {% liquid
-      assign is_list = false
-      if filter.type == 'list' or filter.type == 'boolean'
-        assign is_list = true
-      endif
-      assign is_price = false
-      if filter.type == 'price_range'
-        assign is_price = true
-      endif
-      assign filter_label = filter.label | default: ''
-      assign filter_label_lc = filter_label | downcase
-      assign is_color_group = false
-      if filter_label_lc contains 'color'
-        assign is_color_group = true
-      endif
-    %}
-    {%- if is_list or is_price -%}
-    {%- unless filter_label_lc == 'availability' -%}
-      {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
-      <div class="hos2-filter__group is-open" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
-        <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="true" aria-controls="{{ content_id }}">
-          <span class="hos2-filter__title">{{ filter.label | escape }}</span>
-          <span class="hos2-filter__icon hos2-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
-          <span class="hos2-filter__icon hos2-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
-        </button>
-        <div class="hos2-filter__content" id="{{ content_id }}">
-          {%- if is_list -%}
-            <ul class="hos2-filter__grid" role="list">
-              {%- liquid
-                assign sorted_values = filter.values
-                if filter.operator == 'AND'
-                  assign active_filter_values = filter.values | where: 'active', true
-                  assign inactive_filter_values = filter.values | where: 'active', false
-                  assign sorted_values = active_filter_values | concat: inactive_filter_values
-                endif
-              -%}
-              {%- for value in sorted_values -%}
-                {% liquid
-                  assign input_id = 'Hos2-' | append: filter.param_name | escape | append: '-' | append: forloop.index
-                  assign is_disabled = false
-                  if value.count == 0 and value.active == false
-                    assign is_disabled = true
+  <div class="hos2-filters-container">
+    {%- for filter in results.filters -%}
+      {% liquid
+        assign is_list = false
+        if filter.type == 'list' or filter.type == 'boolean'
+          assign is_list = true
+        endif
+        assign is_price = false
+        if filter.type == 'price_range'
+          assign is_price = true
+        endif
+        assign filter_label = filter.label | default: ''
+        assign filter_label_lc = filter_label | downcase
+        assign is_color_group = false
+        if filter_label_lc contains 'color'
+          assign is_color_group = true
+        endif
+      %}
+      {%- if is_list or is_price -%}
+      {%- unless filter_label_lc == 'availability' -%}
+        {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
+        <div class="hos2-filter__group is-open" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
+          <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="true" aria-controls="{{ content_id }}">
+            <span class="hos2-filter__title">{{ filter.label | escape }}</span>
+            <span class="hos2-filter__icon hos2-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+            <span class="hos2-filter__icon hos2-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
+          </button>
+          <div class="hos2-filter__content" id="{{ content_id }}">
+            {%- if is_list -%}
+              <ul class="hos2-filter__grid" role="list">
+                {%- liquid
+                  assign sorted_values = filter.values
+                  if filter.operator == 'AND'
+                    assign active_filter_values = filter.values | where: 'active', true
+                    assign inactive_filter_values = filter.values | where: 'active', false
+                    assign sorted_values = active_filter_values | concat: inactive_filter_values
                   endif
-                %}
-                <li class="hos2-filter__item">
-                  <label for="{{ input_id }}" class="hos2-filter__label{% if is_disabled %} is-disabled{% endif %}{% if value.active %} is-active{% endif %}">
-                    <input id="{{ input_id }}" class="hos2-filter__checkbox" type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} {% if is_disabled %}disabled{% endif %}>
-                    <span class="hos2-filter__box" aria-hidden="true"></span>
-                    {%- if is_color_group -%}
-                      <span class="hos2-swatch" data-swatch-name="{{ value.label | downcase | escape }}" aria-hidden="true"></span>
-                    {%- endif -%}
-                    <span class="hos2-filter__text">{{ value.label | escape }}</span>
-                  </label>
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- else -%}
-            {% liquid
-              assign min_name = filter.min_value.param_name
-              assign max_name = filter.max_value.param_name
-            %}
-            <div class="hos2-price" data-price-range data-min-name="{{ min_name }}" data-max-name="{{ max_name }}">
-              <ul class="hos2-filter__grid" role="list" style="grid-template-columns: 1fr; gap: 1rem;">
-                <li class="hos2-filter__item">
-                  <label class="hos2-filter__label">
-                    <input type="radio" name="hos2-price-range" value="0-5000" data-min="0" data-max="5000">
-                    <span class="hos2-filter__text">Rs. 0.00 - Rs. 5,000.00</span>
-                  </label>
-                </li>
-                <li class="hos2-filter__item">
-                  <label class="hos2-filter__label">
-                    <input type="radio" name="hos2-price-range" value="5000-10000" data-min="5000" data-max="10000">
-                    <span class="hos2-filter__text">Rs. 5,000.00 - Rs. 10,000.00</span>
-                  </label>
-                </li>
-                <li class="hos2-filter__item">
-                  <label class="hos2-filter__label">
-                    <input type="radio" name="hos2-price-range" value="10000-15000" data-min="10000" data-max="15000">
-                    <span class="hos2-filter__text">Rs. 10,000.00 - Rs. 15,000.00</span>
-                  </label>
-                </li>
-                <li class="hos2-filter__item">
-                  <label class="hos2-filter__label">
-                    <input type="radio" name="hos2-price-range" value="15000-20000" data-min="15000" data-max="20000">
-                    <span class="hos2-filter__text">Rs. 15,000.00 - Rs. 20,000.00</span>
-                  </label>
-                </li>
-                <li class="hos2-filter__item">
-                  <label class="hos2-filter__label">
-                    <input type="radio" name="hos2-price-range" value="20000-25000" data-min="20000" data-max="25000">
-                    <span class="hos2-filter__text">Rs. 20,000.00 - Rs. 25,000.00</span>
-                  </label>
-                </li>
+                -%}
+                {%- for value in sorted_values -%}
+                  {% liquid
+                    assign input_id = 'Hos2-' | append: filter.param_name | escape | append: '-' | append: forloop.index
+                    assign is_disabled = false
+                    if value.count == 0 and value.active == false
+                      assign is_disabled = true
+                    endif
+                  %}
+                  <li class="hos2-filter__item">
+                    <label for="{{ input_id }}" class="hos2-filter__label{% if is_disabled %} is-disabled{% endif %}{% if value.active %} is-active{% endif %}">
+                      <input id="{{ input_id }}" class="hos2-filter__checkbox" type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} {% if is_disabled %}disabled{% endif %}>
+                      <span class="hos2-filter__box" aria-hidden="true"></span>
+                      {%- if is_color_group -%}
+                        <span class="hos2-swatch" data-swatch-name="{{ value.label | downcase | escape }}" aria-hidden="true"></span>
+                      {%- endif -%}
+                      <span class="hos2-filter__text">{{ value.label | escape }}</span>
+                    </label>
+                  </li>
+                {%- endfor -%}
               </ul>
-              <!-- Hidden inputs that will be populated from the selected radio -->
-              <input type="hidden" name="{{ min_name }}" value="">
-              <input type="hidden" name="{{ max_name }}" value="">
-            </div>
-          {%- endif -%}
+            {%- else -%}
+              {% liquid
+                assign min_name = filter.min_value.param_name
+                assign max_name = filter.max_value.param_name
+              %}
+              <div class="hos2-price" data-price-range data-min-name="{{ min_name }}" data-max-name="{{ max_name }}">
+                <ul class="hos2-filter__grid" role="list" style="grid-template-columns: 1fr; gap: 1rem;">
+                  <li class="hos2-filter__item">
+                    <label class="hos2-filter__label">
+                      <input type="radio" name="hos2-price-range" value="0-5000" data-min="0" data-max="5000">
+                      <span class="hos2-filter__text">Rs. 0.00 - Rs. 5,000.00</span>
+                    </label>
+                  </li>
+                  <li class="hos2-filter__item">
+                    <label class="hos2-filter__label">
+                      <input type="radio" name="hos2-price-range" value="5000-10000" data-min="5000" data-max="10000">
+                      <span class="hos2-filter__text">Rs. 5,000.00 - Rs. 10,000.00</span>
+                    </label>
+                  </li>
+                  <li class="hos2-filter__item">
+                    <label class="hos2-filter__label">
+                      <input type="radio" name="hos2-price-range" value="10000-15000" data-min="10000" data-max="15000">
+                      <span class="hos2-filter__text">Rs. 10,000.00 - Rs. 15,000.00</span>
+                    </label>
+                  </li>
+                  <li class="hos2-filter__item">
+                    <label class="hos2-filter__label">
+                      <input type="radio" name="hos2-price-range" value="15000-20000" data-min="15000" data-max="20000">
+                      <span class="hos2-filter__text">Rs. 15,000.00 - Rs. 20,000.00</span>
+                    </label>
+                  </li>
+                  <li class="hos2-filter__item">
+                    <label class="hos2-filter__label">
+                      <input type="radio" name="hos2-price-range" value="20000-25000" data-min="20000" data-max="25000">
+                      <span class="hos2-filter__text">Rs. 20,000.00 - Rs. 25,000.00</span>
+                    </label>
+                  </li>
+                </ul>
+                <!-- Hidden inputs that will be populated from the selected radio -->
+                <input type="hidden" name="{{ min_name }}" value="">
+                <input type="hidden" name="{{ max_name }}" value="">
+              </div>
+            {%- endif -%}
+          </div>
         </div>
-      </div>
-    {%- endunless -%}
-    {%- endif -%}
-  {%- endfor -%}
+      {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
 
   <div class="hos2-footer gradient">
     <a class="button button--secondary" href="{{ results_url | default: results.url }}">{{ 'products.facets.clear_all' | t }}</a>
