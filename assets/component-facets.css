@@ -1422,7 +1422,8 @@ input.mobile-facets__checkbox {
   #FacetSortMobileBar { margin: 0; }
 
   /* Visual: make both look like a split button */
-  .mobile-facets__open {
+  .mobile-facets__open-wrapper {
+    -webkit-tap-highlight-color: transparent;
     width: 100%;
     position: relative;
     display: flex;
@@ -1435,9 +1436,12 @@ input.mobile-facets__checkbox {
     border-radius: var(--buttons-radius) 0 0 var(--buttons-radius);
     background: rgb(var(--color-background));
     color: rgb(var(--color-foreground));
-    text-transform: none;
     padding: 0 1.2rem;
   }
+  .mobile-facets__open-wrapper::-webkit-details-marker { display: none; }
+  .mobile-facets__open { border: 0; background: transparent; padding: 0; }
+  .mobile-facets__open .mobile-facets__open-label { text-transform: none; }
+  .mobile-facets__open-wrapper .mobile-facets__close { display: none; }
 
   #FacetSortMobileBar .sort-disclosure > summary {
     position: relative;
@@ -1460,7 +1464,7 @@ input.mobile-facets__checkbox {
   #FacetSortMobileBar .facet-filters__label .svg-wrapper { position: absolute; right: 12px; }
 
   /* Right-aligned icons */
-  .mobile-facets__open .svg-wrapper { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+  .mobile-facets__open-wrapper .svg-wrapper { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
   #FacetSortMobileBar .sort-disclosure > summary::after {
     content: '+';
     position: absolute;
