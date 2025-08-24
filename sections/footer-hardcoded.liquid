@@ -3,29 +3,30 @@ Hardcoded Footer (HOS) — static HTML, no settings/blocks
 {% endcomment %}
 
 {%- style -%}
-  .hos-footer-hardcoded { background: #f2f2f2; color: #222; border-top: 1px solid #d9d9d9; }
-  .hos-footer-hardcoded .page-width { max-width: var(--page-width, 1200px); margin: 0 auto; padding: 22px 16px; }
-  .hos-footer-top { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 32px; padding: 8px 0 14px; }
-  .hos-footer-top .social { display: flex; align-items: center; gap: 18px; }
-  .hos-footer-top .social a { color: #222; text-decoration: none; }
-  .hos-footer-top .social i { font-size: 20px; }
-  .hos-footer-top .badges { justify-self: center; display: flex; gap: 72px; align-items: center; flex-wrap: wrap; }
-  .hos-footer-top .badge { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 140px; }
-  .hos-footer-top .badge i { font-size: 26px; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; }
-  .hos-footer-top .badge .label, .hos-footer-top .badge .title { font-size: 12px; opacity: .9; text-transform: uppercase; letter-spacing: .06em; text-align: center; }
+  .hos-footer-hardcoded { background: #f5f5f5; color: #333; border-top: 1px solid #e0e0e0; }
+  .hos-footer-hardcoded .page-width { max-width: var(--page-width, 1200px); margin: 0 auto; padding: 40px 20px 30px; }
+  .hos-footer-top { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 40px; padding-bottom: 40px; }
+  .hos-footer-top .social { display: flex; align-items: center; gap: 20px; }
+  .hos-footer-top .social a { color: #333; text-decoration: none; font-size: 24px; }
+  .hos-footer-top .social a:hover { color: #666; }
+  .hos-footer-top .badges { justify-self: center; display: flex; gap: 80px; align-items: center; flex-wrap: wrap; }
+  .hos-footer-top .badge { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 120px; }
+  .hos-footer-top .badge i { font-size: 32px; color: #333; margin-bottom: 4px; }
+  .hos-footer-top .badge .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; text-align: center; color: #666; line-height: 1.2; }
   .hos-footer-top .newsletter .field { display: flex; gap: 0; }
-  .hos-footer-top .newsletter input[type="email"] { height: 34px; padding: 0 12px; border: 1px solid #222; background: #fff; color: #222; min-width: 260px; border-radius: 0; }
-  .hos-footer-top .newsletter input::placeholder { color: #666; }
-  .hos-footer-top .newsletter button { height: 34px; padding: 0 14px; border: 1px solid #111; background: #111; color: #fff; text-transform: uppercase; font-weight: 600; letter-spacing: .02em; border-radius: 0; }
-  .hos-footer-divider { height: 1px; background: #d9d9d9; }
-  .hos-footer-bottom { display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; padding-top: 18px; }
-  .hos-footer-bottom h4 { font-size: 14px; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 10px 0; color: #222; }
-  .hos-footer-bottom .links { display: flex; flex-direction: column; gap: 8px; }
-  .hos-footer-bottom .links a { color: #222; text-decoration: none; font-size: 14px; }
-  .hos-footer-bottom .links a:hover { text-decoration: underline; }
-  .hos-footer-bottom .rte { color: #222; font-size: 14px; }
-  @media (max-width: 989px){ .hos-footer-top{ grid-template-columns: 1fr 1fr; } .hos-footer-top .badges{ grid-column: 1/3; order:2; justify-self: center; gap: 32px; } .hos-footer-top .newsletter{ justify-self: end; } }
-  @media (max-width: 749px){ .hos-footer-top{ grid-template-columns: 1fr; row-gap: 14px; } .hos-footer-bottom{ grid-template-columns: 1fr 1fr; gap: 18px; } .hos-footer-top .newsletter input[type="email"]{ min-width: 0; width: 100%; } }
+  .hos-footer-top .newsletter input[type="email"] { height: 40px; padding: 0 15px; border: 1px solid #ccc; background: #fff; color: #333; min-width: 200px; border-radius: 0; font-size: 14px; }
+  .hos-footer-top .newsletter input::placeholder { color: #999; }
+  .hos-footer-top .newsletter button { height: 40px; padding: 0 20px; border: 1px solid #333; background: #333; color: #fff; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; border-radius: 0; font-size: 12px; }
+  .hos-footer-divider { height: 1px; background: #e0e0e0; margin: 0 0 30px 0; }
+  .hos-footer-bottom { display: grid; grid-template-columns: repeat(5, 1fr); gap: 40px; }
+  .hos-footer-bottom h4 { font-size: 13px; letter-spacing: 0.8px; text-transform: uppercase; margin: 0 0 15px 0; color: #333; font-weight: 600; }
+  .hos-footer-bottom .links { display: flex; flex-direction: column; gap: 10px; }
+  .hos-footer-bottom .links a { color: #666; text-decoration: none; font-size: 13px; line-height: 1.4; }
+  .hos-footer-bottom .links a:hover { color: #333; }
+  .hos-footer-bottom .rte { color: #666; font-size: 12px; line-height: 1.5; }
+  .hos-footer-bottom .rte p { margin: 0; }
+  @media (max-width: 989px){ .hos-footer-top{ grid-template-columns: 1fr 1fr; gap: 30px; } .hos-footer-top .badges{ grid-column: 1/3; order: 2; justify-self: center; gap: 50px; margin-top: 20px; } .hos-footer-top .newsletter{ justify-self: end; } .hos-footer-bottom{ gap: 30px; } }
+  @media (max-width: 749px){ .hos-footer-top{ grid-template-columns: 1fr; row-gap: 20px; text-align: center; } .hos-footer-top .social{ justify-content: center; } .hos-footer-top .newsletter{ justify-self: center; } .hos-footer-top .newsletter input[type="email"]{ min-width: 180px; } .hos-footer-bottom{ grid-template-columns: 1fr 1fr; gap: 25px; } }
 {%- endstyle -%}
 
 <footer class="hos-footer-hardcoded">
@@ -39,23 +40,15 @@ Hardcoded Footer (HOS) — static HTML, no settings/blocks
       <div class="badges">
         <div class="badge">
           <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
-          <div>
-            <div class="label">Track Order</div>
-          </div>
+          <div class="label">TRACK ORDER</div>
         </div>
         <div class="badge">
           <i class="fa-solid fa-globe" aria-hidden="true"></i>
-          <div>
-            <div class="label">International</div>
-            <div class="title">Delivery</div>
-          </div>
+          <div class="label">INTERNATIONAL<br>DELIVERY</div>
         </div>
         <div class="badge">
           <i class="fa-solid fa-scissors" aria-hidden="true"></i>
-          <div>
-            <div class="label">Boutique Style</div>
-            <div class="title">Stitching</div>
-          </div>
+          <div class="label">BOUTIQUE STYLE<br>STITCHING</div>
         </div>
       </div>
       <div class="newsletter">
@@ -73,7 +66,7 @@ Hardcoded Footer (HOS) — static HTML, no settings/blocks
 
     <div class="hos-footer-bottom">
       <div>
-        <h4>Shopping</h4>
+        <h4>SHOPPING</h4>
         <div class="links">
           <a href="/collections/most-loved">Most Loved</a>
           <a href="/collections">Collection</a>
@@ -84,7 +77,7 @@ Hardcoded Footer (HOS) — static HTML, no settings/blocks
         </div>
       </div>
       <div>
-        <h4>Collection</h4>
+        <h4>COLLECTION</h4>
         <div class="links">
           <a href="/collections/clutch-bags">Clutch Bags</a>
           <a href="/collections/designer-anarkalis">Designer Anarkalis</a>
@@ -95,7 +88,7 @@ Hardcoded Footer (HOS) — static HTML, no settings/blocks
         </div>
       </div>
       <div>
-        <h4>Information</h4>
+        <h4>INFORMATION</h4>
         <div class="links">
           <a href="/pages/about-us">About Us</a>
           <a href="/blogs/editorial">Editorial</a>
@@ -106,7 +99,7 @@ Hardcoded Footer (HOS) — static HTML, no settings/blocks
         </div>
       </div>
       <div>
-        <h4>Policies</h4>
+        <h4>POLICIES</h4>
         <div class="links">
           <a href="/policies/shipping-policy">Shipping Policy</a>
           <a href="/policies/refund-policy">Returns Policy</a>
@@ -117,9 +110,10 @@ Hardcoded Footer (HOS) — static HTML, no settings/blocks
         </div>
       </div>
       <div>
-        <h4>Like A Diva</h4>
+        <h4>LIKE A DIVA</h4>
         <div class="rte">
-          <p>Copyright © {{ 'now' | date: '%Y' }} Like A Diva.<br>All rights reserved.<br>e-Commerce by KOL Limited</p>
+          <p>Copyright © {{ 'now' | date: '%Y' }} Like A Diva.<br>All rights reserved.</p>
+          <p>e-Commerce by KOL Limited</p>
         </div>
       </div>
     </div>
