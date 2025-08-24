@@ -1431,6 +1431,8 @@ input.mobile-facets__checkbox {
   /* Normalize inner wrappers */
   .mobile-facets__open-wrapper { display: block; margin: 0; }
   .mobile-facets__open-wrapper, #FacetSortMobileBar .sort-disclosure { width: 100%; }
+  #FacetSortMobileBar .sort-disclosure { max-width: none !important; width: 100% !important; margin: 0; }
+  .facets-container > .mobile-facets__wrapper > summary { display: block; width: 100%; }
   .facet-filters__field { width: 100%; justify-content: center; border: 0; }
   .facet-filters__summary { min-width: 0; width: 100%; margin: 0; padding: 0; }
   .facet-filters { padding-left: 0; margin: 0; }
