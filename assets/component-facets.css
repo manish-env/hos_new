@@ -836,6 +836,9 @@ a.active-facets__button.focused .active-facets__button-inner {
   width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  border:1px solid;
+  padding-right: 15px;
+  padding-left: 15px;
   display: flex;
   align-items: center;
   color: rgba(var(--color-link), var(--alpha-link));
