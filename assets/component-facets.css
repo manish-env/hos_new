@@ -966,7 +966,7 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
 
 .mobile-facets__summary {
   padding: 1.3rem 2.5rem;
-  display: none !important;
+  display: block;
 }
 
 .mobile-facets__summary .svg-wrapper {
@@ -1410,13 +1410,11 @@ input.mobile-facets__checkbox {
     display: block;
   }
 
-  /* Hide old mobile triggers (but keep wrapper so close icon can live) */
+  /* Restore original mobile triggers */
   #FacetSortMobileBar,
-  .active-facets-mobile { display: none !important; }
-  /* Hide only the old open trigger button */
-  .mobile-facets__open-wrapper .mobile-facets__open { display: none !important; }
-  /* When drawer opens, ensure wrapper is present so close button can show */
-  details.menu-opening .mobile-facets__open-wrapper { display: block !important; }
+  .active-facets-mobile { display: initial !important; }
+  .mobile-facets__open-wrapper .mobile-facets__open { display: initial !important; }
+  details.menu-opening .mobile-facets__open-wrapper { display: initial !important; }
 
   /* Normalize inner wrappers */
   /* New clean flexbox toolbar */
