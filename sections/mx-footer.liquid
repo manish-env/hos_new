@@ -1,0 +1,246 @@
+{% comment %}
+  Mx Footer – pixel-perfect to reference layout
+  • Top row: Socials (L) • 3 Features (C) • Newsletter (R)
+  • Bottom row: 5 columns (4 menus + brand/copyright)
+  • Uses page-width container and safe, simple Liquid
+{% endcomment %}
+
+<section class="mx-footer">
+  <div class="page-width">
+    <!-- TOP ROW -->
+    <div class="mx-top">
+      <!-- Socials -->
+      <div class="mx-socials">
+        {% if section.settings.social_facebook != blank %}
+          <a href="{{ section.settings.social_facebook | escape }}" aria-label="Facebook" class="mx-social">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+        {% endif %}
+        {% if section.settings.social_blog != blank %}
+          <a href="{{ section.settings.social_blog | escape }}" aria-label="Blog" class="mx-social">
+            <i class="fa-solid fa-blog"></i>
+          </a>
+        {% endif %}
+        {% if section.settings.social_instagram != blank %}
+          <a href="{{ section.settings.social_instagram | escape }}" aria-label="Instagram" class="mx-social">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Features center -->
+      <div class="mx-features">
+        <div class="mx-feature">
+          <span class="mx-feature-icon">
+            <!-- truck -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h10v7h2.5l2-3H21v6h-1a2 2 0 1 1-4 0H9a2 2 0 1 1-4 0H3V6zm16 8h1v-3h-2l-1.5 3H19zM7 18a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>
+          </span>
+          <span class="mx-feature-text">
+            <strong>TRACK ORDER</strong>
+          </span>
+        </div>
+
+        <div class="mx-feature">
+          <span class="mx-feature-icon">
+            <!-- globe -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 2c1.9 0 3.6 3.1 3.9 7H8.1C8.4 7.1 10.1 4 12 4zm-3.9 9h7.8c-.3 3.9-2 7-3.9 7s-3.6-3.1-3.9-7z"/></svg>
+          </span>
+          <span class="mx-feature-text">
+            <strong>INTERNATIONAL</strong><br>DELIVERY
+          </span>
+        </div>
+
+        <div class="mx-feature">
+          <span class="mx-feature-icon">
+            <!-- sewing machine -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 16v-2h2v-4a3 3 0 0 1 3-3h7V5h2v2h2a2 2 0 0 1 2 2v7h-2v2h-3v-2H8v2H5v-2H3zm15-2h2V9h-2v5z"/></svg>
+          </span>
+          <span class="mx-feature-text">
+            <strong>BOUTIQUE STYLE</strong><br>STITCHING
+          </span>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="mx-newsletter">
+        {% form 'customer', id: 'MxFooterNewsletter' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input
+            class="mx-input"
+            type="email"
+            name="contact[email]"
+            aria-label="Email address"
+            placeholder="{{ section.settings.nl_placeholder | default: 'Enter your email address' }}"
+            required
+          >
+          <button class="mx-btn" type="submit">{{ section.settings.nl_button | default: 'SUBSCRIBE' }}</button>
+        {% endform %}
+      </div>
+    </div>
+
+    <div class="mx-divider"></div>
+
+    <!-- BOTTOM ROW: 5 columns -->
+    <div class="mx-bottom">
+      <div class="mx-col">
+        <h4 class="mx-col-title">{{ section.settings.col1_title | default: 'SHOPPING' }}</h4>
+        {% if section.settings.col1_menu != blank %}
+          <ul class="mx-links">
+            {% for link in linklists[section.settings.col1_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="mx-col">
+        <h4 class="mx-col-title">{{ section.settings.col2_title | default: 'COLLECTION' }}</h4>
+        {% if section.settings.col2_menu != blank %}
+          <ul class="mx-links">
+            {% for link in linklists[section.settings.col2_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="mx-col">
+        <h4 class="mx-col-title">{{ section.settings.col3_title | default: 'INFORMATION' }}</h4>
+        {% if section.settings.col3_menu != blank %}
+          <ul class="mx-links">
+            {% for link in linklists[section.settings.col3_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="mx-col">
+        <h4 class="mx-col-title">{{ section.settings.col4_title | default: 'POLICIES' }}</h4>
+        {% if section.settings.col4_menu != blank %}
+          <ul class="mx-links">
+            {% for link in linklists[section.settings.col4_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="mx-col">
+        <h4 class="mx-col-title">{{ section.settings.brand_title | default: shop.name }}</h4>
+        <div class="mx-brand-copy">
+          <p>Copyright © {{ 'now' | date: '%Y' }} {{ shop.name }}.<br>All rights reserved.</p>
+          {% if section.settings.powered_by != blank %}
+            <p class="mx-powered">{{ section.settings.powered_by }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  .mx-footer{background:#fff;color:#222}
+  .mx-footer .page-width{padding:0 16px}
+  .mx-top{
+    display:grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items:center;
+    gap:24px;
+    padding:18px 0;
+  }
+
+  /* Socials */
+  .mx-socials{display:flex;align-items:center;gap:16px}
+  .mx-social{display:inline-flex;width:36px;height:36px;border:1px solid #ccc;
+    align-items:center;justify-content:center;border-radius:8px;text-decoration:none;color:#111;
+    transition:transform .15s ease, border-color .15s ease}
+  .mx-social:hover{transform:translateY(-1px);border-color:#999}
+
+  /* Features */
+  .mx-features{display:flex;align-items:center;justify-content:center;gap:42px}
+  .mx-feature{display:flex;align-items:center;gap:10px}
+  .mx-feature-icon{display:inline-flex;width:44px;height:44px;border:1px solid #ccc;border-radius:8px;align-items:center;justify-content:center}
+  .mx-feature-icon svg{width:24px;height:24px;fill:#111}
+  .mx-feature-text{line-height:1.1;text-align:left;font-size:13px;letter-spacing:.2px}
+
+  /* Newsletter */
+  .mx-newsletter{display:flex;justify-content:flex-end}
+  .mx-newsletter form{display:flex;gap:8px;width:100%;max-width:360px}
+  .mx-input{
+    flex:1;border:1px solid #ccc;border-radius:6px;height:40px;padding:0 12px;font-size:14px;
+    outline:none
+  }
+  .mx-input:focus{border-color:#999}
+  .mx-btn{
+    height:40px;min-width:120px;border:1px solid #111;background:#111;color:#fff;border-radius:6px;
+    font-weight:600;letter-spacing:.4px
+  }
+  .mx-btn:hover{opacity:.9}
+
+  .mx-divider{height:1px;background:#ddd;margin:8px 0}
+
+  /* Bottom columns */
+  .mx-bottom{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap:32px;
+    padding:22px 0 30px 0;
+  }
+  .mx-col-title{font-size:16px;margin:0 0 10px 0;font-weight:700}
+  .mx-links{list-style:none;margin:0;padding:0}
+  .mx-links li{margin:6px 0}
+  .mx-links a{color:#222;text-decoration:none;font-size:14px}
+  .mx-links a:hover{text-decoration:underline}
+  .mx-brand-copy p{margin:.3rem 0;font-size:14px}
+  .mx-powered{font-size:13px;color:#666}
+
+  /* Responsive */
+  @media (max-width: 1024px){
+    .mx-features{gap:28px}
+    .mx-bottom{grid-template-columns: repeat(3, 1fr)}
+  }
+  @media (max-width: 768px){
+    .mx-top{grid-template-columns:1fr;gap:14px}
+    .mx-features{justify-content:flex-start}
+    .mx-newsletter{justify-content:flex-start}
+    .mx-bottom{grid-template-columns: repeat(2, 1fr)}
+  }
+  @media (max-width: 480px){
+    .mx-bottom{grid-template-columns:1fr}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Mx Footer",
+  "settings": [
+    { "type": "url", "id": "social_facebook", "label": "Facebook URL" },
+    { "type": "url", "id": "social_blog", "label": "Blog URL" },
+    { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
+
+    { "type": "text", "id": "nl_placeholder", "label": "Newsletter placeholder", "default": "Enter your email address" },
+    { "type": "text", "id": "nl_button", "label": "Newsletter button text", "default": "SUBSCRIBE" },
+
+    { "type": "text", "id": "col1_title", "label": "Column 1 title", "default": "SHOPPING" },
+    { "type": "link_list", "id": "col1_menu", "label": "Column 1 menu" },
+
+    { "type": "text", "id": "col2_title", "label": "Column 2 title", "default": "COLLECTION" },
+    { "type": "link_list", "id": "col2_menu", "label": "Column 2 menu" },
+
+    { "type": "text", "id": "col3_title", "label": "Column 3 title", "default": "INFORMATION" },
+    { "type": "link_list", "id": "col3_menu", "label": "Column 3 menu" },
+
+    { "type": "text", "id": "col4_title", "label": "Column 4 title", "default": "POLICIES" },
+    { "type": "link_list", "id": "col4_menu", "label": "Column 4 menu" },
+
+    { "type": "text", "id": "brand_title", "label": "Right column title (brand)", "default": "LIKE A DIVA" },
+    { "type": "text", "id": "powered_by", "label": "Powered by / note", "default": "e-Commerce by KOL Limited" }
+  ],
+  "presets": [
+    { "name": "Mx Footer" }
+  ]
+}
+{% endschema %}
