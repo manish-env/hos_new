@@ -22,7 +22,7 @@
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "custom_liquid": "<div class=\"mx-collection-heading\">\n  <span>{{ collection.title }}</span>\n</div>\n\n<style>\n.mx-collection-heading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  text-align: center;\n  background: #fff5f5; /* soft pink background */\n  padding: 10px 0;\n  margin: 0; /* removed top & bottom margin */\n}\n\n.mx-collection-heading span {\n  font-size: 14px;\n  font-weight: 500;\n  letter-spacing: 1px;\n  color: #111;\n  position: relative;\n  padding: 0 20px;\n}\n\n.mx-collection-heading span::before,\n.mx-collection-heading span::after {\n  content: \"\";\n  display: block;\n  width: 60px;\n  height: 1px;\n  background: #111;\n  position: absolute;\n  top: 50%;\n}\n\n.mx-collection-heading span::before {\n  left: -70px;\n}\n\n.mx-collection-heading span::after {\n  right: -70px;\n}\n</style>",
+        "custom_liquid": "<div class=\"mx-collection-heading\">\n  <span>{{ collection.title }}</span>\n</div>\n\n<style>\n.mx-collection-heading {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  text-align: center;\n  background: #fff5f5; /* soft pink background */\n  padding: 10px 0;\n  margin: -25px 0px -30px 0px; \n}\n\n.mx-collection-heading span {\n  font-size: 14px;\n  font-weight: 500;\n  letter-spacing: 1px;\n  color: #111;\n  position: relative;\n  padding: 0 20px;\n}\n\n.mx-collection-heading span::before,\n.mx-collection-heading span::after {\n  content: \"\";\n  display: block;\n  width: 60px;\n  height: 1px;\n  background: #111;\n  position: absolute;\n  top: 50%;\n}\n\n.mx-collection-heading span::before {\n  left: -70px;\n}\n\n.mx-collection-heading span::after {\n  right: -70px;\n}\n</style>",
         "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 52
@@ -47,11 +47,22 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "custom_liquid_wWbPAM": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{%- if collection and collection.description != blank -%}\n  <section id=\"mx-collection-desc\">\n    <div class=\"page-width\">\n      <div class=\"mx-content rte\">\n        {{ collection.description }}\n      </div>\n    </div>\n  </section>\n\n  <style>\n    #mx-collection-desc {\n      margin: 0;\n      padding: 32px 0;\n      background: #f8f8f8; /* same light gray background as in your image */\n    }\n    #mx-collection-desc .mx-content {\n      max-width: 90ch;\n      margin: 0 auto;\n      font-size: 16px;\n      line-height: 1.7;\n      color: #333333; /* dark gray for text */\n    }\n    #mx-collection-desc .mx-content p {\n      margin: 0 0 14px 0;\n    }\n    #mx-collection-desc .mx-content strong {\n      font-weight: 600;\n      color: #111111; /* slightly darker for emphasis */\n    }\n    #mx-collection-desc .mx-content em {\n      font-style: italic;\n    }\n    #mx-collection-desc .mx-content a {\n      color: #111111;\n      text-decoration: underline;\n      text-underline-offset: 2px;\n    }\n  </style>\n{%- endif -%}",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
     "banner",
     "custom_liquid_V74Fnn",
-    "product-grid"
+    "product-grid",
+    "custom_liquid_wWbPAM"
   ]
 }
