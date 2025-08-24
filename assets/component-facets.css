@@ -1355,3 +1355,8 @@ input.mobile-facets__checkbox {
   display: inline-block;
   pointer-events: none;
 }
+.sort-disclosure > summary .svg-wrapper svg { width: 12px; height: 12px; display: block; }
+/* default: show plus, hide minus */
+.sort-disclosure > summary .icon-minus { display: none; }
+.sort-disclosure[open] > summary .icon-plus { display: none; }
+.sort-disclosure[open] > summary .icon-minus { display: inline-block; }
