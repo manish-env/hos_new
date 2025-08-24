@@ -1392,8 +1392,8 @@ input.mobile-facets__checkbox {
 /* Optional: subtle divider before price range area */
 .mobile-facets__details[open] > .mobile-facets__submenu { border-top: 1px solid rgba(var(--color-foreground), 0.08); }
 
-/* Sticky filter/sort bar and 2-col list for small screens */
-@media screen and (max-width: 749px) {
+  /* Sticky filter/sort bar and 2-col list for small screens */
+  @media screen and (max-width: 749px) {
   /* Sticky container and 2-col layout for split buttons */
   .facets-container {
     position: sticky;
@@ -1478,6 +1478,31 @@ input.mobile-facets__checkbox {
   /* Remove older button tweaks to avoid clashes */
   .facet-filters__field .select { width: 100%; margin: 0; }
 
+  /* Normalize heights/typography so both halves match exactly */
+  .mobile-facets__open,
+  #FacetSortMobileBar .sort-disclosure > summary,
+  .facets-container .facet-filters__summary {
+    height: 44px;
+    line-height: 44px;
+    font-size: 1.4rem;
+    box-sizing: border-box;
+  }
+
+  /* Ensure label text is centered and not pushed by side paddings */
+  .mobile-facets__open-label,
+  #FacetSortMobileBar .facet-filters__label span { display: inline-block; text-align: center; width: 100%; }
+
+  /* Prevent long locale labels from breaking layout */
+  .mobile-facets__open-label,
+  #FacetSortMobileBar .facet-filters__label span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Remove extra margins that create misalignment */
+  .facets-container .facet-filters button,
+  .facets-container .facet-filters__label { margin: 0; }
+
+  /* Avoid double borders on the split bar */
+  .facets-container .facet-filters__field { border: 0; }
+  
   /* Split button divider */
   .facets__form > *:not(:first-child) {
     border-left: 1px solid rgba(var(--color-foreground), 0.12);
