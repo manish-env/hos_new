@@ -770,14 +770,14 @@ a.active-facets__button.focused .active-facets__button-inner {
 
 .mobile-facets__inner {
   background-color: rgb(var(--color-background));
-  width: calc(100% - 5rem);
+  width: calc(100% - 7rem); /* slightly narrower drawer */
   margin-left: 0;
   margin-right: auto; /* open from left */
   height: 100%;
   overflow-y: auto;
   pointer-events: all;
   transition: transform var(--duration-default) ease;
-  max-width: 37.5rem;
+  max-width: 32rem; /* reduce absolute max width */
   display: flex;
   flex-direction: column;
   border-color: rgba(var(--color-foreground), var(--drawer-border-opacity));
@@ -881,11 +881,11 @@ a.active-facets__button.focused .active-facets__button-inner {
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 0.2rem !important;
+  top: 0.6rem !important;
   right: 1rem;
-  width: 4.4rem;
-  height: 4.4rem;
-  z-index: 101;
+  width: 3.6rem; /* smaller button fits tiny screens */
+  height: 3.6rem;
+  z-index: 1001; /* above header/nav */
   opacity: 0;
   transition: opacity var(--duration-short) ease;
 }
