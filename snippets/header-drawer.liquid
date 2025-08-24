@@ -5,6 +5,13 @@
   {% render 'header-drawer' %}
 {% endcomment %}
 
+<style>
+  @media screen and (max-width: 989px) {
+    .menu-drawer__search { padding: 1rem 1rem 0.5rem; border-bottom: 1px solid rgba(var(--color-foreground), 0.08); }
+    .menu-drawer__search .header__search-inline { width: 100%; }
+  }
+</style>
+
 <header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
   <details id="Details-menu-drawer-container" class="menu-drawer-container">
     <summary
@@ -18,6 +25,10 @@
     </summary>
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       <div class="menu-drawer__inner-container">
+        {%- comment -%} Mobile-only inline search at top of drawer {%- endcomment -%}
+        <div class="menu-drawer__search medium-hide large-up-hide">
+          {%- render 'header-search-inline-clean' -%}
+        </div>
         <div class="menu-drawer__navigation-container">
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
