@@ -47,11 +47,22 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "custom_liquid_wWbPAM": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{%- comment -%}\n  Collection Description – page-width container\n  Usage: Add as a \"Custom liquid\" block on collection templates\n{%- endcomment -%}\n\n{%- if collection and collection.description != blank -%}\n  <section id=\"mx-collection-desc\" class=\"page-width\" aria-labelledby=\"mx-collection-desc-title\">\n    {%- comment -%} Optional title: uncomment if you also want to show the collection title {%- endcomment -%}\n    {%- comment -%}\n    <h2 id=\"mx-collection-desc-title\" class=\"mx-title\">{{ collection.title }}</h2>\n    {%- endcomment -%}\n\n    <div class=\"mx-content rte\">\n      {{ collection.description }}\n    </div>\n  </section>\n\n  <style>\n    /* --- Scoped styles --- */\n    #mx-collection-desc{\n      margin: 0;           /* no extra top/bottom space */\n      padding: 24px 0;     /* subtle breathing room inside page-width */\n    }\n    #mx-collection-desc .mx-title{\n      font-size: clamp(22px, 2.2vw, 28px);\n      line-height: 1.25;\n      font-weight: 600;\n      letter-spacing: 0.2px;\n      margin: 0 0 12px 0;\n      color: rgb(var(--color-foreground, 17 17 17));\n    }\n    #mx-collection-desc .mx-content{\n      max-width: 90ch;               /* comfortable reading width */\n      font-size: 16px;\n      line-height: 1.7;\n      color: rgba(0,0,0,.78);\n    }\n    #mx-collection-desc .mx-content p{\n      margin: 0 0 12px 0;            /* tight, premium spacing */\n    }\n    #mx-collection-desc .mx-content strong{ font-weight: 600; }\n    #mx-collection-desc .mx-content em{ font-style: italic; }\n    #mx-collection-desc .mx-content a{\n      text-decoration: underline;\n      text-underline-offset: 2px;\n    }\n  </style>\n{%- endif -%}",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
     "banner",
     "custom_liquid_V74Fnn",
-    "product-grid"
+    "product-grid",
+    "custom_liquid_wWbPAM"
   ]
 }
