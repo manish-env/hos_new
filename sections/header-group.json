@@ -46,7 +46,9 @@
         "change_slides_speed": 5,
         "color_scheme": "scheme-4",
         "show_line_separator": true,
-        "show_social": true,
+        "show_whatsapp": true,
+        "phone_number": "+1234567890",
+        "make_sticky": true,
         "enable_country_selector": true,
         "enable_language_selector": true
       }
