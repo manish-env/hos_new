@@ -52,17 +52,17 @@ Params:
 /* Hide Dawn native footer under our drawer */
 .mobile-facets__main .mobile-facets__footer { display:none !important; }
 
-/* Pin our footer to the drawer panel bottom/width at all times while drawer exists */
+/* Keep footer sticky and full-width of drawer; avoids viewport-based shifting */
 .mobile-facets__inner .hos2-footer {
-  position: fixed;
-  left: calc(100vw - min(48rem, 100vw - 2rem));
+  position: sticky;
+  left: auto;
   right: auto;
   bottom: 0;
-  width: min(48rem, 100vw - 2rem);
+  width: 100%;
   background: rgb(var(--color-background));
   border-top: 1px solid rgba(var(--color-foreground), 0.12);
   box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
-  z-index: 9999;
+  z-index: 3;
 }
 
 /* Responsive: fallback to 2 columns on narrow screens */
@@ -75,6 +75,7 @@ Params:
   /* Default Dawn: width: calc(100% - 5rem); max-width: 37.5rem; */
   width: calc(100% - 2rem) !important; /* reduce side gutter */
   max-width: 48rem !important;        /* increase drawer max width */
+  position: relative; /* make sticky children behave predictably */
 }
 
 /* Use Dawn top header only: left align title, hide counts */
