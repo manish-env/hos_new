@@ -509,6 +509,7 @@
             >
               {%- if enable_filtering -%}
                 {{ 'hos-filter-drawer.css' | asset_url | stylesheet_tag }}
+                {{ 'hos-filter-drawer.js' | asset_url | script_tag }}
                 {% render 'hos-filter-drawer', results: results, section_id: section.id, results_url: results_url %}
               {%- endif -%}
 

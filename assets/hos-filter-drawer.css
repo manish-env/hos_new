@@ -4,22 +4,25 @@
 }
 
 /* Headings with plus/minus */
-.hos-filter__details { border-bottom: 1px solid rgba(var(--color-foreground), 0.12); }
+.hos-filter__group { border-bottom: 1px solid rgba(var(--color-foreground), 0.12); }
 .hos-filter__summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   padding: 1.2rem 0;
   cursor: pointer;
-  list-style: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  text-align: left;
 }
-.hos-filter__summary::-webkit-details-marker { display: none; }
 .hos-filter__title { font-weight: 600; }
 .hos-filter__icon { width: 14px; height: 14px; display: inline-block; }
 .hos-filter__icon svg { width: 14px; height: 14px; display: block; }
 .hos-filter__icon--minus { display: none; }
-.hos-filter__details[open] .hos-filter__icon--plus { display: none; }
-.hos-filter__details[open] .hos-filter__icon--minus { display: inline-block; }
+.hos-filter__group.is-open .hos-filter__icon--plus { display: none; }
+.hos-filter__group.is-open .hos-filter__icon--minus { display: inline-block; }
 
 /* Content */
 .hos-filter__content { padding: 0.8rem 0 1.2rem; }

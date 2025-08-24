@@ -24,14 +24,14 @@ Required params:
     %}
 
     {%- if is_list or is_price -%}
-      <details class="hos-filter__details" id="HosDetails-{{ filter.param_name | escape }}-{{ section_id }}">
-        <summary class="hos-filter__summary">
+      <div class="hos-filter__group" id="HosGroup-{{ filter.param_name | escape }}-{{ section_id }}">
+        <button type="button" class="hos-filter__summary" data-hos-toggle>
           <span class="hos-filter__title">{{ filter.label | escape }}</span>
           <span class="hos-filter__icon hos-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
           <span class="hos-filter__icon hos-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
-        </summary>
+        </button>
 
-        <div class="hos-filter__content">
+        <div class="hos-filter__content" hidden>
           {%- if is_list -%}
             <ul class="hos-filter__grid" role="list">
               {%- liquid
@@ -73,7 +73,7 @@ Required params:
             </div>
           {%- endif -%}
         </div>
-      </details>
+      </div>
     {%- endif -%}
   {%- endfor -%}
 
