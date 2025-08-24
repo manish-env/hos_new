@@ -196,7 +196,7 @@
 .hos2-footer .button--primary {
   background: #FFEEEE !important;
   color: rgb(var(--color-foreground)) !important;
-  border: 1px solid rgba(var(--color-foreground), 0.15) !important;
+  border: none !important;
 }
 
 .hos2-footer .button--primary:hover,
@@ -208,7 +208,7 @@
 .hos2-footer .button--secondary {
   background: transparent !important;
   color: rgb(var(--color-foreground)) !important;
-  border: 1px solid rgba(var(--color-foreground), 0.2) !important;
+  border: none !important;
 }
 
 .hos2-footer .button--secondary:hover {
@@ -323,14 +323,14 @@
       {%- if is_list or is_price -%}
       {%- unless filter_label_lc == 'availability' -%}
         {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
-        <div class="hos2-filter__group" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
-          <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="false" aria-controls="{{ content_id }}">
+        <div class="hos2-filter__group is-open" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
+          <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="true" aria-controls="{{ content_id }}">
             <span class="hos2-filter__title">{{ filter.label | escape }}</span>
             <span class="hos2-filter__badge" data-hos2-badge hidden>0</span>
             <span class="hos2-filter__icon hos2-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
             <span class="hos2-filter__icon hos2-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
           </button>
-          <div class="hos2-filter__content" id="{{ content_id }}" hidden>
+          <div class="hos2-filter__content" id="{{ content_id }}">
             {%- if is_list -%}
               <button type="button" class="hos2-filter__clear" data-hos2-clear hidden>
                 {{ 'products.facets.clear' | t }}
@@ -435,9 +435,7 @@
     if (!group || !content) return;
     const expanded = btn.getAttribute('aria-expanded') === 'true';
     const next = !expanded;
-    btn.setAttribute('aria-expanded', String(next));
-    group.classList.toggle('is-open', next);
-    if (next) content.removeAttribute('hidden'); else content.setAttribute('hidden', '');
+    setGroupOpen(group, next);
   }
 
   root.addEventListener('click', (e) => {
@@ -556,14 +554,14 @@
   function initGroups() {
     root.querySelectorAll('.hos2-filter__group').forEach(group => {
       updateGroupUI(group);
-      let open = false;
+      let open = true; // open by default
       try {
         const saved = localStorage.getItem(storageKey(group));
         if (saved === '1') open = true;
         if (saved === '0') open = false;
-        if (saved === null && countSelectionsInGroup(group) > 0) open = true;
+        // when no saved state, keep default open=true
       } catch {
-        if (countSelectionsInGroup(group) > 0) open = true;
+        // keep default
       }
       setGroupOpen(group, open);
     });
