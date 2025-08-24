@@ -87,6 +87,18 @@
   }
   {%- endif -%}
 
+  /* Mobile-specific search positioning */
+  @media screen and (max-width: 989px) {
+    /* Hide the default right-side search icon on small screens */
+    .header__icons .header__search-icon { display: none; }
+    /* Hide any standalone search trigger rendered directly under header (e.g., near logo) */
+    .header > .header__search { display: none; }
+    /* Space for the mobile-left search trigger next to hamburger */
+    .header__search--mobile-left { display: inline-flex; margin-left: 0.6rem; }
+    /* Do not show the close icon next to the logo for the mobile-left trigger */
+    .header__search--mobile-left .header__icon-close { display: none !important; }
+  }
+
   /* Promo tabs styles */
   .header-promo-tabs { margin-top: 0.75rem; width: 100%; max-width: 100vw; overflow: hidden; }
   .header-promo-track { display: flex; gap: 0; transition: transform 400ms ease; }
@@ -191,6 +203,13 @@
         endunless
       endif
     -%}
+
+    {%- comment -%}
+      Mobile-only search trigger positioned next to the hamburger menu
+    {%- endcomment -%}
+    <div class="header__search--mobile-left medium-hide large-up-hide">
+      {% render 'header-search', input_id: 'Search-In-Modal-Mobile' %}
+    </div>
 
     {%- if section.settings.desktop_search_style == 'input' -%}
       {%- render 'header-search-inline-clean' -%}
