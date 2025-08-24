@@ -73,7 +73,7 @@
   align-items: center;
   display: flex;
   flex-grow: 1;
-  border:2px solid;
+  border:1px solid;
   justify-content: flex-end;
 }
 
