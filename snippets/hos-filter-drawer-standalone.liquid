@@ -130,13 +130,13 @@ Params:
     {%- if is_list or is_price -%}
     {%- unless filter_label_lc == 'availability' -%}
       {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
-      <div class="hos2-filter__group" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
-        <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="false" aria-controls="{{ content_id }}">
+      <div class="hos2-filter__group is-open" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
+        <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="true" aria-controls="{{ content_id }}">
           <span class="hos2-filter__title">{{ filter.label | escape }}</span>
           <span class="hos2-filter__icon hos2-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
           <span class="hos2-filter__icon hos2-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
         </button>
-        <div class="hos2-filter__content" id="{{ content_id }}" hidden>
+        <div class="hos2-filter__content" id="{{ content_id }}">
           {%- if is_list -%}
             <ul class="hos2-filter__grid" role="list">
               {%- liquid
@@ -171,21 +171,43 @@ Params:
             {% liquid
               assign min_name = filter.min_value.param_name
               assign max_name = filter.max_value.param_name
-              assign min_val = filter.min_value.value
-              assign max_val = filter.max_value.value
-              assign range_max = filter.range_max
             %}
-            <div class="hos2-price">
-              <label>
-                <span class="visually-hidden">Min</span>
-                <input type="number" inputmode="numeric" step="1" min="0" max="{{ range_max }}" name="{{ min_name }}" value="{{ min_val }}" placeholder="Min">
-              </label>
-              <span>–</span>
-              <label>
-                <span class="visually-hidden">Max</span>
-                <input type="number" inputmode="numeric" step="1" min="0" max="{{ range_max }}" name="{{ max_name }}" value="{{ max_val }}" placeholder="Max">
-              </label>
-              <span class="caption">Max {{ range_max | money }}</span>
+            <div class="hos2-price" data-price-range data-min-name="{{ min_name }}" data-max-name="{{ max_name }}">
+              <ul class="hos2-filter__grid" role="list" style="grid-template-columns: 1fr; gap: 1rem;">
+                <li class="hos2-filter__item">
+                  <label class="hos2-filter__label">
+                    <input type="radio" name="hos2-price-range" value="0-5000" data-min="0" data-max="5000">
+                    <span class="hos2-filter__text">Rs. 0.00 - Rs. 5,000.00</span>
+                  </label>
+                </li>
+                <li class="hos2-filter__item">
+                  <label class="hos2-filter__label">
+                    <input type="radio" name="hos2-price-range" value="5000-10000" data-min="5000" data-max="10000">
+                    <span class="hos2-filter__text">Rs. 5,000.00 - Rs. 10,000.00</span>
+                  </label>
+                </li>
+                <li class="hos2-filter__item">
+                  <label class="hos2-filter__label">
+                    <input type="radio" name="hos2-price-range" value="10000-15000" data-min="10000" data-max="15000">
+                    <span class="hos2-filter__text">Rs. 10,000.00 - Rs. 15,000.00</span>
+                  </label>
+                </li>
+                <li class="hos2-filter__item">
+                  <label class="hos2-filter__label">
+                    <input type="radio" name="hos2-price-range" value="15000-20000" data-min="15000" data-max="20000">
+                    <span class="hos2-filter__text">Rs. 15,000.00 - Rs. 20,000.00</span>
+                  </label>
+                </li>
+                <li class="hos2-filter__item">
+                  <label class="hos2-filter__label">
+                    <input type="radio" name="hos2-price-range" value="20000-25000" data-min="20000" data-max="25000">
+                    <span class="hos2-filter__text">Rs. 20,000.00 - Rs. 25,000.00</span>
+                  </label>
+                </li>
+              </ul>
+              <!-- Hidden inputs that will be populated from the selected radio -->
+              <input type="hidden" name="{{ min_name }}" value="">
+              <input type="hidden" name="{{ max_name }}" value="">
             </div>
           {%- endif -%}
         </div>
@@ -223,6 +245,54 @@ Params:
     const apply = e.target.closest('[data-hos2-apply]');
     if (apply) { e.preventDefault(); e.stopPropagation(); applyNow(); return; }
   }, true);
+
+  // Price radio groups: sync selected radio -> hidden min/max inputs
+  function initPriceRadios() {
+    const params = new URLSearchParams(window.location.search);
+    root.querySelectorAll('.hos2-price[data-price-range]').forEach(block => {
+      const minName = block.getAttribute('data-min-name');
+      const maxName = block.getAttribute('data-max-name');
+      const hiddenMin = block.querySelector(`input[type="hidden"][name="${CSS.escape(minName)}"]`);
+      const hiddenMax = block.querySelector(`input[type="hidden"][name="${CSS.escape(maxName)}"]`);
+      if (!hiddenMin || !hiddenMax) return;
+
+      const radios = Array.from(block.querySelectorAll('input[type="radio"][name="hos2-price-range"]'));
+      if (!radios.length) return;
+
+      const syncFromSelection = () => {
+        const sel = radios.find(r => r.checked);
+        if (sel) {
+          hiddenMin.value = sel.getAttribute('data-min') || '';
+          hiddenMax.value = sel.getAttribute('data-max') || '';
+        } else {
+          hiddenMin.value = '';
+          hiddenMax.value = '';
+        }
+      };
+
+      const preselectFromParams = () => {
+        const pMin = params.get(minName);
+        const pMax = params.get(maxName);
+        if (pMin == null && pMax == null) { syncFromSelection(); return; }
+        const nMin = pMin ? parseInt(pMin, 10) : null;
+        const nMax = pMax ? parseInt(pMax, 10) : null;
+        let matched = false;
+        for (const r of radios) {
+          const rMin = parseInt(r.getAttribute('data-min') || '', 10);
+          const rMax = parseInt(r.getAttribute('data-max') || '', 10);
+          if ((nMin == null || nMin === rMin) && (nMax == null || nMax === rMax)) {
+            r.checked = true; matched = true; break;
+          }
+        }
+        if (!matched) radios.forEach(r => (r.checked = false));
+        syncFromSelection();
+      };
+
+      radios.forEach(r => r.addEventListener('change', syncFromSelection));
+      preselectFromParams();
+    });
+  }
+  initPriceRadios();
 
   // Build URL from current selections in this drawer and navigate
   function applyNow() {
