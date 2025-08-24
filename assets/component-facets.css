@@ -1413,7 +1413,7 @@ input.mobile-facets__checkbox {
   .hos-mobile-toolbar {
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 1; /* keep below header/nav drawer */
     display: flex;
     gap: 0.8rem;
     
