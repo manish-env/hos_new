@@ -133,15 +133,37 @@
                 {{- 'products.product.sold_out' | t -}}
               </span>
             {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
-              <span
-              id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
-              class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
-            >
-              {% if card_product.compare_at_price > card_product.price %}
-                {% assign discount = card_product.compare_at_price | minus: card_product.price | times: 100 | divided_by: card_product.compare_at_price %}
-                {{ discount | round }}% OFF
-              {% endif %}
-            </span>
+             <span
+  id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
+  class="mx-sale-badge"
+>
+  {% if card_product.compare_at_price > card_product.price %}
+    {% assign discount = card_product.compare_at_price | minus: card_product.price | times: 100 | divided_by: card_product.compare_at_price %}
+    {{ discount | round }}% OFF
+  {% endif %}
+</span>
+
+<style>
+  .mx-sale-badge {
+    position: absolute;
+    top: 10px; /* adjust as needed */
+    left: 10px; /* adjust as needed */
+    background-color: #0072ce; /* same blue as your example */
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    z-index: 10;
+  }
+</style>
+
 
             {%- endif -%}
           </div>
