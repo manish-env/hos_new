@@ -883,18 +883,26 @@ a.active-facets__button.focused .active-facets__button-inner {
   position: fixed;
   top: 0.6rem !important;
   right: auto;
-  /* Place at drawer's right edge: viewport width minus drawer width minus small offset */
-  left: calc(100% - min(32rem, 100% - 7rem) - 0.6rem);
+  /* Place at drawer's right edge with a minimum safe inset */
+  left: max(0.6rem, calc(100% - min(32rem, 100% - 7rem) - 0.6rem));
   width: 3.6rem; /* smaller button fits tiny screens */
   height: 3.6rem;
   z-index: 1001; /* above header/nav */
   opacity: 0;
   transition: opacity var(--duration-short) ease;
+  background: rgba(var(--color-background), 0.95);
+  color: rgb(var(--color-foreground));
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
 .mobile-facets__close .svg-wrapper {
   width: 2.2rem;
 }
+
+/* Ensure visibility whenever the drawer is open */
+details[open] .mobile-facets__close { display: flex; opacity: 1; }
 
 details.menu-opening .mobile-facets__close {
   display: flex;
@@ -1406,10 +1414,13 @@ input.mobile-facets__checkbox {
     display: block;
   }
 
-  /* Hide old mobile triggers completely */
-  .mobile-facets__open-wrapper,
+  /* Hide old mobile triggers (but keep wrapper so close icon can live) */
   #FacetSortMobileBar,
   .active-facets-mobile { display: none !important; }
+  /* Hide only the old open trigger button */
+  .mobile-facets__open-wrapper .mobile-facets__open { display: none !important; }
+  /* When drawer opens, ensure wrapper is present so close button can show */
+  details.menu-opening .mobile-facets__open-wrapper { display: block !important; }
 
   /* Normalize inner wrappers */
   /* New clean flexbox toolbar */
