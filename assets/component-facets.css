@@ -1394,7 +1394,7 @@ input.mobile-facets__checkbox {
 
 /* Sticky filter/sort bar and 2-col list for small screens */
 @media screen and (max-width: 749px) {
-  /* Stick the filter/sort container at the top under header */
+  /* Sticky container and 2-col layout for split buttons */
   .facets-container {
     position: sticky;
     top: 0;
@@ -1402,58 +1402,77 @@ input.mobile-facets__checkbox {
     background: rgb(var(--color-background));
     border-top: 1px solid rgba(var(--color-foreground), 0.12);
     border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
-    padding: 0;
-  }
-
-  /* Two buttons side by side */
-  .facets__form {
+    padding: 0.6rem 1rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.8rem;
-    margin: 0;
-    padding: 0.6rem 1rem;
+    gap: 0;
     align-items: stretch;
   }
 
-  .mobile-facets__wrapper { order: 1; }
-  .facet-filters { order: 2; padding-left: 0; }
-  .mobile-facets__open { width: 100%; justify-content: flex-start; position: relative; }
-  .facet-filters__summary { min-width: 0; width: 100%; margin-top: 0; }
-  .facet-filters__field { justify-content: center; width: 100%; border: 0; }
+  /* Place direct children in grid columns: left = drawer trigger, right = sort */
+  .facets-container > .mobile-facets__wrapper { grid-column: 1; margin: 0; }
+  .facets-container > facet-filters-form.medium-hide.large-up-hide { grid-column: 2; margin: 0; display: block; }
+  .facets-container > facet-filters-form.medium-hide.large-up-hide .facets__form { margin: 0; }
 
-  /* Button aesthetics to match Dawn */
-  .facets__form .button,
-  .mobile-facets__open.button,
-  .mobile-facets__open .button {
-    height: 46px;
-    line-height: 46px;
-    border-radius: var(--buttons-radius);
-    font: inherit;
-    text-transform: uppercase;
-  }
+  /* Normalize inner wrappers */
+  .mobile-facets__open-wrapper { display: block; margin: 0; }
+  .facet-filters__field { width: 100%; justify-content: center; border: 0; }
+  .facet-filters__summary { min-width: 0; width: 100%; margin: 0; padding: 0; }
+  .facet-filters { padding-left: 0; margin: 0; }
+  #FacetSortMobileBar { margin: 0; }
 
-  /* Make Sort control look consistent */
-  .facet-filters__field .select { width: 100%; }
-  .facet-filters__field .select select {
+  /* Visual: make both look like a split button */
+  .mobile-facets__open {
     width: 100%;
-    height: 46px;
-    border-radius: var(--inputs-radius, var(--buttons-radius));
-    padding: 0 1.2rem;
-    border: 1px solid rgba(var(--color-foreground), 0.15);
-    background: rgb(var(--color-background));
-  }
-  /* If Sort uses disclosure summary on mobile */
-  .sort-disclosure > summary {
-    width: 100%;
-    height: 46px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--buttons-radius);
-    border: 1px solid rgba(var(--color-foreground), 0.15);
+    height: 44px;
+    line-height: 44px;
+    border: 1px solid rgba(var(--color-foreground), 0.18);
+    border-right: 0; /* share border with right half */
+    border-radius: var(--buttons-radius) 0 0 var(--buttons-radius);
     background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    text-transform: none;
     padding: 0 1.2rem;
   }
+
+  #FacetSortMobileBar .sort-disclosure > summary {
+    position: relative;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(var(--color-foreground), 0.18);
+    border-left: 1px solid rgba(var(--color-foreground), 0.18); /* center divider */
+    border-radius: 0 var(--buttons-radius) var(--buttons-radius) 0;
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    padding: 0 1.2rem;
+    text-transform: none;
+  }
+
+  /* Center label text, hide default right chevron offset */
+  #FacetSortMobileBar .facet-filters__label { display: contents; margin: 0; }
+  #FacetSortMobileBar .facet-filters__label .svg-wrapper { position: absolute; right: 12px; }
+
+  /* Right-aligned icons */
+  .mobile-facets__open .svg-wrapper { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
+  #FacetSortMobileBar .sort-disclosure > summary::after {
+    content: '+';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  /* Remove older button tweaks to avoid clashes */
+  .facet-filters__field .select { width: 100%; margin: 0; }
 
   /* Split button divider */
   .facets__form > *:not(:first-child) {
