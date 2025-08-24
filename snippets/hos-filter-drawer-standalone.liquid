@@ -90,7 +90,7 @@ Params:
                 %}
                 <li class="hos2-filter__item">
                   <label for="{{ input_id }}" class="hos2-filter__label{% if is_disabled %} is-disabled{% endif %}{% if value.active %} is-active{% endif %}">
-                    {%- if filter.label and filter.label downcase contains 'color' -%}
+                    {%- if filter.label and filter.label | downcase contains 'color' -%}
                       <span class="hos2-swatch" data-swatch-name="{{ value.label | downcase | escape }}" aria-hidden="true"></span>
                     {%- endif -%}
                     <input id="{{ input_id }}" class="hos2-filter__checkbox" type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} {% if is_disabled %}disabled{% endif %}>
