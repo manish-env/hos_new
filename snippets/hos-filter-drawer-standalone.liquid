@@ -61,6 +61,11 @@ Params:
   max-width: 48rem !important;        /* increase drawer max width */
 }
 
+/* Use Dawn top header only: left align title, hide counts */
+.mobile-facets__header { justify-content: space-between; text-align: left; }
+.mobile-facets__heading { text-align: left; }
+.mobile-facets__count { display: none !important; }
+
 /* Swatch color mapping (basic) */
 .hos2-swatch[data-swatch-name="black"]{background:#000}
 .hos2-swatch[data-swatch-name="white"],
@@ -99,10 +104,6 @@ Params:
 </style>
 
 <div class="hos2-filter-drawer" data-hos2-root>
-  <div style="padding:0.4rem 0 0.8rem;">
-    <h3 style="margin:0; font-size:1.2rem; font-weight:800; line-height:1.5; text-align:left;">Filter</h3>
-    <div style="margin-top:0.25rem; font-size:0.95rem; color:rgba(0,0,0,0.6);">{{ results.products_count | default: results_count }} products</div>
-  </div>
   {%- for filter in results.filters -%}
     {% liquid
       assign is_list = false
