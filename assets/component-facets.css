@@ -1391,3 +1391,42 @@ input.mobile-facets__checkbox {
 
 /* Optional: subtle divider before price range area */
 .mobile-facets__details[open] > .mobile-facets__submenu { border-top: 1px solid rgba(var(--color-foreground), 0.08); }
+
+/* Sticky filter/sort bar and 2-col list for small screens */
+@media screen and (max-width: 749px) {
+  /* Stick the filter/sort container at bottom */
+  .facets-container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    background: var(--gradient-background, rgb(var(--color-background)));
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.12);
+    padding: 0.6rem 1rem;
+  }
+
+  /* Two buttons side by side */
+  .facets__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin: 0;
+  }
+
+  .mobile-facets__wrapper { order: 1; }
+  .facet-filters { order: 2; padding-left: 0; }
+  .mobile-facets__open { width: 100%; justify-content: center; }
+  .facet-filters__summary { min-width: 0; width: 100%; margin-top: 0; }
+  .facet-filters__field { justify-content: center; width: 100%; border: 0; }
+
+  /* Ensure page content isn't hidden under the sticky bar */
+  main, .page-width, .product-grid-container {
+    padding-bottom: 7rem;
+  }
+
+  /* Force 2-column list inside the mobile drawer */
+  .mobile-facets__submenu .facets-layout-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
