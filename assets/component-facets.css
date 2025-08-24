@@ -881,7 +881,7 @@ a.active-facets__button.focused .active-facets__button-inner {
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 0.7rem;
+  top: 0.2rem !important;
   right: 1rem;
   width: 4.4rem;
   height: 4.4rem;
