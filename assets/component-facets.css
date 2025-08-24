@@ -882,7 +882,9 @@ a.active-facets__button.focused .active-facets__button-inner {
   justify-content: center;
   position: fixed;
   top: 0.6rem !important;
-  right: 1rem;
+  right: auto;
+  /* Place at drawer's right edge: viewport width minus drawer width minus small offset */
+  left: calc(100% - min(32rem, 100% - 7rem) - 0.6rem);
   width: 3.6rem; /* smaller button fits tiny screens */
   height: 3.6rem;
   z-index: 1001; /* above header/nav */
@@ -960,6 +962,7 @@ details.menu-opening .mobile-facets__close .svg-wrapper {
 
 .mobile-facets__summary {
   padding: 1.3rem 2.5rem;
+  display: none !important;
 }
 
 .mobile-facets__summary .svg-wrapper {
