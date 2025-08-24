@@ -12,7 +12,7 @@ Params:
 
 <style>
 /***** Standalone Drawer Styles *****/
-.hos2-filter-drawer { display:block; padding:15px; }
+.hos2-filter-drawer { display:block; padding:15px 15px 96px; }
 .hos2-filter-drawer, .hos2-filter-drawer * { box-sizing: border-box; }
 .hos2-header { padding:0.4rem 0 0.8rem; }
 .hos2-heading { margin:0; }
@@ -52,6 +52,19 @@ Params:
 /* Hide Dawn native footer under our drawer */
 .mobile-facets__main .mobile-facets__footer { display:none !important; }
 
+/* Pin our footer to the drawer panel bottom/width at all times while drawer exists */
+.mobile-facets__inner .hos2-footer {
+  position: fixed;
+  left: calc(100vw - min(48rem, 100vw - 2rem));
+  right: auto;
+  bottom: 0;
+  width: min(48rem, 100vw - 2rem);
+  background: rgb(var(--color-background));
+  border-top: 1px solid rgba(var(--color-foreground), 0.12);
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
+  z-index: 9999;
+}
+
 /* Responsive: fallback to 2 columns on narrow screens */
 @media (max-width: 360px) {
   .hos2-filter__grid { grid-template-columns: repeat(2, 1fr); }
@@ -66,7 +79,7 @@ Params:
 
 /* Use Dawn top header only: left align title, hide counts */
 .mobile-facets__header { justify-content: space-between; text-align: left; padding: 15px; }
-.mobile-facets__heading { text-align: left; margin: 0; }
+.mobile-facets__heading { text-align: left; margin: 0; font-size:18px !important }
 .mobile-facets__count { display: none !important; }
 
 /* Place close icon at drawer's right edge */
