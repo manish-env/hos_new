@@ -1293,6 +1293,8 @@ input.mobile-facets__checkbox {
 .sort-disclosure__content ul {
   margin: 0;
   padding: 0;
+  list-style: none;
+  width: 100%;
 }
 .sort-disclosure__item {
   display: block;
@@ -1308,6 +1310,7 @@ input.mobile-facets__checkbox {
   padding: 0.65rem 0.8rem;
   font-size: 1.3rem;
   text-transform: uppercase;
+  width: 100%;
 }
 .sort-disclosure__label input[type="radio"] {
   width: 16px;
@@ -1318,6 +1321,9 @@ input.mobile-facets__checkbox {
   border-radius: 2px;
   background: transparent;
   position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  margin: 0;
 }
 .sort-disclosure__label input[type="radio"]:checked {
   background: rgb(var(--color-background));
@@ -1327,4 +1333,9 @@ input.mobile-facets__checkbox {
   position: absolute;
   inset: 3px;
   background: rgba(var(--color-foreground), 0.9);
+}
+
+.sort-disclosure__label span {
+  display: inline-block;
+  line-height: 1.4;
 }

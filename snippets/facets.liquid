@@ -835,7 +835,7 @@
                 <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
               </summary>
               <div class="sort-disclosure__content">
-                <ul class="no-js-hidden">
+                <ul class="no-js-hidden sort-disclosure__list">
                   {%- for option in results.sort_options -%}
                     <li class="sort-disclosure__item">
                       <label class="sort-disclosure__label">
@@ -843,7 +843,6 @@
                           type="radio"
                           name="sort_by"
                           value="{{ option.value | escape }}"
-                          class="mobile-facets__checkbox"
                           {% if option.value == sort_by %}checked{% endif %}
                         >
                         <span>{{ option.name | escape }}</span>
