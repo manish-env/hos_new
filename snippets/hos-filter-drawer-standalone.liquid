@@ -54,6 +54,13 @@ Params:
   .hos2-filter__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Width override for Dawn mobile filter drawer container */
+.mobile-facets__inner {
+  /* Default Dawn: width: calc(100% - 5rem); max-width: 37.5rem; */
+  width: calc(100% - 2rem) !important; /* reduce side gutter */
+  max-width: 48rem !important;        /* increase drawer max width */
+}
+
 /* Swatch color mapping (basic) */
 .hos2-swatch[data-swatch-name="black"]{background:#000}
 .hos2-swatch[data-swatch-name="white"],
