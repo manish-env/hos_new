@@ -1,0 +1,88 @@
+/* HOS Separate Filter Drawer */
+.hos-filter-drawer {
+  display: block;
+}
+
+/* Headings with plus/minus */
+.hos-filter__details { border-bottom: 1px solid rgba(var(--color-foreground), 0.12); }
+.hos-filter__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+.hos-filter__summary::-webkit-details-marker { display: none; }
+.hos-filter__title { font-weight: 600; }
+.hos-filter__icon { width: 14px; height: 14px; display: inline-block; }
+.hos-filter__icon svg { width: 14px; height: 14px; display: block; }
+.hos-filter__icon--minus { display: none; }
+.hos-filter__details[open] .hos-filter__icon--plus { display: none; }
+.hos-filter__details[open] .hos-filter__icon--minus { display: inline-block; }
+
+/* Content */
+.hos-filter__content { padding: 0.8rem 0 1.2rem; }
+
+/* Grid of checkboxes */
+.hos-filter__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem 1.6rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.hos-filter__item { margin: 0; }
+
+/* Checkbox label */
+.hos-filter__label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  padding-left: 0;
+}
+.hos-filter__label.is-disabled { opacity: 0.5; }
+
+/* Hidden native checkbox and custom square */
+.hos-filter__checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.hos-filter__box {
+  width: 16px; height: 16px;
+  border: 1px solid rgba(var(--color-foreground), 0.65);
+  border-radius: 2px;
+  background: transparent;
+  flex-shrink: 0;
+  position: relative;
+}
+.hos-filter__checkbox:checked + .hos-filter__box::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: rgba(var(--color-foreground), 0.9);
+}
+
+.hos-filter__text { line-height: 1.4; }
+
+/* Price wrapper spacing */
+.hos-filter__price { padding: 0.5rem 0; }
+
+/* Footer */
+.hos-filter__footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  position: sticky;
+  bottom: 0;
+  background: var(--gradient-background);
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+}
+.hos-filter__footer > * { width: 50%; }
+.hos-filter__clear-wrap { display: flex; align-items: center; justify-content: center; }

@@ -1,0 +1,88 @@
+{%- comment -%}
+Separate Filter Drawer (HOS)
+- Plus/Minus per filter as dropdown
+- Multi-column checkbox grid
+- Left-side drawer compatible
+- Reuses existing Dawn forms/URLs
+Required params:
+  results: object (collection or search)
+  section_id: string
+  results_url: string (optional)
+{%- endcomment -%}
+
+<div class="hos-filter-drawer">
+  {%- for filter in results.filters -%}
+    {% liquid
+      assign is_list = filter.type == 'list' or filter.type == 'boolean'
+      assign is_price = filter.type == 'price_range'
+    %}
+
+    {%- if is_list or is_price -%}
+      <details class="hos-filter__details" id="HosDetails-{{ filter.param_name | escape }}-{{ section_id }}">
+        <summary class="hos-filter__summary">
+          <span class="hos-filter__title">{{ filter.label | escape }}</span>
+          <span class="hos-filter__icon hos-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+          <span class="hos-filter__icon hos-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
+        </summary>
+
+        <div class="hos-filter__content">
+          {%- if is_list -%}
+            <ul class="hos-filter__grid" role="list">
+              {%- liquid
+                assign sorted_values = filter.values
+                if filter.operator == 'AND'
+                  assign active_filter_values = filter.values | where: 'active', true
+                  assign inactive_filter_values = filter.values | where: 'active', false
+                  assign sorted_values = active_filter_values | concat: inactive_filter_values
+                endif
+              -%}
+              {%- for value in sorted_values -%}
+                {% liquid
+                  assign input_id = 'HosFilter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
+                  assign is_disabled = false
+                  if value.count == 0 and value.active == false
+                    assign is_disabled = true
+                  endif
+                %}
+                <li class="hos-filter__item">
+                  <label for="{{ input_id }}" class="hos-filter__label{% if is_disabled %} is-disabled{% endif %}{% if value.active %} is-active{% endif %}">
+                    <input
+                      id="{{ input_id }}"
+                      class="hos-filter__checkbox"
+                      type="checkbox"
+                      name="{{ value.param_name }}"
+                      value="{{ value.value }}"
+                      {% if value.active %}checked{% endif %}
+                      {% if is_disabled %}disabled{% endif %}
+                    >
+                    <span class="hos-filter__box" aria-hidden="true"></span>
+                    <span class="hos-filter__text">{{ value.label | escape }}</span>
+                  </label>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            <div class="hos-filter__price">
+              {% render 'price-facet', filter: filter, id_prefix: 'Hos-Mobile-Filter-' %}
+            </div>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+  {%- endfor -%}
+
+  <div class="hos-filter__footer gradient">
+    <facet-remove class="hos-filter__clear-wrap">
+      <a href="{{ results_url | default: results_url | default: results.url }}" class="button button--secondary">
+        {{ 'products.facets.clear_all' | t }}
+      </a>
+    </facet-remove>
+    <button
+      type="button"
+      class="button button--primary"
+      onclick="this.closest('.mobile-facets__wrapper, .hos-filter-drawer')?.closest('details')?.querySelector('summary')?.click()"
+    >
+      {{ 'products.facets.apply' | t }}
+    </button>
+  </div>
+</div>
