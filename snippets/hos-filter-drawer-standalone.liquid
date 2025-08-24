@@ -15,34 +15,34 @@ Params:
 .hos2-filter-drawer { display:block; }
 .hos2-filter-drawer, .hos2-filter-drawer * { box-sizing: border-box; }
 .hos2-filter__group { border-bottom: 1px solid #e6e6e6; }
-.hos2-filter__summary { display:flex; align-items:center; justify-content:space-between; width:100%; padding:0.9rem 0; cursor:pointer; background:transparent; border:0; color:inherit; text-align:left; }
-.hos2-filter__title { font-weight:700; letter-spacing:0.03em; text-transform:uppercase; font-size:0.9rem; color:rgba(0,0,0,0.85); }
+.hos2-filter__summary { display:flex; align-items:center; justify-content:space-between; width:100%; padding:1.1rem 0; cursor:pointer; background:transparent; border:0; color:inherit; text-align:left; }
+.hos2-filter__title { font-weight:700; letter-spacing:0.03em; text-transform:uppercase; font-size:1rem; color:rgba(0,0,0,0.85); }
 .hos2-filter__icon { width:14px; height:14px; display:inline-block; }
 .hos2-filter__icon svg { width:14px; height:14px; display:block; }
 .hos2-filter__icon--minus { display:none; }
 .hos2-filter__group.is-open .hos2-filter__icon--plus { display:none; }
 .hos2-filter__group.is-open .hos2-filter__icon--minus { display:inline-block; }
-.hos2-filter__content { padding:0.5rem 0 0.8rem; }
+.hos2-filter__content { padding:0.8rem 0 1.2rem; }
 .hos2-filter__group.is-open .hos2-filter__content { border-top:1px solid #efefef; }
-.hos2-filter__grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:0.5rem 1.2rem; padding:0; margin:0; list-style:none; }
+.hos2-filter__grid { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:0.8rem 1.4rem; padding:0; margin:0; list-style:none; }
 .hos2-filter__item { margin:0; }
-.hos2-filter__label { display:flex; align-items:center; gap:0.5rem; position:relative; padding:0.25rem 0; font-size:0.92rem; line-height:1.6; color:rgba(0,0,0,0.85); }
+.hos2-filter__label { display:flex; align-items:center; gap:0.6rem; position:relative; padding:0.35rem 0; font-size:1rem; line-height:1.7; color:rgba(0,0,0,0.9); }
 .hos2-filter__label.is-disabled { opacity:0.5; cursor:not-allowed; }
 .hos2-filter__summary:focus-visible,
 .hos2-footer .button:focus-visible,
 .hos2-filter__label:focus-within { outline:2px solid rgba(0,0,0,0.45); outline-offset:2px; border-radius:4px; }
 .hos2-filter__checkbox { position:absolute; opacity:0; width:1px; height:1px; pointer-events:none; left:-9999px; }
-.hos2-filter__box { width:16px; height:16px; border:1.4px solid #9e9e9e; border-radius:2px; background:#fff; flex-shrink:0; position:relative; box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset; }
+.hos2-filter__box { width:18px; height:18px; border:1.6px solid #8f8f8f; border-radius:3px; background:#fff; flex-shrink:0; position:relative; box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset; }
 .hos2-filter__checkbox:checked + .hos2-filter__box { border-color:#111; }
-.hos2-filter__checkbox:checked + .hos2-filter__box::after { content:''; position:absolute; left:3px; top:3px; width:8px; height:8px; background:#111; border-radius:1px; }
+.hos2-filter__checkbox:checked + .hos2-filter__box::after { content:''; position:absolute; left:4px; top:4px; width:10px; height:10px; background:#111; border-radius:2px; }
 .hos2-filter__text { line-height:1.5; }
-.hos2-swatch { width:12px; height:12px; margin-right:2px; border-radius:50%; border:1px solid rgba(0,0,0,0.2); background-size:cover; background-position:center; flex-shrink:0; }
+.hos2-swatch { width:14px; height:14px; margin-right:4px; border-radius:50%; border:1px solid rgba(0,0,0,0.2); background-size:cover; background-position:center; flex-shrink:0; }
 .hos2-filter__label .hos2-swatch + .hos2-filter__checkbox + .hos2-filter__box { margin-left:2px; }
 .hos2-price { display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; }
 .hos2-price input[type="number"] { width:8rem; padding:0.6rem 0.8rem; border:1px solid rgba(0,0,0,0.3); border-radius:4px; font:inherit; }
-.hos2-footer { display:flex; justify-content:space-between; gap:0.8rem; padding:0.8rem 0.4rem; position:sticky; bottom:0; background:#fff; border-top:1px solid #e6e6e6; }
+.hos2-footer { display:flex; justify-content:space-between; gap:1rem; padding:1rem 0.6rem; position:sticky; bottom:0; background:#fff; border-top:1px solid #e6e6e6; }
 .hos2-footer > * { width:50%; }
-.hos2-footer .button { width:100%; padding:0.85rem 1rem; border-radius:6px; text-transform:uppercase; font-weight:600; letter-spacing:0.02em; }
+.hos2-footer .button { width:100%; padding:1rem 1.2rem; border-radius:6px; text-transform:uppercase; font-weight:700; letter-spacing:0.03em; font-size:0.95rem; }
 .hos2-footer .button.button--secondary { background:#ebebeb; color:#333; border:1px solid #dcdcdc; }
 .hos2-footer .button.button--secondary:hover { background:#e3e3e3; }
 .hos2-footer .button.button--primary { background:#f7e8e8; color:#111; border:1px solid #efd9d9; }
@@ -93,9 +93,9 @@ Params:
 </style>
 
 <div class="hos2-filter-drawer" data-hos2-root>
-  <div style="padding:0.2rem 0 0.6rem;">
-    <h3 style="margin:0; font-size:1.05rem; font-weight:700; line-height:1.4; text-align:left;">Filter</h3>
-    <div style="margin-top:0.2rem; font-size:0.85rem; color:rgba(0,0,0,0.6);">{{ results.products_count | default: results_count }} products</div>
+  <div style="padding:0.4rem 0 0.8rem;">
+    <h3 style="margin:0; font-size:1.2rem; font-weight:800; line-height:1.5; text-align:left;">Filter</h3>
+    <div style="margin-top:0.25rem; font-size:0.95rem; color:rgba(0,0,0,0.6);">{{ results.products_count | default: results_count }} products</div>
   </div>
   {%- for filter in results.filters -%}
     {% liquid
