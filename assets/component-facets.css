@@ -1401,14 +1401,8 @@ input.mobile-facets__checkbox {
 
   /* Sticky filter/sort bar and 2-col list for small screens */
   @media screen and (max-width: 749px) {
-  /* Reset container – we'll attach sticky to the new toolbar instead */
-  .facets-container {
-    position: static;
-    background: transparent;
-    border: 0;
-    padding: 0;
-    display: block;
-  }
+  /* Revert container to theme defaults */
+  .facets-container { position: static; background: initial; border: initial; padding: initial; display: initial; }
 
   /* Restore original mobile triggers */
   #FacetSortMobileBar,
@@ -1417,117 +1411,41 @@ input.mobile-facets__checkbox {
   details.menu-opening .mobile-facets__open-wrapper { display: initial !important; }
 
   /* Normalize inner wrappers */
-  /* New clean flexbox toolbar */
-  .hos-mobile-toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 1; /* keep below header/nav drawer */
-    display: flex;
-    gap: 0.8rem;
-    
-    background: rgb(var(--color-background));
-  
-  }
-  .hos-mobile-toolbar__btn {
-    flex: 1 1 0;
-    display: inline-flex;
-    align-items: center;
-    
-    height: 44px;
-    line-height: 44px;
-    border: 1px solid rgba(var(--color-foreground), 0.18);
-    border-radius: var(--buttons-radius);
-    background: rgb(var(--color-background));
-    color: rgb(var(--color-foreground));
-    padding: 0 0.9rem;
-    gap: 0.6rem;
-  }
-  .hos-mobile-toolbar__icon svg { width: 16px; height: 16px; display: block; }
-  .hos-mobile-toolbar__label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Hide custom toolbar completely */
+  .hos-mobile-toolbar,
+  .hos-mobile-toolbar__btn,
+  .hos-mobile-toolbar__sort,
+  .hos-mobile-toolbar__select,
+  .hos-mobile-toolbar__chevron { display: none !important; }
 
-  .hos-mobile-toolbar__sort { flex: 1 1 0; position: relative; }
-  .hos-mobile-toolbar__select {
-    -webkit-appearance: none; appearance: none;
-    width: 100%; height: 44px; line-height: 44px;
-    border: 1px solid rgba(var(--color-foreground), 0.18);
-    border-radius: var(--buttons-radius);
-    background: rgb(var(--color-background));
-    color: rgb(var(--color-foreground));
-    padding: 0 2.2rem 0 0.9rem;
-    font-size: 1.4rem;
-  }
-  .hos-mobile-toolbar__chevron { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; }
-
-  /* Visual: make both look like a split button */
-  .mobile-facets__open-wrapper {
-    -webkit-tap-highlight-color: transparent;
-    width: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 44px;
-    line-height: 44px;
-    border: 1px solid rgba(var(--color-foreground), 0.18);
-    border-right: 0; /* share border with right half */
-    border-radius: var(--buttons-radius) 0 0 var(--buttons-radius);
-    background: rgb(var(--color-background));
-    color: rgb(var(--color-foreground));
-    padding: 0 1.2rem;
-  }
-  .mobile-facets__open-wrapper::-webkit-details-marker { display: none; }
+  /* Revert filter button wrapper to defaults */
+  .mobile-facets__open-wrapper { width: auto; position: static; display: inline-block; height: auto; line-height: normal; border: 0; border-radius: 0; background: transparent; color: inherit; padding: 0; }
+  .mobile-facets__open-wrapper::-webkit-details-marker { display: initial; }
   .mobile-facets__open { border: 0; background: transparent; padding: 0; }
   .mobile-facets__open .mobile-facets__open-label { text-transform: none; }
   .mobile-facets__open-wrapper .mobile-facets__close { display: none; }
 
-  #FacetSortMobileBar .sort-disclosure > summary {
-    position: relative;
-    width: 100%;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(var(--color-foreground), 0.18);
-    border-left: 1px solid rgba(var(--color-foreground), 0.18); /* center divider */
-    border-radius: 0 var(--buttons-radius) var(--buttons-radius) 0;
-    background: rgb(var(--color-background));
-    color: rgb(var(--color-foreground));
-    padding: 0 1.2rem;
-    text-transform: none;
-  }
+  #FacetSortMobileBar .sort-disclosure > summary { position: static; width: auto; height: auto; display: inline-flex; align-items: center; justify-content: space-between; border: 0; border-radius: 0; background: transparent; color: inherit; padding: 0; text-transform: none; }
 
   /* Center label text, hide default right chevron offset */
-  #FacetSortMobileBar .facet-filters__label { display: contents; margin: 0; }
-  #FacetSortMobileBar .facet-filters__label .svg-wrapper { position: absolute; right: 12px; }
+  #FacetSortMobileBar .facet-filters__label { display: inline-flex; margin: 0; }
+  #FacetSortMobileBar .facet-filters__label .svg-wrapper { position: static; }
 
   /* Right-aligned icons */
-  .mobile-facets__open-wrapper .svg-wrapper { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); }
-  #FacetSortMobileBar .sort-disclosure > summary::after {
-    content: '+';
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    line-height: 1;
-  }
+  .mobile-facets__open-wrapper .svg-wrapper { position: static; right: auto; top: auto; transform: none; }
+  #FacetSortMobileBar .sort-disclosure > summary::after { content: none; }
 
   /* Remove older button tweaks to avoid clashes */
-  .facet-filters__field .select { width: 100%; margin: 0; }
+  .facet-filters__field .select { width: auto; margin: 0; }
 
   /* Normalize heights/typography so both halves match exactly */
   .mobile-facets__open,
   #FacetSortMobileBar .sort-disclosure > summary,
-  .facets-container .facet-filters__summary {
-    height: 44px;
-    line-height: 44px;
-    font-size: 1.4rem;
-    box-sizing: border-box;
-  }
+  .facets-container .facet-filters__summary { height: auto; line-height: normal; font-size: inherit; box-sizing: inherit; }
 
   /* Ensure label text is centered and not pushed by side paddings */
   .mobile-facets__open-label,
-  #FacetSortMobileBar .facet-filters__label span { display: inline-block; text-align: center; width: 100%; }
+  #FacetSortMobileBar .facet-filters__label span { display: inline; text-align: inherit; width: auto; }
 
   /* Prevent long locale labels from breaking layout */
   .mobile-facets__open-label,
@@ -1538,29 +1456,14 @@ input.mobile-facets__checkbox {
   .facets-container .facet-filters__label { margin: 0; }
 
   /* Avoid double borders on the split bar */
-  .facets-container .facet-filters__field { border: 0; }
+  .facets-container .facet-filters__field { border: initial; }
   
   /* Split button divider */
-  .facets__form > *:not(:first-child) {
-    border-left: 1px solid rgba(var(--color-foreground), 0.12);
-  }
+  .facets__form > *:not(:first-child) { border-left: 0; }
 
   /* Icons alignment: Filter icon on right, plus on Sort */
-  .mobile-facets__open svg {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .sort-disclosure > summary::after {
-    content: '+';
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    line-height: 1;
-  }
+  .mobile-facets__open svg { position: static; right: auto; top: auto; transform: none; }
+  .sort-disclosure > summary::after { content: none; }
 
   /* Force 2-column list inside the mobile drawer */
   .mobile-facets__submenu .facets-layout-list {
