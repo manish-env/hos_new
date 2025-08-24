@@ -322,14 +322,18 @@
       {%- if is_list or is_price -%}
       {%- unless filter_label_lc == 'availability' -%}
         {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
-        <div class="hos2-filter__group is-open" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
-          <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="true" aria-controls="{{ content_id }}">
+        <div class="hos2-filter__group" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
+          <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="false" aria-controls="{{ content_id }}">
             <span class="hos2-filter__title">{{ filter.label | escape }}</span>
+            <span class="hos2-filter__badge" data-hos2-badge hidden>0</span>
             <span class="hos2-filter__icon hos2-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
             <span class="hos2-filter__icon hos2-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
           </button>
-          <div class="hos2-filter__content" id="{{ content_id }}">
+          <div class="hos2-filter__content" id="{{ content_id }}" hidden>
             {%- if is_list -%}
+              <button type="button" class="hos2-filter__clear" data-hos2-clear hidden>
+                {{ 'products.facets.clear' | t }}
+              </button>
               <ul class="hos2-filter__grid" role="list">
                 {%- liquid
                   assign sorted_values = filter.values
@@ -365,6 +369,9 @@
                 assign max_name = filter.max_value.param_name
               %}
               <div class="hos2-price" data-price-range data-min-name="{{ min_name }}" data-max-name="{{ max_name }}">
+                <button type="button" class="hos2-filter__clear" data-hos2-clear hidden>
+                  {{ 'products.facets.clear' | t }}
+                </button>
                 <ul class="hos2-filter__grid" role="list" style="grid-template-columns: 1fr; gap: 1rem;">
                   <li class="hos2-filter__item">
                     <label class="hos2-filter__label">
@@ -437,6 +444,8 @@
     if (t1) { e.preventDefault(); e.stopPropagation(); toggle(t1); return; }
     const apply = e.target.closest('[data-hos2-apply]');
     if (apply) { e.preventDefault(); e.stopPropagation(); applyNow(); return; }
+    const clearBtn = e.target.closest('[data-hos2-clear]');
+    if (clearBtn) { e.preventDefault(); e.stopPropagation(); clearGroup(clearBtn); return; }
   }, true);
 
   // Price radio groups: sync selected radio -> hidden min/max inputs
@@ -461,6 +470,7 @@
           hiddenMin.value = '';
           hiddenMax.value = '';
         }
+        updateGroupUI(block.closest('.hos2-filter__group'));
       };
 
       const preselectFromParams = () => {
@@ -486,6 +496,87 @@
     });
   }
   initPriceRadios();
+
+  // Persist open state and selected counts
+  const storageKey = (group) => `hos2_open_${group.id}`;
+
+  function setGroupOpen(group, open) {
+    const btn = group.querySelector('[data-hos2-toggle]');
+    const content = group.querySelector('.hos2-filter__content');
+    btn.setAttribute('aria-expanded', String(open));
+    group.classList.toggle('is-open', open);
+    if (open) content.removeAttribute('hidden'); else content.setAttribute('hidden', '');
+    try { localStorage.setItem(storageKey(group), open ? '1' : '0'); } catch {}
+  }
+
+  function countSelectionsInGroup(group) {
+    if (!group) return 0;
+    const listChecked = group.querySelectorAll('.hos2-filter__checkbox:checked').length;
+    if (listChecked > 0) return listChecked;
+    const price = group.querySelector('.hos2-price');
+    if (price) {
+      const mins = Array.from(price.querySelectorAll('input[type="hidden"][name]'));
+      if (mins.length >= 2) {
+        const hasVal = mins.some(i => (i.value || '').trim() !== '');
+        return hasVal ? 1 : 0;
+      }
+    }
+    return 0;
+  }
+
+  function updateGroupUI(group) {
+    if (!group) return;
+    const count = countSelectionsInGroup(group);
+    const badge = group.querySelector('[data-hos2-badge]');
+    const clearBtn = group.querySelector('[data-hos2-clear]');
+    if (badge) {
+      if (count > 0) { badge.textContent = String(count); badge.removeAttribute('hidden'); }
+      else { badge.setAttribute('hidden', ''); }
+    }
+    if (clearBtn) {
+      if (count > 0) clearBtn.removeAttribute('hidden');
+      else clearBtn.setAttribute('hidden', '');
+    }
+  }
+
+  function clearGroup(clearButton) {
+    const group = clearButton.closest('.hos2-filter__group');
+    if (!group) return;
+    group.querySelectorAll('.hos2-filter__checkbox:checked').forEach(cb => { cb.checked = false; });
+    const price = group.querySelector('.hos2-price');
+    if (price) {
+      price.querySelectorAll('input[type="radio"][name="hos2-price-range"]').forEach(r => (r.checked = false));
+      price.querySelectorAll('input[type="hidden"][name]').forEach(h => (h.value = ''));
+    }
+    updateGroupUI(group);
+  }
+
+  // Initialize groups: restore open state or open if selections exist
+  function initGroups() {
+    root.querySelectorAll('.hos2-filter__group').forEach(group => {
+      updateGroupUI(group);
+      let open = false;
+      try {
+        const saved = localStorage.getItem(storageKey(group));
+        if (saved === '1') open = true;
+        if (saved === '0') open = false;
+        if (saved === null && countSelectionsInGroup(group) > 0) open = true;
+      } catch {
+        if (countSelectionsInGroup(group) > 0) open = true;
+      }
+      setGroupOpen(group, open);
+    });
+  }
+  initGroups();
+
+  // React to changes in checkboxes to update badges/clear state
+  root.addEventListener('change', (e) => {
+    const cb = e.target.closest('.hos2-filter__checkbox');
+    const r = e.target.matches('input[type="radio"][name="hos2-price-range"]');
+    if (cb || r) {
+      updateGroupUI(e.target.closest('.hos2-filter__group'));
+    }
+  });
 
   // Build URL from current selections in this drawer and navigate
   function applyNow() {
