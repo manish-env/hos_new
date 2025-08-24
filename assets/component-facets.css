@@ -770,14 +770,14 @@ a.active-facets__button.focused .active-facets__button-inner {
 
 .mobile-facets__inner {
   background-color: rgb(var(--color-background));
-  width: calc(100% - 7rem); /* slightly narrower drawer */
+  width: calc(100% - 5rem);
   margin-left: 0;
   margin-right: auto; /* open from left */
   height: 100%;
   overflow-y: auto;
   pointer-events: all;
   transition: transform var(--duration-default) ease;
-  max-width: 32rem; /* reduce absolute max width */
+  max-width: 37.5rem;
   display: flex;
   flex-direction: column;
   border-color: rgba(var(--color-foreground), var(--drawer-border-opacity));
@@ -881,28 +881,24 @@ a.active-facets__button.focused .active-facets__button-inner {
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 0.6rem !important;
-  right: auto;
-  /* Place at drawer's right edge with a minimum safe inset */
-  left: max(0.6rem, calc(100% - min(32rem, 100% - 7rem) - 0.6rem));
-  width: 3.6rem; /* smaller button fits tiny screens */
-  height: 3.6rem;
-  z-index: 1001; /* above header/nav */
+  top: 0.2rem !important;
+  right: 1rem;
+  width: 4.4rem;
+  height: 4.4rem;
+  z-index: 101;
   opacity: 0;
   transition: opacity var(--duration-short) ease;
-  background: rgba(var(--color-background), 0.95);
-  color: rgb(var(--color-foreground));
-  border: 1px solid rgba(var(--color-foreground), 0.15);
-  border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
 .mobile-facets__close .svg-wrapper {
   width: 2.2rem;
 }
 
-/* Ensure visibility whenever the drawer is open */
-details[open] .mobile-facets__close { display: flex; opacity: 1; }
+/* Visibility when the drawer is opening (original behavior) */
+details.menu-opening .mobile-facets__close {
+  display: flex;
+  opacity: 1;
+}
 
 details.menu-opening .mobile-facets__close {
   display: flex;
