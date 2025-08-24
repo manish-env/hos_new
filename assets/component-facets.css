@@ -1394,16 +1394,15 @@ input.mobile-facets__checkbox {
 
 /* Sticky filter/sort bar and 2-col list for small screens */
 @media screen and (max-width: 749px) {
-  /* Stick the filter/sort container at bottom */
+  /* Stick the filter/sort container at the top under header */
   .facets-container {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 90;
-    background: var(--gradient-background, rgb(var(--color-background)));
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.12);
-    padding: 0.6rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(var(--color-background));
+    border-top: 1px solid rgba(var(--color-foreground), 0.12);
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+    padding: 0;
   }
 
   /* Two buttons side by side */
@@ -1412,11 +1411,13 @@ input.mobile-facets__checkbox {
     grid-template-columns: 1fr 1fr;
     gap: 0.8rem;
     margin: 0;
+    padding: 0.6rem 1rem;
+    align-items: stretch;
   }
 
   .mobile-facets__wrapper { order: 1; }
   .facet-filters { order: 2; padding-left: 0; }
-  .mobile-facets__open { width: 100%; justify-content: center; }
+  .mobile-facets__open { width: 100%; justify-content: flex-start; position: relative; }
   .facet-filters__summary { min-width: 0; width: 100%; margin-top: 0; }
   .facet-filters__field { justify-content: center; width: 100%; border: 0; }
 
@@ -1424,17 +1425,18 @@ input.mobile-facets__checkbox {
   .facets__form .button,
   .mobile-facets__open.button,
   .mobile-facets__open .button {
-    height: 44px;
-    line-height: 44px;
+    height: 46px;
+    line-height: 46px;
     border-radius: var(--buttons-radius);
     font: inherit;
+    text-transform: uppercase;
   }
 
   /* Make Sort control look consistent */
   .facet-filters__field .select { width: 100%; }
   .facet-filters__field .select select {
     width: 100%;
-    height: 44px;
+    height: 46px;
     border-radius: var(--inputs-radius, var(--buttons-radius));
     padding: 0 1.2rem;
     border: 1px solid rgba(var(--color-foreground), 0.15);
@@ -1443,7 +1445,7 @@ input.mobile-facets__checkbox {
   /* If Sort uses disclosure summary on mobile */
   .sort-disclosure > summary {
     width: 100%;
-    height: 44px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1453,13 +1455,32 @@ input.mobile-facets__checkbox {
     padding: 0 1.2rem;
   }
 
-  /* Ensure page content isn't hidden under the sticky bar */
-  main, .page-width, .product-grid-container {
-    padding-bottom: 7rem;
+  /* Split button divider */
+  .facets__form > *:not(:first-child) {
+    border-left: 1px solid rgba(var(--color-foreground), 0.12);
+  }
+
+  /* Icons alignment: Filter icon on right, plus on Sort */
+  .mobile-facets__open svg {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .sort-disclosure > summary::after {
+    content: '+';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    line-height: 1;
   }
 
   /* Force 2-column list inside the mobile drawer */
   .mobile-facets__submenu .facets-layout-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* No extra bottom padding required for top sticky */
 }
