@@ -115,6 +115,7 @@ Params:
       endif
     %}
     {%- if is_list or is_price -%}
+    {%- unless filter_label_lc == 'availability' -%}
       {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
       <div class="hos2-filter__group" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
         <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="false" aria-controls="{{ content_id }}">
@@ -176,6 +177,7 @@ Params:
           {%- endif -%}
         </div>
       </div>
+    {%- endunless -%}
     {%- endif -%}
   {%- endfor -%}
 
