@@ -1,0 +1,201 @@
+{%- comment -%}
+Standalone Custom Filter Drawer (HOS)
+- Self-contained: markup + styles + script in one file
+- Plus/minus dropdown per filter
+- Multi-column checkbox grid
+- Custom Apply/Remove All with URL navigation
+Params:
+  results: object
+  section_id: string
+  results_url: string (optional, fallback to results.url)
+{%- endcomment -%}
+
+<style>
+/***** Standalone Drawer Styles *****/
+.hos2-filter-drawer { display:block; }
+.hos2-filter__group { border-bottom: 1px solid rgba(0,0,0,0.12); }
+.hos2-filter__summary { display:flex; align-items:center; justify-content:space-between; width:100%; padding:1.2rem 0; cursor:pointer; background:transparent; border:0; color:inherit; text-align:left; }
+.hos2-filter__title { font-weight:600; }
+.hos2-filter__icon { width:14px; height:14px; display:inline-block; }
+.hos2-filter__icon svg { width:14px; height:14px; display:block; }
+.hos2-filter__icon--minus { display:none; }
+.hos2-filter__group.is-open .hos2-filter__icon--plus { display:none; }
+.hos2-filter__group.is-open .hos2-filter__icon--minus { display:inline-block; }
+.hos2-filter__content { padding:0.8rem 0 1.2rem; }
+.hos2-filter__group.is-open .hos2-filter__content { border-top:1px solid rgba(0,0,0,0.08); }
+.hos2-filter__grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(12rem, 1fr)); gap:1rem 1.6rem; padding:0; margin:0; list-style:none; }
+.hos2-filter__item { margin:0; }
+.hos2-filter__label { display:flex; align-items:center; gap:0.6rem; position:relative; }
+.hos2-filter__label.is-disabled { opacity:0.5; cursor:not-allowed; }
+.hos2-filter__summary:focus-visible,
+.hos2-footer .button:focus-visible,
+.hos2-filter__label:focus-within { outline:2px solid rgba(0,0,0,0.45); outline-offset:2px; border-radius:4px; }
+.hos2-filter__checkbox { position:absolute; opacity:0; width:1px; height:1px; pointer-events:none; }
+.hos2-filter__box { width:16px; height:16px; border:1px solid rgba(0,0,0,0.65); border-radius:2px; background:transparent; flex-shrink:0; position:relative; }
+.hos2-filter__checkbox:checked + .hos2-filter__box::after { content:''; position:absolute; inset:3px; background:rgba(0,0,0,0.9); }
+.hos2-filter__text { line-height:1.4; }
+.hos2-price { display:flex; gap:0.8rem; align-items:center; flex-wrap:wrap; }
+.hos2-price input[type="number"] { width:8rem; padding:0.6rem 0.8rem; border:1px solid rgba(0,0,0,0.3); border-radius:4px; font:inherit; }
+.hos2-footer { display:flex; justify-content:space-between; gap:1rem; padding:1rem 0; position:sticky; bottom:0; background:var(--gradient-background, #fff); border-top:1px solid rgba(0,0,0,0.08); }
+.hos2-footer > * { width:50%; }
+.hos2-footer .button { width:100%; }
+/* Hide Dawn native footer under our drawer */
+.mobile-facets__main .mobile-facets__footer { display:none; }
+</style>
+
+<div class="hos2-filter-drawer" data-hos2-root>
+  {%- for filter in results.filters -%}
+    {% liquid
+      assign is_list = false
+      if filter.type == 'list' or filter.type == 'boolean'
+        assign is_list = true
+      endif
+      assign is_price = false
+      if filter.type == 'price_range'
+        assign is_price = true
+      endif
+    %}
+    {%- if is_list or is_price -%}
+      {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
+      <div class="hos2-filter__group" id="Hos2-{{ filter.param_name | escape }}-{{ section_id }}">
+        <button type="button" class="hos2-filter__summary" data-hos2-toggle aria-expanded="false" aria-controls="{{ content_id }}">
+          <span class="hos2-filter__title">{{ filter.label | escape }}</span>
+          <span class="hos2-filter__icon hos2-filter__icon--plus">{{ 'icon-plus.svg' | inline_asset_content }}</span>
+          <span class="hos2-filter__icon hos2-filter__icon--minus">{{ 'icon-minus.svg' | inline_asset_content }}</span>
+        </button>
+        <div class="hos2-filter__content" id="{{ content_id }}" hidden>
+          {%- if is_list -%}
+            <ul class="hos2-filter__grid" role="list">
+              {%- liquid
+                assign sorted_values = filter.values
+                if filter.operator == 'AND'
+                  assign active_filter_values = filter.values | where: 'active', true
+                  assign inactive_filter_values = filter.values | where: 'active', false
+                  assign sorted_values = active_filter_values | concat: inactive_filter_values
+                endif
+              -%}
+              {%- for value in sorted_values -%}
+                {% liquid
+                  assign input_id = 'Hos2-' | append: filter.param_name | escape | append: '-' | append: forloop.index
+                  assign is_disabled = false
+                  if value.count == 0 and value.active == false
+                    assign is_disabled = true
+                  endif
+                %}
+                <li class="hos2-filter__item">
+                  <label for="{{ input_id }}" class="hos2-filter__label{% if is_disabled %} is-disabled{% endif %}{% if value.active %} is-active{% endif %}">
+                    <input id="{{ input_id }}" class="hos2-filter__checkbox" type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} {% if is_disabled %}disabled{% endif %}>
+                    <span class="hos2-filter__box" aria-hidden="true"></span>
+                    <span class="hos2-filter__text">{{ value.label | escape }}</span>
+                  </label>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            {% liquid
+              assign min_name = filter.min_value.param_name
+              assign max_name = filter.max_value.param_name
+              assign min_val = filter.min_value.value
+              assign max_val = filter.max_value.value
+              assign range_max = filter.range_max
+            %}
+            <div class="hos2-price">
+              <label>
+                <span class="visually-hidden">Min</span>
+                <input type="number" inputmode="numeric" step="1" min="0" max="{{ range_max }}" name="{{ min_name }}" value="{{ min_val }}" placeholder="Min">
+              </label>
+              <span>–</span>
+              <label>
+                <span class="visually-hidden">Max</span>
+                <input type="number" inputmode="numeric" step="1" min="0" max="{{ range_max }}" name="{{ max_name }}" value="{{ max_val }}" placeholder="Max">
+              </label>
+              <span class="caption">Max {{ range_max | money }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+
+  <div class="hos2-footer gradient">
+    <a class="button button--secondary" href="{{ results_url | default: results.url }}">{{ 'products.facets.clear_all' | t }}</a>
+    <button type="button" class="button button--primary" data-hos2-apply>{{ 'products.facets.apply' | t }}</button>
+  </div>
+</div>
+
+<script>
+/***** Standalone Drawer Script *****/
+(() => {
+  const root = document.querySelector('[data-hos2-root]');
+  if (!root) return;
+
+  function toggle(btn) {
+    const group = btn.closest('.hos2-filter__group');
+    const content = group && group.querySelector('.hos2-filter__content');
+    if (!group || !content) return;
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    const next = !expanded;
+    btn.setAttribute('aria-expanded', String(next));
+    group.classList.toggle('is-open', next);
+    if (next) content.removeAttribute('hidden'); else content.setAttribute('hidden', '');
+  }
+
+  root.addEventListener('click', (e) => {
+    const t1 = e.target.closest('[data-hos2-toggle]');
+    if (t1) { e.preventDefault(); e.stopPropagation(); toggle(t1); return; }
+    const apply = e.target.closest('[data-hos2-apply]');
+    if (apply) { e.preventDefault(); e.stopPropagation(); applyNow(); return; }
+  }, true);
+
+  // Build URL from current selections in this drawer and navigate
+  function applyNow() {
+    const baseUrl = (root.getAttribute('data-base-url') || window.location.pathname);
+    const params = new URLSearchParams(window.location.search);
+    // Reset page when applying new filters to avoid empty pagination states
+    params.delete('page');
+    // Remove existing filter params to avoid duplicates
+    // We can be conservative: clear all param names we will re-add
+    const names = new Set();
+    root.querySelectorAll('.hos2-filter__checkbox[name]').forEach(cb => names.add(cb.name));
+    root.querySelectorAll('.hos2-price input[name]').forEach(inp => names.add(inp.name));
+    names.forEach(n => params.delete(n));
+
+    // Add checked list/boolean values
+    root.querySelectorAll('.hos2-filter__checkbox:checked').forEach(cb => {
+      params.append(cb.name, cb.value);
+    });
+
+    // Add price values with basic normalization
+    const priceInputs = Array.from(root.querySelectorAll('.hos2-price input[name]'));
+    if (priceInputs.length) {
+      // Extract min/max and their constraints
+      const minInput = priceInputs.find(i => i.getAttribute('name') && i.getAttribute('name').indexOf('min') >= 0) || priceInputs[0];
+      const maxInput = priceInputs.find(i => i.getAttribute('name') && i.getAttribute('name').indexOf('max') >= 0) || priceInputs[1];
+      const clamp = (val, lo, hi) => Math.max(lo, Math.min(hi, val));
+      const toInt = (v) => {
+        const n = parseInt(String(v).replace(/[^0-9]/g, ''), 10);
+        return Number.isFinite(n) ? n : null;
+      };
+      const bounds = (inp) => ({
+        min: toInt(inp.getAttribute('min')) ?? 0,
+        max: toInt(inp.getAttribute('max')) ?? 999999999,
+      });
+      const bMin = bounds(minInput);
+      const bMax = bounds(maxInput);
+      let vMin = toInt(minInput.value);
+      let vMax = toInt(maxInput.value);
+      if (vMin != null) vMin = clamp(vMin, bMin.min, bMin.max);
+      if (vMax != null) vMax = clamp(vMax, bMax.min, bMax.max);
+      // Ensure min <= max when both present
+      if (vMin != null && vMax != null && vMin > vMax) {
+        const tmp = vMin; vMin = vMax; vMax = tmp;
+      }
+      if (vMin != null) params.set(minInput.name, String(vMin)); else params.delete(minInput.name);
+      if (vMax != null) params.set(maxInput.name, String(vMax)); else params.delete(maxInput.name);
+    }
+
+    const url = baseUrl + (params.toString() ? ('?' + params.toString()) : '');
+    window.location.assign(url);
+  }
+})();
+</script>
