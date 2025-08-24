@@ -1260,18 +1260,22 @@ input.mobile-facets__checkbox {
 .sort-disclosure {
   position: relative;
   display: inline-block;
+  width: 25rem; /* match Dawn select width */
 }
 .sort-disclosure > summary {
   list-style: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.5rem;
   border: 1px solid rgba(var(--color-foreground), 0.15);
   padding: 0.6rem 0.8rem;
   min-width: 25rem;
   background: rgb(var(--color-background));
+  position: relative;
+  width: 100%;
+  padding-right: 2.4rem; /* room for chevron */
 }
 .sort-disclosure > summary::-webkit-details-marker {
   display: none;
@@ -1282,9 +1286,11 @@ input.mobile-facets__checkbox {
 }
 .sort-disclosure__content {
   position: absolute;
-  right: 0;
+  left: 0;
+  right: auto;
   top: 100%;
   width: 100%;
+  box-sizing: border-box;
   background: rgb(var(--color-background));
   border: 1px solid rgba(var(--color-foreground), 0.15);
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -1338,4 +1344,14 @@ input.mobile-facets__checkbox {
 .sort-disclosure__label span {
   display: inline-block;
   line-height: 1.4;
+}
+
+/* Place chevron at right, vertically centered */
+.sort-disclosure > summary .svg-wrapper {
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  pointer-events: none;
 }
