@@ -60,6 +60,12 @@ Params:
       if filter.type == 'price_range'
         assign is_price = true
       endif
+      assign filter_label = filter.label | default: ''
+      assign filter_label_lc = filter_label | downcase
+      assign is_color_group = false
+      if filter_label_lc contains 'color'
+        assign is_color_group = true
+      endif
     %}
     {%- if is_list or is_price -%}
       {% liquid assign content_id = 'Hos2-Content-' | append: filter.param_name | escape | append: '-' | append: section_id %}
@@ -90,7 +96,7 @@ Params:
                 %}
                 <li class="hos2-filter__item">
                   <label for="{{ input_id }}" class="hos2-filter__label{% if is_disabled %} is-disabled{% endif %}{% if value.active %} is-active{% endif %}">
-                    {%- if filter.label and filter.label | downcase contains 'color' -%}
+                    {%- if is_color_group -%}
                       <span class="hos2-swatch" data-swatch-name="{{ value.label | downcase | escape }}" aria-hidden="true"></span>
                     {%- endif -%}
                     <input id="{{ input_id }}" class="hos2-filter__checkbox" type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} {% if is_disabled %}disabled{% endif %}>
