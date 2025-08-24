@@ -1259,6 +1259,7 @@ input.mobile-facets__checkbox {
 /* Custom sort disclosure dropdown (desktop, drawer mode) */
 .sort-disclosure {
   position: relative;
+  display: inline-block;
 }
 .sort-disclosure > summary {
   list-style: none;
@@ -1269,7 +1270,7 @@ input.mobile-facets__checkbox {
   gap: 0.5rem;
   border: 1px solid rgba(var(--color-foreground), 0.15);
   padding: 0.6rem 0.8rem;
-  min-width: 180px;
+  min-width: 25rem;
   background: rgb(var(--color-background));
 }
 .sort-disclosure > summary::-webkit-details-marker {
@@ -1283,7 +1284,7 @@ input.mobile-facets__checkbox {
   position: absolute;
   right: 0;
   top: 100%;
-  min-width: 240px;
+  width: 100%;
   background: rgb(var(--color-background));
   border: 1px solid rgba(var(--color-foreground), 0.15);
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -1305,10 +1306,25 @@ input.mobile-facets__checkbox {
   align-items: center;
   gap: 0.6rem;
   padding: 0.65rem 0.8rem;
-  font-size: var(--font-size-12);
-  text-transform: none;
+  font-size: 1.3rem;
+  text-transform: uppercase;
 }
 .sort-disclosure__label input[type="radio"] {
   width: 16px;
   height: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgba(var(--color-foreground), 0.65);
+  border-radius: 2px;
+  background: transparent;
+  position: relative;
+}
+.sort-disclosure__label input[type="radio"]:checked {
+  background: rgb(var(--color-background));
+}
+.sort-disclosure__label input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: rgba(var(--color-foreground), 0.9);
 }
