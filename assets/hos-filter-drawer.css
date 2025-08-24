@@ -26,6 +26,7 @@
 
 /* Content */
 .hos-filter__content { padding: 0.8rem 0 1.2rem; }
+.hos-filter__group.is-open .hos-filter__content { border-top: 1px solid rgba(var(--color-foreground), 0.08); }
 
 /* Grid of checkboxes */
 .hos-filter__grid {
@@ -89,3 +90,6 @@
 }
 .hos-filter__footer > * { width: 50%; }
 .hos-filter__clear-wrap { display: flex; align-items: center; justify-content: center; }
+
+/* Hide Dawn's original mobile footer when our custom drawer is used */
+.mobile-facets__main .mobile-facets__footer { display: none; }
