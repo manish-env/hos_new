@@ -490,6 +490,10 @@
         <form id="FacetFiltersFormMobile" class="mobile-facets">
           <div class="mobile-facets__inner gradient">
             <div class="mobile-facets__header">
+              <button type="button" class="hos-mobile-drawer-close medium-hide large-up-hide" aria-label="{{ 'accessibility.close' | t }}"
+                onclick="(function(btn){ var det = btn.closest('details.mobile-facets__disclosure'); if(det){ det.open = false; det.classList.remove('menu-opening'); } })(this)">
+                <span class="svg-wrapper">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+              </button>
               <div class="mobile-facets__header-inner">
                 <h2 class="mobile-facets__heading medium-hide large-up-hide">
                   {%- if enable_filtering and enable_sorting -%}
