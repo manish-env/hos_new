@@ -1416,10 +1416,9 @@ input.mobile-facets__checkbox {
     z-index: 50;
     display: flex;
     gap: 0.8rem;
-    padding: 0.6rem 1rem;
+    
     background: rgb(var(--color-background));
-    border-top: 1px solid rgba(var(--color-foreground), 0.12);
-    border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+  
   }
   .hos-mobile-toolbar__btn {
     flex: 1 1 0;
