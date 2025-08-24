@@ -1420,6 +1420,39 @@ input.mobile-facets__checkbox {
   .facet-filters__summary { min-width: 0; width: 100%; margin-top: 0; }
   .facet-filters__field { justify-content: center; width: 100%; border: 0; }
 
+  /* Button aesthetics to match Dawn */
+  .facets__form .button,
+  .mobile-facets__open.button,
+  .mobile-facets__open .button {
+    height: 44px;
+    line-height: 44px;
+    border-radius: var(--buttons-radius);
+    font: inherit;
+  }
+
+  /* Make Sort control look consistent */
+  .facet-filters__field .select { width: 100%; }
+  .facet-filters__field .select select {
+    width: 100%;
+    height: 44px;
+    border-radius: var(--inputs-radius, var(--buttons-radius));
+    padding: 0 1.2rem;
+    border: 1px solid rgba(var(--color-foreground), 0.15);
+    background: rgb(var(--color-background));
+  }
+  /* If Sort uses disclosure summary on mobile */
+  .sort-disclosure > summary {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--buttons-radius);
+    border: 1px solid rgba(var(--color-foreground), 0.15);
+    background: rgb(var(--color-background));
+    padding: 0 1.2rem;
+  }
+
   /* Ensure page content isn't hidden under the sticky bar */
   main, .page-width, .product-grid-container {
     padding-bottom: 7rem;
