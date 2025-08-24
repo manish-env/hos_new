@@ -450,13 +450,7 @@
             {{- 'icon-filter.svg' | inline_asset_content -}}
           </span>
           <span class="mobile-facets__open-label button-label medium-hide large-up-hide">
-            {%- if enable_filtering and enable_sorting -%}
-              {{ 'products.facets.filter_and_sort' | t }}
-            {%- elsif enable_filtering -%}
-              {{ 'products.facets.filter_button' | t }}
-            {%- elsif enable_sorting -%}
-              {{ 'products.facets.sort_button' | t }}
-            {%- endif -%}
+            {{ 'products.facets.filter_button' | t }}
           </span>
           <span class="mobile-facets__open-label button-label small-hide">
             {%- if enable_filtering -%}
@@ -576,6 +570,42 @@
       </facet-filters-form>
     </details>
   </menu-drawer>
+
+  {%- if enable_sorting -%}
+    <facet-filters-form class="facets medium-hide large-up-hide">
+      <form id="FacetSortMobileBar" class="facets__form">
+        <div class="facet-filters sorting caption">
+          <div class="facet-filters__field">
+            {%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+            <details class="sort-disclosure">
+              <summary class="facet-filters__label caption-large text-body">
+                <span>{{ 'products.facets.sort_by_label' | t }}</span>
+                <span class="svg-wrapper icon-plus">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+                <span class="svg-wrapper icon-minus">{{- 'icon-minus.svg' | inline_asset_content -}}</span>
+              </summary>
+              <div class="sort-disclosure__content">
+                <ul class="no-js-hidden sort-disclosure__list">
+                  {%- for option in results.sort_options -%}
+                    <li class="sort-disclosure__item">
+                      <label class="sort-disclosure__label">
+                        <input
+                          type="radio"
+                          name="sort_by"
+                          value="{{ option.value | escape }}"
+                          {% if option.value == sort_by %}checked{% endif %}
+                        >
+                        <span>{{ option.name | escape }}</span>
+                      </label>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </form>
+    </facet-filters-form>
+  {%- endif -%}
 
   <div class="active-facets active-facets-mobile medium-hide large-up-hide">
     {%- for filter in results.filters -%}
