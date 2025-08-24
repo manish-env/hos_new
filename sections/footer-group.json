@@ -10,6 +10,51 @@
 {
   "name": "t:sections.footer.name",
   "type": "footer",
-  "sections": {},
-  "order": []
+  "sections": {
+    "trustbadges_BmLgbY": {
+      "type": "trustbadges",
+      "blocks": {
+        "badge_6LcC9U": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-truck-fast",
+            "label": "Track Order"
+          }
+        },
+        "badge_XhEidf": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-globe",
+            "label": "International Delivery"
+          }
+        },
+        "badge_jpG3qb": {
+          "type": "badge",
+          "settings": {
+            "icon": "fa-scissors",
+            "label": "Boutique Style Stitching"
+          }
+        }
+      },
+      "block_order": [
+        "badge_6LcC9U",
+        "badge_XhEidf",
+        "badge_jpG3qb"
+      ],
+      "name": "MX Footer Utilities",
+      "settings": {
+        "bg": "#f5f5f5",
+        "placeholder": "Enter your email address",
+        "button_label": "SUBSCRIBE",
+        "success_msg": "Thanks for subscribing!",
+        "facebook_url": "",
+        "instagram_url": "",
+        "youtube_url": "",
+        "blog_url": ""
+      }
+    }
+  },
+  "order": [
+    "trustbadges_BmLgbY"
+  ]
 }
