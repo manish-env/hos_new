@@ -10,7 +10,7 @@
     text-decoration: none;
     color: inherit;
     transition: opacity 0.2s ease;
-    margin-top:5px;
+    margin-top: 5px;
   }
   
   .whatsapp-link:hover {
@@ -23,12 +23,20 @@
     display: block;
   }
   
-  /* Sticky announcement bar */
+  /* Sticky announcement bar - enhanced styles */
   .announcement-bar-section.sticky {
-    position: sticky;
-    top: 0;
+    position: sticky !important;
+    top: 0 !important;
     z-index: 999;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  /* Override any theme JavaScript that might be hiding the announcement bar */
+  .announcement-bar-section.sticky.announcement-bar--hidden {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
   
   /* Responsive adjustments */
@@ -38,14 +46,42 @@
     }
     
     .whatsapp-link {
-display: none;
+      display: none;
     }
+    
     .utility-bar__grid--3-col,
     .utility-bar__grid--2-col {
       grid-template-columns: auto 1fr auto !important;
     }
   }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if sticky is enabled
+  {% if section.settings.make_sticky %}
+    const announcementBar = document.querySelector('.announcement-bar-section');
+    
+    if (announcementBar) {
+      // Add a class to override any theme JavaScript that might hide the bar
+      announcementBar.classList.add('sticky-announcement');
+      
+      // Listen for scroll events to ensure the bar stays visible
+      let lastScrollTop = 0;
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Always keep the bar visible when sticky is enabled
+        announcementBar.style.transform = 'translateY(0)';
+        announcementBar.style.opacity = '1';
+        announcementBar.style.visibility = 'visible';
+        
+        lastScrollTop = scrollTop;
+      }, { passive: true });
+    }
+  {% endif %}
+});
+</script>
 
 {%- liquid
   if section.settings.enable_country_selector or section.settings.enable_language_selector
@@ -64,7 +100,7 @@ display: none;
       <div class="whatsapp-container">
         <a href="https://wa.me/{{ section.settings.phone_number | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '+' }}" class="whatsapp-link" target="_blank" aria-label="Contact us on WhatsApp">
           <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.520.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.520-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.520.074-.792.372-.272.297-1.040 1.016-1.040 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.200 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.360.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.570-.347m-5.421 7.403h-.004a9.870 9.870 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.860 9.860 0 01-1.510-5.260c.001-5.450 4.436-9.884 9.888-9.884 2.640 0 5.122 1.030 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.450-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.050 0C5.495 0 .160 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
           </svg>
           <span class="whatsapp-text">{{ section.settings.phone_number }}</span>
         </a>
