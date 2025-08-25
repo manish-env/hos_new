@@ -553,31 +553,25 @@
                         var v = parseInt(q && q.value ? q.value : '1', 10);
                         return isNaN(v) || v < 1 ? 1 : v;
                       }
-                      function getExtrasSum(){
+                      function getExtrasUnit(){
                         var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!sel) return 0;
-                        var v = parseInt(sel.getAttribute('data-extra-price')||'0',10);
+                        var raw = sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price');
+                        var v = parseInt(raw, 10);
                         return isNaN(v) ? 0 : v;
                       }
                       function update(){
-                        var extras = getExtrasSum();
+                        var qty = getQuantity();
+                        var extras = getExtrasUnit() * qty; // apply service per quantity
                         if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + Shopify.formatMoney(extras) + ')' : ''; }
                         var totalEl = document.getElementById('OptionsTotal-{{ section.id }}');
                         if(totalEl){
                           var base = getCurrentVariantPrice();
-                          var qty = getQuantity();
                           var total = base * qty + extras;
                           totalEl.textContent = Shopify.formatMoney(total);
                         }
                       }
-                      root.addEventListener('change', function(){ update(); });
-                      // Initial updates: immediate, after DOM ready, and after a short delay to ensure buy-buttons snippet is in DOM
-                      update();
-                      document.addEventListener('DOMContentLoaded', update);
-                      window.addEventListener('load', update);
-                      setTimeout(update, 200);
-
-                      // Ensure one service is selected by default
+                      // Ensure one service is selected by default BEFORE initial update
                       (function ensureDefaultService(){
                         var anyChecked = root.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!anyChecked){
@@ -585,6 +579,17 @@
                           if(first){ first.checked = true; }
                         }
                       })();
+
+                      // Listen to specific radio changes and general changes
+                      root.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
+                        r.addEventListener('change', update);
+                      });
+                      root.addEventListener('change', function(){ update(); });
+                      // Initial updates: immediate, after DOM ready, and after a short delay to ensure buy-buttons snippet is in DOM
+                      update();
+                      document.addEventListener('DOMContentLoaded', update);
+                      window.addEventListener('load', update);
+                      setTimeout(update, 200);
 
                       // Intercept main product form submit to add selected service add-on
                       var form = root.querySelector('form#{{ product_form_id }}');
