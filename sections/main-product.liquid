@@ -490,8 +490,10 @@
                   <ul class="options-to-buy__list" role="list">
                     {%- assign form_id = product_form_id -%}
                     {%- for i in (1..3) -%}
-                      {%- assign opt_label = block.settings["option_" | append: i | append: "_label"] -%}
-                      {%- assign opt_price_units = block.settings["option_" | append: i | append: "_price"] | default: 0 -%}
+                      {%- assign opt_label_key = 'option_' | append: i | append: '_label' -%}
+                      {%- assign opt_label = block.settings[opt_label_key] -%}
+                      {%- assign opt_price_key = 'option_' | append: i | append: '_price' -%}
+                      {%- assign opt_price_units = block.settings[opt_price_key] | default: 0 -%}
                       {%- assign opt_price = opt_price_units | times: 100 -%}
                       {%- assign addon_handle = 'option_' | append: i | append: '_addon_product' -%}
                       {%- assign addon_product = block.settings[addon_handle] -%}
@@ -499,7 +501,8 @@
                         {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
                         {%- assign opt_price = addon_variant.price -%}
                       {%- endif -%}
-                      {%- assign opt_default = block.settings["option_" | append: i | append: "_default"] -%}
+                      {%- assign opt_default_key = 'option_' | append: i | append: '_default' -%}
+                      {%- assign opt_default = block.settings[opt_default_key] -%}
                       {%- if opt_label != blank -%}
                         <li class="options-to-buy__item">
                           <label class="options-to-buy__checkbox">
