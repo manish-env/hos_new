@@ -49,6 +49,15 @@ menu-drawer > details[open] > summary::before {
 
 /* Mobile: make drawer full-screen from the very top */
 @media screen and (max-width: 989px) {
+  /* Explicit mobile border for the requested selector */
+  .header__search-inline--clean .search__input.field__input,
+  .menu-drawer__search .header__search-inline--clean .search__input.field__input {
+    border: 1px solid #e7b1b8 !important; /* darker pink */
+    background: #f7d9dd !important;       /* light pink */
+    border-radius: 0 !important;           /* no rounding as requested */
+    height: 44px !important;
+    padding-right: 44px;                   /* space for visible search button */
+  }
   /* While drawer is open, push announcement bar below the drawer */
   body:has(header-drawer > details.menu-drawer-container[open]) .announcement-bar-section.sticky {
     z-index: 1 !important;
