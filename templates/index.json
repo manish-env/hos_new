@@ -285,7 +285,7 @@
         "subheading": "",
         "width_mode": "page",
         "color_scheme": "background-1",
-        "accent_color": "#FA05E8",
+        "accent_color": "#fa05e8",
         "gap": 16,
         "radius": 8,
         "autoplay": true,
@@ -293,6 +293,69 @@
         "show_nav": true,
         "pad_top": 28,
         "pad_bottom": 28
+      }
+    },
+    "collapsible_content_VjmW6d": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_CYpFF8": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_4nQcfa": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_8rTPV6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        },
+        "collapsible_row_DHBMxb": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Collapsible row",
+            "icon": "check_mark",
+            "row_content": "",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_CYpFF8",
+        "collapsible_row_4nQcfa",
+        "collapsible_row_8rTPV6",
+        "collapsible_row_DHBMxb"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "Collapsible content",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "layout": "section",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": true,
+        "image": "shopify://shop_images/Red_and_Gold_Vibrant_Wedding_Season_Sale_Instagram_Post.png",
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     }
   },
@@ -302,6 +365,7 @@
     "csutom_collections_BMFka7",
     "mx_reviews_jwfikg",
     "csutom_collections_QLHD3T",
-    "mx_reels_4VwnF4"
+    "mx_reels_4VwnF4",
+    "collapsible_content_VjmW6d"
   ]
 }
