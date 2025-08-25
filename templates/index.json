@@ -224,6 +224,76 @@
         "gap": 16,
         "cover": true
       }
+    },
+    "mx_reels_4VwnF4": {
+      "type": "Mx-Reels",
+      "blocks": {
+        "video_gq9bCr": {
+          "type": "video",
+          "settings": {
+            "video_source": "url",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/2c2c63068583426bb98e2c5fd8d2de15.mp4",
+            "product": "",
+            "show_product_info": true,
+            "button_label": "Shop now",
+            "link_entire_card": false
+          }
+        },
+        "video_iQQdEg": {
+          "type": "video",
+          "settings": {
+            "video_source": "url",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/e8817e3dfff94ea9912bc3b76738357e.mp4",
+            "product": "",
+            "show_product_info": true,
+            "button_label": "Shop now",
+            "link_entire_card": false
+          }
+        },
+        "video_TFXNLa": {
+          "type": "video",
+          "settings": {
+            "video_source": "url",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/7ef273faf8234ba6a39455cfe0b0000f.mp4",
+            "product": "",
+            "show_product_info": true,
+            "button_label": "Shop now",
+            "link_entire_card": false
+          }
+        },
+        "video_fF7TXR": {
+          "type": "video",
+          "settings": {
+            "video_source": "url",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/599755ff186e4a81a56b8d66426fc4c4.mp4",
+            "product": "",
+            "show_product_info": true,
+            "button_label": "Shop now",
+            "link_entire_card": false
+          }
+        }
+      },
+      "block_order": [
+        "video_gq9bCr",
+        "video_iQQdEg",
+        "video_TFXNLa",
+        "video_fF7TXR"
+      ],
+      "name": "MX Reels – Sonali",
+      "settings": {
+        "heading": "Latest Reels",
+        "subheading": "",
+        "width_mode": "page",
+        "color_scheme": "background-1",
+        "accent_color": "#FA05E8",
+        "gap": 16,
+        "radius": 8,
+        "autoplay": true,
+        "show_controls": false,
+        "show_nav": true,
+        "pad_top": 28,
+        "pad_bottom": 28
+      }
     }
   },
   "order": [
@@ -231,6 +301,7 @@
     "featured_collection",
     "csutom_collections_BMFka7",
     "mx_reviews_jwfikg",
-    "csutom_collections_QLHD3T"
+    "csutom_collections_QLHD3T",
+    "mx_reels_4VwnF4"
   ]
 }
