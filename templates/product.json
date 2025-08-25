@@ -21,7 +21,10 @@
         },
         "price": {
           "type": "price",
-          "settings": {}
+          "settings": {
+            "price_size": "medium",
+            "price_align": "center"
+          }
         },
         "variant_picker": {
           "type": "variant_picker",
