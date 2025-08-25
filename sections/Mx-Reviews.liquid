@@ -1,56 +1,89 @@
 {%- assign ldmx_id = section.id -%}
 <section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}">
 
-  <!-- Fonts -->
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* scope */
+    /* ============== Scoped Vars ============== */
     [data-ldmx="{{ ldmx_id }}"]{
       --ldmx-accent: {{ section.settings.accent_color }};
-      --ldmx-text:#222; --ldmx-muted:#666; --ldmx-maxw: {{ section.settings.container_width | default: 1300 }}px;
+      --ldmx-text: #222;
+      --ldmx-muted:#666;
+      --ldmx-maxw: {{ section.settings.container_width | default: 1300 }}px;
+      --ldmx-panel-h: {{ section.settings.panel_height | default: 460 }}px; /* equal height for both sides */
     }
+
+    /* ============== Layout ============== */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-container{max-width:var(--ldmx-maxw); margin:0 auto; padding:0 16px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{display:grid; grid-template-columns: 1fr 1.2fr; gap:40px; align-items:center;}
-    @media(max-width:992px){ [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns:1fr; gap:22px;} }
-
-    /* Banner (left) */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-banner{border-radius:14px; overflow:hidden; position:relative;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-banner img{width:100%; height:auto; display:block; object-fit:cover;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-cap{position:absolute; left:12px; bottom:12px; background:rgba(255,255,255,.92); padding:8px 12px; border-radius:10px; font-size:13px; color:var(--ldmx-text);}
-
-    /* Centered heading (Great Vibes) */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-heading{
-      font-family:"Great Vibes", cursive;
-      font-weight:400; color:var(--ldmx-text);
-      font-size: clamp(30px, 3.6vw, 46px);
-      text-align:center; margin:0 0 12px;
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{
+      display:grid;
+      grid-template-columns: 65% 35%; /* video 65%, reviews 35% */
+      gap:40px;
+      align-items:start;
+    }
+    @media(max-width: 992px){
+      [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns: 1fr; gap:22px;}
     }
 
-    /* Review block with FULL quotes (no card) */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap{
-      position:relative; padding: 24px 36px 20px;
+    /* Columns as vertical stacks so titles align */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-col{
+      display:flex; flex-direction:column; align-items:stretch;
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:before,
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:after{
-      position:absolute; z-index:0; color:var(--ldmx-accent); opacity:.9; line-height:1;
-      font-family: Georgia, serif; font-weight:700; pointer-events:none;
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-title{
+      margin:0 0 10px; line-height:1.1; text-align:center;
+      font-size:clamp(26px, 3.2vw, 40px);
+      color:var(--ldmx-text);
+      min-height: 1.3em; /* keeps both titles baseline aligned even if one wraps */
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:before{content:"“"; left:0; top:-6px; font-size:84px; transform:translate(-8px,0);}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:after{content:"”"; right:0; bottom:-12px; font-size:84px; transform:translate(8px,0);}
+    /* Force Great Vibes ONLY on the reviews title */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-title-rev{
+      font-family:'Great Vibes', cursive !important;
+      font-weight:400 !important;
+      font-size:clamp(30px, 3.6vw, 46px);
+    }
 
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{position:relative; z-index:1; text-align:center; max-width:780px; margin:0 auto;}
+    /* ============== Media (Video) Side ============== */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame{
+      height:var(--ldmx-panel-h); border-radius:14px; overflow:hidden; position:relative; background:#000;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame video{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame iframe{
+      width:100%; height:100%; display:block; border:0;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-poster{
+      position:absolute; inset:0; background:#000 center/cover no-repeat;
+    }
+
+    /* ============== Reviews Side ============== */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame{
+      height:var(--ldmx-panel-h); position:relative; padding:24px 32px 20px;
+      display:flex; align-items:center; justify-content:center;
+    }
+    /* Big quotes cover entire review area */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:before,
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:after{
+      position:absolute; color:var(--ldmx-accent); opacity:.9; line-height:1;
+      font-family:Georgia, serif; font-weight:700; pointer-events:none;
+      z-index:0;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:before{content:"“"; left:6px; top:-8px; font-size:92px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:after{content:"”"; right:6px; bottom:-12px; font-size:92px;}
+
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden; width:100%; max-width:780px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{min-width:100%; display:flex; align-items:center; justify-content:center;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{position:relative; z-index:1; text-align:center;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-text{font-size:16px; line-height:1.8; color:var(--ldmx-text); margin-bottom:14px;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin:6px 0 8px;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:4px; font-weight:700; color:#8a2be2;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:var(--ldmx-muted); font-style:italic;}
 
-    /* Carousel */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{min-width:100%;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-nav{position:absolute; inset:0; pointer-events:none;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-btn{
       pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%);
@@ -62,39 +95,53 @@
 
   <div class="ldmx-container">
     <div class="ldmx-grid">
-      <!-- LEFT: Banner -->
-      <div class="ldmx-left">
-        {% if section.settings.banner != blank %}
-          {% assign _link = section.settings.banner_link %}
-          {% if _link != blank %}<a href="{{ _link }}" class="ldmx-banner">{% endif %}
-            <div class="ldmx-banner">
-              <img
-                srcset="
-                  {{ section.settings.banner | image_url: width: 480 }} 480w,
-                  {{ section.settings.banner | image_url: width: 800 }} 800w,
-                  {{ section.settings.banner | image_url: width: 1200 }} 1200w
-                "
-                sizes="(max-width: 992px) 100vw, 44vw"
-                src="{{ section.settings.banner | image_url: width: 1200 }}"
-                alt="{{ section.settings.banner_alt | escape }}">
-              {% if section.settings.banner_caption != blank %}
-                <div class="ldmx-cap">{{ section.settings.banner_caption }}</div>
-              {% endif %}
-            </div>
-          {% if _link != blank %}</a>{% endif %}
-        {% else %}
-          <div class="ldmx-banner" style="aspect-ratio:4/3; display:grid; place-items:center; background:#f6f6f6;">
-            <div style="color:#aaa; font-size:14px;">Add a banner image in settings</div>
-          </div>
-        {% endif %}
+
+      <!-- LEFT: VIDEO -->
+      <div class="ldmx-col">
+        <h2 class="ldmx-title ldmx-title-media">{{ section.settings.media_title }}</h2>
+        <div class="ldmx-media-frame">
+          {%- if section.settings.video_url != blank -%}
+            {%- assign v = section.settings.video_url -%}
+            {%- if v.type == "youtube" -%}
+              <iframe src="https://www.youtube.com/embed/{{ v.id }}?rel=0&modestbranding=1&playsinline=1&autoplay={{ section.settings.autoplay | json | replace: 'true', '1' | replace: 'false','0' }}&mute={{ section.settings.muted | json | replace: 'true','1' | replace: 'false','0' }}&loop={{ section.settings.loop | json | replace: 'true','1' | replace: 'false','0' }}"
+                      allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+            {%- elsif v.type == "vimeo" -%}
+              <iframe src="https://player.vimeo.com/video/{{ v.id }}?autoplay={{ section.settings.autoplay | json | replace: 'true','1' | replace: 'false','0' }}&muted={{ section.settings.muted | json | replace: 'true','1' | replace: 'false','0' }}&loop={{ section.settings.loop | json | replace: 'true','1' | replace: 'false','0' }}"
+                      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            {%- endif -%}
+          {%- elsif section.settings.video != blank -%}
+            {{ section.settings.video
+              | video_tag:
+                controls: section.settings.controls,
+                autoplay: section.settings.autoplay,
+                loop: section.settings.loop,
+                muted: section.settings.muted,
+                playsinline: true
+            }}
+          {%- elsif section.settings.video_mp4 != blank -%}
+            <video
+              src="{{ section.settings.video_mp4 }}"
+              {% if section.settings.autoplay %}autoplay{% endif %}
+              {% if section.settings.loop %}loop{% endif %}
+              {% if section.settings.muted %}muted{% endif %}
+              {% if section.settings.controls %}controls{% endif %}
+              playsinline></video>
+            {% if section.settings.poster_image != blank %}
+              <span class="ldmx-poster" style="background-image:url('{{ section.settings.poster_image | image_url: width: 1200 }}');"></span>
+            {% endif %}
+          {%- else -%}
+            <div style="position:absolute; inset:0; display:grid; place-items:center; color:#aaa; font-size:14px; background:#111;">Add a video in settings</div>
+          {%- endif -%}
+        </div>
       </div>
 
-      <!-- RIGHT: Reviews -->
-      <div class="ldmx-right">
-        <!-- Centered title above the slider -->
-        <h2 class="ldmx-heading">{{ section.settings.heading }}</h2>
+      <!-- RIGHT: REVIEWS (35%) -->
+      <div class="ldmx-col">
+        <h2 class="ldmx-title ldmx-title-rev" style="font-family:'Great Vibes',cursive !important;font-weight:400 !important;">
+          {{ section.settings.reviews_title }}
+        </h2>
 
-        <div class="ldmx-review-wrap">
+        <div class="ldmx-review-frame">
           <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
             <div class="ldmx-track">
               {% for block in section.blocks %}
@@ -128,6 +175,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -151,21 +199,29 @@
 
 {% schema %}
 {
-  "name": "LDMX – Reviews",
+  "name": "LDMX – Video",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Customr Reviws" },
+    { "type": "text", "id": "media_title", "label": "Video title", "default": "In Motion" },
+    { "type": "text", "id": "reviews_title", "label": "Reviews title (Great Vibes)", "default": "Customer Reviews" },
+
     { "type": "color", "id": "accent_color", "label": "Accent (quotes)", "default": "#ff4aa2" },
     { "type": "checkbox", "id": "show_stars", "label": "Show star ratings", "default": true },
+    { "type": "range", "id": "panel_height", "label": "Panel height", "min": 320, "max": 720, "step": 10, "unit": "px", "default": 460 },
     { "type": "range", "id": "container_width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Max container width", "default": 1300 },
 
-    { "type": "header", "content": "Left Banner" },
-    { "type": "image_picker", "id": "banner", "label": "Banner image" },
-    { "type": "text", "id": "banner_alt", "label": "Banner alt text", "default": "Promotional banner" },
-    { "type": "text", "id": "banner_caption", "label": "Optional caption" },
-    { "type": "url", "id": "banner_link", "label": "Optional link" },
+    { "type": "header", "content": "Video source" },
+    { "type": "video", "id": "video", "label": "Shopify-hosted video" },
+    { "type": "video_url", "id": "video_url", "label": "YouTube or Vimeo URL", "accept": ["youtube", "vimeo"] },
+    { "type": "text", "id": "video_mp4", "label": "Direct MP4 URL (optional)" },
+    { "type": "image_picker", "id": "poster_image", "label": "Poster image (MP4 only)" },
 
-    { "type": "header", "content": "Auto-rotate" },
-    { "type": "checkbox", "id": "auto_rotate", "label": "Auto-rotate reviews", "default": false },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "checkbox", "id": "loop", "label": "Loop", "default": true },
+    { "type": "checkbox", "id": "muted", "label": "Muted", "default": true },
+    { "type": "checkbox", "id": "controls", "label": "Show controls", "default": true },
+
+    { "type": "header", "content": "Auto-rotate reviews" },
+    { "type": "checkbox", "id": "auto_rotate", "label": "Auto-rotate", "default": false },
     { "type": "number", "id": "rotate_ms", "label": "Rotate interval (ms)", "default": 5000 }
   ],
   "blocks": [
@@ -173,7 +229,7 @@
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>I just wanted to take a moment to sincerely thank Like A Diva for the effort and due diligence. The outfit is absolutely beautiful, and I’m really impressed with the quality.</p>" },
+        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>I just wanted to take a moment to sincerely thank Like A Diva. The outfit is beautiful and I’m really impressed with the quality.</p>" },
         { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },
         { "type": "text", "id": "author", "label": "Author", "default": "Bernice" },
         { "type": "text", "id": "location", "label": "Location", "default": "London, United Kingdom" },
@@ -182,6 +238,8 @@
     }
   ],
   "max_blocks": 12,
-  "presets": [{ "name": "LDMX – Reviews", "blocks": [{ "type": "review" }] }]
+  "presets": [
+    { "name": "LDMX – Video", "blocks": [{ "type": "review" }] }
+  ]
 }
 {% endschema %}
