@@ -226,6 +226,11 @@ details[open].menu-opening > .menu-drawer__submenu {
   .menu-drawer__search .search__input + button {
     display: none !important;
   }
+  /* Hide envelope mail icon and the divider in the drawer search row on mobile */
+  .menu-drawer__search .header__mail-link,
+  .menu-drawer__search .header__search-sep {
+    display: none !important;
+  }
 }
 
 .js .menu-drawer__menu li {
