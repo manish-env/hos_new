@@ -21,7 +21,10 @@
         },
         "title": {
           "type": "title",
-          "settings": {}
+          "settings": {
+            "title_size": "medium",
+            "title_align": "center"
+          }
         },
         "price": {
           "type": "price",
