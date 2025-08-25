@@ -375,6 +375,25 @@ a.product__text {
   white-space: nowrap; /* prevent currency/amount wrapping */
 }
 
+/* Options-to-buy radio styling (square) */
+.options-to-buy__item { margin-bottom: 8px; }
+.options-to-buy__radio { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.options-to-buy__radio input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #222;
+  border-radius: 4px; /* square-ish */
+  background: #fff;
+  display: inline-block;
+  position: relative;
+}
+.options-to-buy__radio input[type="radio"]:checked {
+  background: #222;
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
 @media (max-width: 749px) {
   .product-form__buttons {
     flex-direction: column;

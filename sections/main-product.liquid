@@ -505,11 +505,11 @@
                       {%- assign opt_default = block.settings[opt_default_key] -%}
                       {%- if opt_label != blank -%}
                         <li class="options-to-buy__item">
-                          <label class="options-to-buy__checkbox">
+                          <label class="options-to-buy__radio">
                             <input
-                              type="checkbox"
-                              name="properties[{{ opt_label | escape }}]"
-                              value="Yes"
+                              type="radio"
+                              name="properties[{{ block.settings.heading | default: 'Service' | escape }}]"
+                              value="{{ opt_label | escape }}"
                               form="{{ form_id }}"
                               data-extra-price="{{ opt_price }}"
                               {%- if addon_product != blank and addon_variant != blank -%}
@@ -554,10 +554,10 @@
                         return isNaN(v) || v < 1 ? 1 : v;
                       }
                       function getExtrasSum(){
-                        var checks = root.querySelectorAll('.options-to-buy input[type="checkbox"]');
-                        var sum = 0;
-                        checks.forEach(function(cb){ if(cb.checked){ var v = parseInt(cb.getAttribute('data-extra-price')||'0',10); if(!isNaN(v)) sum += v; }});
-                        return sum;
+                        var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
+                        if(!sel) return 0;
+                        var v = parseInt(sel.getAttribute('data-extra-price')||'0',10);
+                        return isNaN(v) ? 0 : v;
                       }
                       function update(){
                         var extras = getExtrasSum();
@@ -577,13 +577,24 @@
                       window.addEventListener('load', update);
                       setTimeout(update, 200);
 
-                      // Intercept main product form submit to add add-on products
+                      // Ensure one service is selected by default
+                      (function ensureDefaultService(){
+                        var anyChecked = root.querySelector('.options-to-buy input[type="radio"]:checked');
+                        if(!anyChecked){
+                          var first = root.querySelector('.options-to-buy input[type="radio"]');
+                          if(first){ first.checked = true; }
+                        }
+                      })();
+
+                      // Intercept main product form submit to add selected service add-on
                       var form = root.querySelector('form#{{ product_form_id }}');
                       if(form){
                         form.addEventListener('submit', function(evt){
                           try {
-                            var selectedAddons = Array.from(root.querySelectorAll('.options-to-buy input[type="checkbox"][data-addon-variant]:checked'));
-                            if(selectedAddons.length === 0) return; // allow default handler
+                            var selected = root.querySelector('.options-to-buy input[type="radio"]:checked');
+                            var selectedAddonVariant = selected && selected.getAttribute('data-addon-variant');
+                            var hasAddon = !!selectedAddonVariant;
+                            if(!hasAddon){ return; } // allow default handler when no add-on product is mapped
                             evt.preventDefault();
 
                             var fd = new FormData(form);
@@ -591,20 +602,18 @@
                             var qty = parseInt(fd.get('quantity') || '1', 10);
                             if(!qty || qty < 1) qty = 1;
 
-                            // Collect properties destined for the main item
+                            // Collect properties destined for the main item (includes selected service)
                             var properties = {};
                             form.querySelectorAll('[name^="properties["]').forEach(function(input){
                               if (input.type === 'checkbox' && !input.checked) return;
+                              if (input.type === 'radio' && !input.checked) return;
                               var name = input.name.replace(/^properties\[|\]$/g,'');
                               var val = input.value;
                               if (val && name) properties[name] = val;
                             });
 
                             var items = [{ id: mainId, quantity: qty, properties: properties }];
-                            selectedAddons.forEach(function(cb){
-                              var vid = cb.getAttribute('data-addon-variant');
-                              if(vid){ items.push({ id: vid, quantity: 1, properties: { 'Add-on for': mainId } }); }
-                            });
+                            if(selectedAddonVariant){ items.push({ id: selectedAddonVariant, quantity: 1, properties: { 'Add-on for': mainId } }); }
 
                             fetch('/cart/add.js', {
                               method: 'POST',
