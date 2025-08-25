@@ -1,0 +1,225 @@
+{% comment %}
+  Mx – Reviews With Banner
+  Left: Customer Reviews (title in script, pink quotes, stars, arrows)
+  Right: Image banner (image_picker + optional link)
+  - Desktop: two columns (60/40 by default)
+  - Mobile: stacked (reviews first, banner below)
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  :root{
+    --mx-accent: {{ section.settings.accent_color }};
+    --mx-text: #222;
+    --mx-muted:#666;
+    --mx-border:#eee;
+  }
+  .mx-wrap{background:#fff; color:var(--mx-text);}
+  .mx-container{max-width: {{ section.settings.container_width | default: 1300 }}px; margin:0 auto; padding:0 16px;}
+  .mx-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:40px; align-items:center;}
+  @media(max-width: 992px){ .mx-grid{grid-template-columns:1fr; gap:24px;} }
+
+  /* Heading (elegant script look) */
+  .mx-h{font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-size: clamp(26px, 3vw, 36px); text-align:left; margin:0 0 18px; font-weight:600;}
+  .mx-h .mx-heart{color:var(--mx-accent); margin:0 10px; font-size: .9em;}
+
+  /* Quotes flare */
+  .mx-quotes{position:relative; padding:18px 0 0;}
+  .mx-quotes:before,
+  .mx-quotes:after{
+    content: "“";
+    font-family: Georgia, serif;
+    position:absolute;
+    top:-6px;
+    font-size: 72px;
+    line-height:1;
+    color: var(--mx-accent);
+    opacity:.8;
+  }
+  .mx-quotes:before{left:-6px; transform:translateY(-10%);}
+  .mx-quotes:after{content:"”"; right:-6px; transform:translateY(-10%);}
+
+  /* Review card */
+  .mx-card{border:1px solid var(--mx-border); border-radius:12px; padding:28px 24px; background:#fff; position:relative; min-height: 220px;}
+  .mx-stars{color:#23a455; letter-spacing:2px; margin:6px 0 8px; font-size:18px;}
+  .mx-body{font-size:16px; line-height:1.7; color:var(--mx-text);}
+  .mx-author{margin-top:14px; font-weight:600;}
+  .mx-meta{font-size:13px; color:var(--mx-muted);}
+
+  /* Carousel */
+  .mx-carousel{position:relative; overflow:hidden;}
+  .mx-track{display:flex; transition: transform .4s ease;}
+  .mx-slide{min-width:100%;}
+  .mx-nav{
+    position:absolute; inset:0; pointer-events:none;
+  }
+  .mx-btn{
+    pointer-events:auto;
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:42px; height:42px; border-radius:999px;
+    border:1px solid var(--mx-border); background:#fff; display:grid; place-items:center;
+    box-shadow: 0 4px 14px rgba(0,0,0,.04);
+  }
+  .mx-btn i{font-size:16px; color:#333;}
+  .mx-prev{left:-10px;}
+  .mx-next{right:-10px;}
+  @media(max-width: 992px){ .mx-prev{left:6px;} .mx-next{right:6px;} }
+
+  /* Banner */
+  .mx-banner{position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--mx-border);}
+  .mx-banner img{display:block; width:100%; height:auto; object-fit:cover;}
+  .mx-banner .mx-cap{position:absolute; left:12px; bottom:12px; background:rgba(255,255,255,.9); padding:8px 12px; border-radius:8px; font-size:13px;}
+
+  /* Options */
+  .mx-swap .mx-grid{grid-template-columns:.8fr 1.2fr;}
+  .mx-swap .mx-left{order:2;} .mx-swap .mx-right{order:1;}
+</style>
+
+<section class="mx-wrap {% if section.settings.swap_columns %}mx-swap{% endif %}">
+  <div class="mx-container">
+    <div class="mx-grid">
+
+      <!-- LEFT: Reviews -->
+      <div class="mx-left">
+        <h2 class="mx-h">
+          <span class="mx-heart">❤</span>{{ section.settings.heading }}<span class="mx-heart">❤</span>
+        </h2>
+
+        <div class="mx-quotes">
+          <div class="mx-carousel" data-mx-carousel id="mx-cr-{{ section.id }}">
+            <div class="mx-track">
+              {% for block in section.blocks %}
+                {% if block.type == 'review' %}
+                <div class="mx-slide">
+                  <div class="mx-card">
+                    {% if section.settings.show_stars %}
+                      <div class="mx-stars">
+                        {% assign s = block.settings.stars | default: 5 %}
+                        {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
+                      </div>
+                    {% endif %}
+                    <div class="mx-body">{{ block.settings.text }}</div>
+                    <div class="mx-author">{{ block.settings.author }}</div>
+                    <div class="mx-meta">
+                      {% if block.settings.location %}{{ block.settings.location }}{% endif %}
+                      {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+
+            {% if section.blocks.size > 1 %}
+            <div class="mx-nav">
+              <button class="mx-btn mx-prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="mx-btn mx-next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Banner -->
+      <div class="mx-right">
+        {% if section.settings.banner != blank %}
+          {% if section.settings.banner_link != blank %}<a href="{{ section.settings.banner_link }}" class="mx-banner">{% endif %}
+            <div class="mx-banner">
+              <img
+                srcset="
+                  {{ section.settings.banner | image_url: width: 400 }} 400w,
+                  {{ section.settings.banner | image_url: width: 800 }} 800w,
+                  {{ section.settings.banner | image_url: width: 1200 }} 1200w
+                "
+                sizes="(max-width: 992px) 100vw, 40vw"
+                src="{{ section.settings.banner | image_url: width: 1200 }}"
+                alt="{{ section.settings.banner_alt | escape }}">
+              {% if section.settings.banner_caption != blank %}
+                <div class="mx-cap">{{ section.settings.banner_caption }}</div>
+              {% endif %}
+            </div>
+          {% if section.settings.banner_link != blank %}</a>{% endif %}
+        {% else %}
+          <div class="mx-banner" style="aspect-ratio: 4/3; display:grid; place-items:center; background:#fafafa;">
+            <div style="color:#aaa; font-size:14px;">Add a banner image in section settings</div>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const id = "mx-cr-{{ section.id }}";
+    const root = document.getElementById(id);
+    if(!root) return;
+    const track = root.querySelector('.mx-track');
+    const slides = root.querySelectorAll('.mx-slide');
+    const prev = root.querySelector('.mx-prev');
+    const next = root.querySelector('.mx-next');
+    let idx = 0;
+
+    function go(n){
+      idx = (n + slides.length) % slides.length;
+      track.style.transform = `translateX(${-idx * 100}%)`;
+    }
+    if(prev && next){
+      prev.addEventListener('click', ()=>go(idx-1));
+      next.addEventListener('click', ()=>go(idx+1));
+    }
+    // optional auto-rotate
+    {% if section.settings.auto_rotate %}
+    setInterval(()=>go(idx+1), {{ section.settings.rotate_ms | default: 5000 }});
+    {% endif %}
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mx Reviews With Banner",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
+    { "type": "color", "id": "accent_color", "label": "Accent (hearts & quotes)", "default": "#ff4aa2" },
+    { "type": "checkbox", "id": "show_stars", "label": "Show star ratings", "default": true },
+
+    { "type": "checkbox", "id": "swap_columns", "label": "Swap columns (banner left, reviews right)", "default": false },
+    { "type": "range", "id": "container_width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Max container width", "default": 1300 },
+
+    { "type": "header", "content": "Right Banner" },
+    { "type": "image_picker", "id": "banner", "label": "Banner image" },
+    { "type": "text", "id": "banner_alt", "label": "Banner alt text", "default": "Promotional banner" },
+    { "type": "text", "id": "banner_caption", "label": "Optional caption" },
+    { "type": "url", "id": "banner_link", "label": "Optional link" },
+
+    { "type": "header", "content": "Auto-rotate" },
+    { "type": "checkbox", "id": "auto_rotate", "label": "Auto-rotate reviews", "default": false },
+    { "type": "number", "id": "rotate_ms", "label": "Rotate interval (ms)", "default": 5000 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },
+        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>" },
+        { "type": "text", "id": "author", "label": "Author", "default": "Kulwinder K Samrai" },
+        { "type": "text", "id": "location", "label": "Location", "default": "Gravesend, United Kingdom" },
+        { "type": "text", "id": "date", "label": "Date (e.g., 06/08/2025)" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Mx Reviews",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review", "settings": { "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>", "author": "Sonia P.", "location": "Pune, India", "stars": 5 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
