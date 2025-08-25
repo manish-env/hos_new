@@ -805,6 +805,8 @@ summary::-webkit-details-marker {
   text-transform: uppercase;
   letter-spacing: 0.15rem;
   color: #FA05E8; /* pink title color */
+  font-family: 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Times New Roman', serif;
+  font-weight: 400;
 }
 
 .title-wrapper > .title::before,
