@@ -1,4 +1,4 @@
-{% comment %} LDMX – Video 50% + Reviews 50%, page-width, Great Vibes title, quotes wrapping full review, slide clipping {% endcomment %}
+{% comment %} LDMX – Video 50% + Reviews 50% (quotes fixed, name color #FA05E8) {% endcomment %}
 {%- assign ldmx_id = section.id -%}
 <section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}"
   style="padding-top: {{ section.settings.pad_top | default: 48 }}px; padding-bottom: {{ section.settings.pad_bottom | default: 48 }}px;">
@@ -35,9 +35,9 @@
       margin:0 0 12px; line-height:1.1; text-align:center;
       font-size:clamp(26px, 3.2vw, 40px);
       color:var(--ldmx-text);
-      min-height:1.3em; /* keeps both headings baseline-aligned even if wrapping */
+      min-height:1.3em;
     }
-    /* Force Great Vibes only on reviews title */
+    /* Great Vibes on reviews title */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-title-rev{
       font-family:'Great Vibes', cursive !important;
       font-weight:400 !important;
@@ -47,8 +47,8 @@
     /* ===== Video (no border, no radius) ===== */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame{
       position:relative; width:100%;
-      aspect-ratio: 16 / 9; /* normal height */
-      overflow:hidden; /* ensures video never bleeds */
+      aspect-ratio: 16 / 9;
+      overflow:hidden;
       border:none; border-radius:0;
       background:#000;
     }
@@ -64,29 +64,25 @@
     [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{
       flex:0 0 100%;
       min-width:100%;
-      overflow:hidden;   /* <— stops next slide’s icons/quotes peeking */
-      position:relative; /* containment for pseudo elements */
+      position:relative;
+      overflow:hidden;               /* clips its own content—no peeking */
       box-sizing:border-box;
+      padding:28px 40px 40px;        /* space so quotes never get cut */
     }
-
-    /* single review block (quotes wrap EVERYTHING inside) */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{
-      position:relative; max-width:700px; width:100%;
-      text-align:center; padding:24px 32px 18px; margin:0 auto;
-    }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:before,
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:after{
+    /* Quotes belong to the SLIDE (not the inner review) so they can't be clipped */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:before,
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:after{
       position:absolute; color:var(--ldmx-accent); opacity:.9; line-height:1;
       font-family:Georgia, serif; font-weight:700; pointer-events:none; z-index:0;
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:before{content:"“"; left:-6px; top:-14px; font-size:84px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:after{content:"”"; right:-6px; bottom:-12px; font-size:84px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:before{content:"“"; left:10px; top:6px; font-size:78px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:after{content:"”"; right:10px; bottom:6px; font-size:78px;}
 
-    /* content sits above quotes */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-content{position:relative; z-index:1;}
+    /* review content sits above quotes */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{position:relative; z-index:1; max-width:700px; width:100%; margin:0 auto; text-align:center;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-text{font-size:16px; line-height:1.8; color:var(--ldmx-text); margin-bottom:14px;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin:6px 0 8px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:4px; font-weight:700; color:#8a2be2;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:6px; font-weight:700; color:#FA05E8;} /* <-- requested color */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:#757575; font-style:italic;}
 
     /* arrows */
@@ -154,19 +150,17 @@
               {% if block.type == 'review' %}
               <div class="ldmx-slide">
                 <div class="ldmx-review">
-                  <div class="ldmx-content">
-                    <div class="ldmx-text">{{ block.settings.text }}</div>
-                    {% if section.settings.show_stars %}
-                      <div class="ldmx-stars">
-                        {% assign s = block.settings.stars | default: 5 %}
-                        {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
-                      </div>
-                    {% endif %}
-                    <div class="ldmx-author">{{ block.settings.author }}</div>
-                    <div class="ldmx-meta">
-                      {% if block.settings.location %}{{ block.settings.location }}{% endif %}
-                      {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
+                  <div class="ldmx-text">{{ block.settings.text }}</div>
+                  {% if section.settings.show_stars %}
+                    <div class="ldmx-stars">
+                      {% assign s = block.settings.stars | default: 5 %}
+                      {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
                     </div>
+                  {% endif %}
+                  <div class="ldmx-author">{{ block.settings.author }}</div>
+                  <div class="ldmx-meta">
+                    {% if block.settings.location %}{{ block.settings.location }}{% endif %}
+                    {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
                   </div>
                 </div>
               </div>
@@ -237,10 +231,10 @@
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>I just wanted to take a moment to sincerely thank Like A Diva. The outfit is beautiful and I’m really impressed with the quality.</p>" },
+        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>" },
         { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },
-        { "type": "text", "id": "author", "label": "Author", "default": "Bernice" },
-        { "type": "text", "id": "location", "label": "Location", "default": "London, United Kingdom" },
+        { "type": "text", "id": "author", "label": "Author", "default": "Kulwinder K Samrai" },
+        { "type": "text", "id": "location", "label": "Location", "default": "Gravesend, United Kingdom" },
         { "type": "text", "id": "date", "label": "Date (optional)" }
       ]
     }
