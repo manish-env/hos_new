@@ -49,35 +49,8 @@ menu-drawer > details[open] > summary::before {
 
 /* Mobile: make drawer full-screen from the very top */
 @media screen and (max-width: 989px) {
-  /* Hardcoded visual fallback: MENU row and close icon under search */
-  .menu-drawer__search { position: relative; }
-  .menu-drawer__search::after {
-    content: 'MENU';
-    display: block;
-    height: 40px;               /* fixed row height */
-    line-height: 40px;           /* vertically center text */
-    text-align: center;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-size: 1.3rem;
-    color: rgb(var(--color-foreground));
-    padding: 0 1rem;
-    border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
-    background: rgb(var(--color-background));
-  }
-  /* Visual X icon at right (note: purely visual; use the header close button to actually close) */
-  .menu-drawer__search::before {
-    content: '×';
-    position: absolute;
-    right: 1rem;
-    top: calc(100% + 20px);    /* half of the 40px row height */
-    transform: translateY(-50%);
-    font-size: 2.2rem;          /* larger close icon */
-    line-height: 1;
-    color: rgb(var(--color-foreground));
-    pointer-events: none;
-  }
+  /* Remove any side-effects from fallback; keep search clean */
+  .menu-drawer__search { position: relative; padding-bottom: 0 !important; }
   /* Ensure the MENU row under the search renders visibly */
   .menu-drawer__top { display: block; }
   .menu-drawer__titlebar {
@@ -85,7 +58,8 @@ menu-drawer > details[open] > summary::before {
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 0.9rem 1rem;
+    height: 44px; /* fixed row height */
+    padding: 0 1rem; /* horizontal only */
     border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
     background: rgb(var(--color-background));
     z-index: 100002; /* above list items */
@@ -96,6 +70,8 @@ menu-drawer > details[open] > summary::before {
     text-transform: uppercase;
     font-size: 1.3rem;
     color: rgb(var(--color-foreground));
+    line-height: 44px; /* vertically center text */
+    margin: 0; /* avoid pushing height */
   }
   .menu-drawer__close-icon {
     position: absolute;
@@ -104,12 +80,14 @@ menu-drawer > details[open] > summary::before {
     transform: translateY(-50%);
     background: transparent;
     border: 0;
-    padding: .4rem;
+    padding: .2rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    height: 32px; width: 32px; /* consistent tap target */
   }
-  .menu-drawer__close-icon .svg-wrapper { width: 1.6rem; height: 1.6rem; display: inline-block; }
+  .menu-drawer__close-icon .svg-wrapper { width: 20px; height: 20px; display: block; line-height: 0; }
+  .menu-drawer__close-icon svg { width: 100%; height: 100%; display: block; }
   /* Explicit mobile border for the requested selector */
   .header__search-inline--clean .search__input.field__input,
   .menu-drawer__search .header__search-inline--clean .search__input.field__input {
