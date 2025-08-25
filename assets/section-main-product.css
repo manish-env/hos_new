@@ -1287,6 +1287,18 @@ a.product__text {
 .product-price.price-size-medium .price-item { font-size: 2rem; }
 .product-price.price-size-large .price-item { font-size: 2.4rem; }
 
+/* Discounted price color */
+.product-price .price-item--sale {
+  color: #FA05E8;
+}
+
+/* Sale badge color overrides */
+.product-price .price__badge-sale {
+  background-color: #FFEEEE;
+  border-color: #FFEEEE;
+  color: #FA05E8;
+}
+
 .product__inventory .svg-wrapper,
 .product__inventory svg {
   width: 15px;
