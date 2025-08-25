@@ -1277,6 +1277,16 @@ a.product__text {
   line-height: 1.2;
 }
 
+/* Product price controls (size + alignment) */
+.product-price { width: 100%; }
+.product-price.price-align-left { text-align: left; }
+.product-price.price-align-center { text-align: center; }
+.product-price.price-align-right { text-align: right; }
+
+.product-price.price-size-small .price-item { font-size: 1.6rem; }
+.product-price.price-size-medium .price-item { font-size: 2rem; }
+.product-price.price-size-large .price-item { font-size: 2.4rem; }
+
 .product__inventory .svg-wrapper,
 .product__inventory svg {
   width: 15px;
