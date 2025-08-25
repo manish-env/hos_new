@@ -1,5 +1,5 @@
 {% comment %}
-  MX — Video Carousel (Reels) — Sonali XL (bigger cards + fixed arrows + Great Vibes title)
+  MX — Video Carousel (Reels) — Sonali skin (mobile bigger cards + Great Vibes title)
 {% endcomment %}
 
 <section
@@ -21,9 +21,7 @@
 
   <div class="{% if section.settings.width_mode == 'page' %}page-width{% else %}mxvc__bleed{% endif %}">
     <header class="mxvc__header">
-      <h2 class="mxvc__title" style="font-family:'Great Vibes',cursive !important;font-weight:400 !important;">
-        {{ section.settings.heading | default: 'Watch & Buy' }}
-      </h2>
+      <h2 class="mxvc__title">{{ section.settings.heading | default: 'Watch & Buy' }}</h2>
       {% if section.settings.subheading != blank %}<p class="mxvc__subtitle">{{ section.settings.subheading | escape }}</p>{% endif %}
     </header>
 
@@ -149,16 +147,23 @@
     /* Full-bleed container when width = full */
     #mxvc-{{ section.id }} .mxvc__bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
 
-    /* Title */
+    /* Title: Great Vibes, centered */
     .mxvc__header { margin-bottom: 16px; text-align: center; }
-    .mxvc__title { margin: 0; font-size: clamp(28px, 6vw, 46px); line-height: 1.1; color: var(--color-foreground, #222); }
+    .mxvc__title {
+      margin: 0;
+      font-family: 'Great Vibes', cursive !important;
+      font-weight: 400 !important;
+      font-size: clamp(28px, 6vw, 44px);
+      line-height: 1.1;
+      color: var(--color-foreground, #222);
+    }
     .mxvc__subtitle { margin: 6px 0 0; opacity: .7; font-size: 13px; }
 
     .mxvc__wrap { position: relative; }
 
-    /* Track: bigger cards overall */
+    /* Track; make mobile slides larger */
     #mxvc-{{ section.id }} .mxvc__track {
-      --mx-cols: 1.05; /* mobile: very big */
+      --mx-cols: 1.1;                 /* was 1.5: bigger cards on mobile */
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: calc(100% / var(--mx-cols));
@@ -167,19 +172,19 @@
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding: 0 12px 10px; /* room for arrows & edges */
+      padding: 0 8px 6px;             /* breathing room at edges */
       scrollbar-width: none; -ms-overflow-style: none;
     }
     .mxvc__track::-webkit-scrollbar { display: none; }
     .mxvc__track.is-dragging { cursor: grabbing; }
     .mxvc__slide { scroll-snap-align: start; }
 
-    /* Cards (reduced radius) */
+    /* Cards: reduced radius as requested */
     .mxvc__media {
       position: relative;
       width: 100%;
       aspect-ratio: 9 / 16;
-      border-radius: var(--mx-radius); /* smaller radius via setting */
+      border-radius: var(--mx-radius);
       overflow: hidden;
       background: #fafafa;
       border: 1px solid #ececec;
@@ -191,28 +196,28 @@
     /* Whole-card link */
     .mxvc__link { display: block; text-decoration: none; color: inherit; }
 
-    /* Product overlay — bigger fonts; tighter radius */
+    /* Product overlay: smaller radius; mobile-bigger fonts */
     .mxvc__prod {
-      position: absolute; left: 12px; right: 12px; bottom: 12px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      padding: 10px 12px;
+      position: absolute; left: 10px; right: 10px; bottom: 10px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 9px 10px;
       background: rgba(255,255,255,.96);
       border: 1px solid #eaeaea;
-      border-radius: 6px; /* reduced */
+      border-radius: 8px;            /* reduced */
       backdrop-filter: blur(1px);
     }
     .mxvc__prod-meta { display: grid; gap: 2px; min-width: 0; }
-    .mxvc__prod-title { font-weight: 600; font-size: clamp(.98rem, 1.1vw, 1.25rem); color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mxvc__prod-price { font-size: clamp(.95rem, 1.05vw, 1.2rem); color: var(--mx-accent); }
+    .mxvc__prod-title { font-weight: 600; font-size: .92rem; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mxvc__prod-price { font-size: .9rem; color: var(--mx-accent); }
     .mxvc__prod-price s { color: #999; margin-right: 6px; }
 
     .mxvc__prod-btn,
     .mxvc__prod-btn.is-ghost {
       flex: 0 0 auto;
-      padding: 9px 14px;
+      padding: 7px 12px;
       border-radius: 999px;
       font-weight: 600;
-      font-size: clamp(.92rem, 1vw, 1.1rem);
+      font-size: .84rem;
       text-decoration: none;
       line-height: 1;
       border: 1px solid var(--mx-accent);
@@ -221,58 +226,35 @@
     .mxvc__prod-btn:hover { filter: brightness(.95); }
     .mxvc__prod-btn.is-ghost { background: transparent; color: var(--mx-accent); cursor: default; }
 
-    /* Nav arrows — fixed layout */
-    .mxvc__nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 44px; height: 44px; border-radius: 999px;
-      border: 1px solid #e5e5e5; background: #fff; color: #555;
-      display: grid; place-items: center; cursor: pointer; z-index: 5;
-      box-shadow: 0 2px 10px rgba(0,0,0,.06);
-    }
-    .mxvc__nav:hover { background:#f7f7f7; }
-    .mxvc__nav--prev { left: 2px; }
-    .mxvc__nav--next { right: 2px; }
-
-    /* Tablet */
+    /* Tablet / Desktop column counts */
     @media (min-width: 768px) {
-      #mxvc-{{ section.id }} .mxvc__track { --mx-cols: 2.2; padding: 0 16px 10px; }
+      #mxvc-{{ section.id }} .mxvc__track { --mx-cols: 3; padding: 0 0 6px; }
     }
-
-    /* Desktop — fewer columns => bigger cards */
     @media (min-width: 1024px) {
-      #mxvc-{{ section.id }}[data-mode="page"] .mxvc__track { --mx-cols: 3; }  /* was 4 */
-      #mxvc-{{ section.id }}[data-mode="full"] .mxvc__track { --mx-cols: 4; }  /* was 5 */
-      .mxvc__nav--prev { left: 8px; }
-      .mxvc__nav--next { right: 8px; }
+      #mxvc-{{ section.id }}[data-mode="page"] .mxvc__track { --mx-cols: 4; }
+      #mxvc-{{ section.id }}[data-mode="full"] .mxvc__track { --mx-cols: 5; }
     }
 
-    /* XL screens — keep them big */
-    @media (min-width: 1440px) {
-      #mxvc-{{ section.id }} .mxvc__prod-title { font-size: clamp(1.05rem, .9vw, 1.3rem); }
-      #mxvc-{{ section.id }} .mxvc__prod-price { font-size: clamp(1rem, .85vw, 1.25rem); }
-      #mxvc-{{ section.id }} .mxvc__prod-btn { font-size: clamp(.98rem, .85vw, 1.15rem); padding: 10px 16px; }
-    }
-
-    /* Mobile font upsize (just in case) */
+    /* MOBILE TYPE UPSIZE */
     @media (max-width: 767px) {
-      .mxvc__prod-title { font-size: 1.06rem; }
-      .mxvc__prod-price { font-size: 1.02rem; }
-      .mxvc__prod-btn, .mxvc__prod-btn.is-ghost { font-size: .98rem; padding: 10px 16px; }
+      .mxvc__prod-title { font-size: 1.02rem; }
+      .mxvc__prod-price { font-size: 1rem; }
+      .mxvc__prod-btn, .mxvc__prod-btn.is-ghost { font-size: .94rem; padding: 9px 14px; }
     }
   </style>
 </section>
 
 {% schema %}
 {
-  "name": "MX Video",
+  "name": "MX Video Carousel",
   "tag": "section",
   "class": "section",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Watch & Buy" },
-    { "type": "text", "id": "subheading", "label": "Subheading", },
+    { "type": "text", "id": "subheading", "label": "Subheading" },
     { "type": "select", "id": "width_mode", "label": "Section width", "default": "page", "options": [
-      { "value": "page", "label": "Page width (3 on desktop)" },
-      { "value": "full", "label": "Full width (4 on desktop)" }
+      { "value": "page", "label": "Page width (4 on desktop)" },
+      { "value": "full", "label": "Full width (5 on desktop)" }
     ]},
     { "type": "select", "id": "color_scheme", "label": "Color scheme", "default": "background-1", "options": [
       { "value": "background-1", "label": "Background 1" },
@@ -308,6 +290,6 @@
     }
   ],
   "max_blocks": 24,
-  "presets": [{ "name": "MX Reels – Sonali XL", "category": "Media" }]
+  "presets": [{ "name": "MX Reels – Sonali", "category": "Media" }]
 }
 {% endschema %}
