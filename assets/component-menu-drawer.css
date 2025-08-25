@@ -57,7 +57,20 @@ menu-drawer > details[open] > summary::before {
     border-radius: 0 !important;           /* no rounding as requested */
     height: 44px !important;
     padding-right: 44px;                   /* space for visible search button */
+    padding-left: 12px !important;         /* ensure placeholder has left padding */
   }
+  /* Placeholder color to black for the same selector (cross-browser) */
+  .header__search-inline--clean .search__input.field__input::placeholder,
+  .menu-drawer__search .header__search-inline--clean .search__input.field__input::placeholder {
+    color: #000 !important;
+    opacity: 1; /* needed for Firefox */
+  }
+  .header__search-inline--clean .search__input.field__input::-webkit-input-placeholder,
+  .menu-drawer__search .header__search-inline--clean .search__input.field__input::-webkit-input-placeholder { color: #000 !important; }
+  .header__search-inline--clean .search__input.field__input::-moz-placeholder,
+  .menu-drawer__search .header__search-inline--clean .search__input.field__input::-moz-placeholder { color: #000 !important; opacity: 1; }
+  .header__search-inline--clean .search__input.field__input:-ms-input-placeholder,
+  .menu-drawer__search .header__search-inline--clean .search__input.field__input:-ms-input-placeholder { color: #000 !important; }
   /* While drawer is open, push announcement bar below the drawer */
   body:has(header-drawer > details.menu-drawer-container[open]) .announcement-bar-section.sticky {
     z-index: 1 !important;
@@ -377,6 +390,7 @@ details[open].menu-opening > .menu-drawer__submenu {
 
 .menu-drawer .list-social {
   justify-content: flex-start;
+  display: flex;;
   margin-left: -1.25rem;
 }
 
