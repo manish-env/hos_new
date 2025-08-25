@@ -49,6 +49,23 @@ menu-drawer > details[open] > summary::before {
 
 /* Mobile: make drawer full-screen from the very top */
 @media screen and (max-width: 989px) {
+  /* While drawer is open, push announcement bar below the drawer */
+  body:has(header-drawer > details.menu-drawer-container[open]) .announcement-bar-section.sticky {
+    z-index: 1 !important;
+  }
+  /* When the drawer is open, ensure the header section's stacking context is above the announcement bar */
+  .section-header:has(header-drawer > details[open]) {
+    position: relative;
+    z-index: 100000; /* higher than announcement bar (999) */
+  }
+  /* Fallback for browsers without :has() support: JS toggles .menu-open on .section-header */
+  .section-header.menu-open {
+    position: relative;
+    z-index: 100000; /* higher than announcement bar (999) */
+  }
+  /* Raise stacking context on the container when open */
+  header-drawer { position: relative; z-index: 100000; }
+  header-drawer > details.menu-drawer-container[open] { position: relative; z-index: 100000; }
   /* Force the drawer panel to be fixed full-screen on mobile */
   header-drawer > details.menu-drawer-container > #menu-drawer,
   header-drawer > details.menu-drawer-container > .menu-drawer {
