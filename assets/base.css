@@ -823,6 +823,12 @@ summary::-webkit-details-marker {
   margin-right: auto;
 }
 
+/* Force Libre Baskerville on all section titles */
+.title {
+  font-family: 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Times New Roman', serif !important;
+  font-weight: 400 !important;
+}
+
 .title-wrapper > .title::before,
 .title-wrapper > .title::after,
 .title-wrapper-with-link > .title::before,
