@@ -1309,6 +1309,26 @@ a.product__text {
   justify-content: center;
 }
 
+/* Global content alignment controls for product info */
+.product__info-container.content-align-left { text-align: left; }
+.product__info-container.content-align-center { text-align: center; }
+.product__info-container.content-align-right { text-align: right; }
+
+/* Try to align core interactive rows when using flex/grid */
+.product__info-container.content-align-center .product-form,
+.product__info-container.content-align-center .product-form__buttons,
+.product__info-container.content-align-center .complementary-products__container,
+.product__info-container.content-align-center .rating-wrapper {
+  justify-content: center;
+}
+
+.product__info-container.content-align-right .product-form,
+.product__info-container.content-align-right .product-form__buttons,
+.product__info-container.content-align-right .complementary-products__container,
+.product__info-container.content-align-right .rating-wrapper {
+  justify-content: flex-end;
+}
+
 /* This keeps the container from getting display: none; applied to it and to make sure we're not introducing some layout shift when switching to an unavailable variant */
 .product__inventory.visibility-hidden:empty {
   display: block;
