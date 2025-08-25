@@ -1,107 +1,150 @@
 {% comment %}
-  Mx – Reviews With Banner
-  Left: Customer Reviews (title in script, pink quotes, stars, arrows)
-  Right: Image banner (image_picker + optional link)
-  - Desktop: two columns (60/40 by default)
-  - Mobile: stacked (reviews first, banner below)
+  LDMX – Reviews (Right) + Banner (Left)
+  • Fully namespaced with ldmx- classes and data-ldmx="{{ section.id }}" scope
+  • Desktop: Banner left, Reviews right (toggle to swap)
+  • Mobile: Stacked (banner above, reviews below)
+  • Page-width container; no global selectors
 {% endcomment %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{%- assign ldmx_id = section.id -%}
+<section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}">
 
-<style>
-  :root{
-    --mx-accent: {{ section.settings.accent_color }};
-    --mx-text: #222;
-    --mx-muted:#666;
-    --mx-border:#eee;
-  }
-  .mx-wrap{background:#fff; color:var(--mx-text);}
-  .mx-container{max-width: {{ section.settings.container_width | default: 1300 }}px; margin:0 auto; padding:0 16px;}
-  .mx-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:40px; align-items:center;}
-  @media(max-width: 992px){ .mx-grid{grid-template-columns:1fr; gap:24px;} }
+  <!-- Fonts (scoped use) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Allura&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  /* Heading (elegant script look) */
-  .mx-h{font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-size: clamp(26px, 3vw, 36px); text-align:left; margin:0 0 18px; font-weight:600;}
-  .mx-h .mx-heart{color:var(--mx-accent); margin:0 10px; font-size: .9em;}
+  <style>
+    /* ====== SCOPE ALL STYLES TO THIS SECTION ONLY ====== */
+    [data-ldmx="{{ ldmx_id }}"]{
+      --ldmx-accent: {{ section.settings.accent_color }};
+      --ldmx-text: #222;
+      --ldmx-muted:#666;
+      --ldmx-border:#ececec;
+      --ldmx-maxw: {{ section.settings.container_width | default: 1300 }}px;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-container{max-width:var(--ldmx-maxw); margin:0 auto; padding:0 16px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{
+      display:grid; grid-template-columns: {{ section.settings.swap_columns | default: false | json | replace: 'true', '.58fr 1.42fr' | replace: 'false', '1fr 1.2fr' }};
+      gap:40px; align-items:center;
+    }
+    @media (max-width: 992px){
+      [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns:1fr; gap:22px;}
+    }
 
-  /* Quotes flare */
-  .mx-quotes{position:relative; padding:18px 0 0;}
-  .mx-quotes:before,
-  .mx-quotes:after{
-    content: "“";
-    font-family: Georgia, serif;
-    position:absolute;
-    top:-6px;
-    font-size: 72px;
-    line-height:1;
-    color: var(--mx-accent);
-    opacity:.8;
-  }
-  .mx-quotes:before{left:-6px; transform:translateY(-10%);}
-  .mx-quotes:after{content:"”"; right:-6px; transform:translateY(-10%);}
+    /* Banner */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-banner{
+      border:1px solid var(--ldmx-border); border-radius:14px; overflow:hidden; position:relative; background:#fafafa;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-banner img{width:100%; height:auto; display:block; object-fit:cover;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-cap{
+      position:absolute; left:12px; bottom:12px; background:rgba(255,255,255,.92);
+      padding:8px 12px; border-radius:10px; font-size:13px; color:var(--ldmx-text);
+      border:1px solid var(--ldmx-border);
+    }
 
-  /* Review card */
-  .mx-card{border:1px solid var(--mx-border); border-radius:12px; padding:28px 24px; background:#fff; position:relative; min-height: 220px;}
-  .mx-stars{color:#23a455; letter-spacing:2px; margin:6px 0 8px; font-size:18px;}
-  .mx-body{font-size:16px; line-height:1.7; color:var(--mx-text);}
-  .mx-author{margin-top:14px; font-weight:600;}
-  .mx-meta{font-size:13px; color:var(--mx-muted);}
+    /* Reviews block */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-heading{
+      display:flex; align-items:center; justify-content:flex-start; gap:10px; margin:0 0 14px;
+      font-family:"Playfair Display", Georgia, serif; font-weight:600; letter-spacing:.2px;
+      font-size: clamp(24px, 3.2vw, 36px); color:var(--ldmx-text);
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-heart{color:var(--ldmx-accent); font-size: .9em; transform:translateY(-2px);}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-sub{font-family:"Allura", cursive; font-size:1.1em; color:var(--ldmx-accent);}
 
-  /* Carousel */
-  .mx-carousel{position:relative; overflow:hidden;}
-  .mx-track{display:flex; transition: transform .4s ease;}
-  .mx-slide{min-width:100%;}
-  .mx-nav{
-    position:absolute; inset:0; pointer-events:none;
-  }
-  .mx-btn{
-    pointer-events:auto;
-    position:absolute; top:50%; transform:translateY(-50%);
-    width:42px; height:42px; border-radius:999px;
-    border:1px solid var(--mx-border); background:#fff; display:grid; place-items:center;
-    box-shadow: 0 4px 14px rgba(0,0,0,.04);
-  }
-  .mx-btn i{font-size:16px; color:#333;}
-  .mx-prev{left:-10px;}
-  .mx-next{right:-10px;}
-  @media(max-width: 992px){ .mx-prev{left:6px;} .mx-next{right:6px;} }
+    /* Pink quotes like the reference */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes{position:relative; padding-top:10px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:before,
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:after{
+      position:absolute; top:-8px; line-height:1; opacity:.9; color:var(--ldmx-accent);
+      font-family: Georgia, serif; font-size:72px; content:"“";
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:before{left:-4px; transform:translateY(-6%);}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:after{right:-4px; content:"”"; transform:translateY(-6%);}
 
-  /* Banner */
-  .mx-banner{position:relative; border-radius:12px; overflow:hidden; border:1px solid var(--mx-border);}
-  .mx-banner img{display:block; width:100%; height:auto; object-fit:cover;}
-  .mx-banner .mx-cap{position:absolute; left:12px; bottom:12px; background:rgba(255,255,255,.9); padding:8px 12px; border-radius:8px; font-size:13px;}
+    /* Card + content */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-card{
+      border:1px solid var(--ldmx-border); border-radius:14px;
+      padding:26px 22px; background:#fff; min-height:220px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.03);
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin-bottom:8px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-text{color:var(--ldmx-text); font-size:16px; line-height:1.7;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:12px; font-weight:600; color:var(--ldmx-text);}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:var(--ldmx-muted); margin-top:2px;}
 
-  /* Options */
-  .mx-swap .mx-grid{grid-template-columns:.8fr 1.2fr;}
-  .mx-swap .mx-left{order:2;} .mx-swap .mx-right{order:1;}
-</style>
+    /* Carousel (no lib) */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{min-width:100%;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-nav{position:absolute; inset:0; pointer-events:none;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-btn{
+      pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%);
+      width:42px; height:42px; border-radius:999px; background:#fff; border:1px solid var(--ldmx-border);
+      display:grid; place-items:center; box-shadow:0 4px 14px rgba(0,0,0,.05);
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-btn i{font-size:16px; color:#333;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:-10px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:-10px;}
+    @media (max-width: 992px){
+      [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:6px;} [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:6px;}
+    }
+  </style>
 
-<section class="mx-wrap {% if section.settings.swap_columns %}mx-swap{% endif %}">
-  <div class="mx-container">
-    <div class="mx-grid">
+  <div class="ldmx-container">
+    <div class="ldmx-grid">
+      <!-- LEFT: Banner -->
+      <div class="ldmx-left">
+        {% if section.settings.banner != blank %}
+          {% assign _link = section.settings.banner_link %}
+          {% if _link != blank %}<a href="{{ _link }}" class="ldmx-banner">{% endif %}
+            <div class="ldmx-banner">
+              <img
+                srcset="
+                  {{ section.settings.banner | image_url: width: 480 }} 480w,
+                  {{ section.settings.banner | image_url: width: 800 }} 800w,
+                  {{ section.settings.banner | image_url: width: 1200 }} 1200w
+                "
+                sizes="(max-width: 992px) 100vw, 46vw"
+                src="{{ section.settings.banner | image_url: width: 1200 }}"
+                alt="{{ section.settings.banner_alt | escape }}">
+              {% if section.settings.banner_caption != blank %}
+                <div class="ldmx-cap">{{ section.settings.banner_caption }}</div>
+              {% endif %}
+            </div>
+          {% if _link != blank %}</a>{% endif %}
+        {% else %}
+          <div class="ldmx-banner" style="aspect-ratio:4/3; display:grid; place-items:center;">
+            <div style="color:#aaa; font-size:14px;">Add a banner image in settings</div>
+          </div>
+        {% endif %}
+      </div>
 
-      <!-- LEFT: Reviews -->
-      <div class="mx-left">
-        <h2 class="mx-h">
-          <span class="mx-heart">❤</span>{{ section.settings.heading }}<span class="mx-heart">❤</span>
+      <!-- RIGHT: Reviews -->
+      <div class="ldmx-right">
+        <h2 class="ldmx-heading">
+          <span class="ldmx-heart">❤</span>
+          {{ section.settings.heading }}
+          <span class="ldmx-heart">❤</span>
         </h2>
+        <div class="ldmx-sub" aria-hidden="true">{{ section.settings.subheading }}</div>
 
-        <div class="mx-quotes">
-          <div class="mx-carousel" data-mx-carousel id="mx-cr-{{ section.id }}">
-            <div class="mx-track">
+        <div class="ldmx-quotes">
+          <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
+            <div class="ldmx-track">
               {% for block in section.blocks %}
                 {% if block.type == 'review' %}
-                <div class="mx-slide">
-                  <div class="mx-card">
+                <div class="ldmx-slide">
+                  <div class="ldmx-card">
                     {% if section.settings.show_stars %}
-                      <div class="mx-stars">
+                      <div class="ldmx-stars">
                         {% assign s = block.settings.stars | default: 5 %}
                         {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
                       </div>
                     {% endif %}
-                    <div class="mx-body">{{ block.settings.text }}</div>
-                    <div class="mx-author">{{ block.settings.author }}</div>
-                    <div class="mx-meta">
+                    <div class="ldmx-text">{{ block.settings.text }}</div>
+                    <div class="ldmx-author">{{ block.settings.author }}</div>
+                    <div class="ldmx-meta">
                       {% if block.settings.location %}{{ block.settings.location }}{% endif %}
                       {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
                     </div>
@@ -112,83 +155,57 @@
             </div>
 
             {% if section.blocks.size > 1 %}
-            <div class="mx-nav">
-              <button class="mx-btn mx-prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-              <button class="mx-btn mx-next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="ldmx-nav">
+              <button class="ldmx-btn ldmx-prev" type="button" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="ldmx-btn ldmx-next" type="button" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
             {% endif %}
           </div>
         </div>
       </div>
-
-      <!-- RIGHT: Banner -->
-      <div class="mx-right">
-        {% if section.settings.banner != blank %}
-          {% if section.settings.banner_link != blank %}<a href="{{ section.settings.banner_link }}" class="mx-banner">{% endif %}
-            <div class="mx-banner">
-              <img
-                srcset="
-                  {{ section.settings.banner | image_url: width: 400 }} 400w,
-                  {{ section.settings.banner | image_url: width: 800 }} 800w,
-                  {{ section.settings.banner | image_url: width: 1200 }} 1200w
-                "
-                sizes="(max-width: 992px) 100vw, 40vw"
-                src="{{ section.settings.banner | image_url: width: 1200 }}"
-                alt="{{ section.settings.banner_alt | escape }}">
-              {% if section.settings.banner_caption != blank %}
-                <div class="mx-cap">{{ section.settings.banner_caption }}</div>
-              {% endif %}
-            </div>
-          {% if section.settings.banner_link != blank %}</a>{% endif %}
-        {% else %}
-          <div class="mx-banner" style="aspect-ratio: 4/3; display:grid; place-items:center; background:#fafafa;">
-            <div style="color:#aaa; font-size:14px;">Add a banner image in section settings</div>
-          </div>
-        {% endif %}
-      </div>
-
     </div>
   </div>
+
+  <script>
+    (function(){
+      const root = document.querySelector('[data-ldmx="{{ ldmx_id }}"]');
+      if(!root) return;
+      const car = root.querySelector('#ldmx-cr-{{ ldmx_id }}');
+      if(!car) return;
+      const track = car.querySelector('.ldmx-track');
+      const slides = car.querySelectorAll('.ldmx-slide');
+      const prev = car.querySelector('.ldmx-prev');
+      const next = car.querySelector('.ldmx-next');
+      let idx = 0;
+
+      function go(n){
+        idx = (n + slides.length) % slides.length;
+        track.style.transform = 'translateX(' + (-idx*100) + '%)';
+      }
+      if(prev && next){
+        prev.addEventListener('click', ()=>go(idx-1));
+        next.addEventListener('click', ()=>go(idx+1));
+      }
+      {% if section.settings.auto_rotate %}
+      setInterval(()=>go(idx+1), {{ section.settings.rotate_ms | default: 5000 }});
+      {% endif %}
+    })();
+  </script>
 </section>
-
-<script>
-  (function(){
-    const id = "mx-cr-{{ section.id }}";
-    const root = document.getElementById(id);
-    if(!root) return;
-    const track = root.querySelector('.mx-track');
-    const slides = root.querySelectorAll('.mx-slide');
-    const prev = root.querySelector('.mx-prev');
-    const next = root.querySelector('.mx-next');
-    let idx = 0;
-
-    function go(n){
-      idx = (n + slides.length) % slides.length;
-      track.style.transform = `translateX(${-idx * 100}%)`;
-    }
-    if(prev && next){
-      prev.addEventListener('click', ()=>go(idx-1));
-      next.addEventListener('click', ()=>go(idx+1));
-    }
-    // optional auto-rotate
-    {% if section.settings.auto_rotate %}
-    setInterval(()=>go(idx+1), {{ section.settings.rotate_ms | default: 5000 }});
-    {% endif %}
-  })();
-</script>
 
 {% schema %}
 {
-  "name": "Mx Reviews With Banner",
+  "name": "LDMX  Reviews",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
+    { "type": "text", "id": "subheading", "label": "Optional cursive subheading",  },
     { "type": "color", "id": "accent_color", "label": "Accent (hearts & quotes)", "default": "#ff4aa2" },
     { "type": "checkbox", "id": "show_stars", "label": "Show star ratings", "default": true },
 
-    { "type": "checkbox", "id": "swap_columns", "label": "Swap columns (banner left, reviews right)", "default": false },
+    { "type": "checkbox", "id": "swap_columns", "label": "Make reviews wider (swap ratio)", "default": false },
     { "type": "range", "id": "container_width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Max container width", "default": 1300 },
 
-    { "type": "header", "content": "Right Banner" },
+    { "type": "header", "content": "Left Banner" },
     { "type": "image_picker", "id": "banner", "label": "Banner image" },
     { "type": "text", "id": "banner_alt", "label": "Banner alt text", "default": "Promotional banner" },
     { "type": "text", "id": "banner_caption", "label": "Optional caption" },
@@ -214,7 +231,7 @@
   "max_blocks": 12,
   "presets": [
     {
-      "name": "Mx Reviews",
+      "name": "LDMX Reviews + Banner",
       "blocks": [
         { "type": "review" },
         { "type": "review", "settings": { "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>", "author": "Sonia P.", "location": "Pune, India", "stars": 5 } }
