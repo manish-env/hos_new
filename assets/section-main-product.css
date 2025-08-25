@@ -2,6 +2,20 @@ product-info {
   display: block;
 }
 
+/* Bottom share under details: hidden by default */
+.product__share-under-details { display: none; }
+
+/* Mobile layout: show bottom share, hide top */
+@media screen and (max-width: 749px) {
+  .product__media-wrapper .product__share-under-media { display: none; }
+  .product__share-under-details { display: block; margin-top: 1.6rem; }
+}
+
+/* Tablet and up: hide bottom share, keep top */
+@media screen and (min-width: 750px) {
+  .product__share-under-details { display: none; }
+}
+
 .product {
   margin: 0;
 }
