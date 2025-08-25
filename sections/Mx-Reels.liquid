@@ -1,8 +1,5 @@
 {% comment %}
-  MX — Video Carousel (Reels) — Sonali skin
-  • Page/full width
-  • 9:16 reels
-  • Theme-aligned (light borders, subtle radius, magenta accent)
+  MX — Video Carousel (Reels) — Sonali XL (bigger cards + fixed arrows + Great Vibes title)
 {% endcomment %}
 
 <section
@@ -17,13 +14,18 @@
     --mx-accent: {{ section.settings.accent_color }};
   "
 >
+  <!-- Great Vibes font for title -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
   <div class="{% if section.settings.width_mode == 'page' %}page-width{% else %}mxvc__bleed{% endif %}">
-    {% if section.settings.heading != blank or section.settings.subheading != blank %}
-      <header class="mxvc__header">
-        {% if section.settings.heading != blank %}<h2 class="mxvc__title">{{ section.settings.heading | escape }}</h2>{% endif %}
-        {% if section.settings.subheading != blank %}<p class="mxvc__subtitle">{{ section.settings.subheading | escape }}</p>{% endif %}
-      </header>
-    {% endif %}
+    <header class="mxvc__header">
+      <h2 class="mxvc__title" style="font-family:'Great Vibes',cursive !important;font-weight:400 !important;">
+        {{ section.settings.heading | default: 'Watch & Buy' }}
+      </h2>
+      {% if section.settings.subheading != blank %}<p class="mxvc__subtitle">{{ section.settings.subheading | escape }}</p>{% endif %}
+    </header>
 
     <div class="mxvc__wrap">
       {% if section.settings.show_nav %}
@@ -33,14 +35,10 @@
       <div class="mxvc__track" data-track>
         {%- for block in section.blocks -%}
           {%- assign wrap_card = false -%}
-          {%- if block.settings.link_entire_card and block.settings.product != blank -%}
-            {%- assign wrap_card = true -%}
-          {%- endif -%}
+          {%- if block.settings.link_entire_card and block.settings.product != blank -%}{%- assign wrap_card = true -%}{%- endif -%}
 
           <article class="mxvc__slide" {{ block.shopify_attributes }}>
-            {% if wrap_card %}
-              <a class="mxvc__link" href="{{ block.settings.product.url }}" aria-label="{{ block.settings.product.title | escape }}">
-            {% endif %}
+            {% if wrap_card %}<a class="mxvc__link" href="{{ block.settings.product.url }}" aria-label="{{ block.settings.product.title | escape }}">{% endif %}
 
             <div class="mxvc__media">
               {% if block.settings.video_source == 'file' and block.settings.video != blank %}
@@ -58,8 +56,7 @@
                   {% if block.settings.poster != blank %}poster="{{ block.settings.poster | image_url: width: 1200 }}"{% endif %}
                   {% if section.settings.autoplay %}autoplay{% endif %}
                   {% if section.settings.show_controls %}controls{% endif %}
-                  loop muted playsinline preload="metadata"
-                >
+                  loop muted playsinline preload="metadata">
                   <source src="{{ block.settings.video_url }}" type="video/mp4">
                 </video>
               {% else %}
@@ -88,9 +85,7 @@
               {% endif %}
             </div>
 
-            {% if wrap_card %}
-              </a>
-            {% endif %}
+            {% if wrap_card %}</a>{% endif %}
           </article>
         {%- endfor -%}
       </div>
@@ -152,22 +147,18 @@
     #mxvc-{{ section.id }} { padding-top: var(--mx-pad-top); padding-bottom: var(--mx-pad-bottom); }
 
     /* Full-bleed container when width = full */
-    #mxvc-{{ section.id }} .mxvc__bleed {
-      width: 100vw;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-    }
+    #mxvc-{{ section.id }} .mxvc__bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
 
-    /* Header: small, uppercase */
-    .mxvc__header { margin-bottom: 14px; text-align:center; }
-    .mxvc__title { margin:0; font-size:15px; letter-spacing:.08em; text-transform:uppercase; font-weight:600; color: var(--color-foreground, #222); }
-    .mxvc__subtitle { margin:6px 0 0; opacity:.7; font-size:13px; }
+    /* Title */
+    .mxvc__header { margin-bottom: 16px; text-align: center; }
+    .mxvc__title { margin: 0; font-size: clamp(28px, 6vw, 46px); line-height: 1.1; color: var(--color-foreground, #222); }
+    .mxvc__subtitle { margin: 6px 0 0; opacity: .7; font-size: 13px; }
 
     .mxvc__wrap { position: relative; }
 
-    /* Track; hide scrollbar */
+    /* Track: bigger cards overall */
     #mxvc-{{ section.id }} .mxvc__track {
-      --mx-cols: 1.5;
+      --mx-cols: 1.05; /* mobile: very big */
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: calc(100% / var(--mx-cols));
@@ -176,54 +167,52 @@
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      padding: 0 12px 10px; /* room for arrows & edges */
+      scrollbar-width: none; -ms-overflow-style: none;
     }
     .mxvc__track::-webkit-scrollbar { display: none; }
     .mxvc__track.is-dragging { cursor: grabbing; }
-
     .mxvc__slide { scroll-snap-align: start; }
 
-    /* Card — light border, subtle radius */
+    /* Cards (reduced radius) */
     .mxvc__media {
       position: relative;
       width: 100%;
       aspect-ratio: 9 / 16;
-      border-radius: var(--mx-radius);
+      border-radius: var(--mx-radius); /* smaller radius via setting */
       overflow: hidden;
       background: #fafafa;
       border: 1px solid #ececec;
       box-shadow: none;
     }
     .mxvc__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .mxvc__placeholder { display:grid; place-items:center; color:#999; font-size:.9rem; height:100%; background:#f3f3f3; }
+    .mxvc__placeholder { display: grid; place-items: center; color: #999; font-size: .9rem; height: 100%; background: #f3f3f3; }
 
     /* Whole-card link */
-    .mxvc__link { display:block; text-decoration:none; color:inherit; }
+    .mxvc__link { display: block; text-decoration: none; color: inherit; }
 
-    /* Product overlay — tidy white chip */
+    /* Product overlay — bigger fonts; tighter radius */
     .mxvc__prod {
-      position: absolute; left: 10px; right: 10px; bottom: 10px;
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 8px 10px;
+      position: absolute; left: 12px; right: 12px; bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 10px 12px;
       background: rgba(255,255,255,.96);
       border: 1px solid #eaeaea;
-      border-radius: 10px;
+      border-radius: 6px; /* reduced */
       backdrop-filter: blur(1px);
     }
     .mxvc__prod-meta { display: grid; gap: 2px; min-width: 0; }
-    .mxvc__prod-title { font-weight: 600; font-size: .92rem; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mxvc__prod-price { font-size: .9rem; color: var(--mx-accent); }
+    .mxvc__prod-title { font-weight: 600; font-size: clamp(.98rem, 1.1vw, 1.25rem); color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mxvc__prod-price { font-size: clamp(.95rem, 1.05vw, 1.2rem); color: var(--mx-accent); }
     .mxvc__prod-price s { color: #999; margin-right: 6px; }
 
     .mxvc__prod-btn,
     .mxvc__prod-btn.is-ghost {
       flex: 0 0 auto;
-      padding: 7px 12px;
+      padding: 9px 14px;
       border-radius: 999px;
       font-weight: 600;
-      font-size: .84rem;
+      font-size: clamp(.92rem, 1vw, 1.1rem);
       text-decoration: none;
       line-height: 1;
       border: 1px solid var(--mx-accent);
@@ -232,24 +221,43 @@
     .mxvc__prod-btn:hover { filter: brightness(.95); }
     .mxvc__prod-btn.is-ghost { background: transparent; color: var(--mx-accent); cursor: default; }
 
-    /* Nav buttons — light, subtle */
+    /* Nav arrows — fixed layout */
     .mxvc__nav {
       position: absolute; top: 50%; transform: translateY(-50%);
-      border: 1px solid #e6e6e6; background: #f7f7f7; color: #777;
-      width: 36px; height: 36px; border-radius: 999px;
-      display: grid; place-items: center; cursor: pointer; z-index: 2;
+      width: 44px; height: 44px; border-radius: 999px;
+      border: 1px solid #e5e5e5; background: #fff; color: #555;
+      display: grid; place-items: center; cursor: pointer; z-index: 5;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
     }
-    .mxvc__nav:hover { background:#efefef; color:#555; }
-    .mxvc__nav--prev { left: 6px; }
-    .mxvc__nav--next { right: 6px; }
+    .mxvc__nav:hover { background:#f7f7f7; }
+    .mxvc__nav--prev { left: 2px; }
+    .mxvc__nav--next { right: 2px; }
 
-    /* Columns */
+    /* Tablet */
     @media (min-width: 768px) {
-      #mxvc-{{ section.id }} .mxvc__track { --mx-cols: 3; }
+      #mxvc-{{ section.id }} .mxvc__track { --mx-cols: 2.2; padding: 0 16px 10px; }
     }
+
+    /* Desktop — fewer columns => bigger cards */
     @media (min-width: 1024px) {
-      #mxvc-{{ section.id }}[data-mode="page"] .mxvc__track { --mx-cols: 4; }
-      #mxvc-{{ section.id }}[data-mode="full"] .mxvc__track { --mx-cols: 5; }
+      #mxvc-{{ section.id }}[data-mode="page"] .mxvc__track { --mx-cols: 3; }  /* was 4 */
+      #mxvc-{{ section.id }}[data-mode="full"] .mxvc__track { --mx-cols: 4; }  /* was 5 */
+      .mxvc__nav--prev { left: 8px; }
+      .mxvc__nav--next { right: 8px; }
+    }
+
+    /* XL screens — keep them big */
+    @media (min-width: 1440px) {
+      #mxvc-{{ section.id }} .mxvc__prod-title { font-size: clamp(1.05rem, .9vw, 1.3rem); }
+      #mxvc-{{ section.id }} .mxvc__prod-price { font-size: clamp(1rem, .85vw, 1.25rem); }
+      #mxvc-{{ section.id }} .mxvc__prod-btn { font-size: clamp(.98rem, .85vw, 1.15rem); padding: 10px 16px; }
+    }
+
+    /* Mobile font upsize (just in case) */
+    @media (max-width: 767px) {
+      .mxvc__prod-title { font-size: 1.06rem; }
+      .mxvc__prod-price { font-size: 1.02rem; }
+      .mxvc__prod-btn, .mxvc__prod-btn.is-ghost { font-size: .98rem; padding: 10px 16px; }
     }
   </style>
 </section>
@@ -260,11 +268,11 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Latest Reels" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Watch & Buy" },
     { "type": "text", "id": "subheading", "label": "Subheading", },
     { "type": "select", "id": "width_mode", "label": "Section width", "default": "page", "options": [
-      { "value": "page", "label": "Page width (4 on desktop)" },
-      { "value": "full", "label": "Full width (5 on desktop)" }
+      { "value": "page", "label": "Page width (3 on desktop)" },
+      { "value": "full", "label": "Full width (4 on desktop)" }
     ]},
     { "type": "select", "id": "color_scheme", "label": "Color scheme", "default": "background-1", "options": [
       { "value": "background-1", "label": "Background 1" },
@@ -273,7 +281,7 @@
     ]},
     { "type": "color", "id": "accent_color", "label": "Accent (price & CTA)", "default": "#FA05E8" },
     { "type": "range", "id": "gap", "label": "Card gap (px)", "min": 8, "max": 32, "step": 1, "default": 16 },
-    { "type": "range", "id": "radius", "label": "Card corner radius (px)", "min": 0, "max": 16, "step": 1, "default": 8 },
+    { "type": "range", "id": "radius", "label": "Card corner radius (px)", "min": 0, "max": 16, "step": 1, "default": 6 },
     { "type": "checkbox", "id": "autoplay", "label": "Autoplay videos (muted)", "default": true },
     { "type": "checkbox", "id": "show_controls", "label": "Show video controls", "default": false },
     { "type": "checkbox", "id": "show_nav", "label": "Show prev/next buttons", "default": true },
@@ -300,6 +308,6 @@
     }
   ],
   "max_blocks": 24,
-  "presets": [{ "name": "MX Reels – Sonali", "category": "Media" }]
+  "presets": [{ "name": "MX Reels – Sonali XL", "category": "Media" }]
 }
 {% endschema %}
