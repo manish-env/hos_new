@@ -49,6 +49,38 @@ menu-drawer > details[open] > summary::before {
 
 /* Mobile: make drawer full-screen from the very top */
 @media screen and (max-width: 989px) {
+  /* Ensure the MENU row under the search renders visibly */
+  .menu-drawer__top { display: block; }
+  .menu-drawer__titlebar {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+    background: rgb(var(--color-background));
+    z-index: 100002; /* above list items */
+  }
+  .menu-drawer__titlebar .menu-title {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: rgb(var(--color-foreground));
+  }
+  .menu-drawer__close-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    padding: .4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-drawer__close-icon .svg-wrapper { width: 1.6rem; height: 1.6rem; display: inline-block; }
   /* Explicit mobile border for the requested selector */
   .header__search-inline--clean .search__input.field__input,
   .menu-drawer__search .header__search-inline--clean .search__input.field__input {
