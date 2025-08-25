@@ -22,7 +22,7 @@
         "title": {
           "type": "title",
           "settings": {
-            "title_size": "medium",
+            "title_size": "small",
             "title_align": "center"
           }
         },
