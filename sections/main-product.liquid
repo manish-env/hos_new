@@ -579,6 +579,17 @@
                       function update(){
                         var qty = getQuantity();
                         var extras = getExtrasUnit() * qty; // apply service per quantity
+                        try {
+                          var sel = document.querySelector('.options-to-buy input[type="radio"]:checked');
+                          var dbg = {
+                            selectedService: sel ? sel.value : null,
+                            extraUnit: sel ? parseInt((sel.dataset && sel.dataset.extraPrice) || sel.getAttribute('data-extra-price') || '0', 10) : 0,
+                            qty: qty,
+                            variantPrice: getCurrentVariantPrice()
+                          };
+                          dbg.total = dbg.variantPrice * qty + dbg.extraUnit * qty;
+                          console.debug('[OptionsToBuy] update', dbg);
+                        } catch(_e) {}
                         if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + formatMoney(extras) + ')' : ''; }
                         var totalEl = document.getElementById('OptionsTotal-{{ section.id }}') || root.querySelector('.product-form__buttons .options-total__amount');
                         if(totalEl){
@@ -646,6 +657,8 @@
                             } else {
                               console.warn('No add-on product mapped for selected service; only main product will be added.');
                             }
+
+                            console.debug('[OptionsToBuy] add to cart payload', items);
 
                             fetch('/cart/add.js', {
                               method: 'POST',
