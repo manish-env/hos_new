@@ -337,6 +337,18 @@ a.product__text {
   justify-content: space-between;
 }
 
+/* Make the Add to Cart button sit on the far right on desktop */
+.product-form__buttons .product-form__submit {
+  margin-left: auto;
+  width: auto; /* override Dawn full-width */
+  min-width: 240px;
+}
+
+/* If dynamic checkout is visible, ensure payment button doesn't break alignment */
+.product-form__buttons .shopify-payment-button {
+  margin-left: auto;
+}
+
 .product-form__buttons {
   display: flex;
   gap: 1rem;
@@ -366,6 +378,10 @@ a.product__text {
   }
   .options-total {
     justify-content: flex-start;
+  }
+  .product-form__buttons .product-form__submit {
+    width: 100%;
+    margin-left: 0;
   }
 }
 
