@@ -175,15 +175,17 @@
     if limit == null or limit > 1
       assign is_not_limited_to_single_item = true
     endif
+    assign show_thumbs_desktop = false
+    if section.settings.gallery_layout contains 'thumbnail'
+      assign show_thumbs_desktop = true
+    elsif section.settings.gallery_layout == 'thumbnail_left'
+      assign show_thumbs_desktop = true
+    endif
   -%}
-  {%- if is_not_limited_to_single_item
-    and media_count > 1
-    and (section.settings.gallery_layout contains 'thumbnail' or section.settings.gallery_layout == 'thumbnail_left')
-    or section.settings.mobile_thumbnails == 'show'
-  -%}
+  {%- if is_not_limited_to_single_item and media_count > 1 and show_thumbs_desktop or section.settings.mobile_thumbnails == 'show' -%}
     <slider-component
       id="GalleryThumbnails-{{ section.id }}"
-      class="thumbnail-slider slider-mobile-gutter quick-add-hidden{% unless section.settings.gallery_layout contains 'thumbnail' or section.settings.gallery_layout == 'thumbnail_left' %} medium-hide large-up-hide{% endunless %}{% if section.settings.mobile_thumbnails != 'show' %} small-hide{% endif %}{% if media_count <= 3 %} thumbnail-slider--no-slide{% endif %}"
+      class="thumbnail-slider slider-mobile-gutter quick-add-hidden{% unless show_thumbs_desktop %} medium-hide large-up-hide{% endunless %}{% if section.settings.mobile_thumbnails != 'show' %} small-hide{% endif %}{% if media_count <= 3 %} thumbnail-slider--no-slide{% endif %}"
     >
       <button
         type="button"
