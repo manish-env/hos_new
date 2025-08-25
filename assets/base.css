@@ -784,6 +784,17 @@ summary::-webkit-details-marker {
   margin-bottom: 3rem;
 }
 
+/* Center wrappers so titles are centrally aligned */
+.title-wrapper,
+.collection__title,
+.title-wrapper-with-link {
+  text-align: center;
+}
+
+.title-wrapper-with-link {
+  justify-content: center; /* center title; secondary links will wrap if present */
+}
+
 .title-wrapper-with-link {
   display: flex;
   justify-content: space-between;
@@ -807,6 +818,9 @@ summary::-webkit-details-marker {
   color: #FA05E8; /* pink title color */
   font-family: 'Libre Baskerville', Baskerville, 'Baskerville Old Face', 'Times New Roman', serif;
   font-weight: 400;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .title-wrapper > .title::before,
