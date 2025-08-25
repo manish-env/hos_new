@@ -1192,7 +1192,7 @@ a.product__text {
   .product--thumbnail_left .product__media-wrapper media-gallery[data-desktop-layout="thumbnail_left"] {
     position: relative;
     display: block;
-    padding-left: 10.2rem; /* 9rem thumbs + 1.2rem gap */
+    padding-left: 12rem; /* 10.8rem thumbs + 1.2rem gap */
   }
 
   /* Keep the live region within the main content area */
@@ -1211,8 +1211,8 @@ a.product__text {
     position: absolute;
     left: 0;
     top: 0;
-    width: 9rem;
-    max-width: 9rem;
+    width: 10.8rem;
+    max-width: 10.8rem;
     margin: 0;
   }
 
