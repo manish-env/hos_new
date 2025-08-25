@@ -60,8 +60,8 @@
   cursor: pointer;
   height: 4.5rem;
   padding: 0 1.5rem;
-  min-width: 25rem;
-  margin-top: 2.4rem;
+  min-width: auto; /* prevent overflow on narrow screens */
+  margin-top: 0; /* align with adjacent sort control */
   border: 0.1rem solid rgba(var(--color-foreground), 0.55);
 }
 
@@ -73,8 +73,8 @@
   align-items: center;
   display: flex;
   flex-grow: 1;
-  border:1px solid;
-  justify-content: flex-end;
+  border: 0; /* remove unintended border causing visual split */
+  justify-content: flex-start; /* avoid pushing controls apart */
 }
 
 .facet-filters__field .select {
@@ -1469,6 +1469,16 @@ input.mobile-facets__checkbox {
   .mobile-facets__submenu .facets-layout-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  /* Keep Filter and Sort on one row, evenly spaced */
+  #FacetFiltersFormMobile,
+  #FacetSortMobileBar { display: flex; align-items: center; gap: 1rem; }
+  #FacetFiltersFormMobile .mobile-facets__open-wrapper { flex: 1 1 50%; }
+  #FacetSortMobileBar .facet-filters { flex: 1 1 50%; padding-left: 0; }
+  #FacetSortMobileBar .facet-filters__field { justify-content: flex-end; }
+  #FacetSortMobileBar .sort-disclosure { width: 100%; }
+  #FacetSortMobileBar .sort-disclosure > summary { width: 100%; padding: 0.8rem 1rem; border: 1px solid rgba(var(--color-foreground), 0.15); }
+  #FacetSortMobileBar .facet-filters__label { margin: 0; }
 
   /* No extra bottom padding required for top sticky */
 }
