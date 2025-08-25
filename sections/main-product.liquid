@@ -598,10 +598,12 @@
                       // Recalculate after default selection is ensured
                       update();
 
-                      // Listen to specific radio changes and general changes
+                      // Listen to specific radio changes and quantity changes
                       document.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
                         r.addEventListener('change', update);
                       });
+                      var qtyInput = root.querySelector('input[name="quantity"]');
+                      if(qtyInput){ qtyInput.addEventListener('input', update); qtyInput.addEventListener('change', update); }
                       root.addEventListener('change', function(){ update(); });
                       // Initial updates: immediate, after DOM ready, and after a short delay to ensure buy-buttons snippet is in DOM
                       update();
@@ -621,7 +623,7 @@
                             evt.preventDefault();
 
                             var fd = new FormData(form);
-                            var mainId = fd.get('id');
+                            var mainId = parseInt(fd.get('id'), 10);
                             var qty = parseInt(fd.get('quantity') || '1', 10);
                             if(!qty || qty < 1) qty = 1;
 
@@ -637,7 +639,10 @@
 
                             var items = [{ id: mainId, quantity: qty, properties: properties }];
                             if(selectedAddonVariant){
-                              items.push({ id: selectedAddonVariant, quantity: 1, properties: { 'Add-on for': mainId } });
+                              var addonId = parseInt(selectedAddonVariant, 10);
+                              if(!isNaN(addonId)){
+                                items.push({ id: addonId, quantity: 1, properties: { 'Add-on for': mainId } });
+                              }
                             } else {
                               console.warn('No add-on product mapped for selected service; only main product will be added.');
                             }
@@ -647,14 +652,23 @@
                               headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                               body: JSON.stringify({ items: items })
                             })
-                            .then(function(r){ return r.json(); })
+                            .then(function(r){
+                              if(!r.ok){ throw r; }
+                              return r.json();
+                            })
                             .then(function(){
                               // Redirect to cart for clarity and consistency
                               window.location.href = '/cart';
                             })
-                            .catch(function(){ form.submit(); });
-                          } catch (e) { /* fallback to default */ }
-                        }, { capture: true });
+                            .catch(function(err){
+                              console.error('Add to cart failed', err);
+                              // Fallback to normal submission so the main product still gets added
+                              form.submit();
+                            });
+                          } catch(ex) {
+                            console.error(ex);
+                          }
+                        }, { passive: false });
                       }
                     })();
                   </script>
