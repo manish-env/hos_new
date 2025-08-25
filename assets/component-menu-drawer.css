@@ -49,6 +49,33 @@ menu-drawer > details[open] > summary::before {
 
 /* Mobile: make drawer full-screen from the very top */
 @media screen and (max-width: 989px) {
+  /* Hardcoded visual fallback: MENU row and close icon under search */
+  .menu-drawer__search { position: relative; }
+  .menu-drawer__search::after {
+    content: 'MENU';
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: rgb(var(--color-foreground));
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+    background: rgb(var(--color-background));
+  }
+  /* Visual X icon at right (note: purely visual; use the header close button to actually close) */
+  .menu-drawer__search::before {
+    content: '×';
+    position: absolute;
+    right: 1rem;
+    top: calc(100% + 0.9rem);
+    transform: translateY(-50%);
+    font-size: 1.6rem;
+    line-height: 1;
+    color: rgb(var(--color-foreground));
+    pointer-events: none;
+  }
   /* Ensure the MENU row under the search renders visibly */
   .menu-drawer__top { display: block; }
   .menu-drawer__titlebar {
