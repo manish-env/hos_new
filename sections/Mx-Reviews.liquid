@@ -1,94 +1,71 @@
-{% comment %}
-  LDMX – Reviews (Right) + Banner (Left)
-  • Fully namespaced with ldmx- classes and data-ldmx="{{ section.id }}" scope
-  • Desktop: Banner left, Reviews right (toggle to swap)
-  • Mobile: Stacked (banner above, reviews below)
-  • Page-width container; no global selectors
-{% endcomment %}
-
 {%- assign ldmx_id = section.id -%}
 <section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}">
 
-  <!-- Fonts (scoped use) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Allura&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* ====== SCOPE ALL STYLES TO THIS SECTION ONLY ====== */
+    /* scope everything to this section */
     [data-ldmx="{{ ldmx_id }}"]{
       --ldmx-accent: {{ section.settings.accent_color }};
-      --ldmx-text: #222;
-      --ldmx-muted:#666;
-      --ldmx-border:#ececec;
-      --ldmx-maxw: {{ section.settings.container_width | default: 1300 }}px;
+      --ldmx-text:#222; --ldmx-muted:#666; --ldmx-maxw: {{ section.settings.container_width | default: 1300 }}px;
     }
     [data-ldmx="{{ ldmx_id }}"] .ldmx-container{max-width:var(--ldmx-maxw); margin:0 auto; padding:0 16px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{
-      display:grid; grid-template-columns: {{ section.settings.swap_columns | default: false | json | replace: 'true', '.58fr 1.42fr' | replace: 'false', '1fr 1.2fr' }};
-      gap:40px; align-items:center;
-    }
-    @media (max-width: 992px){
-      [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns:1fr; gap:22px;}
-    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{display:grid; grid-template-columns: 1fr 1.2fr; gap:40px; align-items:center;}
+    @media(max-width:992px){ [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns:1fr; gap:22px;} }
 
-    /* Banner */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-banner{
-      border:1px solid var(--ldmx-border); border-radius:14px; overflow:hidden; position:relative; background:#fafafa;
-    }
+    /* Banner (left) */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-banner{border-radius:14px; overflow:hidden; position:relative;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-banner img{width:100%; height:auto; display:block; object-fit:cover;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-cap{
-      position:absolute; left:12px; bottom:12px; background:rgba(255,255,255,.92);
-      padding:8px 12px; border-radius:10px; font-size:13px; color:var(--ldmx-text);
-      border:1px solid var(--ldmx-border);
-    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-cap{position:absolute; left:12px; bottom:12px; background:rgba(255,255,255,.92); padding:8px 12px; border-radius:10px; font-size:13px; color:var(--ldmx-text);}
 
-    /* Reviews block */
+    /* Heading: Great Vibes */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-heading{
-      display:flex; align-items:center; justify-content:flex-start; gap:10px; margin:0 0 14px;
-      font-family:"Playfair Display", Georgia, serif; font-weight:600; letter-spacing:.2px;
-      font-size: clamp(24px, 3.2vw, 36px); color:var(--ldmx-text);
+      font-family:"Great Vibes", cursive; font-weight:400; color:var(--ldmx-text);
+      font-size: clamp(28px, 3.4vw, 42px); text-align:left; margin:0 0 14px;
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-heart{color:var(--ldmx-accent); font-size: .9em; transform:translateY(-2px);}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-sub{font-family:"Allura", cursive; font-size:1.1em; color:var(--ldmx-accent);}
 
-    /* Pink quotes like the reference */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes{position:relative; padding-top:10px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:before,
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:after{
-      position:absolute; top:-8px; line-height:1; opacity:.9; color:var(--ldmx-accent);
-      font-family: Georgia, serif; font-size:72px; content:"“";
+    /* Review block with FULL quotes */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap{
+      position:relative; padding: 24px 36px 20px; /* breathable, no card */
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:before{left:-4px; transform:translateY(-6%);}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-quotes:after{right:-4px; content:"”"; transform:translateY(-6%);}
-
-    /* Card + content */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-card{
-      border:1px solid var(--ldmx-border); border-radius:14px;
-      padding:26px 22px; background:#fff; min-height:220px;
-      box-shadow: 0 6px 18px rgba(0,0,0,.03);
+    /* open/close quotes covering whole review area */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:before,
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:after{
+      position:absolute; z-index:0; color:var(--ldmx-accent); opacity:.9; line-height:1;
+      font-family: Georgia, serif; font-weight:700; pointer-events:none;
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin-bottom:8px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-text{color:var(--ldmx-text); font-size:16px; line-height:1.7;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:12px; font-weight:600; color:var(--ldmx-text);}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:var(--ldmx-muted); margin-top:2px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:before{
+      content:"“"; left:0; top:-6px; font-size:84px; transform:translate(-8px,0);
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-wrap:after{
+      content:"”"; right:0; bottom:-12px; font-size:84px; transform:translate(8px,0);
+    }
 
-    /* Carousel (no lib) */
+    /* Review content (no card) */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{
+      position:relative; z-index:1; text-align:center; max-width:780px; margin:0 auto;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-text{font-size:16px; line-height:1.8; color:var(--ldmx-text); margin-bottom:14px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin:6px 0 8px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:4px; font-weight:700; color:#8a2be2;} /* violet like screenshot */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:var(--ldmx-muted); font-style:italic;}
+
+    /* Carousel */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{min-width:100%;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-nav{position:absolute; inset:0; pointer-events:none;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-btn{
       pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%);
-      width:42px; height:42px; border-radius:999px; background:#fff; border:1px solid var(--ldmx-border);
-      display:grid; place-items:center; box-shadow:0 4px 14px rgba(0,0,0,.05);
+      width:42px; height:42px; border-radius:999px; background:transparent; border:none;
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-btn i{font-size:16px; color:#333;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:-10px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:-10px;}
-    @media (max-width: 992px){
-      [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:6px;} [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:6px;}
-    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-btn i{font-size:22px; color:#9b9b9b;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:6px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:6px;}
+
   </style>
 
   <div class="ldmx-container">
@@ -105,7 +82,7 @@
                   {{ section.settings.banner | image_url: width: 800 }} 800w,
                   {{ section.settings.banner | image_url: width: 1200 }} 1200w
                 "
-                sizes="(max-width: 992px) 100vw, 46vw"
+                sizes="(max-width: 992px) 100vw, 44vw"
                 src="{{ section.settings.banner | image_url: width: 1200 }}"
                 alt="{{ section.settings.banner_alt | escape }}">
               {% if section.settings.banner_caption != blank %}
@@ -114,43 +91,38 @@
             </div>
           {% if _link != blank %}</a>{% endif %}
         {% else %}
-          <div class="ldmx-banner" style="aspect-ratio:4/3; display:grid; place-items:center;">
+          <div class="ldmx-banner" style="aspect-ratio:4/3; display:grid; place-items:center; background:#f6f6f6;">
             <div style="color:#aaa; font-size:14px;">Add a banner image in settings</div>
           </div>
         {% endif %}
       </div>
 
-      <!-- RIGHT: Reviews -->
+      <!-- RIGHT: Reviews (title + full-quote block) -->
       <div class="ldmx-right">
-        <h2 class="ldmx-heading">
-          <span class="ldmx-heart">❤</span>
-          {{ section.settings.heading }}
-          <span class="ldmx-heart">❤</span>
-        </h2>
-        <div class="ldmx-sub" aria-hidden="true">{{ section.settings.subheading }}</div>
+        <h2 class="ldmx-heading">{{ section.settings.heading }}</h2>
 
-        <div class="ldmx-quotes">
+        <div class="ldmx-review-wrap">
           <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
             <div class="ldmx-track">
               {% for block in section.blocks %}
-                {% if block.type == 'review' %}
-                <div class="ldmx-slide">
-                  <div class="ldmx-card">
-                    {% if section.settings.show_stars %}
-                      <div class="ldmx-stars">
-                        {% assign s = block.settings.stars | default: 5 %}
-                        {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
-                      </div>
-                    {% endif %}
-                    <div class="ldmx-text">{{ block.settings.text }}</div>
-                    <div class="ldmx-author">{{ block.settings.author }}</div>
-                    <div class="ldmx-meta">
-                      {% if block.settings.location %}{{ block.settings.location }}{% endif %}
-                      {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
+              {% if block.type == 'review' %}
+              <div class="ldmx-slide">
+                <div class="ldmx-review">
+                  <div class="ldmx-text">{{ block.settings.text }}</div>
+                  {% if section.settings.show_stars %}
+                    <div class="ldmx-stars">
+                      {% assign s = block.settings.stars | default: 5 %}
+                      {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
                     </div>
+                  {% endif %}
+                  <div class="ldmx-author">{{ block.settings.author }}</div>
+                  <div class="ldmx-meta">
+                    {% if block.settings.location %}{{ block.settings.location }}{% endif %}
+                    {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
                   </div>
                 </div>
-                {% endif %}
+              </div>
+              {% endif %}
               {% endfor %}
             </div>
 
@@ -177,32 +149,20 @@
       const prev = car.querySelector('.ldmx-prev');
       const next = car.querySelector('.ldmx-next');
       let idx = 0;
-
-      function go(n){
-        idx = (n + slides.length) % slides.length;
-        track.style.transform = 'translateX(' + (-idx*100) + '%)';
-      }
-      if(prev && next){
-        prev.addEventListener('click', ()=>go(idx-1));
-        next.addEventListener('click', ()=>go(idx+1));
-      }
-      {% if section.settings.auto_rotate %}
-      setInterval(()=>go(idx+1), {{ section.settings.rotate_ms | default: 5000 }});
-      {% endif %}
+      function go(n){ idx = (n + slides.length) % slides.length; track.style.transform = 'translateX(' + (-idx*100) + '%)'; }
+      if(prev && next){ prev.addEventListener('click', ()=>go(idx-1)); next.addEventListener('click', ()=>go(idx+1)); }
+      {% if section.settings.auto_rotate %} setInterval(()=>go(idx+1), {{ section.settings.rotate_ms | default: 5000 }}); {% endif %}
     })();
   </script>
 </section>
 
 {% schema %}
 {
-  "name": "LDMX  Reviews",
+  "name": "LDMX – Reviews",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
-    { "type": "text", "id": "subheading", "label": "Optional cursive subheading",  },
-    { "type": "color", "id": "accent_color", "label": "Accent (hearts & quotes)", "default": "#ff4aa2" },
+    { "type": "text", "id": "heading", "label": "Heading (Great Vibes)", "default": "Customer Reviews" },
+    { "type": "color", "id": "accent_color", "label": "Accent (quotes)", "default": "#ff4aa2" },
     { "type": "checkbox", "id": "show_stars", "label": "Show star ratings", "default": true },
-
-    { "type": "checkbox", "id": "swap_columns", "label": "Make reviews wider (swap ratio)", "default": false },
     { "type": "range", "id": "container_width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Max container width", "default": 1300 },
 
     { "type": "header", "content": "Left Banner" },
@@ -220,23 +180,15 @@
       "type": "review",
       "name": "Review",
       "settings": [
+        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>I just wanted to take a moment to sincerely thank Like A Diva for the effort and due diligence. The outfit is absolutely beautiful, and I’m really impressed with the quality.</p>" },
         { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },
-        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>" },
-        { "type": "text", "id": "author", "label": "Author", "default": "Kulwinder K Samrai" },
-        { "type": "text", "id": "location", "label": "Location", "default": "Gravesend, United Kingdom" },
-        { "type": "text", "id": "date", "label": "Date (e.g., 06/08/2025)" }
+        { "type": "text", "id": "author", "label": "Author", "default": "Bernice" },
+        { "type": "text", "id": "location", "label": "Location", "default": "London, United Kingdom" },
+        { "type": "text", "id": "date", "label": "Date (optional)" }
       ]
     }
   ],
   "max_blocks": 12,
-  "presets": [
-    {
-      "name": "LDMX Reviews + Banner",
-      "blocks": [
-        { "type": "review" },
-        { "type": "review", "settings": { "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>", "author": "Sonia P.", "location": "Pune, India", "stars": 5 } }
-      ]
-    }
-  ]
+  "presets": [{ "name": "LDMX – Reviews", "blocks": [{ "type": "review" }] }]
 }
 {% endschema %}
