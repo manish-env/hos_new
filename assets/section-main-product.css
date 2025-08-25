@@ -366,12 +366,12 @@ a.product__text {
 .options-total__label {
   font-weight: 500; /* per request */
   letter-spacing: 0.02em;
-  font-size: 18px;
+  font-size: 25px;
 }
 .options-total__amount {
   color: #FA05E8; /* discounted price color preference */
   font-weight: 500; /* per request */
-  font-size: 22px;
+  font-size: 25px;
   white-space: nowrap; /* prevent currency/amount wrapping */
 }
 
@@ -383,8 +383,8 @@ a.product__text {
   .options-total {
     justify-content: flex-start;
   }
-  .options-total__label { font-size: 16px; }
-  .options-total__amount { font-size: 20px; }
+  .options-total__label { font-size: 25px; }
+  .options-total__amount { font-size: 25px; }
   .product-form__buttons .product-form__submit {
     width: 100%;
     margin-left: 0;
