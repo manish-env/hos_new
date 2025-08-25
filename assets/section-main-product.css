@@ -1753,8 +1753,8 @@ a.product__text {
 .product__share-under-media {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* push wishlist to the right */
-  gap: 1rem;
+  justify-content: center; /* center everything under the image */
+  gap: 1.2rem;
   margin-top: 1.2rem;
 }
 
@@ -1804,9 +1804,8 @@ a.product__text {
   color: #FA05E8;
 }
 
-.product__share-under-media .product__share-right {
-  margin-left: auto;
-}
+/* Right group no longer pushed to the far right; keep centered inline */
+.product__share-under-media .product__share-right { margin-left: 0; }
 
 .product__wishlist-btn {
   display: inline-flex;
