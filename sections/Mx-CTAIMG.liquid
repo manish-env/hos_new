@@ -1,0 +1,187 @@
+{% comment %}
+  MX – Dual Image CTA Section
+{% endcomment %}
+
+<section class="mx-dual-cta" id="mx-dual-cta-{{ section.id }}">
+  <div class="mx-container">
+    <div class="mx-grid">
+      
+      <!-- Blank Image -->
+      <div class="mx-item">
+        {% if section.settings.image_1 != blank %}
+          <div class="mx-img-wrapper">
+            <img src="{{ section.settings.image_1 | image_url: width: 800 }}" alt="Image 1" loading="lazy">
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Image with CTA -->
+      <div class="mx-item">
+        {% if section.settings.image_2 != blank %}
+          <div class="mx-img-wrapper">
+            <img src="{{ section.settings.image_2 | image_url: width: 800 }}" alt="Image 2" loading="lazy">
+            <div class="mx-overlay">
+              <h2 class="mx-title">{{ section.settings.title }}</h2>
+              <div class="mx-cta">
+                {% if section.settings.facebook_link != blank %}
+                  <a href="{{ section.settings.facebook_link }}" class="mx-btn" target="_blank">FOLLOW US ON <i class="fa-brands fa-facebook-f"></i></a>
+                {% endif %}
+                {% if section.settings.instagram_link != blank %}
+                  <a href="{{ section.settings.instagram_link }}" class="mx-btn" target="_blank">FOLLOW US ON <i class="fa-brands fa-instagram"></i></a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.mx-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+.mx-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.mx-item {
+  position: relative;
+  overflow: hidden;
+}
+.mx-img-wrapper {
+  position: relative;
+}
+.mx-img-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Hover border effect */
+.mx-img-wrapper::before,
+.mx-img-wrapper::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+.mx-img-wrapper::before {
+  top: 0; left: 0; right: 0; margin: auto;
+}
+.mx-img-wrapper::after {
+  bottom: 0; left: 0; right: 0; margin: auto;
+}
+.mx-img-wrapper:hover::before,
+.mx-img-wrapper:hover::after {
+  width: 100%;
+}
+
+.mx-img-wrapper span::before,
+.mx-img-wrapper span::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 0;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+.mx-img-wrapper span::before {
+  left: 0; top: 0; bottom: 0; margin: auto;
+}
+.mx-img-wrapper span::after {
+  right: 0; top: 0; bottom: 0; margin: auto;
+}
+.mx-img-wrapper:hover span::before,
+.mx-img-wrapper:hover span::after {
+  height: 100%;
+}
+
+/* Overlay Content */
+.mx-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
+.mx-img-wrapper:hover .mx-overlay {
+  opacity: 1;
+}
+.mx-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+.mx-cta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.mx-btn {
+  padding: 10px 20px;
+  border: 1px solid #fff;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.mx-btn:hover {
+  background: #fff;
+  color: #000;
+}
+@media(max-width:768px){
+  .mx-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "MX Dual Image CTA",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Blank Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image with CTA"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "CTA Title",
+      "default": "Follow us on Facebook / Instagram for exciting updates!"
+    },
+    {
+      "type": "url",
+      "id": "facebook_link",
+      "label": "Facebook Link"
+    },
+    {
+      "type": "url",
+      "id": "instagram_link",
+      "label": "Instagram Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MX Dual Image CTA"
+    }
+  ]
+}
+{% endschema %}
