@@ -77,6 +77,22 @@
     {%- endif -%}
 
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+      <!-- Mobile-only simple toolbar: Filter button + Sort select (does not rely on snippet UI) -->
+      <div class="hos-mobile-toolbar medium-hide large-up-hide page-width">
+        <button type="button" class="hos-mobile-toolbar__btn" id="hosFilterBtn">
+          <span class="svg-wrapper">{{- 'icon-filter.svg' | inline_asset_content -}}</span>
+          <span>Filter</span>
+        </button>
+        <div class="hos-mobile-toolbar__sort">
+          <label for="hosSortSelect" class="visually-hidden">{{ 'products.facets.sort_by_label' | t }}</label>
+          {%- assign sort_by_current = collection.sort_by | default: collection.default_sort_by -%}
+          <select id="hosSortSelect" aria-label="{{ 'products.facets.sort_by_label' | t }}">
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value | escape }}"{% if option.value == sort_by_current %} selected{% endif %}>{{ option.name | escape }}</option>
+            {%- endfor -%}
+          </select>
+        </div>
+      </div>
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
@@ -169,6 +185,40 @@
       </div>
     </div>
   {%- endpaginate -%}
+  <script>
+    (function() {
+      // Open existing mobile filter drawer when our custom button is clicked
+      var filterBtn = document.getElementById('hosFilterBtn');
+      if (filterBtn) {
+        filterBtn.addEventListener('click', function() {
+          var summary = document.querySelector('menu-drawer .mobile-facets__disclosure > summary');
+          if (summary) summary.click();
+        });
+      }
+
+      // Apply sort by updating query param and reloading
+      var sortSelect = document.getElementById('hosSortSelect');
+      if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+          try {
+            var url = new URL(window.location.href);
+            url.searchParams.set('sort_by', this.value);
+            window.location.href = url.toString();
+          } catch (e) {
+            // Fallback
+            var qs = window.location.search;
+            var has = qs.indexOf('sort_by=') > -1;
+            if (has) {
+              qs = qs.replace(/([?&])sort_by=[^&]*/,'$1sort_by=' + encodeURIComponent(this.value));
+              window.location.search = qs;
+            } else {
+              window.location.search = (qs ? qs + '&' : '?') + 'sort_by=' + encodeURIComponent(this.value);
+            }
+          }
+        });
+      }
+    })();
+  </script>
   {% if section.settings.image_shape == 'arch' %}
     {{ 'mask-arch.svg' | inline_asset_content }}
   {%- endif -%}
