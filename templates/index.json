@@ -170,7 +170,7 @@
       ],
       "name": "LDMX Reviews + Banner",
       "settings": {
-        "media_title": "In Motion",
+        "media_title": "",
         "reviews_title": "Customer Reviews",
         "accent_color": "#ff4aa2",
         "show_stars": true,
