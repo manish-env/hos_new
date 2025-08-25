@@ -554,9 +554,9 @@
                         return isNaN(v) || v < 1 ? 1 : v;
                       }
                       function getExtrasUnit(){
-                        var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
+                        var sel = document.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!sel) return 0;
-                        var raw = sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price');
+                        var raw = (sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price')) || '0';
                         var v = parseInt(raw, 10);
                         return isNaN(v) ? 0 : v;
                       }
@@ -564,7 +564,7 @@
                         var qty = getQuantity();
                         var extras = getExtrasUnit() * qty; // apply service per quantity
                         if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + Shopify.formatMoney(extras) + ')' : ''; }
-                        var totalEl = document.getElementById('OptionsTotal-{{ section.id }}');
+                        var totalEl = document.getElementById('OptionsTotal-{{ section.id }}') || root.querySelector('.product-form__buttons .options-total__amount');
                         if(totalEl){
                           var base = getCurrentVariantPrice();
                           var total = base * qty + extras;
@@ -573,15 +573,17 @@
                       }
                       // Ensure one service is selected by default BEFORE initial update
                       (function ensureDefaultService(){
-                        var anyChecked = root.querySelector('.options-to-buy input[type="radio"]:checked');
+                        var anyChecked = document.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!anyChecked){
-                          var first = root.querySelector('.options-to-buy input[type="radio"]');
+                          var first = document.querySelector('.options-to-buy input[type="radio"]');
                           if(first){ first.checked = true; }
                         }
                       })();
+                      // Recalculate after default selection is ensured
+                      update();
 
                       // Listen to specific radio changes and general changes
-                      root.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
+                      document.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
                         r.addEventListener('change', update);
                       });
                       root.addEventListener('change', function(){ update(); });
