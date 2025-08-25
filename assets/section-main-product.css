@@ -1827,6 +1827,7 @@ a.product__text {
   background: transparent;
   color: rgba(var(--color-foreground), 0.6);
   cursor: pointer;
+  text-decoration: none; /* prevent underline from .link utility */
 }
 
 .product__wishlist-btn .svg-wrapper {
@@ -1835,7 +1836,11 @@ a.product__text {
 }
 
 .product__wishlist-btn:hover,
-.product__wishlist-btn:focus-visible { color: #FA05E8; }
+.product__wishlist-btn:focus,
+.product__wishlist-btn:focus-visible {
+  color: #FA05E8;
+  text-decoration: none; /* ensure no underline on hover/focus */
+}
 .product__wishlist-btn.active { color: #e21; }
 
 .product__share-under-media .product__share-copy.copied::after {
