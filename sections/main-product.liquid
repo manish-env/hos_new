@@ -97,10 +97,10 @@
                   {{- block.settings.text -}}
                 </p>
               {%- when 'title' -%}
-                <div class="product__title" {{ block.shopify_attributes }}>
-                  <h1>{{ product.title | escape }}</h1>
+                <div class="product__title title-size-{{ block.settings.title_size | default: 'medium' }} title-align-{{ block.settings.title_align | default: 'left' }}" {{ block.shopify_attributes }}>
+                  <h1 class="heading__text">{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
-                    <h2 class="h1">
+                    <h2 class="h1 heading__text">
                       {{ product.title | escape }}
                     </h2>
                   </a>
@@ -782,7 +782,31 @@
     {
       "type": "title",
       "name": "t:sections.main-product.blocks.title.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "title_size",
+          "label": "Title size",
+          "default": "medium",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "title_align",
+          "label": "Title alignment",
+          "default": "left",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ]
+        }
+      ]
     },
     {
       "type": "price",

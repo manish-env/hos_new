@@ -1252,6 +1252,31 @@ a.product__text {
   gap: 0.5rem;
 }
 
+/* Product title controls (size + alignment) */
+.product__title .heading__text {
+  margin: 0;
+}
+
+.product__title.title-align-left { text-align: left; }
+.product__title.title-align-center { text-align: center; }
+.product__title.title-align-right { text-align: right; }
+
+/* Sizes override Dawn defaults for this block only */
+.product__title.title-size-small .heading__text {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.product__title.title-size-medium .heading__text {
+  font-size: 2.6rem;
+  line-height: 1.2;
+}
+
+.product__title.title-size-large .heading__text {
+  font-size: 3.2rem;
+  line-height: 1.2;
+}
+
 .product__inventory .svg-wrapper,
 .product__inventory svg {
   width: 15px;
