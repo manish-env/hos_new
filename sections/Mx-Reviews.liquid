@@ -137,12 +137,12 @@
       </div>
 
       <!-- RIGHT: REVIEWS (45%) -->
-      <div class="ldmx-col" style="padding:10px;">
+      <div class="ldmx-col">
         <h2 class="ldmx-title ldmx-title-rev" style="font-family:'Great Vibes',cursive !important;font-weight:400 !important;">
           {{ section.settings.reviews_title }}
         </h2>
 
-        <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
+        <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}" style="padding:15px">
           <div class="ldmx-track">
             {% for block in section.blocks %}
               {% if block.type == 'review' %}
