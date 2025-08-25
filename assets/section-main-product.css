@@ -365,10 +365,12 @@ a.product__text {
 .options-total__label {
   font-weight: 700;
   letter-spacing: 0.02em;
+  font-size: 18px;
 }
 .options-total__amount {
   color: #FA05E8; /* discounted price color preference */
   font-weight: 700;
+  font-size: 22px;
 }
 
 @media (max-width: 749px) {
@@ -379,6 +381,8 @@ a.product__text {
   .options-total {
     justify-content: flex-start;
   }
+  .options-total__label { font-size: 16px; }
+  .options-total__amount { font-size: 20px; }
   .product-form__buttons .product-form__submit {
     width: 100%;
     margin-left: 0;
