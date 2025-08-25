@@ -139,55 +139,11 @@
         "gap": 16,
         "cover": true
       }
-    },
-    "mx_reviews_PtdYEH": {
-      "type": "Mx-Reviews",
-      "blocks": {
-        "review_wbeAqQ": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
-            "author": "Kulwinder K Samrai",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_GfWR3z": {
-          "type": "review",
-          "settings": {
-            "stars": 5,
-            "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>",
-            "author": "Sonia P.",
-            "location": "Pune, India",
-            "date": ""
-          }
-        }
-      },
-      "block_order": [
-        "review_wbeAqQ",
-        "review_GfWR3z"
-      ],
-      "name": "Mx Reviews",
-      "settings": {
-        "heading": "Customer Reviews",
-        "accent_color": "#ff4aa2",
-        "show_stars": true,
-        "swap_columns": false,
-        "container_width": 1300,
-        "banner": "shopify://shop_images/pexels-fliqaindia-19962105.jpg",
-        "banner_alt": "Promotional banner",
-        "banner_caption": "",
-        "banner_link": "",
-        "auto_rotate": false,
-        "rotate_ms": 5000
-      }
     }
   },
   "order": [
     "slideshow_bHmz8V",
     "featured_collection",
-    "csutom_collections_BMFka7",
-    "mx_reviews_PtdYEH"
+    "csutom_collections_BMFka7"
   ]
 }
