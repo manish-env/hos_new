@@ -1,5 +1,7 @@
 {% comment %}
-  MX — Video Carousel (Reels) — Sonali skin (mobile bigger cards + Great Vibes title)
+  MX — Video Carousel (Reels) — Sonali skin
+  - Arrows at section edges, no background
+  - Bigger product info fonts
 {% endcomment %}
 
 <section
@@ -22,12 +24,16 @@
   <div class="{% if section.settings.width_mode == 'page' %}page-width{% else %}mxvc__bleed{% endif %}">
     <header class="mxvc__header">
       <h2 class="mxvc__title">{{ section.settings.heading | default: 'Watch & Buy' }}</h2>
-      {% if section.settings.subheading != blank %}<p class="mxvc__subtitle">{{ section.settings.subheading | escape }}</p>{% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="mxvc__subtitle">{{ section.settings.subheading | escape }}</p>
+      {% endif %}
     </header>
 
-    <div class="mxvc__wrap">
+    <div class="mxvc__wrap" data-wrap>
       {% if section.settings.show_nav %}
-        <button class="mxvc__nav mxvc__nav--prev" aria-label="Previous" type="button">‹</button>
+        <button class="mxvc__nav mxvc__nav--prev" aria-label="Previous" type="button">
+          <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       {% endif %}
 
       <div class="mxvc__track" data-track>
@@ -89,7 +95,9 @@
       </div>
 
       {% if section.settings.show_nav %}
-        <button class="mxvc__nav mxvc__nav--next" aria-label="Next" type="button">›</button>
+        <button class="mxvc__nav mxvc__nav--next" aria-label="Next" type="button">
+          <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       {% endif %}
     </div>
   </div>
@@ -99,7 +107,8 @@
     const root = document.getElementById('mxvc-{{ section.id }}');
     if (!root) return;
     const track = root.querySelector('[data-track]');
-    if (!track) return;
+    const wrap = root.querySelector('[data-wrap]');
+    if (!track || !wrap) return;
 
     function scrollBySlide(dir) {
       const slide = track.querySelector('.mxvc__slide');
@@ -139,9 +148,9 @@
       track.scrollLeft = scrollLeft - walk;
     });
 
-    // Prev/Next disabled state (optional polish)
+    // Disabled state on ends
     function updateNavState() {
-      const max = track.scrollWidth - track.clientWidth - 1; // -1 to avoid float rounding
+      const max = track.scrollWidth - track.clientWidth - 1;
       if (prev) prev.disabled = track.scrollLeft <= 0;
       if (next) next.disabled = track.scrollLeft >= max;
     }
@@ -152,12 +161,16 @@
   </script>
 
   <style>
-    #mxvc-{{ section.id }} { padding-top: var(--mx-pad-top); padding-bottom: var(--mx-pad-bottom); }
+    #mxvc-{{ section.id }}{
+      position: relative; /* anchor nav to section edges */
+      padding-top: var(--mx-pad-top);
+      padding-bottom: var(--mx-pad-bottom);
+    }
 
-    /* Full-bleed container when width = full */
+    /* Full-bleed when width = full */
     #mxvc-{{ section.id }} .mxvc__bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
 
-    /* Title: Great Vibes, centered */
+    /* Header */
     .mxvc__header { margin-bottom: 16px; text-align: center; }
     .mxvc__title {
       margin: 0;
@@ -171,47 +184,44 @@
 
     .mxvc__wrap { position: relative; }
 
-    /* NAV: overlayed left/right, vertically centered, NO background */
+    /* === NAV: fixed to SECTION left/right, vertically centered, no bg === */
     #mxvc-{{ section.id }} .mxvc__nav{
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 3;
+      z-index: 10;
       width: 44px;
       height: 44px;
       display: grid;
       place-items: center;
       padding: 0;
       margin: 0;
-      background: transparent;         /* no bg */
+      background: transparent;            /* no bg */
       border: none;
       box-shadow: none;
       color: var(--color-foreground, #222);
-      font-size: clamp(22px, 3.2vw, 30px);
-      line-height: 1;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
-    #mxvc-{{ section.id }} .mxvc__nav--prev { left: 6px; }
-    #mxvc-{{ section.id }} .mxvc__nav--next { right: 6px; }
-    #mxvc-{{ section.id }} .mxvc__nav:hover { opacity: .85; background: transparent; }
-    #mxvc-{{ section.id }} .mxvc__nav:focus-visible{
-      outline: 2px solid currentColor;
-      outline-offset: 2px;
-    }
-    #mxvc-{{ section.id }} .mxvc__nav:disabled{
-      opacity: .35;
-      pointer-events: none;
-    }
-    @media (max-width: 480px){
-      #mxvc-{{ section.id }} .mxvc__nav{ width: 36px; height: 36px; font-size: 24px; }
-      #mxvc-{{ section.id }} .mxvc__nav--prev { left: 2px; }
-      #mxvc-{{ section.id }} .mxvc__nav--next { right: 2px; }
-    }
+    /* Anchor to section edges (not inner track) */
+    #mxvc-{{ section.id }} .mxvc__nav--prev { left: 8px; }
+    #mxvc-{{ section.id }} .mxvc__nav--next { right: 8px; }
 
-    /* Track; make mobile slides larger */
+    /* Make sure SVG scales nicely */
+    #mxvc-{{ section.id }} .mxvc__nav svg { width: 28px; height: 28px; }
+    @media (max-width: 480px){
+      #mxvc-{{ section.id }} .mxvc__nav{ width: 36px; height: 36px; }
+      #mxvc-{{ section.id }} .mxvc__nav svg { width: 24px; height: 24px; }
+      #mxvc-{{ section.id }} .mxvc__nav--prev { left: 4px; }
+      #mxvc-{{ section.id }} .mxvc__nav--next { right: 4px; }
+    }
+    #mxvc-{{ section.id }} .mxvc__nav:hover { opacity: .9; }
+    #mxvc-{{ section.id }} .mxvc__nav:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+    #mxvc-{{ section.id }} .mxvc__nav:disabled { opacity: .35; pointer-events: none; }
+
+    /* Track; larger mobile cards */
     #mxvc-{{ section.id }} .mxvc__track {
-      --mx-cols: 1.1;                 /* bigger cards on mobile */
+      --mx-cols: 1.1; /* bigger cards on mobile */
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: calc(100% / var(--mx-cols));
@@ -220,14 +230,14 @@
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding: 0 8px 6px;             /* breathing room at edges */
+      padding: 0 8px 6px;
       scrollbar-width: none; -ms-overflow-style: none;
     }
     .mxvc__track::-webkit-scrollbar { display: none; }
     .mxvc__track.is-dragging { cursor: grabbing; }
     .mxvc__slide { scroll-snap-align: start; }
 
-    /* Cards: reduced radius */
+    /* Cards */
     .mxvc__media {
       position: relative;
       width: 100%;
@@ -244,28 +254,33 @@
     /* Whole-card link */
     .mxvc__link { display: block; text-decoration: none; color: inherit; }
 
-    /* Product overlay: mobile-bigger fonts */
+    /* Product overlay — BIGGER TYPE */
     .mxvc__prod {
       position: absolute; left: 10px; right: 10px; bottom: 10px;
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      padding: 9px 10px;
+      padding: 10px 12px;
       background: rgba(255,255,255,.96);
       border: 1px solid #eaeaea;
       border-radius: 8px;
       backdrop-filter: blur(1px);
     }
-    .mxvc__prod-meta { display: grid; gap: 2px; min-width: 0; }
-    .mxvc__prod-title { font-weight: 600; font-size: .92rem; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mxvc__prod-price { font-size: .9rem; color: var(--mx-accent); }
+    .mxvc__prod-meta { display: grid; gap: 3px; min-width: 0; }
+    .mxvc__prod-title {
+      font-weight: 600;
+      font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+      color: #222;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .mxvc__prod-price { font-size: clamp(1rem, 2.6vw, 1.2rem); color: var(--mx-accent); }
     .mxvc__prod-price s { color: #999; margin-right: 6px; }
 
     .mxvc__prod-btn,
     .mxvc__prod-btn.is-ghost {
       flex: 0 0 auto;
-      padding: 7px 12px;
+      padding: 10px 16px;
       border-radius: 999px;
       font-weight: 600;
-      font-size: .84rem;
+      font-size: clamp(0.98rem, 2.4vw, 1.1rem);
       text-decoration: none;
       line-height: 1;
       border: 1px solid var(--mx-accent);
@@ -274,20 +289,13 @@
     .mxvc__prod-btn:hover { filter: brightness(.95); }
     .mxvc__prod-btn.is-ghost { background: transparent; color: var(--mx-accent); cursor: default; }
 
-    /* Tablet / Desktop column counts */
+    /* Tablet / Desktop columns */
     @media (min-width: 768px) {
       #mxvc-{{ section.id }} .mxvc__track { --mx-cols: 3; padding: 0 0 6px; }
     }
     @media (min-width: 1024px) {
       #mxvc-{{ section.id }}[data-mode="page"] .mxvc__track { --mx-cols: 4; }
       #mxvc-{{ section.id }}[data-mode="full"] .mxvc__track { --mx-cols: 5; }
-    }
-
-    /* MOBILE TYPE UPSIZE */
-    @media (max-width: 767px) {
-      .mxvc__prod-title { font-size: 1.02rem; }
-      .mxvc__prod-price { font-size: 1rem; }
-      .mxvc__prod-btn, .mxvc__prod-btn.is-ghost { font-size: .94rem; padding: 9px 14px; }
     }
   </style>
 </section>
