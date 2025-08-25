@@ -1780,6 +1780,30 @@ a.product__text {
   height: 2rem;
 }
 
+/* Make SVG icons inherit current text color for hover/focus */
+.product__share-under-media .list-social__link .svg-wrapper svg,
+.product__share-under-media .product__share-copy .svg-wrapper svg,
+.product__wishlist-btn .svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* Hover and focus color for share icons */
+.product__share-under-media .list-social__link,
+.product__wishlist-btn,
+.product__share-under-media .product__share-copy {
+  transition: color var(--duration-short, 150ms) ease;
+}
+
+.product__share-under-media .list-social__link:hover,
+.product__share-under-media .list-social__link:focus-visible,
+.product__share-under-media .product__share-copy:hover,
+.product__share-under-media .product__share-copy:focus-visible {
+  color: #FA05E8;
+}
+
 .product__share-under-media .product__share-right {
   margin-left: auto;
 }
@@ -1800,7 +1824,8 @@ a.product__text {
   height: 2.2rem;
 }
 
-.product__wishlist-btn:hover { color: rgba(var(--color-foreground), 0.85); }
+.product__wishlist-btn:hover,
+.product__wishlist-btn:focus-visible { color: #FA05E8; }
 .product__wishlist-btn.active { color: #e21; }
 
 .product__share-under-media .product__share-copy.copied::after {
