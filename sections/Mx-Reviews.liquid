@@ -1,5 +1,7 @@
+{% comment %} LDMX – Video (55%) + Reviews (45%), page-width, Great Vibes title, quotes wrapping full review {% endcomment %}
 {%- assign ldmx_id = section.id -%}
-<section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}">
+<section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}"
+  style="padding-top: {{ section.settings.pad_top | default: 48 }}px; padding-bottom: {{ section.settings.pad_bottom | default: 48 }}px;">
 
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -8,102 +10,101 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* ============== Scoped Vars ============== */
+    /* ===== Scoped Vars ===== */
     [data-ldmx="{{ ldmx_id }}"]{
       --ldmx-accent: {{ section.settings.accent_color }};
-      --ldmx-text: #222;
+      --ldmx-text:#222;
       --ldmx-muted:#666;
-      --ldmx-maxw: {{ section.settings.container_width | default: 1300 }}px;
-      --ldmx-panel-h: {{ section.settings.panel_height | default: 460 }}px; /* equal height for both sides */
     }
 
-    /* ============== Layout ============== */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-container{max-width:var(--ldmx-maxw); margin:0 auto; padding:0 16px;}
+    /* ===== Layout (page width) ===== */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-container.page-width{margin-inline:auto;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{
       display:grid;
-      grid-template-columns: 55% 45%; /* video 65%, reviews 35% */
-      gap:40px;
+      grid-template-columns: 55% 45%;
+      gap:32px;
       align-items:start;
     }
     @media(max-width: 992px){
-      [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns: 1fr; gap:22px;}
+      [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns:1fr; gap:24px;}
     }
 
     /* Columns as vertical stacks so titles align */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-col{
-      display:flex; flex-direction:column; align-items:stretch;
-    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-col{display:flex; flex-direction:column; align-items:stretch;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-title{
-      margin:0 0 10px; line-height:1.1; text-align:center;
+      margin:0 0 12px; line-height:1.1; text-align:center;
       font-size:clamp(26px, 3.2vw, 40px);
       color:var(--ldmx-text);
-      min-height: 1.3em; /* keeps both titles baseline aligned even if one wraps */
+      min-height:1.3em; /* keeps both headings baseline-aligned even if wrapping */
     }
-    /* Force Great Vibes ONLY on the reviews title */
+    /* Force Great Vibes only on reviews title */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-title-rev{
       font-family:'Great Vibes', cursive !important;
       font-weight:400 !important;
       font-size:clamp(30px, 3.6vw, 46px);
     }
 
-    /* ============== Media (Video) Side ============== */
+    /* ===== Video (no border, no radius) ===== */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame{
-      height:var(--ldmx-panel-h); border-radius:14px; overflow:hidden; position:relative; background:#000;
+      position:relative; width:100%;
+      aspect-ratio: 16 / 9; /* keeps normal height */
+      overflow:hidden; /* no visual border */
+      border:none; border-radius:0;
+      background:#000;
     }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame iframe,
     [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame video{
-      width:100%; height:100%; object-fit:cover; display:block;
+      width:100%; height:100%; display:block; object-fit:cover; border:0; outline:0; border-radius:0;
     }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame iframe{
-      width:100%; height:100%; display:block; border:0;
-    }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-poster{
-      position:absolute; inset:0; background:#000 center/cover no-repeat;
-    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-poster{position:absolute; inset:0; background:#000 center/cover no-repeat;}
 
-    /* ============== Reviews Side ============== */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame{
-      height:var(--ldmx-panel-h); position:relative; padding:24px 32px 20px;
-      display:flex; align-items:center; justify-content:center;
-    }
-    /* Big quotes cover entire review area */
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:before,
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:after{
-      position:absolute; color:var(--ldmx-accent); opacity:.9; line-height:1;
-      font-family:Georgia, serif; font-weight:700; pointer-events:none;
-      z-index:0;
-    }
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:before{content:"“"; left:6px; top:-8px; font-size:92px;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review-frame:after{content:"”"; right:6px; bottom:-12px; font-size:92px;}
-
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden; width:100%; max-width:780px;}
+    /* ===== Reviews ===== */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden; width:100%;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{min-width:100%; display:flex; align-items:center; justify-content:center;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{position:relative; z-index:1; text-align:center;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{min-width:100%; display:flex; justify-content:center;}
+
+    /* single review block (quotes wrap EVERYTHING inside) */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{
+      position:relative; max-width:700px; width:100%;
+      text-align:center; padding:24px 32px 18px; margin:0 auto;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:before,
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:after{
+      position:absolute; color:var(--ldmx-accent); opacity:.9; line-height:1;
+      font-family:Georgia, serif; font-weight:700; pointer-events:none; z-index:0;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:before{content:"“"; left:-6px; top:-14px; font-size:84px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review:after{content:"”"; right:-6px; bottom:-12px; font-size:84px;}
+
+    /* content sits above quotes */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-content{position:relative; z-index:1;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-text{font-size:16px; line-height:1.8; color:var(--ldmx-text); margin-bottom:14px;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin:6px 0 8px;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:4px; font-weight:700; color:#8a2be2;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:var(--ldmx-muted); font-style:italic;}
 
+    /* arrows */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-nav{position:absolute; inset:0; pointer-events:none;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-btn{
       pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%);
       width:42px; height:42px; border-radius:999px; background:transparent; border:none;
     }
     [data-ldmx="{{ ldmx_id }}"] .ldmx-btn i{font-size:22px; color:#9b9b9b;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:6px;} [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:6px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:6px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:6px;}
   </style>
 
-  <div class="ldmx-container">
+  <div class="ldmx-container page-width">
     <div class="ldmx-grid">
 
-      <!-- LEFT: VIDEO -->
+      <!-- LEFT: VIDEO (55%) -->
       <div class="ldmx-col">
         <h2 class="ldmx-title ldmx-title-media">{{ section.settings.media_title }}</h2>
         <div class="ldmx-media-frame">
           {%- if section.settings.video_url != blank -%}
             {%- assign v = section.settings.video_url -%}
             {%- if v.type == "youtube" -%}
-              <iframe src="https://www.youtube.com/embed/{{ v.id }}?rel=0&modestbranding=1&playsinline=1&autoplay={{ section.settings.autoplay | json | replace: 'true', '1' | replace: 'false','0' }}&mute={{ section.settings.muted | json | replace: 'true','1' | replace: 'false','0' }}&loop={{ section.settings.loop | json | replace: 'true','1' | replace: 'false','0' }}"
+              <iframe src="https://www.youtube.com/embed/{{ v.id }}?rel=0&modestbranding=1&playsinline=1&autoplay={{ section.settings.autoplay | json | replace: 'true','1' | replace: 'false','0' }}&mute={{ section.settings.muted | json | replace: 'true','1' | replace: 'false','0' }}&loop={{ section.settings.loop | json | replace: 'true','1' | replace: 'false','0' }}"
                       allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
             {%- elsif v.type == "vimeo" -%}
               <iframe src="https://player.vimeo.com/video/{{ v.id }}?autoplay={{ section.settings.autoplay | json | replace: 'true','1' | replace: 'false','0' }}&muted={{ section.settings.muted | json | replace: 'true','1' | replace: 'false','0' }}&loop={{ section.settings.loop | json | replace: 'true','1' | replace: 'false','0' }}"
@@ -135,44 +136,44 @@
         </div>
       </div>
 
-      <!-- RIGHT: REVIEWS (35%) -->
+      <!-- RIGHT: REVIEWS (45%) -->
       <div class="ldmx-col">
         <h2 class="ldmx-title ldmx-title-rev" style="font-family:'Great Vibes',cursive !important;font-weight:400 !important;">
           {{ section.settings.reviews_title }}
         </h2>
 
-        <div class="ldmx-review-frame">
-          <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
-            <div class="ldmx-track">
-              {% for block in section.blocks %}
+        <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
+          <div class="ldmx-track">
+            {% for block in section.blocks %}
               {% if block.type == 'review' %}
               <div class="ldmx-slide">
                 <div class="ldmx-review">
-                  <div class="ldmx-text">{{ block.settings.text }}</div>
-                  {% if section.settings.show_stars %}
-                    <div class="ldmx-stars">
-                      {% assign s = block.settings.stars | default: 5 %}
-                      {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
+                  <div class="ldmx-content">
+                    <div class="ldmx-text">{{ block.settings.text }}</div>
+                    {% if section.settings.show_stars %}
+                      <div class="ldmx-stars">
+                        {% assign s = block.settings.stars | default: 5 %}
+                        {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
+                      </div>
+                    {% endif %}
+                    <div class="ldmx-author">{{ block.settings.author }}</div>
+                    <div class="ldmx-meta">
+                      {% if block.settings.location %}{{ block.settings.location }}{% endif %}
+                      {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
                     </div>
-                  {% endif %}
-                  <div class="ldmx-author">{{ block.settings.author }}</div>
-                  <div class="ldmx-meta">
-                    {% if block.settings.location %}{{ block.settings.location }}{% endif %}
-                    {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
                   </div>
                 </div>
               </div>
               {% endif %}
-              {% endfor %}
-            </div>
-
-            {% if section.blocks.size > 1 %}
-            <div class="ldmx-nav">
-              <button class="ldmx-btn ldmx-prev" type="button" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
-              <button class="ldmx-btn ldmx-next" type="button" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
-            </div>
-            {% endif %}
+            {% endfor %}
           </div>
+
+          {% if section.blocks.size > 1 %}
+          <div class="ldmx-nav">
+            <button class="ldmx-btn ldmx-prev" type="button" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="ldmx-btn ldmx-next" type="button" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          {% endif %}
         </div>
       </div>
 
@@ -206,8 +207,9 @@
 
     { "type": "color", "id": "accent_color", "label": "Accent (quotes)", "default": "#ff4aa2" },
     { "type": "checkbox", "id": "show_stars", "label": "Show star ratings", "default": true },
-    { "type": "range", "id": "panel_height", "label": "Panel height", "min": 320, "max": 720, "step": 10, "unit": "px", "default": 460 },
-    { "type": "range", "id": "container_width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Max container width", "default": 1300 },
+
+    { "type": "range", "id": "pad_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "pad_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
 
     { "type": "header", "content": "Video source" },
     { "type": "video", "id": "video", "label": "Shopify-hosted video" },
