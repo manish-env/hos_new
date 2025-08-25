@@ -22,7 +22,7 @@
         "price": {
           "type": "price",
           "settings": {
-            "price_size": "medium",
+            "price_size": "large",
             "price_align": "center"
           }
         },
