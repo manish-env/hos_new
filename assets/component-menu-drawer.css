@@ -153,15 +153,17 @@ menu-drawer > details[open] > summary::before {
   header-drawer > details.menu-drawer-container > #menu-drawer,
   header-drawer > details.menu-drawer-container > .menu-drawer {
     position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 85vw !important; /* 85% width as requested */
     height: 100dvh !important;
     height: 100svh !important;
     height: var(--viewport-height, 100vh) !important;
-    top: 0 !important;
-    left: 0 !important;
+    right: auto !important;
     z-index: 99999 !important; /* above announcement bar */
     filter: none !important;
+    border-right: 1px solid #d3d3d3 !important; /* light grey border on right */
   }
 
   /* Force the backdrop overlay to start at the very top and span the viewport */
@@ -180,13 +182,14 @@ menu-drawer > details[open] > summary::before {
   .menu-drawer__utility-links { margin-top: 0; }
   .menu-drawer {
     position: fixed;
-    inset: 0; /* top:0; right:0; bottom:0; left:0 */
-    width: 100vw;
+    top: 0; right: auto; bottom: 0; left: 0; /* anchor to left */
+    width: 85vw; /* 85% width as requested */
     height: 100dvh; /* modern mobile */
     height: 100svh; /* iOS 15+ safe viewport */
     height: var(--viewport-height, 100vh); /* fallback */
     z-index: 1001; /* above sticky header */
     filter: none; /* avoid drop-shadow artifact when full-screen */
+    border-right: 1px solid #d3d3d3; /* light grey border on right */
   }
   .js .menu-drawer {
     height: 100dvh;
