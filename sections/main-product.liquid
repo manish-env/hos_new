@@ -570,7 +570,7 @@
                         return isNaN(v) || v < 1 ? 1 : v;
                       }
                       function getExtrasUnit(){
-                        var sel = document.querySelector('.options-to-buy input[type="radio"]:checked');
+                        var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!sel) return 0;
                         var raw = (sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price')) || '0';
                         var v = parseInt(raw, 10);
@@ -580,7 +580,7 @@
                         var qty = getQuantity();
                         var extras = getExtrasUnit() * qty; // apply service per quantity
                         try {
-                          var sel = document.querySelector('.options-to-buy input[type="radio"]:checked');
+                          var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
                           var dbg = {
                             selectedService: sel ? sel.value : null,
                             extraUnit: sel ? parseInt((sel.dataset && sel.dataset.extraPrice) || sel.getAttribute('data-extra-price') || '0', 10) : 0,
@@ -600,9 +600,9 @@
                       }
                       // Ensure one service is selected by default BEFORE initial update
                       (function ensureDefaultService(){
-                        var anyChecked = document.querySelector('.options-to-buy input[type="radio"]:checked');
+                        var anyChecked = root.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!anyChecked){
-                          var first = document.querySelector('.options-to-buy input[type="radio"]');
+                          var first = root.querySelector('.options-to-buy input[type="radio"]');
                           if(first){ first.checked = true; }
                         }
                       })();
@@ -610,7 +610,7 @@
                       update();
 
                       // Listen to specific radio changes and quantity changes
-                      document.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
+                      root.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
                         r.addEventListener('change', update);
                       });
                       var qtyInput = root.querySelector('input[name="quantity"]');
@@ -627,7 +627,7 @@
                       if(form){
                         form.addEventListener('submit', function(evt){
                           try {
-                            var selected = document.querySelector('.options-to-buy input[type="radio"]:checked');
+                            var selected = root.querySelector('.options-to-buy input[type="radio"]:checked');
                             var selectedAddonVariant = selected && selected.getAttribute('data-addon-variant');
                             var hasAddon = !!selectedAddonVariant;
                             // Always AJAX submit for consistency
