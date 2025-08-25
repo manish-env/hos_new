@@ -527,163 +527,281 @@
                     {%- endfor -%}
                   </ul>
                   <script>
-                    (function(){
-                      var root = document.getElementById('ProductInfo-{{ section.id }}');
-                      if(!root) return;
-                      var priceWrap = root.querySelector('#price-{{ section.id }} .price__container');
-                      var extraEl = root.querySelector('#price-{{ section.id }} .options-extra');
-                      if(!extraEl && priceWrap){
-                        extraEl = document.createElement('span');
-                        extraEl.className = 'options-extra';
-                        priceWrap.appendChild(extraEl);
-                      }
-                      var variants = {{ product.variants | json }};
-                      var moneyFormat = {{ shop.money_format | json }};
-                      function formatMoney(cents){
-                        try {
-                          if (window.Shopify && typeof Shopify.formatMoney === 'function') {
-                            return Shopify.formatMoney(cents, moneyFormat);
-                          }
-                        } catch(e) {}
-                        var fmt = moneyFormat || '{{amount}}';
-                        var amount = (cents / 100).toFixed(2);
-                        var start = fmt.indexOf('{{');
-                        var end = fmt.indexOf('}}', start + 2);
-                        if (start !== -1 && end !== -1) {
-                          return fmt.slice(0, start) + amount + fmt.slice(end + 2);
-                        }
-                        return amount;
-                      }
-                      function getCurrentVariantId(){
-                        var idInput = root.querySelector('input.product-variant-id');
-                        return idInput ? parseInt(idInput.value,10) : null;
-                      }
-                      function getCurrentVariantPrice(){
-                        var id = getCurrentVariantId();
-                        if(!id) return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
-                        for(var i=0;i<variants.length;i++){ if(variants[i].id === id) return variants[i].price; }
-                        return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
-                      }
-                      function getQuantity(){
-                        var q = root.querySelector('input[name="quantity"]');
-                        var v = parseInt(q && q.value ? q.value : '1', 10);
-                        return isNaN(v) || v < 1 ? 1 : v;
-                      }
-                      function getExtrasUnit(){
-                        var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                        if(!sel) return 0;
-                        var raw = (sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price')) || '0';
-                        var v = parseInt(raw, 10);
-                        return isNaN(v) ? 0 : v;
-                      }
-                      function update(){
-                        var qty = getQuantity();
-                        var extras = getExtrasUnit() * qty; // apply service per quantity
-                        try {
-                          var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                          var dbg = {
-                            selectedService: sel ? sel.value : null,
-                            extraUnit: sel ? parseInt((sel.dataset && sel.dataset.extraPrice) || sel.getAttribute('data-extra-price') || '0', 10) : 0,
-                            qty: qty,
-                            variantPrice: getCurrentVariantPrice()
-                          };
-                          dbg.total = dbg.variantPrice * qty + dbg.extraUnit * qty;
-                          console.debug('[OptionsToBuy] update', dbg);
-                        } catch(_e) {}
-                        if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + formatMoney(extras) + ')' : ''; }
-                        var totalEl = document.getElementById('OptionsTotal-{{ section.id }}') || root.querySelector('.product-form__buttons .options-total__amount');
-                        if(totalEl){
-                          var base = getCurrentVariantPrice();
-                          var total = base * qty + extras;
-                          totalEl.textContent = formatMoney(total);
-                        }
-                      }
-                      // Ensure one service is selected by default BEFORE initial update
-                      (function ensureDefaultService(){
-                        var anyChecked = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                        if(!anyChecked){
-                          var first = root.querySelector('.options-to-buy input[type="radio"]');
-                          if(first){ first.checked = true; }
-                        }
-                      })();
-                      // Recalculate after default selection is ensured
-                      update();
-
-                      // Listen to specific radio changes and quantity changes
-                      root.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
-                        r.addEventListener('change', update);
-                      });
-                      var qtyInput = root.querySelector('input[name="quantity"]');
-                      if(qtyInput){ qtyInput.addEventListener('input', update); qtyInput.addEventListener('change', update); }
-                      root.addEventListener('change', function(){ update(); });
-                      // Initial updates: immediate, after DOM ready, and after a short delay to ensure buy-buttons snippet is in DOM
-                      update();
-                      document.addEventListener('DOMContentLoaded', update);
-                      window.addEventListener('load', update);
-                      setTimeout(update, 200);
-
-                      // Intercept main product form submit to add selected service add-on
-                      var form = root.querySelector('form#{{ product_form_id }}');
-                      if(form){
-                        form.addEventListener('submit', function(evt){
-                          try {
-                            var selected = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                            var selectedAddonVariant = selected && selected.getAttribute('data-addon-variant');
-                            var hasAddon = !!selectedAddonVariant;
-                            // Always AJAX submit for consistency
-                            evt.preventDefault();
-
-                            var fd = new FormData(form);
-                            var mainId = parseInt(fd.get('id'), 10);
-                            var qty = parseInt(fd.get('quantity') || '1', 10);
-                            if(!qty || qty < 1) qty = 1;
-
-                            // Collect properties destined for the main item (includes selected service)
-                            var properties = {};
-                            form.querySelectorAll('[name^="properties["]').forEach(function(input){
-                              if (input.type === 'checkbox' && !input.checked) return;
-                              if (input.type === 'radio' && !input.checked) return;
-                              var name = input.name.replace(/^properties\[|\]$/g,'');
-                              var val = input.value;
-                              if (val && name) properties[name] = val;
-                            });
-
-                            var items = [{ id: mainId, quantity: qty, properties: properties }];
-                            if(selectedAddonVariant){
-                              var addonId = parseInt(selectedAddonVariant, 10);
-                              if(!isNaN(addonId)){
-                                items.push({ id: addonId, quantity: 1, properties: { 'Add-on for': mainId } });
-                              }
-                            } else {
-                              console.warn('No add-on product mapped for selected service; only main product will be added.');
-                            }
-
-                            console.debug('[OptionsToBuy] add to cart payload', items);
-
-                            fetch('/cart/add.js', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                              body: JSON.stringify({ items: items })
-                            })
-                            .then(function(r){
-                              if(!r.ok){ throw r; }
-                              return r.json();
-                            })
-                            .then(function(){
-                              // Redirect to cart for clarity and consistency
-                              window.location.href = '/cart';
-                            })
-                            .catch(function(err){
-                              console.error('Add to cart failed', err);
-                              // Fallback to normal submission so the main product still gets added
-                              form.submit();
-                            });
-                          } catch(ex) {
-                            console.error(ex);
-                          }
-                        }, { passive: false });
-                      }
-                    })();
+                    // Fix the options to buy functionality
+(function(){
+  var root = document.getElementById('ProductInfo-{{ section.id }}');
+  if(!root) return;
+  
+  var priceWrap = root.querySelector('#price-{{ section.id }} .price__container');
+  var extraEl = root.querySelector('#price-{{ section.id }} .options-extra');
+  if(!extraEl && priceWrap){
+    extraEl = document.createElement('span');
+    extraEl.className = 'options-extra';
+    priceWrap.appendChild(extraEl);
+  }
+  
+  var variants = {{ product.variants | json }};
+  var moneyFormat = {{ shop.money_format | json }};
+  
+  function formatMoney(cents){
+    try {
+      if (window.Shopify && typeof Shopify.formatMoney === 'function') {
+        return Shopify.formatMoney(cents, moneyFormat);
+      }
+    } catch(e) {}
+    var fmt = moneyFormat || '{{amount}}';
+    var amount = (cents / 100).toFixed(2);
+    var start = fmt.indexOf('{{');
+    var end = fmt.indexOf('}}', start + 2);
+    if (start !== -1 && end !== -1) {
+      return fmt.slice(0, start) + amount + fmt.slice(end + 2);
+    }
+    return amount;
+  }
+  
+  function getCurrentVariantId(){
+    var idInput = root.querySelector('input[name="id"], input.product-variant-id');
+    return idInput ? parseInt(idInput.value,10) : null;
+  }
+  
+  function getCurrentVariantPrice(){
+    var id = getCurrentVariantId();
+    if(!id) return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
+    for(var i=0;i<variants.length;i++){ 
+      if(variants[i].id === id) return variants[i].price; 
+    }
+    return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
+  }
+  
+  function getQuantity(){
+    var q = root.querySelector('input[name="quantity"]');
+    var v = parseInt(q && q.value ? q.value : '1', 10);
+    return isNaN(v) || v < 1 ? 1 : v;
+  }
+  
+  function getExtrasUnit(){
+    var sel = document.querySelector('.options-to-buy input[type="radio"]:checked');
+    if(!sel) return 0;
+    var raw = (sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price')) || '0';
+    var v = parseInt(raw, 10);
+    return isNaN(v) ? 0 : v;
+  }
+  
+  function updateTotalPrice(){
+    var qty = getQuantity();
+    var extras = getExtrasUnit() * qty;
+    
+    if(extraEl){ 
+      extraEl.textContent = extras > 0 ? ' (+ ' + formatMoney(extras) + ')' : ''; 
+    }
+    
+    var base = getCurrentVariantPrice();
+    var total = base * qty + extras;
+    
+    // Update the total display
+    var totalEl = document.getElementById('OptionsTotal-{{ section.id }}') || 
+                  root.querySelector('.product-form__buttons .options-total__amount');
+    
+    if(!totalEl) {
+      // Create total element if it doesn't exist
+      totalEl = document.createElement('span');
+      totalEl.className = 'options-total__amount';
+      totalEl.id = 'OptionsTotal-{{ section.id }}';
+      
+      var buyButton = root.querySelector('.product-form__submit');
+      if(buyButton && buyButton.parentNode) {
+        buyButton.parentNode.insertBefore(totalEl, buyButton);
+      }
+    }
+    
+    totalEl.textContent = formatMoney(total);
+  }
+  
+  // Ensure one service is selected by default
+  function ensureDefaultService(){
+    var anyChecked = document.querySelector('.options-to-buy input[type="radio"]:checked');
+    if(!anyChecked){
+      var first = document.querySelector('.options-to-buy input[type="radio"]');
+      if(first){ 
+        first.checked = true; 
+        // Trigger change event manually
+        var event = new Event('change', { bubbles: true });
+        first.dispatchEvent(event);
+      }
+    }
+  }
+  
+  // Initialize and set up event listeners
+  function initOptionsToBuy() {
+    // Ensure default selection
+    ensureDefaultService();
+    
+    // Set up event listeners for radio buttons
+    document.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(radio){
+      radio.addEventListener('change', function() {
+        updateTotalPrice();
+      });
+    });
+    
+    // Set up event listeners for quantity changes
+    var quantityInput = root.querySelector('input[name="quantity"]');
+    if(quantityInput) {
+      quantityInput.addEventListener('change', updateTotalPrice);
+      quantityInput.addEventListener('input', updateTotalPrice);
+    }
+    
+    // Also listen to variant changes if there's a variant selector
+    var variantSelects = root.querySelectorAll('select[name="id"], input[name="id"]');
+    variantSelects.forEach(function(select) {
+      select.addEventListener('change', updateTotalPrice);
+    });
+    
+    // Initial update
+    updateTotalPrice();
+    
+    // Fix form submission
+    var form = root.querySelector('form#{{ product_form_id }}');
+    if(form){
+      // Remove any existing listener to avoid duplicates
+      form.removeEventListener('submit', handleFormSubmit);
+      form.addEventListener('submit', handleFormSubmit);
+    }
+  }
+  
+  // Handle form submission
+  function handleFormSubmit(evt) {
+    try {
+      var selected = document.querySelector('.options-to-buy input[type="radio"]:checked');
+      var selectedAddonVariant = selected && selected.getAttribute('data-addon-variant');
+      var hasAddon = !!selectedAddonVariant;
+      
+      // Always AJAX submit for consistency
+      evt.preventDefault();
+      
+      // Show loading state
+      var submitButton = form.querySelector('button[type="submit"]');
+      var originalText = submitButton.textContent;
+      submitButton.textContent = 'Adding...';
+      submitButton.disabled = true;
+      
+      var fd = new FormData(form);
+      var mainId = fd.get('id');
+      var qty = parseInt(fd.get('quantity') || '1', 10);
+      if(!qty || qty < 1) qty = 1;
+      
+      // Collect properties for the main item
+      var properties = {};
+      form.querySelectorAll('[name^="properties["]').forEach(function(input){
+        if (input.type === 'checkbox' && !input.checked) return;
+        if (input.type === 'radio' && !input.checked) return;
+        var name = input.name.replace(/^properties\[|\]$/g,'');
+        var val = input.value;
+        if (val && name) properties[name] = val;
+      });
+      
+      // Add the selected option as a property
+      if (selected) {
+        var optionName = '{{ block.settings.heading | default: "Service" | escape }}';
+        properties[optionName] = selected.value;
+      }
+      
+      var items = [{ id: mainId, quantity: qty, properties: properties }];
+      
+      if(selectedAddonVariant){
+        items.push({ 
+          id: selectedAddonVariant, 
+          quantity: 1, 
+          properties: { 'Add-on for': mainId } 
+        });
+      }
+      
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json', 
+          'Accept': 'application/json' 
+        },
+        body: JSON.stringify({ items: items })
+      })
+      .then(function(response) {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(function(data){
+        // Show success message
+        showMessage('Product added to cart!', 'success');
+        
+        // Update cart count if needed
+        if (typeof updateCartCount === 'function') {
+          updateCartCount();
+        }
+        
+        // Redirect to cart after a brief delay
+        setTimeout(function() {
+          window.location.href = '/cart';
+        }, 1500);
+      })
+      .catch(function(error){
+        console.error('Error:', error);
+        showMessage('Error adding product to cart. Please try again.', 'error');
+        // Fallback to default form submission
+        form.submit();
+      })
+      .finally(function() {
+        // Restore button state
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      });
+    } catch (e) {
+      console.error('Exception in form submission:', e);
+      // Fallback to default form submission
+      form.submit();
+    }
+  }
+  
+  // Show message to user
+  function showMessage(text, type) {
+    // Remove any existing messages
+    var existingMessage = document.querySelector('.options-message');
+    if (existingMessage) {
+      existingMessage.remove();
+    }
+    
+    // Create new message element
+    var messageEl = document.createElement('div');
+    messageEl.className = 'options-message options-message--' + type;
+    messageEl.textContent = text;
+    messageEl.style.cssText = 'padding: 10px; margin: 10px 0; border-radius: 4px;';
+    messageEl.style.backgroundColor = type === 'success' ? '#d4edda' : '#f8d7da';
+    messageEl.style.color = type === 'success' ? '#155724' : '#721c24';
+    messageEl.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
+    
+    // Insert message near the buy button
+    var buyButton = root.querySelector('.product-form__submit');
+    if (buyButton && buyButton.parentNode) {
+      buyButton.parentNode.insertBefore(messageEl, buyButton);
+    }
+    
+    // Auto-remove after 5 seconds
+    setTimeout(function() {
+      if (messageEl.parentNode) {
+        messageEl.parentNode.removeChild(messageEl);
+      }
+    }, 5000);
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOptionsToBuy);
+  } else {
+    initOptionsToBuy();
+  }
+  
+  // Also initialize after a short delay to ensure all elements are available
+  setTimeout(initOptionsToBuy, 500);
+})();
                   </script>
                 </div>
               {%- when 'buy_buttons' -%}
