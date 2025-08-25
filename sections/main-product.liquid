@@ -571,7 +571,11 @@
                         }
                       }
                       root.addEventListener('change', function(){ update(); });
+                      // Initial updates: immediate, after DOM ready, and after a short delay to ensure buy-buttons snippet is in DOM
                       update();
+                      document.addEventListener('DOMContentLoaded', update);
+                      window.addEventListener('load', update);
+                      setTimeout(update, 200);
 
                       // Intercept main product form submit to add add-on products
                       var form = root.querySelector('form#{{ product_form_id }}');

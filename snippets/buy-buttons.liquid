@@ -63,7 +63,7 @@
         <div class="product-form__buttons">
           <div class="options-total" aria-live="polite">
             <span class="options-total__label">TOTAL:</span>
-            <span class="options-total__amount" id="OptionsTotal-{{ section_id }}"></span>
+            <span class="options-total__amount" id="OptionsTotal-{{ section_id }}">{{ product.selected_or_first_available_variant.price | money }}</span>
           </div>
           {%- liquid
             assign check_against_inventory = true
