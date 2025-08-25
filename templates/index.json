@@ -140,91 +140,6 @@
         "cover": true
       }
     },
-    "mx_reviews_jwfikg": {
-      "type": "Mx-Reviews",
-      "blocks": {
-        "review_67YBH8": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
-            "stars": 5,
-            "author": "Kulwinder K Samrai",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_VcKfcQ": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>",
-            "stars": 5,
-            "author": "Sonia P.",
-            "location": "Pune, India",
-            "date": ""
-          }
-        }
-      },
-      "block_order": [
-        "review_67YBH8",
-        "review_VcKfcQ"
-      ],
-      "name": "LDMX Reviews + Banner",
-      "settings": {
-        "media_title": "",
-        "reviews_title": "Customer Reviews",
-        "accent_color": "#ff4aa2",
-        "show_stars": true,
-        "pad_top": 48,
-        "pad_bottom": 48,
-        "video_url": "",
-        "video_mp4": "https://cdn.shopify.com/videos/c/o/v/40e809a229db4d8f904800222bfc9a11.mp4",
-        "autoplay": true,
-        "loop": true,
-        "muted": true,
-        "controls": true,
-        "auto_rotate": false,
-        "rotate_ms": 5000
-      }
-    },
-    "csutom_collections_QLHD3T": {
-      "type": "csutom-collections",
-      "blocks": {
-        "collection_kbpYmg": {
-          "type": "collection",
-          "settings": {
-            "collection": "bridal-lahenga-choli",
-            "custom_title": ""
-          }
-        },
-        "collection_7fAxrJ": {
-          "type": "collection",
-          "settings": {
-            "collection": "readymade-kurta-pajama",
-            "custom_title": ""
-          }
-        },
-        "collection_YxCbLN": {
-          "type": "collection",
-          "settings": {
-            "collection": "wedding-sarees",
-            "custom_title": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_kbpYmg",
-        "collection_7fAxrJ",
-        "collection_YxCbLN"
-      ],
-      "name": "Mx Collections",
-      "settings": {
-        "heading": "",
-        "columns_desktop": 3,
-        "columns_mobile": "1",
-        "gap": 16,
-        "cover": true
-      }
-    },
     "mx_reels_4VwnF4": {
       "type": "Mx-Reels",
       "blocks": {
@@ -295,67 +210,50 @@
         "pad_bottom": 28
       }
     },
-    "collapsible_content_VjmW6d": {
-      "type": "collapsible-content",
+    "mx_reviews_jwfikg": {
+      "type": "Mx-Reviews",
       "blocks": {
-        "collapsible_row_CYpFF8": {
-          "type": "collapsible_row",
+        "review_67YBH8": {
+          "type": "review",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
-            "page": ""
+            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
+            "stars": 5,
+            "author": "Kulwinder K Samrai",
+            "location": "Gravesend, United Kingdom",
+            "date": ""
           }
         },
-        "collapsible_row_4nQcfa": {
-          "type": "collapsible_row",
+        "review_VcKfcQ": {
+          "type": "review",
           "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
-            "page": ""
-          }
-        },
-        "collapsible_row_8rTPV6": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
-            "page": ""
-          }
-        },
-        "collapsible_row_DHBMxb": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Collapsible row",
-            "icon": "check_mark",
-            "row_content": "",
-            "page": ""
+            "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>",
+            "stars": 5,
+            "author": "Sonia P.",
+            "location": "Pune, India",
+            "date": ""
           }
         }
       },
       "block_order": [
-        "collapsible_row_CYpFF8",
-        "collapsible_row_4nQcfa",
-        "collapsible_row_8rTPV6",
-        "collapsible_row_DHBMxb"
+        "review_67YBH8",
+        "review_VcKfcQ"
       ],
-      "name": "t:sections.collapsible_content.presets.name",
+      "name": "LDMX Reviews + Banner",
       "settings": {
-        "caption": "",
-        "heading": "Collapsible content",
-        "heading_size": "h2",
-        "heading_alignment": "center",
-        "layout": "section",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": true,
-        "image": "shopify://shop_images/Red_and_Gold_Vibrant_Wedding_Season_Sale_Instagram_Post.png",
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "media_title": "",
+        "reviews_title": "Customer Reviews",
+        "accent_color": "#ff4aa2",
+        "show_stars": true,
+        "pad_top": 48,
+        "pad_bottom": 48,
+        "video_url": "",
+        "video_mp4": "https://cdn.shopify.com/videos/c/o/v/40e809a229db4d8f904800222bfc9a11.mp4",
+        "autoplay": true,
+        "loop": true,
+        "muted": true,
+        "controls": true,
+        "auto_rotate": false,
+        "rotate_ms": 5000
       }
     }
   },
@@ -363,9 +261,7 @@
     "slideshow_bHmz8V",
     "featured_collection",
     "csutom_collections_BMFka7",
-    "mx_reviews_jwfikg",
-    "csutom_collections_QLHD3T",
     "mx_reels_4VwnF4",
-    "collapsible_content_VjmW6d"
+    "mx_reviews_jwfikg"
   ]
 }
