@@ -1415,7 +1415,7 @@ input.mobile-facets__checkbox {
 
   /* Normalize inner wrappers */
   /* Custom mobile toolbar: visible on mobile */
-  .hos-mobile-toolbar { display: flex; align-items: center; gap: 1rem; padding: 0 1.5rem 1.2rem; }
+  .hos-mobile-toolbar { display: flex; align-items: center; gap: 1rem; padding: 0 1.5rem 1.2rem; position: sticky; top: calc(var(--header-bottom-position, 0px) + env(safe-area-inset-top, 0px)); z-index: 5; background: rgb(var(--color-background)); border-bottom: 1px solid rgba(var(--color-foreground), 0.08); }
   .hos-mobile-toolbar__btn { flex: 1 1 50%; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; border: 1px solid rgba(var(--color-foreground), 0.18); background: transparent; color: inherit; padding: 0.8rem 1rem; border-radius: 0; }
   .hos-mobile-toolbar__btn .svg-wrapper { width: 1.6rem; height: 1.6rem; display: inline-block; }
   .hos-mobile-toolbar__sort { flex: 1 1 50%; }
