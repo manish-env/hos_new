@@ -621,7 +621,38 @@
                       document.addEventListener('DOMContentLoaded', update);
                       window.addEventListener('load', update);
                       setTimeout(update, 200);
-
+                      setTimeout(update, 600);
+                      setTimeout(update, 1000);
+                      // Listen to Shopify variant change events emitted by product-form.js
+                      document.addEventListener('variant:change', function(e){
+                        // Only react if event is for this section
+                        try {
+                          var formEl = root.querySelector('form#{{ product_form_id }}');
+                          if(!formEl) return update();
+                          if(e && e.target && formEl.contains(e.target)) update(); else update();
+                        } catch(_e) { update(); }
+                      });
+                      // Some themes dispatch detail.variant; when present, use it to set price fallback
+                      document.addEventListener('variant:change', function(e){
+                        try {
+                          if(e && e.detail && e.detail.variant && typeof e.detail.variant.price === 'number'){
+                            // overwrite getCurrentVariantPrice fallback via closure side-effect by updating variants array
+                            for(var i=0;i<variants.length;i++){
+                              if(variants[i].id === e.detail.variant.id){ variants[i].price = e.detail.variant.price; break; }
+                            }
+                          }
+                        } catch(_e) {}
+                        update();
+                      });
+                      // Observe DOM changes in price and button containers
+                      try {
+                        var observer = new MutationObserver(function(){ update(); });
+                        var observeTargets = [
+                          root.querySelector('#price-{{ section.id }}'),
+                          root.querySelector('.product-form__buttons')
+                        ].filter(Boolean);
+                        observeTargets.forEach(function(t){ observer.observe(t, { childList: true, subtree: true }); });
+                      } catch(_e) {}
                       // Intercept main product form submit to add selected service add-on
                       var form = root.querySelector('form#{{ product_form_id }}');
                       if(form){
