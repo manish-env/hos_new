@@ -547,12 +547,12 @@
                         } catch(e) {}
                         var fmt = moneyFormat || '{{amount}}';
                         var amount = (cents / 100).toFixed(2);
-                        var noDec = Math.round(cents / 100).toString();
-                        return fmt
-                          .replace('{{amount}}', amount)
-                          .replace('{{ amount }}', amount)
-                          .replace('{{amount_no_decimals}}', noDec)
-                          .replace('{{ amount_no_decimals }}', noDec);
+                        var start = fmt.indexOf('{{');
+                        var end = fmt.indexOf('}}', start + 2);
+                        if (start !== -1 && end !== -1) {
+                          return fmt.slice(0, start) + amount + fmt.slice(end + 2);
+                        }
+                        return amount;
                       }
                       function getCurrentVariantId(){
                         var idInput = root.querySelector('input.product-variant-id');
