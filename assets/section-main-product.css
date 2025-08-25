@@ -1194,22 +1194,28 @@ a.product__text {
     grid-template-columns: 7.5rem 1fr; /* ~75px thumbs column */
     column-gap: 1.2rem;
     align-items: start;
+    grid-auto-rows: min-content;
   }
 
-  /* Place main viewer in the right column */
-  .product--thumbnail_left .product__media-wrapper media-gallery[data-desktop-layout="thumbnail_left"] > slider-component.slider-mobile-gutter {
+  /* Place main viewer in the right column only (exclude thumbnail slider) */
+  .product--thumbnail_left .product__media-wrapper media-gallery[data-desktop-layout="thumbnail_left"] > slider-component.slider-mobile-gutter:not(.thumbnail-slider) {
     grid-column: 2;
+    width: auto;
+    max-width: 100%;
   }
 
   /* Place thumbnails slider in the left column */
   .product--thumbnail_left .product__media-wrapper media-gallery[data-desktop-layout="thumbnail_left"] > .thumbnail-slider {
     grid-column: 1;
     align-self: start;
+    width: 7.5rem;
+    max-width: 7.5rem;
+    margin: 0; /* reset any margins that might push over main */
   }
 
   /* Verticalize the thumbnails list */
   .product--thumbnail_left .thumbnail-slider .thumbnail-list {
-    display: block;
+    display: block; /* override grid display from larger breakpoints */
     max-height: 70vh;
     overflow: auto;
     padding: 0;
@@ -1227,6 +1233,11 @@ a.product__text {
   /* Hide default horizontal slider buttons for vertical list */
   .product--thumbnail_left .thumbnail-slider .slider-button {
     display: none;
+  }
+
+  /* Ensure main media list uses full width of its grid cell */
+  .product--thumbnail_left .product__media-list {
+    width: 100%;
   }
 }
 
