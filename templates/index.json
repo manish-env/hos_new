@@ -146,8 +146,8 @@
         "review_67YBH8": {
           "type": "review",
           "settings": {
-            "stars": 5,
             "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
+            "stars": 5,
             "author": "Kulwinder K Samrai",
             "location": "Gravesend, United Kingdom",
             "date": ""
@@ -156,8 +156,8 @@
         "review_VcKfcQ": {
           "type": "review",
           "settings": {
-            "stars": 5,
             "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>",
+            "stars": 5,
             "author": "Sonia P.",
             "location": "Pune, India",
             "date": ""
@@ -170,16 +170,18 @@
       ],
       "name": "LDMX Reviews + Banner",
       "settings": {
-        "heading": "Customer Reviews",
-        "subheading": "",
+        "media_title": "In Motion",
+        "reviews_title": "Customer Reviews",
         "accent_color": "#ff4aa2",
         "show_stars": true,
-        "swap_columns": false,
+        "panel_height": 460,
         "container_width": 1300,
-        "banner": "shopify://shop_images/Red_and_Gold_Vibrant_Wedding_Season_Sale_Instagram_Post.png",
-        "banner_alt": "Promotional banner",
-        "banner_caption": "",
-        "banner_link": "",
+        "video_url": "",
+        "video_mp4": "https://cdn.shopify.com/videos/c/o/v/40e809a229db4d8f904800222bfc9a11.mp4",
+        "autoplay": true,
+        "loop": true,
+        "muted": true,
+        "controls": true,
         "auto_rotate": false,
         "rotate_ms": 5000
       }
