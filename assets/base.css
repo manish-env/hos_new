@@ -793,6 +793,48 @@ summary::-webkit-details-marker {
   flex-wrap: wrap;
 }
 
+/* Global decorative style for section titles */
+.title-wrapper > .title,
+.title-wrapper-with-link > .title,
+.collection__title > .title,
+.title.title--primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  color: #FA05E8; /* pink title color */
+}
+
+.title-wrapper > .title::before,
+.title-wrapper > .title::after,
+.title-wrapper-with-link > .title::before,
+.title-wrapper-with-link > .title::after,
+.collection__title > .title::before,
+.collection__title > .title::after,
+.title.title--primary::before,
+.title.title--primary::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 6rem;
+  background-color: rgba(var(--color-foreground), 0.6); /* thin side lines */
+}
+
+@media screen and (min-width: 750px) {
+  .title-wrapper > .title::before,
+  .title-wrapper > .title::after,
+  .title-wrapper-with-link > .title::before,
+  .title-wrapper-with-link > .title::after,
+  .collection__title > .title::before,
+  .collection__title > .title::after,
+  .title.title--primary::before,
+  .title.title--primary::after {
+    width: 8rem;
+  }
+}
+
 .title--primary {
   margin: 4rem 0;
 }
