@@ -255,10 +255,10 @@ details[open].menu-opening > .menu-drawer__submenu {
     border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
   }
   .menu-drawer__titlebar .menu-title {
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    font-size: 1.3rem;
+    font-size: 20px;
   }
   .menu-drawer__close-icon {
     position: absolute;
