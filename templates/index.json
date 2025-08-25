@@ -233,7 +233,7 @@
           "settings": {
             "video_source": "url",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/2c2c63068583426bb98e2c5fd8d2de15.mp4",
-            "product": "",
+            "product": "black-georgette-festival-wear-saree",
             "show_product_info": true,
             "button_label": "Shop now",
             "link_entire_card": false
@@ -244,8 +244,8 @@
           "settings": {
             "video_source": "url",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/e8817e3dfff94ea9912bc3b76738357e.mp4",
-            "product": "",
-            "show_product_info": true,
+            "product": "dusty-pink-georgette-festival-wear-lehenga-choli",
+            "show_product_info": false,
             "button_label": "Shop now",
             "link_entire_card": false
           }
@@ -266,7 +266,7 @@
           "settings": {
             "video_source": "url",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/599755ff186e4a81a56b8d66426fc4c4.mp4",
-            "product": "",
+            "product": "green-silk-party-wear-saree",
             "show_product_info": true,
             "button_label": "Shop now",
             "link_entire_card": false
