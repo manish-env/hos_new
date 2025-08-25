@@ -174,8 +174,8 @@
         "reviews_title": "Customer Reviews",
         "accent_color": "#ff4aa2",
         "show_stars": true,
-        "panel_height": 460,
-        "container_width": 1300,
+        "pad_top": 48,
+        "pad_bottom": 48,
         "video_url": "",
         "video_mp4": "https://cdn.shopify.com/videos/c/o/v/40e809a229db4d8f904800222bfc9a11.mp4",
         "autoplay": true,
@@ -185,12 +185,52 @@
         "auto_rotate": false,
         "rotate_ms": 5000
       }
+    },
+    "csutom_collections_QLHD3T": {
+      "type": "csutom-collections",
+      "blocks": {
+        "collection_kbpYmg": {
+          "type": "collection",
+          "settings": {
+            "collection": "bridal-lahenga-choli",
+            "custom_title": ""
+          }
+        },
+        "collection_7fAxrJ": {
+          "type": "collection",
+          "settings": {
+            "collection": "readymade-kurta-pajama",
+            "custom_title": ""
+          }
+        },
+        "collection_YxCbLN": {
+          "type": "collection",
+          "settings": {
+            "collection": "wedding-sarees",
+            "custom_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_kbpYmg",
+        "collection_7fAxrJ",
+        "collection_YxCbLN"
+      ],
+      "name": "Mx Collections",
+      "settings": {
+        "heading": "",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "gap": 16,
+        "cover": true
+      }
     }
   },
   "order": [
     "slideshow_bHmz8V",
     "featured_collection",
     "csutom_collections_BMFka7",
-    "mx_reviews_jwfikg"
+    "mx_reviews_jwfikg",
+    "csutom_collections_QLHD3T"
   ]
 }
