@@ -31,10 +31,10 @@
           <div class="menu-drawer__search">
             {%- render 'header-search-inline-clean' -%}
           </div>
-          <div class="menu-drawer__titlebar" role="region" aria-label="Menu">
-            <div class="menu-title">MENU</div>
-            <button class="menu-drawer__close-icon" type="button" aria-label="Close menu" onclick="(function(btn){var d=btn.closest('details'); if(d){ d.open=false; d.classList.remove('menu-opening'); } })(this)">
-              <span class="svg-wrapper">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+          <div class="menu-drawer__titlebar" role="region" aria-label="Menu" style="display:flex;align-items:center;justify-content:center;position:relative;height:44px;padding:0 16px;border-bottom:1px solid rgba(var(--color-foreground),0.12);background:rgb(var(--color-background));z-index:100005;">
+            <div class="menu-title" style="font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:1.3rem;color:rgb(var(--color-foreground));line-height:44px;margin:0;">MENU</div>
+            <button class="menu-drawer__close-icon" type="button" aria-label="Close menu" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:transparent;border:0;padding:.2rem;height:32px;width:32px;display:inline-flex;align-items:center;justify-content:center;" onclick="(function(btn){var d=btn.closest('details'); if(d){ d.open=false; d.classList.remove('menu-opening'); } })(this)">
+              <span class="svg-wrapper" style="display:block;width:20px;height:20px;line-height:0;">{{- 'icon-close.svg' | inline_asset_content -}}</span>
             </button>
           </div>
         </div>

@@ -63,7 +63,11 @@ menu-drawer > details[open] > summary::before {
     border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
     background: rgb(var(--color-background));
     z-index: 100002; /* above list items */
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
   }
+  .menu-drawer__top { overflow: visible !important; }
   .menu-drawer__titlebar .menu-title {
     font-weight: 600;
     letter-spacing: 0.04em;
