@@ -66,6 +66,12 @@
             "show_gift_card_recipient": false
           }
         },
+        "custom_liquid_HADfAx": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% assign c  = product.metafields.custom.color %}\n{% assign f  = product.metafields.custom.fabric %}\n{% assign w  = product.metafields.custom.work %}\n{% assign cv = c.value | default: c %}\n{% assign fv = f.value | default: f %}\n{% assign wv = w.value | default: w %}\n\n<div class=\"mx-final\">\n\n  <div class=\"mx-specs\">\n    <div>\n      <div class=\"mx-label\">COLOUR</div>\n      <div class=\"mx-value\">{{ cv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">FABRIC</div>\n      <div class=\"mx-value\">{{ fv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">WORK</div>\n      <div class=\"mx-value\">{{ wv | default: '—' }}</div>\n    </div>\n  </div>\n\n  <hr class=\"mx-rule\">\n\n  <div class=\"mx-label\">SHIPPING INFORMATION</div>\n  <p class=\"mx-value\">This product will be shipped to you in <strong>12 – 15 days</strong> from the date of order placed.</p>\n</div>\n\n<style>\n  .mx-final{\n    margin-top:16px;\n    color:inherit;\n    font-family:inherit;\n  }\n\n  /* Labels */\n  .mx-final .mx-label{\n    font-size:16px;\n    font-weight:500;\n    margin:0 0 4px 0;\n    text-transform:uppercase;\n    letter-spacing:.03em;\n  }\n\n  /* Values / description */\n  .mx-final .mx-value{\n    font-size:15px;\n    font-weight:400;\n    margin:0 0 10px 0;\n    line-height:1.6;\n  }\n\n  /* Divider */\n  .mx-final .mx-rule{\n    border:0;\n    border-top:1px solid #00000022;\n    margin:12px 0;\n    height:0;\n  }\n\n  /* Specs grid */\n  .mx-final .mx-specs{\n    display:grid;\n    grid-template-columns:repeat(3,minmax(0,1fr));\n    gap:10px 16px;\n  }\n\n  @media(max-width:749px){\n    .mx-final .mx-specs{ grid-template-columns:1fr; }\n  }\n</style>"
+          }
+        },
         "collapsible_tab_xxw6HD": {
           "type": "collapsible_tab",
           "settings": {
@@ -92,6 +98,7 @@
         "variant_picker",
         "options_to_buy_EyRjAj",
         "buy_buttons",
+        "custom_liquid_HADfAx",
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy"
       ],
