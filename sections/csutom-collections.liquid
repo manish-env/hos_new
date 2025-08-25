@@ -6,7 +6,9 @@
   style="--mx-cols-d: {{ section.settings.columns_desktop }}; --mx-cols-m: {{ section.settings.columns_mobile }}; --mx-gap: {{ section.settings.gap }}px; --mx-inset: 12px; --mx-line-color:#fff;">
   <div class="page-width">
     {% if section.settings.heading != blank %}
-      <h2 class="mx-hdg">{{ section.settings.heading }}</h2>
+      <div class="title-wrapper title-wrapper--no-top-margin center">
+        <h2 class="title inline-richtext h2">{{ section.settings.heading }}</h2>
+      </div>
     {% endif %}
 
     <div class="mx-grid">
