@@ -1,4 +1,4 @@
-{% comment %} LDMX – Video (55%) + Reviews (45%), page-width, Great Vibes title, quotes wrapping full review {% endcomment %}
+{% comment %} LDMX – Video 50% + Reviews 50%, page-width, Great Vibes title, quotes wrapping full review, slide clipping {% endcomment %}
 {%- assign ldmx_id = section.id -%}
 <section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}"
   style="padding-top: {{ section.settings.pad_top | default: 48 }}px; padding-bottom: {{ section.settings.pad_bottom | default: 48 }}px;">
@@ -21,7 +21,7 @@
     [data-ldmx="{{ ldmx_id }}"] .ldmx-container.page-width{margin-inline:auto;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{
       display:grid;
-      grid-template-columns: 55% 45%;
+      grid-template-columns: 1fr 1fr; /* 50% / 50% */
       gap:32px;
       align-items:start;
     }
@@ -47,8 +47,8 @@
     /* ===== Video (no border, no radius) ===== */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame{
       position:relative; width:100%;
-      aspect-ratio: 16 / 9; /* keeps normal height */
-      overflow:hidden; /* no visual border */
+      aspect-ratio: 16 / 9; /* normal height */
+      overflow:hidden; /* ensures video never bleeds */
       border:none; border-radius:0;
       background:#000;
     }
@@ -60,8 +60,14 @@
 
     /* ===== Reviews ===== */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden; width:100%;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{min-width:100%; display:flex; justify-content:center;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease; will-change: transform;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{
+      flex:0 0 100%;
+      min-width:100%;
+      overflow:hidden;   /* <— stops next slide’s icons/quotes peeking */
+      position:relative; /* containment for pseudo elements */
+      box-sizing:border-box;
+    }
 
     /* single review block (quotes wrap EVERYTHING inside) */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-review{
@@ -81,7 +87,7 @@
     [data-ldmx="{{ ldmx_id }}"] .ldmx-text{font-size:16px; line-height:1.8; color:var(--ldmx-text); margin-bottom:14px;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin:6px 0 8px;}
     [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:4px; font-weight:700; color:#8a2be2;}
-    [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:var(--ldmx-muted); font-style:italic;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:#757575; font-style:italic;}
 
     /* arrows */
     [data-ldmx="{{ ldmx_id }}"] .ldmx-nav{position:absolute; inset:0; pointer-events:none;}
@@ -97,7 +103,7 @@
   <div class="ldmx-container page-width">
     <div class="ldmx-grid">
 
-      <!-- LEFT: VIDEO (55%) -->
+      <!-- LEFT: VIDEO (50%) -->
       <div class="ldmx-col">
         <h2 class="ldmx-title ldmx-title-media">{{ section.settings.media_title }}</h2>
         <div class="ldmx-media-frame">
@@ -136,13 +142,13 @@
         </div>
       </div>
 
-      <!-- RIGHT: REVIEWS (45%) -->
+      <!-- RIGHT: REVIEWS (50%) -->
       <div class="ldmx-col">
         <h2 class="ldmx-title ldmx-title-rev" style="font-family:'Great Vibes',cursive !important;font-weight:400 !important;">
           {{ section.settings.reviews_title }}
         </h2>
 
-        <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}" style="padding:15px">
+        <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
           <div class="ldmx-track">
             {% for block in section.blocks %}
               {% if block.type == 'review' %}
@@ -200,7 +206,7 @@
 
 {% schema %}
 {
-  "name": "LDMX – Video",
+  "name": "LDMX – Reviews",
   "settings": [
     { "type": "text", "id": "media_title", "label": "Video title", "default": "In Motion" },
     { "type": "text", "id": "reviews_title", "label": "Reviews title (Great Vibes)", "default": "Customer Reviews" },
@@ -241,7 +247,7 @@
   ],
   "max_blocks": 12,
   "presets": [
-    { "name": "LDMX – Video", "blocks": [{ "type": "review" }] }
+    { "name": "LDMX – Reviews", "blocks": [{ "type": "review" }] }
   ]
 }
 {% endschema %}
