@@ -210,6 +210,17 @@
         "pad_bottom": 28
       }
     },
+    "mx_ctaimg_9RyYd3": {
+      "type": "Mx-CTAIMG",
+      "name": "MX Dual Image CTA",
+      "settings": {
+        "image_1": "shopify://shop_images/pexels-amit-chowdhury-2402860-6786973.jpg",
+        "image_2": "shopify://shop_images/Red_and_Gold_Vibrant_Wedding_Season_Sale_Instagram_Post.png",
+        "title": "Follow us on Facebook / Instagram for exciting updates!",
+        "facebook_link": "https://house-of-sonali.myshopify.com/",
+        "instagram_link": "https://house-of-sonali.myshopify.com/"
+      }
+    },
     "mx_reviews_jwfikg": {
       "type": "Mx-Reviews",
       "blocks": {
@@ -262,6 +273,7 @@
     "featured_collection",
     "csutom_collections_BMFka7",
     "mx_reels_4VwnF4",
+    "mx_ctaimg_9RyYd3",
     "mx_reviews_jwfikg"
   ]
 }
