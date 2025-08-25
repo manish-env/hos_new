@@ -61,6 +61,10 @@
         {%- endif -%}
 
         <div class="product-form__buttons">
+          <div class="options-total" aria-live="polite">
+            <span class="options-total__label">TOTAL:</span>
+            <span class="options-total__amount" id="OptionsTotal-{{ section_id }}"></span>
+          </div>
           {%- liquid
             assign check_against_inventory = true
             if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'

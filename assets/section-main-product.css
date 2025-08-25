@@ -330,11 +330,43 @@ a.product__text {
 .product--no-media .share-button,
 .product--no-media .product__view-details,
 .product--no-media .product__pickup-availabilities,
-.product--no-media .product-form {
+.product-form__buttons {
   display: flex;
+  gap: 1rem;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  justify-content: space-between;
+}
+
+.product-form__buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Options TOTAL beside Add to Cart */
+.options-total {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.options-total__label {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.options-total__amount {
+  color: #FA05E8; /* discounted price color preference */
+  font-weight: 700;
+}
+
+@media (max-width: 749px) {
+  .product-form__buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .options-total {
+    justify-content: flex-start;
+  }
 }
 
 .product--no-media .product-form {

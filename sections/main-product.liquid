@@ -490,8 +490,10 @@
                   <ul class="options-to-buy__list" role="list">
                     {%- assign form_id = product_form_id -%}
                     {%- for i in (1..3) -%}
-                      {%- assign opt_label = block.settings["option_" | append: i | append: "_label"] -%}
-                      {%- assign opt_price_units = block.settings["option_" | append: i | append: "_price"] | default: 0 -%}
+                      {%- assign opt_label_key = 'option_' | append: i | append: '_label' -%}
+                      {%- assign opt_label = block.settings[opt_label_key] -%}
+                      {%- assign opt_price_key = 'option_' | append: i | append: '_price' -%}
+                      {%- assign opt_price_units = block.settings[opt_price_key] | default: 0 -%}
                       {%- assign opt_price = opt_price_units | times: 100 -%}
                       {%- assign addon_handle = 'option_' | append: i | append: '_addon_product' -%}
                       {%- assign addon_product = block.settings[addon_handle] -%}
@@ -499,7 +501,8 @@
                         {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
                         {%- assign opt_price = addon_variant.price -%}
                       {%- endif -%}
-                      {%- assign opt_default = block.settings["option_" | append: i | append: "_default"] -%}
+                      {%- assign opt_default_key = 'option_' | append: i | append: '_default' -%}
+                      {%- assign opt_default = block.settings[opt_default_key] -%}
                       {%- if opt_label != blank -%}
                         <li class="options-to-buy__item">
                           <label class="options-to-buy__checkbox">
@@ -534,13 +537,40 @@
                         extraEl.className = 'options-extra';
                         priceWrap.appendChild(extraEl);
                       }
-                      function update(){
+                      var variants = {{ product.variants | json }};
+                      function getCurrentVariantId(){
+                        var idInput = root.querySelector('input.product-variant-id');
+                        return idInput ? parseInt(idInput.value,10) : null;
+                      }
+                      function getCurrentVariantPrice(){
+                        var id = getCurrentVariantId();
+                        if(!id) return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
+                        for(var i=0;i<variants.length;i++){ if(variants[i].id === id) return variants[i].price; }
+                        return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
+                      }
+                      function getQuantity(){
+                        var q = root.querySelector('input[name="quantity"]');
+                        var v = parseInt(q && q.value ? q.value : '1', 10);
+                        return isNaN(v) || v < 1 ? 1 : v;
+                      }
+                      function getExtrasSum(){
                         var checks = root.querySelectorAll('.options-to-buy input[type="checkbox"]');
                         var sum = 0;
                         checks.forEach(function(cb){ if(cb.checked){ var v = parseInt(cb.getAttribute('data-extra-price')||'0',10); if(!isNaN(v)) sum += v; }});
-                        if(extraEl){ extraEl.textContent = sum > 0 ? ' (+ ' + Shopify.formatMoney(sum) + ')' : ''; }
+                        return sum;
                       }
-                      root.addEventListener('change', function(e){ if(e.target && e.target.matches('.options-to-buy input[type="checkbox"]')) update(); });
+                      function update(){
+                        var extras = getExtrasSum();
+                        if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + Shopify.formatMoney(extras) + ')' : ''; }
+                        var totalEl = document.getElementById('OptionsTotal-{{ section.id }}');
+                        if(totalEl){
+                          var base = getCurrentVariantPrice();
+                          var qty = getQuantity();
+                          var total = base * qty + extras;
+                          totalEl.textContent = Shopify.formatMoney(total);
+                        }
+                      }
+                      root.addEventListener('change', function(){ update(); });
                       update();
 
                       // Intercept main product form submit to add add-on products
