@@ -169,8 +169,15 @@ details[open].menu-opening > .menu-drawer__submenu {
 @media screen and (max-width: 989px) {
   .menu-drawer__top {
     background: rgb(var(--color-background));
+    position: sticky;
+    top: 0;
+    z-index: 100002; /* above list items */
   }
-  .menu-drawer__search { padding: 1rem 1rem 0.5rem; border-bottom: 1px solid rgba(var(--color-foreground), 0.08); }
+  .menu-drawer__search { 
+    padding: 1rem 1rem 0.5rem; 
+    border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+    background: var(--drawer-search-bg, #f7d9dd); /* pink strip behind search */
+  }
   .menu-drawer__titlebar {
     display: flex;
     align-items: center;
@@ -203,8 +210,10 @@ details[open].menu-opening > .menu-drawer__submenu {
   .menu-drawer__search input[type="search"],
   .menu-drawer__search input[type="text"],
   .menu-drawer__search .search__input {
-    border: 1px solid rgba(var(--color-foreground), 0.2);
-    background: rgba(var(--color-foreground), 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: var(--drawer-search-bg, #f7d9dd);
+    border-radius: 4px;
+    height: 44px;
   }
 }
 
