@@ -1,9 +1,3 @@
-{% comment %}
-  MX — Video Carousel (Reels) — Sonali skin
-  - Arrows at section edges, no background
-  - Bigger product info fonts
-{% endcomment %}
-
 <section
   id="mxvc-{{ section.id }}"
   class="mxvc color-{{ section.settings.color_scheme }} {% if section.settings.width_mode == 'full' %}is-full{% else %}is-page{% endif %}"
@@ -16,7 +10,6 @@
     --mx-accent: {{ section.settings.accent_color }};
   "
 >
-  <!-- Great Vibes font for title -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
@@ -32,7 +25,9 @@
     <div class="mxvc__wrap" data-wrap>
       {% if section.settings.show_nav %}
         <button class="mxvc__nav mxvc__nav--prev" aria-label="Previous" type="button">
-          <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true">
+            <path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       {% endif %}
 
@@ -96,7 +91,9 @@
 
       {% if section.settings.show_nav %}
         <button class="mxvc__nav mxvc__nav--next" aria-label="Next" type="button">
-          <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true"><path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" width="100%" height="100%" aria-hidden="true">
+            <path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       {% endif %}
     </div>
@@ -107,8 +104,10 @@
     const root = document.getElementById('mxvc-{{ section.id }}');
     if (!root) return;
     const track = root.querySelector('[data-track]');
-    const wrap = root.querySelector('[data-wrap]');
-    if (!track || !wrap) return;
+    if (!track) return;
+
+    const prev = root.querySelector('.mxvc__nav--prev');
+    const next = root.querySelector('.mxvc__nav--next');
 
     function scrollBySlide(dir) {
       const slide = track.querySelector('.mxvc__slide');
@@ -117,25 +116,22 @@
       const amount = slide.getBoundingClientRect().width + gap;
       track.scrollBy({ left: dir * amount, behavior: 'smooth' });
     }
-
-    const prev = root.querySelector('.mxvc__nav--prev');
-    const next = root.querySelector('.mxvc__nav--next');
     if (prev) prev.addEventListener('click', () => scrollBySlide(-1));
     if (next) next.addEventListener('click', () => scrollBySlide(1));
 
-    // Visibility-based play/pause
+    // Play/pause when visible
     const vids = track.querySelectorAll('video');
     if ('IntersectionObserver' in window && vids.length) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach(({ isIntersecting, target }) => {
-          if (isIntersecting && {{ section.settings.autoplay | json }}) { target.play().catch(() => {}); }
-          else { target.pause(); }
+          if (isIntersecting && {{ section.settings.autoplay | json }}) target.play().catch(()=>{});
+          else target.pause();
         });
       }, { root: track, threshold: 0.6 });
       vids.forEach(v => io.observe(v));
     }
 
-    // Drag to scroll
+    // Drag scroll
     let isDown = false, startX = 0, scrollLeft = 0;
     track.addEventListener('mousedown', (e) => {
       isDown = true; track.classList.add('is-dragging');
@@ -147,30 +143,18 @@
       e.preventDefault(); const x = e.pageX - track.offsetLeft; const walk = (x - startX);
       track.scrollLeft = scrollLeft - walk;
     });
-
-    // Disabled state on ends
-    function updateNavState() {
-      const max = track.scrollWidth - track.clientWidth - 1;
-      if (prev) prev.disabled = track.scrollLeft <= 0;
-      if (next) next.disabled = track.scrollLeft >= max;
-    }
-    track.addEventListener('scroll', updateNavState, { passive: true });
-    window.addEventListener('resize', updateNavState);
-    updateNavState();
   })();
   </script>
 
   <style>
     #mxvc-{{ section.id }}{
-      position: relative; /* anchor nav to section edges */
+      position: relative !important; 
       padding-top: var(--mx-pad-top);
       padding-bottom: var(--mx-pad-bottom);
     }
 
-    /* Full-bleed when width = full */
     #mxvc-{{ section.id }} .mxvc__bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
 
-    /* Header */
     .mxvc__header { margin-bottom: 16px; text-align: center; }
     .mxvc__title {
       margin: 0;
@@ -182,46 +166,53 @@
     }
     .mxvc__subtitle { margin: 6px 0 0; opacity: .7; font-size: 13px; }
 
-    .mxvc__wrap { position: relative; }
+    .mxvc__wrap { position: relative; overflow: visible !important; }
 
-    /* === NAV: fixed to SECTION left/right, vertically centered, no bg === */
+    /* ===== ARROWS: ALWAYS VISIBLE, AT SECTION EDGES ===== */
     #mxvc-{{ section.id }} .mxvc__nav{
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      padding: 0;
-      margin: 0;
-      background: transparent;            /* no bg */
-      border: none;
-      box-shadow: none;
-      color: var(--color-foreground, #222);
-      cursor: pointer;
+      position: absolute !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      z-index: 9999 !important;
+      width: 46px; height: 46px;
+      display: grid !important;
+      place-items: center !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      color: var(--color-foreground, #222) !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,.5));
       -webkit-tap-highlight-color: transparent;
+      pointer-events: auto;
     }
-    /* Anchor to section edges (not inner track) */
-    #mxvc-{{ section.id }} .mxvc__nav--prev { left: 8px; }
-    #mxvc-{{ section.id }} .mxvc__nav--next { right: 8px; }
+    #mxvc-{{ section.id }} .mxvc__nav--prev{ left: 10px !important; }
+    #mxvc-{{ section.id }} .mxvc__nav--next{ right: 10px !important; }
+    #mxvc-{{ section.id }} .mxvc__nav svg{ width: 28px; height: 28px; }
+    #mxvc-{{ section.id }} .mxvc__nav:hover{ opacity: .9; }
+    #mxvc-{{ section.id }} .mxvc__nav:focus-visible{ outline: 2px solid currentColor; outline-offset: 2px; }
 
-    /* Make sure SVG scales nicely */
-    #mxvc-{{ section.id }} .mxvc__nav svg { width: 28px; height: 28px; }
+    /* Guard against theme rules hiding disabled buttons */
+    #mxvc-{{ section.id }} .mxvc__nav[disabled]{ 
+      display: grid !important; 
+      opacity: .45 !important; 
+      pointer-events: none !important; 
+    }
+
     @media (max-width: 480px){
-      #mxvc-{{ section.id }} .mxvc__nav{ width: 36px; height: 36px; }
-      #mxvc-{{ section.id }} .mxvc__nav svg { width: 24px; height: 24px; }
-      #mxvc-{{ section.id }} .mxvc__nav--prev { left: 4px; }
-      #mxvc-{{ section.id }} .mxvc__nav--next { right: 4px; }
+      #mxvc-{{ section.id }} .mxvc__nav{ width: 40px; height: 40px; }
+      #mxvc-{{ section.id }} .mxvc__nav svg{ width: 24px; height: 24px; }
+      #mxvc-{{ section.id }} .mxvc__nav--prev{ left: 6px !important; }
+      #mxvc-{{ section.id }} .mxvc__nav--next{ right: 6px !important; }
     }
-    #mxvc-{{ section.id }} .mxvc__nav:hover { opacity: .9; }
-    #mxvc-{{ section.id }} .mxvc__nav:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-    #mxvc-{{ section.id }} .mxvc__nav:disabled { opacity: .35; pointer-events: none; }
 
-    /* Track; larger mobile cards */
+    /* Track */
     #mxvc-{{ section.id }} .mxvc__track {
-      --mx-cols: 1.1; /* bigger cards on mobile */
+      --mx-cols: 1.1;
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: calc(100% / var(--mx-cols));
@@ -232,6 +223,7 @@
       -webkit-overflow-scrolling: touch;
       padding: 0 8px 6px;
       scrollbar-width: none; -ms-overflow-style: none;
+      touch-action: pan-y;
     }
     .mxvc__track::-webkit-scrollbar { display: none; }
     .mxvc__track.is-dragging { cursor: grabbing; }
@@ -246,15 +238,13 @@
       overflow: hidden;
       background: #fafafa;
       border: 1px solid #ececec;
-      box-shadow: none;
     }
     .mxvc__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
     .mxvc__placeholder { display: grid; place-items: center; color: #999; font-size: .9rem; height: 100%; background: #f3f3f3; }
 
-    /* Whole-card link */
     .mxvc__link { display: block; text-decoration: none; color: inherit; }
 
-    /* Product overlay — BIGGER TYPE */
+    /* Product overlay — bigger */
     .mxvc__prod {
       position: absolute; left: 10px; right: 10px; bottom: 10px;
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
@@ -289,7 +279,6 @@
     .mxvc__prod-btn:hover { filter: brightness(.95); }
     .mxvc__prod-btn.is-ghost { background: transparent; color: var(--mx-accent); cursor: default; }
 
-    /* Tablet / Desktop columns */
     @media (min-width: 768px) {
       #mxvc-{{ section.id }} .mxvc__track { --mx-cols: 3; padding: 0 0 6px; }
     }
