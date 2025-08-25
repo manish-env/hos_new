@@ -1329,6 +1329,58 @@ a.product__text {
   justify-content: flex-end;
 }
 
+/* Options to Buy panel */
+.options-to-buy {
+  border: 1px solid rgba(var(--color-foreground), 0.12);
+  border-radius: var(--inputs-radius);
+  margin: 1.6rem 0 1.6rem;
+  overflow: hidden;
+}
+
+.options-to-buy__header {
+  background: rgba(var(--color-foreground), 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.6rem;
+}
+
+.options-to-buy__title {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.options-to-buy__size-guide {
+  color: #FA05E8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.options-to-buy__size-guide:hover { text-decoration: underline; }
+
+.options-to-buy__list {
+  list-style: none;
+  margin: 0;
+  padding: 1rem 1.6rem 1.6rem;
+}
+
+.options-to-buy__item + .options-to-buy__item { margin-top: 0.8rem; }
+
+.options-to-buy__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.options-to-buy__price { opacity: 0.8; }
+
+/* Extra charge shown appended to price area */
+.product-price .options-extra {
+  margin-left: 0.6rem;
+  color: rgb(var(--color-foreground));
+  opacity: 0.8;
+}
+
 /* This keeps the container from getting display: none; applied to it and to make sure we're not introducing some layout shift when switching to an unavailable variant */
 .product__inventory.visibility-hidden:empty {
   display: block;
