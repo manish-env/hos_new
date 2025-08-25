@@ -236,7 +236,7 @@
             "product": "black-georgette-festival-wear-saree",
             "show_product_info": true,
             "button_label": "Shop now",
-            "link_entire_card": false
+            "link_entire_card": true
           }
         },
         "video_iQQdEg": {
@@ -245,9 +245,9 @@
             "video_source": "url",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/e8817e3dfff94ea9912bc3b76738357e.mp4",
             "product": "dusty-pink-georgette-festival-wear-lehenga-choli",
-            "show_product_info": false,
+            "show_product_info": true,
             "button_label": "Shop now",
-            "link_entire_card": false
+            "link_entire_card": true
           }
         },
         "video_TFXNLa": {
@@ -258,7 +258,7 @@
             "product": "baby-pink-faux-georgette-festival-wear-pakistani-suit",
             "show_product_info": true,
             "button_label": "Shop now",
-            "link_entire_card": false
+            "link_entire_card": true
           }
         },
         "video_fF7TXR": {
@@ -269,7 +269,7 @@
             "product": "green-silk-party-wear-saree",
             "show_product_info": true,
             "button_label": "Shop now",
-            "link_entire_card": false
+            "link_entire_card": true
           }
         }
       },
