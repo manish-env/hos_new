@@ -493,6 +493,12 @@
                       {%- assign opt_label = block.settings["option_" | append: i | append: "_label"] -%}
                       {%- assign opt_price_units = block.settings["option_" | append: i | append: "_price"] | default: 0 -%}
                       {%- assign opt_price = opt_price_units | times: 100 -%}
+                      {%- assign addon_handle = 'option_' | append: i | append: '_addon_product' -%}
+                      {%- assign addon_product = block.settings[addon_handle] -%}
+                      {%- if addon_product != blank -%}
+                        {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
+                        {%- assign opt_price = addon_variant.price -%}
+                      {%- endif -%}
                       {%- assign opt_default = block.settings["option_" | append: i | append: "_default"] -%}
                       {%- if opt_label != blank -%}
                         <li class="options-to-buy__item">
@@ -503,6 +509,9 @@
                               value="Yes"
                               form="{{ form_id }}"
                               data-extra-price="{{ opt_price }}"
+                              {%- if addon_product != blank and addon_variant != blank -%}
+                                data-addon-variant="{{ addon_variant.id }}"
+                              {%- endif -%}
                               {% if opt_default %}checked{% endif %}
                             >
                             <span class="options-to-buy__text">{{ opt_label }}</span>
@@ -533,6 +542,50 @@
                       }
                       root.addEventListener('change', function(e){ if(e.target && e.target.matches('.options-to-buy input[type="checkbox"]')) update(); });
                       update();
+
+                      // Intercept main product form submit to add add-on products
+                      var form = root.querySelector('form#{{ product_form_id }}');
+                      if(form){
+                        form.addEventListener('submit', function(evt){
+                          try {
+                            var selectedAddons = Array.from(root.querySelectorAll('.options-to-buy input[type="checkbox"][data-addon-variant]:checked'));
+                            if(selectedAddons.length === 0) return; // allow default handler
+                            evt.preventDefault();
+
+                            var fd = new FormData(form);
+                            var mainId = fd.get('id');
+                            var qty = parseInt(fd.get('quantity') || '1', 10);
+                            if(!qty || qty < 1) qty = 1;
+
+                            // Collect properties destined for the main item
+                            var properties = {};
+                            form.querySelectorAll('[name^="properties["]').forEach(function(input){
+                              if (input.type === 'checkbox' && !input.checked) return;
+                              var name = input.name.replace(/^properties\[|\]$/g,'');
+                              var val = input.value;
+                              if (val && name) properties[name] = val;
+                            });
+
+                            var items = [{ id: mainId, quantity: qty, properties: properties }];
+                            selectedAddons.forEach(function(cb){
+                              var vid = cb.getAttribute('data-addon-variant');
+                              if(vid){ items.push({ id: vid, quantity: 1, properties: { 'Add-on for': mainId } }); }
+                            });
+
+                            fetch('/cart/add.js', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                              body: JSON.stringify({ items: items })
+                            })
+                            .then(function(r){ return r.json(); })
+                            .then(function(){
+                              // Redirect to cart for clarity and consistency
+                              window.location.href = '/cart';
+                            })
+                            .catch(function(){ form.submit(); });
+                          } catch (e) { /* fallback to default */ }
+                        }, { capture: true });
+                      }
                     })();
                   </script>
                 </div>
@@ -848,15 +901,18 @@
         { "type": "url", "id": "size_guide_link", "label": "Size guide link" },
         { "type": "header", "content": "Option 1" },
         { "type": "text", "id": "option_1_label", "label": "Label", "default": "Saree with unstitched blouse" },
-        { "type": "number", "id": "option_1_price", "label": "Extra price (in currency)", "default": 0 },
+        { "type": "product", "id": "option_1_addon_product", "label": "Add-on product (optional)" },
+        { "type": "number", "id": "option_1_price", "label": "Extra price (fallback, in currency)", "default": 0 },
         { "type": "checkbox", "id": "option_1_default", "label": "Checked by default", "default": true },
         { "type": "header", "content": "Option 2" },
         { "type": "text", "id": "option_2_label", "label": "Label", "default": "Saree with Standard Stitched Blouse" },
-        { "type": "number", "id": "option_2_price", "label": "Extra price (in currency)", "default": 1100 },
+        { "type": "product", "id": "option_2_addon_product", "label": "Add-on product (optional)" },
+        { "type": "number", "id": "option_2_price", "label": "Extra price (fallback, in currency)", "default": 1100 },
         { "type": "checkbox", "id": "option_2_default", "label": "Checked by default", "default": false },
         { "type": "header", "content": "Option 3" },
         { "type": "text", "id": "option_3_label", "label": "Label", "default": "Saree with Made to Measure Blouse" },
-        { "type": "number", "id": "option_3_price", "label": "Extra price (in currency)", "default": 1400 },
+        { "type": "product", "id": "option_3_addon_product", "label": "Add-on product (optional)" },
+        { "type": "number", "id": "option_3_price", "label": "Extra price (fallback, in currency)", "default": 1400 },
         { "type": "checkbox", "id": "option_3_default", "label": "Checked by default", "default": false }
       ]
     },
