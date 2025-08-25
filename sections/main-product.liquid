@@ -493,7 +493,7 @@
                       {%- assign opt_label_key = 'option_' | append: i | append: '_label' -%}
                       {%- assign opt_label = block.settings[opt_label_key] -%}
                       {%- assign opt_price_key = 'option_' | append: i | append: '_price' -%}
-                      {%- assign opt_price_units = block.settings[opt_price_key] | default: 0 -%}
+                      {%- assign opt_price_units = block.settings[opt_price_key] | default: 0 | replace: ',', '' -%}
                       {%- assign opt_price = opt_price_units | times: 100 -%}
                       {%- assign addon_handle = 'option_' | append: i | append: '_addon_product' -%}
                       {%- assign addon_product = block.settings[addon_handle] -%}
@@ -614,10 +614,10 @@
                       if(form){
                         form.addEventListener('submit', function(evt){
                           try {
-                            var selected = root.querySelector('.options-to-buy input[type="radio"]:checked');
+                            var selected = document.querySelector('.options-to-buy input[type="radio"]:checked');
                             var selectedAddonVariant = selected && selected.getAttribute('data-addon-variant');
                             var hasAddon = !!selectedAddonVariant;
-                            if(!hasAddon){ return; } // allow default handler when no add-on product is mapped
+                            // Always AJAX submit for consistency
                             evt.preventDefault();
 
                             var fd = new FormData(form);
@@ -636,7 +636,11 @@
                             });
 
                             var items = [{ id: mainId, quantity: qty, properties: properties }];
-                            if(selectedAddonVariant){ items.push({ id: selectedAddonVariant, quantity: 1, properties: { 'Add-on for': mainId } }); }
+                            if(selectedAddonVariant){
+                              items.push({ id: selectedAddonVariant, quantity: 1, properties: { 'Add-on for': mainId } });
+                            } else {
+                              console.warn('No add-on product mapped for selected service; only main product will be added.');
+                            }
 
                             fetch('/cart/add.js', {
                               method: 'POST',
