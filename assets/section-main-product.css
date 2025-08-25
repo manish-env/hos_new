@@ -1767,11 +1767,14 @@ a.product__text {
 .product__share-under-media .product__share-label {
   color: rgba(var(--color-foreground), 0.7);
   font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
 }
 
 .product__share-under-media .list-social {
   display: inline-flex;
-  gap: 0.8rem;
+  gap: 1.2rem; /* increase spacing between icons */
 }
 
 .product__share-under-media .list-social__link .svg-wrapper {
@@ -1788,6 +1791,14 @@ a.product__text {
   height: 100%;
   fill: currentColor;
   stroke: currentColor;
+}
+
+/* Font Awesome icon sizing */
+.product__share-under-media .list-social__link i,
+.product__share-under-media .product__share-copy i,
+.product__wishlist-btn i {
+  font-size: 2.2rem; /* increase icon size */
+  line-height: 1;
 }
 
 /* Hover and focus color for share icons */
