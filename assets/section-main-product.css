@@ -334,7 +334,7 @@ a.product__text {
   display: flex;
   gap: 1rem;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* avoid stretching items; we push the button with auto margin */
 }
 
 /* Make the Add to Cart button sit on the far right on desktop */
@@ -353,7 +353,7 @@ a.product__text {
   display: flex;
   gap: 1rem;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 /* Options TOTAL beside Add to Cart */
@@ -361,16 +361,18 @@ a.product__text {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
+  flex-wrap: nowrap; /* keep label and amount on one line */
 }
 .options-total__label {
-  font-weight: 700;
+  font-weight: 500; /* per request */
   letter-spacing: 0.02em;
   font-size: 18px;
 }
 .options-total__amount {
   color: #FA05E8; /* discounted price color preference */
-  font-weight: 700;
+  font-weight: 500; /* per request */
   font-size: 22px;
+  white-space: nowrap; /* prevent currency/amount wrapping */
 }
 
 @media (max-width: 749px) {
@@ -416,7 +418,8 @@ a.product__text {
 }
 
 .product-form__buttons {
-  max-width: 44rem;
+  max-width: none;
+  width: 100%;
 }
 
 .product--no-media .product__info-container > modal-opener {
