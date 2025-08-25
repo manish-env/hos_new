@@ -176,7 +176,7 @@ details[open].menu-opening > .menu-drawer__submenu {
   .menu-drawer__search { 
     padding: 1rem 1rem 0.5rem; 
     border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
-    background: var(--drawer-search-bg, #f7d9dd); /* pink strip behind search */
+    background: transparent; /* only the input should be pink */
   }
   .menu-drawer__titlebar {
     display: flex;
@@ -210,10 +210,21 @@ details[open].menu-opening > .menu-drawer__submenu {
   .menu-drawer__search input[type="search"],
   .menu-drawer__search input[type="text"],
   .menu-drawer__search .search__input {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    background: var(--drawer-search-bg, #f7d9dd);
+    --drawer-search-bg: #f7d9dd; /* light pink */
+    --drawer-search-border: #e7b1b8; /* darker pink border */
+    border: 1px solid var(--drawer-search-border);
+    background: var(--drawer-search-bg);
     border-radius: 4px;
     height: 44px;
+    padding-left: 12px; /* remove space reserved for icon */
+    padding-right: 12px;
+    background-image: none !important;
+  }
+  /* Hide search/envelope icon/button within the drawer's search on mobile */
+  .menu-drawer__search .search__button,
+  .menu-drawer__search .field__icon,
+  .menu-drawer__search .search__input + button {
+    display: none !important;
   }
 }
 
