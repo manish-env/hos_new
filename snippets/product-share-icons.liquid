@@ -13,8 +13,9 @@
 -%}
 
 <div class="product__share-under-media">
-  <span class="product__share-label">{{ 'general.share.share' | default: 'Share' }}</span>
-  <ul class="list-unstyled list-social" role="list">
+  <div class="product__share-left">
+    <span class="product__share-label">Share</span>
+    <ul class="list-unstyled list-social" role="list">
     <li class="list-social__item">
       <a class="link list-social__link" href="https://www.facebook.com/sharer/sharer.php?u={{ _enc_url }}" target="_blank" rel="noopener" aria-label="Share on Facebook">
         <span class="svg-wrapper">{{ 'icon-facebook.svg' | inline_asset_content }}</span>
@@ -36,7 +37,13 @@
         <span class="svg-wrapper">{{ 'icon-copy.svg' | inline_asset_content }}</span>
       </button>
     </li>
-  </ul>
+    </ul>
+  </div>
+  <div class="product__share-right">
+    <button type="button" class="link product__wishlist-btn" data-product-id="{{ product.id }}" aria-label="Add to wishlist">
+      <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+    </button>
+  </div>
 </div>
 
 <script>
@@ -57,6 +64,16 @@
         }
         btn.classList.add('copied');
         setTimeout(function(){ btn.classList.remove('copied'); }, 1500);
+      } catch(_err) {}
+    });
+    // Wishlist toggle and event dispatch
+    document.addEventListener('click', function(e){
+      var w = e.target.closest && e.target.closest('.product__wishlist-btn');
+      if(!w) return;
+      var active = w.classList.toggle('active');
+      try {
+        var detail = { productId: w.getAttribute('data-product-id'), active: active };
+        w.dispatchEvent(new CustomEvent('wishlist:toggle', { bubbles: true, detail: detail }));
       } catch(_err) {}
     });
   })();

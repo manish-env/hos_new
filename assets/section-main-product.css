@@ -1753,8 +1753,15 @@ a.product__text {
 .product__share-under-media {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* push wishlist to the right */
   gap: 1rem;
   margin-top: 1.2rem;
+}
+
+.product__share-under-media .product__share-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .product__share-under-media .product__share-label {
@@ -1772,6 +1779,29 @@ a.product__text {
   width: 2rem;
   height: 2rem;
 }
+
+.product__share-under-media .product__share-right {
+  margin-left: auto;
+}
+
+.product__wishlist-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  border: none;
+  background: transparent;
+  color: rgba(var(--color-foreground), 0.6);
+  cursor: pointer;
+}
+
+.product__wishlist-btn .svg-wrapper {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.product__wishlist-btn:hover { color: rgba(var(--color-foreground), 0.85); }
+.product__wishlist-btn.active { color: #e21; }
 
 .product__share-under-media .product__share-copy.copied::after {
   content: 'Copied';
