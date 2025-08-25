@@ -538,6 +538,22 @@
                         priceWrap.appendChild(extraEl);
                       }
                       var variants = {{ product.variants | json }};
+                      var moneyFormat = {{ shop.money_format | json }};
+                      function formatMoney(cents){
+                        try {
+                          if (window.Shopify && typeof Shopify.formatMoney === 'function') {
+                            return Shopify.formatMoney(cents, moneyFormat);
+                          }
+                        } catch(e) {}
+                        var fmt = moneyFormat || '{{amount}}';
+                        var amount = (cents / 100).toFixed(2);
+                        var noDec = Math.round(cents / 100).toString();
+                        return fmt
+                          .replace('{{amount}}', amount)
+                          .replace('{{ amount }}', amount)
+                          .replace('{{amount_no_decimals}}', noDec)
+                          .replace('{{ amount_no_decimals }}', noDec);
+                      }
                       function getCurrentVariantId(){
                         var idInput = root.querySelector('input.product-variant-id');
                         return idInput ? parseInt(idInput.value,10) : null;
@@ -563,12 +579,12 @@
                       function update(){
                         var qty = getQuantity();
                         var extras = getExtrasUnit() * qty; // apply service per quantity
-                        if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + Shopify.formatMoney(extras) + ')' : ''; }
+                        if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + formatMoney(extras) + ')' : ''; }
                         var totalEl = document.getElementById('OptionsTotal-{{ section.id }}') || root.querySelector('.product-form__buttons .options-total__amount');
                         if(totalEl){
                           var base = getCurrentVariantPrice();
                           var total = base * qty + extras;
-                          totalEl.textContent = Shopify.formatMoney(total);
+                          totalEl.textContent = formatMoney(total);
                         }
                       }
                       // Ensure one service is selected by default BEFORE initial update
