@@ -26,6 +26,12 @@
             "price_align": "center"
           }
         },
+        "custom_liquid_eda7b9": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<!-- Load Font Awesome (if not already included in your theme) -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css\">\n\n<div style=\"display:flex; justify-content:space-between; align-items:center; margin:10px 0;\">\n  \n  <!-- Product Color from metafield -->\n  <span style=\"font-size:14px; color:#111;\">\n    Color: \n    {{ product.metafields.custom.color | default: 'N/A' }}\n  </span>\n\n  <!-- Free Shipping Badge -->\n  <span style=\"display:flex; align-items:center; font-size:14px; font-weight:500;\">\n    <i class=\"fa-solid fa-truck\" style=\"font-size:16px; margin-right:6px; color:#000;\"></i>\n    <span style=\"color:#ff00ff;\">FREE SHIPPING</span>\n  </span>\n\n</div>"
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -39,29 +45,19 @@
             "show_dynamic_checkout": false,
             "show_gift_card_recipient": false
           }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
         }
       },
       "block_order": [
         "title",
         "price",
+        "custom_liquid_eda7b9",
         "variant_picker",
-        "buy_buttons",
-        "description",
-        "share"
+        "buy_buttons"
       ],
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
+        "content_alignment": "center",
         "media_size": "medium",
         "constrain_to_viewport": false,
         "media_fit": "cover",
