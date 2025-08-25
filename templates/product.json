@@ -39,6 +39,13 @@
             "swatch_shape": "circle"
           }
         },
+        "options_to_buy": {
+          "type": "options_to_buy",
+          "settings": {
+            "heading": "OPTIONS TO BUY",
+            "size_guide_label": "SIZE GUIDE"
+          }
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -52,6 +59,7 @@
         "price",
         "custom_liquid_eda7b9",
         "variant_picker",
+        "options_to_buy",
         "buy_buttons"
       ],
       "settings": {
