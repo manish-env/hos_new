@@ -1487,6 +1487,11 @@ input.mobile-facets__checkbox {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  /* Mobile filter drawer header close button */
+  .mobile-facets__header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .mobile-facets__close-btn { background: transparent; border: 0; padding: 0.6rem; margin-left: auto; display: inline-flex; align-items: center; justify-content: center; }
+  .mobile-facets__close-btn .svg-wrapper { width: 1.8rem; height: 1.8rem; display: inline-block; }
+
   /* Keep Filter and Sort on one row, evenly spaced */
   #FacetFiltersFormMobile,
   #FacetSortMobileBar { display: flex; align-items: center; gap: 1rem; }

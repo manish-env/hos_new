@@ -496,6 +496,10 @@
                     }}
                   {%- endif -%}
                 </p>
+                <!-- Added: explicit close button for mobile drawer header -->
+                <button type="button" class="mobile-facets__close-btn medium-hide large-up-hide" aria-label="{{ 'accessibility.close' | t }}" onclick="this.closest('.mobile-facets__wrapper').querySelector('summary').click()">
+                  <span class="svg-wrapper">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+                </button>
               </div>
             </div>
             <div
