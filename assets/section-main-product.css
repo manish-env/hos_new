@@ -1748,3 +1748,34 @@ a.product__text {
     border: none;
   }
 }
+
+/* Share icons under product media */
+.product__share-under-media {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.product__share-under-media .product__share-label {
+  color: rgba(var(--color-foreground), 0.7);
+  font-size: 1.4rem;
+}
+
+.product__share-under-media .list-social {
+  display: inline-flex;
+  gap: 0.8rem;
+}
+
+.product__share-under-media .list-social__link .svg-wrapper {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+}
+
+.product__share-under-media .product__share-copy.copied::after {
+  content: 'Copied';
+  margin-left: 0.4rem;
+  font-size: 1.2rem;
+  color: rgba(var(--color-foreground), 0.6);
+}

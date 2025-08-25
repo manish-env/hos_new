@@ -1,0 +1,63 @@
+{%- comment -%}
+  Social share icons displayed under the main product media.
+  Uses existing theme icon assets and styles for consistency.
+{%- endcomment -%}
+{%- liquid
+  assign _share_url = product.selected_variant.url | default: product.url | prepend: request.origin
+  assign _title = product.title | strip | escape
+  assign _image = product.featured_image | default: product.images.first
+  assign _image_url = _image | image_url: width: 1200
+  assign _enc_url = _share_url | url_param_escape
+  assign _enc_title = _title | url_param_escape
+  assign _enc_img = _image_url | url_param_escape
+-%}
+
+<div class="product__share-under-media">
+  <span class="product__share-label">{{ 'general.share.share' | default: 'Share' }}</span>
+  <ul class="list-unstyled list-social" role="list">
+    <li class="list-social__item">
+      <a class="link list-social__link" href="https://www.facebook.com/sharer/sharer.php?u={{ _enc_url }}" target="_blank" rel="noopener" aria-label="Share on Facebook">
+        <span class="svg-wrapper">{{ 'icon-facebook.svg' | inline_asset_content }}</span>
+      </a>
+    </li>
+    <li class="list-social__item">
+      <a class="link list-social__link" href="https://twitter.com/intent/tweet?url={{ _enc_url }}&text={{ _enc_title }}" target="_blank" rel="noopener" aria-label="Share on Twitter">
+        <span class="svg-wrapper">{{ 'icon-twitter.svg' | inline_asset_content }}</span>
+      </a>
+    </li>
+    <li class="list-social__item">
+      <a class="link list-social__link" href="https://pinterest.com/pin/create/button/?url={{ _enc_url }}&media={{ _enc_img }}&description={{ _enc_title }}" target="_blank" rel="noopener" aria-label="Share on Pinterest">
+        <span class="svg-wrapper">{{ 'icon-pinterest.svg' | inline_asset_content }}</span>
+      </a>
+    </li>
+    {%- comment -%} Copy link uses the existing copy icon from share-button {%- endcomment -%}
+    <li class="list-social__item">
+      <button type="button" class="link list-social__link product__share-copy" data-share-url="{{ _share_url }}" aria-label="Copy link">
+        <span class="svg-wrapper">{{ 'icon-copy.svg' | inline_asset_content }}</span>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<script>
+  // Lightweight copy-to-clipboard for the under-media share bar
+  (function(){
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest && e.target.closest('.product__share-copy');
+      if(!btn) return;
+      try {
+        var url = btn.getAttribute('data-share-url');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url);
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = url; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch(_e) {}
+          document.body.removeChild(ta);
+        }
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.classList.remove('copied'); }, 1500);
+      } catch(_err) {}
+    });
+  })();
+</script>
