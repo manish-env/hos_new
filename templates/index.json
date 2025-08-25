@@ -29,17 +29,36 @@
             "text_alignment_mobile": "center",
             "color_scheme": ""
           }
+        },
+        "slide_4n34Ta": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/49116-lehenga-choli-2024.jpg",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
+          }
         }
       },
       "block_order": [
-        "slide_ExzhVw"
+        "slide_ExzhVw",
+        "slide_4n34Ta"
       ],
       "name": "t:sections.slideshow.presets.name",
       "settings": {
         "layout": "full_bleed",
-        "slide_height": "medium",
+        "slide_height": "adapt_image",
         "slider_visual": "counter",
-        "auto_rotate": false,
+        "auto_rotate": true,
         "change_slides_speed": 5,
         "image_behavior": "none",
         "show_text_below": true,
