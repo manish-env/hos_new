@@ -212,13 +212,20 @@ details[open].menu-opening > .menu-drawer__submenu {
   .menu-drawer__search .search__input {
     --drawer-search-bg: #f7d9dd; /* light pink */
     --drawer-search-border: #e7b1b8; /* darker pink border */
-    border: 1px solid var(--drawer-search-border);
-    background: var(--drawer-search-bg);
-    border-radius: 4px;
-    height: 44px;
+    border: 1px solid var(--drawer-search-border) !important;
+    background: var(--drawer-search-bg) !important;
+    border-radius: 4px !important;
+    height: 44px !important;
     padding-left: 12px; /* remove space reserved for icon */
     padding-right: 44px; /* leave room for visible search button */
     background-image: none !important;
+  }
+  /* Make sure the wrapper doesn't draw its own border/background */
+  .menu-drawer__search .field {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
   }
   /* Ensure the search button/icon remains visible on mobile */
   .menu-drawer__search .search__button,
