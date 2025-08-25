@@ -138,6 +138,16 @@
       e.preventDefault(); const x = e.pageX - track.offsetLeft; const walk = (x - startX);
       track.scrollLeft = scrollLeft - walk;
     });
+
+    // Prev/Next disabled state (optional polish)
+    function updateNavState() {
+      const max = track.scrollWidth - track.clientWidth - 1; // -1 to avoid float rounding
+      if (prev) prev.disabled = track.scrollLeft <= 0;
+      if (next) next.disabled = track.scrollLeft >= max;
+    }
+    track.addEventListener('scroll', updateNavState, { passive: true });
+    window.addEventListener('resize', updateNavState);
+    updateNavState();
   })();
   </script>
 
@@ -161,9 +171,47 @@
 
     .mxvc__wrap { position: relative; }
 
+    /* NAV: overlayed left/right, vertically centered, NO background */
+    #mxvc-{{ section.id }} .mxvc__nav{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      margin: 0;
+      background: transparent;         /* no bg */
+      border: none;
+      box-shadow: none;
+      color: var(--color-foreground, #222);
+      font-size: clamp(22px, 3.2vw, 30px);
+      line-height: 1;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #mxvc-{{ section.id }} .mxvc__nav--prev { left: 6px; }
+    #mxvc-{{ section.id }} .mxvc__nav--next { right: 6px; }
+    #mxvc-{{ section.id }} .mxvc__nav:hover { opacity: .85; background: transparent; }
+    #mxvc-{{ section.id }} .mxvc__nav:focus-visible{
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+    #mxvc-{{ section.id }} .mxvc__nav:disabled{
+      opacity: .35;
+      pointer-events: none;
+    }
+    @media (max-width: 480px){
+      #mxvc-{{ section.id }} .mxvc__nav{ width: 36px; height: 36px; font-size: 24px; }
+      #mxvc-{{ section.id }} .mxvc__nav--prev { left: 2px; }
+      #mxvc-{{ section.id }} .mxvc__nav--next { right: 2px; }
+    }
+
     /* Track; make mobile slides larger */
     #mxvc-{{ section.id }} .mxvc__track {
-      --mx-cols: 1.1;                 /* was 1.5: bigger cards on mobile */
+      --mx-cols: 1.1;                 /* bigger cards on mobile */
       display: grid;
       grid-auto-flow: column;
       grid-auto-columns: calc(100% / var(--mx-cols));
@@ -179,7 +227,7 @@
     .mxvc__track.is-dragging { cursor: grabbing; }
     .mxvc__slide { scroll-snap-align: start; }
 
-    /* Cards: reduced radius as requested */
+    /* Cards: reduced radius */
     .mxvc__media {
       position: relative;
       width: 100%;
@@ -196,14 +244,14 @@
     /* Whole-card link */
     .mxvc__link { display: block; text-decoration: none; color: inherit; }
 
-    /* Product overlay: smaller radius; mobile-bigger fonts */
+    /* Product overlay: mobile-bigger fonts */
     .mxvc__prod {
       position: absolute; left: 10px; right: 10px; bottom: 10px;
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
       padding: 9px 10px;
       background: rgba(255,255,255,.96);
       border: 1px solid #eaeaea;
-      border-radius: 8px;            /* reduced */
+      border-radius: 8px;
       backdrop-filter: blur(1px);
     }
     .mxvc__prod-meta { display: grid; gap: 2px; min-width: 0; }
