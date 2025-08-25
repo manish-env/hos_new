@@ -29,7 +29,7 @@
         "custom_liquid_eda7b9": {
           "type": "custom_liquid",
           "settings": {
-            "custom_liquid": ""
+            "custom_liquid": "<div style=\"display:flex; justify-content:space-between; align-items:center; margin:10px 0;\">\n  \n  <!-- Product Color from metafield -->\n  <span style=\"font-size:14px; color:#111;\">\n    Color: \n    {{ product.metafields.custom.color | default: 'N/A' }}\n  </span>\n\n  <!-- Free Shipping Badge -->\n  <span style=\"display:flex; align-items:center; font-size:14px; color:#ff00ff; font-\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" \n         viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" style=\"margin-right:4px;\">\n      <path d=\"M3 3h13v4h5l3 5v9h-2a3 3 0 0 1-6 0H9a3 3 0 0 1-6 0H1V5a2 2 0 0 1 2-2zm13 12a3 3 0 0 1 6 0h-6zm-10 0a3 3 0 0 1 6 0H6z\"/>\n    </svg>\n    FREE SHIPPING\n  </span>\n\n</div>"
           }
         },
         "variant_picker": {
