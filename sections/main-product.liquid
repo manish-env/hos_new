@@ -106,7 +106,29 @@
                     </h2>
                   </a>
                 </div>
+                {%- endif -%}
               {%- when 'addon_services' -%}
+                {%- liquid
+                  assign ptype = product.type | default: product.product_type | strip
+                  assign mode = block.settings.visibility_mode | default: 'show_all'
+                  assign csv = block.settings.product_types | default: ''
+                  assign csv_lc = csv | downcase
+                  assign ptype_lc = ptype | downcase
+                  assign match = false
+                  for t in csv_lc | split: ','
+                    assign t_clean = t | strip
+                    if t_clean != '' and t_clean == ptype_lc
+                      assign match = true
+                    endif
+                  endfor
+                  assign show_block = true
+                  if mode == 'only_types'
+                    assign show_block = match
+                  elsif mode == 'exclude_types'
+                    assign show_block = match | not
+                  endif
+                -%}
+                {%- if show_block -%}
                 <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }}>
                   {%- assign form_id = product_form_id -%}
                   <div class="options-to-buy__header">
@@ -1162,6 +1184,24 @@
       "settings": [
         { "type": "text", "id": "heading", "label": "Heading", "default": "Add-on Services" },
         { "type": "text", "id": "subtext", "label": "Subtext" },
+        { "type": "header", "content": "Visibility" },
+        {
+          "type": "select",
+          "id": "visibility_mode",
+          "label": "Show this block",
+          "default": "show_all",
+          "options": [
+            { "value": "show_all", "label": "On all products" },
+            { "value": "only_types", "label": "Only for these product types" },
+            { "value": "exclude_types", "label": "Hide for these product types" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "product_types",
+          "label": "Product types (comma-separated)",
+          "info": "Example: Saree, Lehenga, Kurtas. Matches against product.type/product_product_type."
+        },
         { "type": "header", "content": "Item 1" },
         { "type": "product", "id": "item_1_product", "label": "Add-on product" },
         { "type": "text", "id": "item_1_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty. Example: custom-stitching" },
