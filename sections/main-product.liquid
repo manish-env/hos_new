@@ -1164,34 +1164,42 @@
       updateTotal();
 
       productForm.addEventListener('submit', function(e){
-        // Collect checkbox add-ons
-        var ids = [];
-        root.querySelectorAll('.addon-services__input:checked[data-addon-variant]').forEach(function(cb){
-          var vid = parseInt(cb.getAttribute('data-addon-variant'),10);
-          if(vid && ids.indexOf(vid)===-1) ids.push(vid);
-        });
-        // If no add-ons are selected, let theme's default submit run
-        if(ids.length === 0) return;
-
         // Guard: if we're already handling a submit, don't re-enter
         if (productForm.dataset.addonSubmitInProgress === '1') return;
         productForm.dataset.addonSubmitInProgress = '1';
 
-        // Fully intercept so the theme doesn't also add the main product
+        // Always intercept to avoid duplicate adds by theme
         e.preventDefault();
         if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
         if (typeof e.stopPropagation === 'function') e.stopPropagation();
 
         var mainIdInput = productForm.querySelector('input[name="id"]');
-        if(!mainIdInput) { delete productForm.dataset.addonSubmitInProgress; productForm.submit(); return; }
+        if(!mainIdInput) { delete productForm.dataset.addonSubmitInProgress; return; }
         var mainId = parseInt(mainIdInput.value,10);
         var quantity = getQuantity();
 
-        var items = [{ id: mainId, quantity: quantity }];
-        ids.forEach(function(vid){
-          if (vid !== mainId) {
-            items.push({ id: vid, quantity: quantity });
+        // Collect properties from the form (only enabled inputs are included by FormData)
+        var fd = new FormData(productForm);
+        var properties = {};
+        fd.forEach(function(value, key){
+          if (key && key.indexOf('properties[') === 0) {
+            // extract label inside properties[...]
+            var k = key.slice(11, -1);
+            if (k) properties[k] = value;
           }
+        });
+
+        // Collect checkbox add-ons (variant IDs)
+        var addonIds = [];
+        root.querySelectorAll('.addon-services__input:checked[data-addon-variant]').forEach(function(cb){
+          var vid = parseInt(cb.getAttribute('data-addon-variant'),10);
+          if(vid && addonIds.indexOf(vid)===-1) addonIds.push(vid);
+        });
+
+        // Build items: main with properties, plus addon variants
+        var items = [{ id: mainId, quantity: quantity, properties: properties }];
+        addonIds.forEach(function(vid){
+          if (vid !== mainId) items.push({ id: vid, quantity: quantity });
         });
 
         fetch('/cart/add.js', {
@@ -1202,9 +1210,8 @@
         .then(function(res){ return res.ok ? res.json() : res.json().then(function(j){ throw j; }); })
         .then(function(){ window.location.href = '/cart'; })
         .catch(function(){
-          // fallback: allow theme default submit
+          // If it fails, just clear the in-progress flag so user can retry
           delete productForm.dataset.addonSubmitInProgress;
-          productForm.submit();
         });
       });
     });
