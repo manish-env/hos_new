@@ -12,6 +12,7 @@
 
 .footer__content-top {
   padding: 20px 0 20px;
+  background-color: #F2F2F2 !important;
   /* Use the theme's .page-width container for width & padding */
 }
 
