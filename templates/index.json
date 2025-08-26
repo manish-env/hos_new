@@ -215,10 +215,11 @@
       "name": "MX Dual Image CTA",
       "settings": {
         "image_1": "shopify://shop_images/pexels-amit-chowdhury-2402860-6786973.jpg",
-        "image_2": "shopify://shop_images/Red_and_Gold_Vibrant_Wedding_Season_Sale_Instagram_Post.png",
+        "image_2": "shopify://shop_images/pexels-amit-chowdhury-2402860-6786973.jpg",
         "title": "Follow us on Facebook / Instagram for exciting updates!",
         "facebook_link": "https://house-of-sonali.myshopify.com/",
-        "instagram_link": "https://house-of-sonali.myshopify.com/"
+        "instagram_link": "https://house-of-sonali.myshopify.com/",
+        "border_inset": 25
       }
     },
     "mx_reviews_jwfikg": {
@@ -266,6 +267,16 @@
         "auto_rotate": false,
         "rotate_ms": 5000
       }
+    },
+    "custom_liquid_atVrEf": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{%- comment -%}\n  House of SOnali — About / D2C (Custom Liquid)\n  • Full width\n  • Fixed height (change --mxabs-height if needed)\n  • Thin scrollbar\n  • Great Vibes title centered\n{%- endcomment -%}\n\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap\" rel=\"stylesheet\">\n\n<style>\n  :root{\n    --mxabs-height: 400px;     /* adjust if needed */\n    --mxabs-text: #1b1b1b;\n    --mxabs-muted:#666;\n    --mxabs-bg:#fff;\n    --mxabs-border:#eee;\n  }\n\n  .mxabs{width:100%; background:var(--mxabs-bg); padding:24px 0;}\n  .mxabs-wrap{width:100%; padding:0 clamp(14px, 2vw, 28px);}\n  .mxabs-title{\n    font-family:'Great Vibes', cursive;\n    text-align:center;\n    font-size:clamp(36px, 5vw, 58px);\n    line-height:1;\n    margin:0 0 14px;\n  }\n  .mxabs-box{\n    height:var(--mxabs-height);\n    overflow:auto;\n    border:1px solid var(--mxabs-border);\n    border-radius:12px;\n    padding:22px 24px;\n    line-height:1.7;\n    font-size:16px;\n    color:var(--mxabs-text);\n    background:#fff;\n  }\n  .mxabs-box p{margin:0 0 12px;}\n  .mxabs-box strong{font-weight:600;}\n\n  /* Thin scrollbars */\n  .mxabs-box::-webkit-scrollbar{width:6px;}\n  .mxabs-box::-webkit-scrollbar-track{background:transparent;}\n  .mxabs-box::-webkit-scrollbar-thumb{background:#bdbdbd; border-radius:8px;}\n  .mxabs-box:hover::-webkit-scrollbar-thumb{background:#9b9b9b;}\n  .mxabs-box{scrollbar-width:thin; scrollbar-color:#bdbdbd transparent;}\n\n  @media (max-width: 768px){\n    .mxabs-box{font-size:15px; padding:18px;}\n  }\n</style>\n\n<section class=\"mxabs\" id=\"mxabs-hos\">\n  <div class=\"mxabs-wrap\">\n    <h2 class=\"mxabs-title\">About House of SOnali</h2>\n\n    <div class=\"mxabs-box\">\n      <p><strong>House of SOnali</strong> is a D2C label celebrating the elegance of Indian sarees—crafted for the modern woman who loves timeless style with effortless comfort.</p>\n\n      <p>We design and curate sarees in India with a focus on fabric, drape and detail. By working directly with artisans and trusted partners—without middlemen—we offer premium quality at fair, transparent prices.</p>\n\n      <p><strong>What you’ll find:</strong> wedding &amp; reception edits, classic daily-wear, party-perfect pieces, silk sarees that glow under the lights, and Bollywood-inspired looks—thoughtfully styled for every mood and moment.</p>\n\n      <p><strong>Colors &amp; designs:</strong> explore serene blues, festive reds and over thirty versatile hues in prints, weaves and textures designed to flatter.</p>\n\n      <p><strong>Fast shipping, worldwide:</strong> we ship globally with reliable delivery partners. Need help with sizing, styling or gifting? Our team is just a message away.</p>\n\n      <p><strong>Returns &amp; refunds:</strong> please review our policy page for details. We’re committed to fit, finish and your peace of mind.</p>\n\n      <p>Join the House of SOnali community and discover sarees that feel as good as they look—crafted in India and delivered right to your doorstep.</p>\n    </div>\n  </div>\n</section>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -274,6 +285,7 @@
     "csutom_collections_BMFka7",
     "mx_reels_4VwnF4",
     "mx_ctaimg_9RyYd3",
-    "mx_reviews_jwfikg"
+    "mx_reviews_jwfikg",
+    "custom_liquid_atVrEf"
   ]
 }
