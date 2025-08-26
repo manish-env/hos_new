@@ -1,4 +1,12 @@
-
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -18,6 +26,22 @@
             "price_align": "center"
           }
         },
+        "stitching_services_WXPK8T": {
+          "type": "stitching_services",
+          "settings": {
+            "heading": "Stitching Services",
+            "enable_unstitched": true,
+            "enable_standard": true,
+            "enable_custom": true,
+            "standard_sizes": "XS,S,M,L,XL",
+            "size_chart_label": "Size Chart",
+            "size_chart_link": "",
+            "standard_product": "standard-stitiching",
+            "custom_product": "custom-stitching",
+            "default_standard_handle": "standard-stitiching",
+            "default_custom_handle": "custom-stitching"
+          }
+        },
         "custom_liquid_eda7b9": {
           "type": "custom_liquid",
           "settings": {
@@ -29,26 +53,6 @@
           "settings": {
             "picker_type": "button",
             "swatch_shape": "circle"
-          }
-        },
-        "options_to_buy_EyRjAj": {
-          "type": "options_to_buy",
-          "settings": {
-            "heading": "Stitching Services",
-            "size_guide_label": "SIZE GUIDE",
-            "size_guide_link": "",
-            "option_1_label": "Unstitched",
-            "option_1_addon_product": "",
-            "option_1_price": 0,
-            "option_1_default": true,
-            "option_2_label": "Standard Stitching",
-            "option_2_addon_product": "standard-stitching",
-            "option_2_price": 1100,
-            "option_2_default": false,
-            "option_3_label": "Custom Stitiching",
-            "option_3_addon_product": "custom-stitching",
-            "option_3_price": 1400,
-            "option_3_default": false
           }
         },
         "buy_buttons": {
@@ -86,9 +90,9 @@
       "block_order": [
         "title",
         "price",
+        "stitching_services_WXPK8T",
         "custom_liquid_eda7b9",
         "variant_picker",
-        "options_to_buy_EyRjAj",
         "buy_buttons",
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy",
