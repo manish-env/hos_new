@@ -129,7 +129,7 @@
                   endif
                 -%}
                 {%- if show_block -%}
-                <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }}>
+                <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }} data-selection-mode="{{ block.settings.selection_mode | default: 'multiple' }}">
                   {%- assign form_id = product_form_id -%}
                   <div class="options-to-buy__header">
                     <span class="options-to-buy__title">{{ block.settings.heading | default: 'Add-on Services' }}</span>
@@ -246,8 +246,21 @@
                           }
                         });
                       }
-                      document.querySelectorAll('.addon-services__input').forEach(function(cb){
-                        cb.addEventListener('change', function(){ updateExtrasFor(cb); });
+                      var container = root.querySelector('.options-to-buy--addons');
+                      var single = container && container.getAttribute('data-selection-mode') === 'single';
+                      var inputs = root.querySelectorAll('.addon-services__input');
+                      inputs.forEach(function(cb){
+                        cb.addEventListener('change', function(){
+                          if (single && cb.checked) {
+                            inputs.forEach(function(other){
+                              if (other !== cb && other.checked) {
+                                other.checked = false;
+                                updateExtrasFor(other);
+                              }
+                            });
+                          }
+                          updateExtrasFor(cb);
+                        });
                         // init
                         updateExtrasFor(cb);
                       });
@@ -1284,6 +1297,17 @@
           "id": "product_types",
           "label": "Product types (comma-separated)",
           "info": "Example: Saree, Lehenga, Kurtas. Matches against product.type/product_product_type."
+        },
+        { "type": "header", "content": "Selection" },
+        {
+          "type": "select",
+          "id": "selection_mode",
+          "label": "Selection mode",
+          "default": "multiple",
+          "options": [
+            { "value": "multiple", "label": "Allow multiple services" },
+            { "value": "single", "label": "Allow only one service" }
+          ]
         },
         { "type": "header", "content": "Item 1" },
         { "type": "product", "id": "item_1_product", "label": "Add-on product" },
