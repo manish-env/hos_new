@@ -330,18 +330,15 @@
 
   /* Increase social icon size */
   .footer-topbar__social .list-social { gap: 14px; }
+  .footer-topbar__social .list-social__item .icon { width: 45px !important; height: 45px !important; }
   .footer-topbar__social .list-social__link,
   .footer-topbar__social .list-social__item a {
-    width: 45px;
-    height: 45px;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 0 !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-  }
-  .footer-topbar__social .icon,
-  .footer-topbar__social svg {
-    width: 45px;
-    height: 45px;
   }
 }
 
