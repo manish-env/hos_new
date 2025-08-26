@@ -7,8 +7,7 @@
 
 .footer__content-top {
   padding: 60px 0 40px;
-  max-width: 1600px;
-  margin: 0 auto;
+  /* Use the theme's .page-width container for width & padding */
 }
 
 .footer__blocks-wrapper {
@@ -16,7 +15,6 @@
   display: grid !important;
   grid-template-columns: repeat(5, 1fr);
   gap: 64px;
-  padding: 0 20px;
 }
 
 /* Neutralize Dawn .grid__item widths/flex within footer to let CSS Grid control layout */
@@ -54,14 +52,14 @@
 }
 
 .footer-block__details-content li {
-  margin-bottom: 8px;
+  margin-bottom: 4px; /* tighter gap between links */
 }
 
 .footer-block__details-content a {
   color: #666666;
   text-decoration: none;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.4; /* reduce vertical spacing */
   transition: color 0.2s ease;
   display: block;
 }
@@ -110,15 +108,10 @@
 @media screen and (max-width: 1199px) {
   .footer__blocks-wrapper {
     gap: 60px;
-    padding: 0 15px;
   }
 }
 
-/* Remove extra horizontal padding contributed by .page-width on the top container */
-.footer__content-top.page-width {
-  padding-left: 0;
-  padding-right: 0;
-}
+/* Keep default .page-width padding for consistent site-wide gutters */
 
 @media screen and (max-width: 989px) {
   .footer__blocks-wrapper {
