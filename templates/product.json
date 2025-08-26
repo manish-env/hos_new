@@ -36,7 +36,7 @@
           "type": "popup",
           "settings": {
             "text": "Size Chart",
-            "page": ""
+            "page": "size-chart"
           }
         },
         "variant_picker": {
