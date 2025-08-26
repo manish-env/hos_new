@@ -1,11 +1,11 @@
-{% comment %} MXCTA3 – Dual Image CTA (scoped) {% endcomment %}
+{% comment %} MXCTA3 – Dual Image CTA (scoped, responsive, content inside box) {% endcomment %}
 
 <section id="mxcta3-{{ section.id }}" class="mxcta3-root"
   style="--mxcta3-inset: {{ section.settings.border_inset | default: 25 }}px; --mxcta3-line: 2px;">
   <div class="mxcta3-container">
     <div class="mxcta3-grid">
 
-      <!-- LEFT: Plain image (no CTA) -->
+      <!-- LEFT: Plain image -->
       <div class="mxcta3-item">
         {% if section.settings.image_1 != blank %}
           <div class="mxcta3-figure">
@@ -18,7 +18,7 @@
         {% endif %}
       </div>
 
-      <!-- RIGHT: Image with optional CTA -->
+      <!-- RIGHT: Image with CTA (buttons show by default if links provided) -->
       <div class="mxcta3-item">
         {% if section.settings.image_2 != blank %}
           {% assign show_fb = section.settings.facebook_link %}
@@ -35,16 +35,23 @@
 
             {% if show_cta %}
               <div class="mxcta3-overlay">
-                {% if section.settings.title != blank %}
-                  <h2 class="mxcta3-title">{{ section.settings.title }}</h2>
-                {% endif %}
-                <div class="mxcta3-cta">
-                  {% if show_fb != blank %}
-                    <a class="mxcta3-btn" href="{{ section.settings.facebook_link }}" target="_blank" rel="noopener">FOLLOW US ON <span class="mxcta3-ico">f</span></a>
+                <!-- Content stays inside the animated white box -->
+                <div class="mxcta3-content">
+                  {% if section.settings.title != blank %}
+                    <h2 class="mxcta3-title">{{ section.settings.title }}</h2>
                   {% endif %}
-                  {% if show_ig != blank %}
-                    <a class="mxcta3-btn" href="{{ section.settings.instagram_link }}" target="_blank" rel="noopener">FOLLOW US ON <span class="mxcta3-ico">@</span></a>
-                  {% endif %}
+                  <div class="mxcta3-cta">
+                    {% if show_fb != blank %}
+                      <a class="mxcta3-btn" href="{{ section.settings.facebook_link }}" target="_blank" rel="noopener">
+                        FOLLOW US ON <span class="mxcta3-ico">f</span>
+                      </a>
+                    {% endif %}
+                    {% if show_ig != blank %}
+                      <a class="mxcta3-btn" href="{{ section.settings.instagram_link }}" target="_blank" rel="noopener">
+                        FOLLOW US ON <span class="mxcta3-ico">@</span>
+                      </a>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
             {% endif %}
@@ -57,58 +64,69 @@
 </section>
 
 <style>
-  /* ===== Strict scoping: NOTHING outside this id gets affected ===== */
+  /* ========= Strict scoping ========= */
   #mxcta3-{{ section.id }} .mxcta3-container{max-width:1400px;margin:0 auto;padding:0 16px;}
   #mxcta3-{{ section.id }} .mxcta3-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   #mxcta3-{{ section.id }} .mxcta3-item{position:relative}
   #mxcta3-{{ section.id }} .mxcta3-figure{position:relative;overflow:hidden}
   #mxcta3-{{ section.id }} .mxcta3-figure img{display:block;width:100%;height:auto}
 
-  /* Overlay (only when links exist) */
+  /* Overlay always visible (so only lines animate on hover) */
   #mxcta3-{{ section.id }} .mxcta3-overlay{
-    position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
-    text-align:center;color:#fff;background:rgba(0,0,0,.35);opacity:0;transition:opacity .3s ease
+    position:absolute;inset:0;background:rgba(0,0,0,.35);color:#fff;
+    display:block;opacity:1;
   }
-  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-overlay{opacity:1}
-  #mxcta3-{{ section.id }} .mxcta3-title{font-size:clamp(22px,2.2vw,36px);line-height:1.25;margin:0 0 14px}
-  #mxcta3-{{ section.id }} .mxcta3-cta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  /* Content is kept inside the white box using the same inset */
+  #mxcta3-{{ section.id }} .mxcta3-content{
+    position:absolute;
+    left:var(--mxcta3-inset); right:var(--mxcta3-inset);
+    top:var(--mxcta3-inset);  bottom:var(--mxcta3-inset);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center; gap:14px;
+  }
+
+  /* Typography & buttons (white text inside the box) */
+  #mxcta3-{{ section.id }} .mxcta3-title{
+    color:#fff;
+    margin:0;
+    line-height:1.25;
+    font-size:clamp(20px,2.4vw,36px);
+  }
+  #mxcta3-{{ section.id }} .mxcta3-cta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%}
   #mxcta3-{{ section.id }} .mxcta3-btn{
-    border:1px solid #fff;padding:10px 18px;color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
-    transition:background .25s ease,color .25s ease
+    color:#fff;border:1px solid #fff;background:transparent;
+    padding:10px 18px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    transition:background .25s ease,color .25s ease;white-space:nowrap;
   }
   #mxcta3-{{ section.id }} .mxcta3-btn:hover{background:#fff;color:#000}
   #mxcta3-{{ section.id }} .mxcta3-ico{font-weight:700}
 
-  /* Inside-image border lines (2px white, inset by var) */
+  /* Animated white lines (2px) drawn inside image with inset padding */
   #mxcta3-{{ section.id }} .mxcta3-b{position:absolute;background:#fff;pointer-events:none}
   #mxcta3-{{ section.id }} .mxcta3-b-top,
   #mxcta3-{{ section.id }} .mxcta3-b-bottom{height:var(--mxcta3-line);left:var(--mxcta3-inset);right:var(--mxcta3-inset);transform-origin:center;transform:scaleX(0)}
   #mxcta3-{{ section.id }} .mxcta3-b-left,
   #mxcta3-{{ section.id }} .mxcta3-b-right{width:var(--mxcta3-line);top:var(--mxcta3-inset);bottom:var(--mxcta3-inset);transform-origin:center;transform:scaleY(0)}
-
   #mxcta3-{{ section.id }} .mxcta3-b-top{top:var(--mxcta3-inset)}
   #mxcta3-{{ section.id }} .mxcta3-b-right{right:var(--mxcta3-inset)}
   #mxcta3-{{ section.id }} .mxcta3-b-bottom{bottom:var(--mxcta3-inset)}
   #mxcta3-{{ section.id }} .mxcta3-b-left{left:var(--mxcta3-inset)}
-
-  /* Animate so all 4 sides meet into a box */
   #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-top,
   #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-bottom{transform:scaleX(1);transition:transform .35s ease}
   #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-left,
   #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-right{transform:scaleY(1);transition:transform .35s ease}
 
+  /* ===== Mobile responsiveness ===== */
   @media (max-width: 768px){
     #mxcta3-{{ section.id }} .mxcta3-grid{grid-template-columns:1fr}
+    #mxcta3-{{ section.id }} .mxcta3-title{font-size:clamp(18px,6vw,28px)}
+    #mxcta3-{{ section.id }} .mxcta3-cta{gap:8px}
+    #mxcta3-{{ section.id }} .mxcta3-btn{padding:10px 14px;font-size:14px}
   }
-</style>
-<style>
-  /* MXCTA3: show CTA/title by default; only borders animate on hover */
-  #mxcta3-{{ section.id }} .mxcta3-overlay{
-    opacity: 1;                /* was 0 */
-    background: rgba(0,0,0,.35);
+  @media (max-width: 480px){
+    #mxcta3-{{ section.id }} .mxcta3-title{font-size:clamp(16px,6.5vw,24px)}
+    #mxcta3-{{ section.id }} .mxcta3-btn{width:100%;justify-content:center}
   }
-  /* (optional) keep it locked visible on hover too */
-  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-overlay{ opacity: 1; }
 </style>
 
 {% schema %}
@@ -120,7 +138,7 @@
     {
       "type": "text",
       "id": "title",
-      "label": "CTA Title (optional)",
+      "label": "CTA Title",
       "default": "Follow us on Facebook / Instagram for exciting updates!"
     },
     { "type": "url", "id": "facebook_link", "label": "Facebook link" },
@@ -132,6 +150,6 @@
       "min": 0, "max": 60, "step": 1, "default": 25
     }
   ],
-  "presets": [{ "name": "MXCTA3 Dual)" }]
+  "presets": [{ "name": "MXCTA3 Dual" }]
 }
 {% endschema %}
