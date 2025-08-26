@@ -222,6 +222,53 @@
         "border_inset": 25
       }
     },
+    "csutom_collections_YDQiAF": {
+      "type": "csutom-collections",
+      "blocks": {
+        "collection_TxjPKW": {
+          "type": "collection",
+          "settings": {
+            "collection": "lahenga-choli",
+            "custom_title": "Mahendi"
+          }
+        },
+        "collection_dYCzRq": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "custom_title": ""
+          }
+        },
+        "collection_mXVrWb": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "custom_title": ""
+          }
+        },
+        "collection_DPEbk8": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "custom_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_TxjPKW",
+        "collection_dYCzRq",
+        "collection_mXVrWb",
+        "collection_DPEbk8"
+      ],
+      "name": "Mx Collections",
+      "settings": {
+        "heading": "Shop by Ocassion",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "gap": 16,
+        "cover": true
+      }
+    },
     "mx_reviews_jwfikg": {
       "type": "Mx-Reviews",
       "blocks": {
@@ -285,6 +332,7 @@
     "csutom_collections_BMFka7",
     "mx_reels_4VwnF4",
     "mx_ctaimg_9RyYd3",
+    "csutom_collections_YDQiAF",
     "mx_reviews_jwfikg",
     "custom_liquid_atVrEf"
   ]
