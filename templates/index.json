@@ -242,15 +242,15 @@
         "collection_mXVrWb": {
           "type": "collection",
           "settings": {
-            "collection": "",
-            "custom_title": ""
+            "collection": "sarees",
+            "custom_title": "Sangeet"
           }
         },
         "collection_DPEbk8": {
           "type": "collection",
           "settings": {
-            "collection": "",
-            "custom_title": ""
+            "collection": "wedding-sarees",
+            "custom_title": "Wedding"
           }
         }
       },
