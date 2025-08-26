@@ -126,11 +126,14 @@
             document.body.dispatchEvent(new CustomEvent('cart:update'));
             isSubmitting = false;
           })
-          .catch(function(){ isSubmitting = false; productForm.submit(); });
+          .catch(function(){ isSubmitting = false; /* swallow to avoid duplicate adds */ });
       }
 
-      // Attach to this specific form
-      productForm.addEventListener('submit', handleSubmit);
+      // Attach to this specific form (once)
+      if(!productForm.dataset.stitchingBound){
+        productForm.addEventListener('submit', handleSubmit, true);
+        productForm.dataset.stitchingBound = 'true';
+      }
     });
   });
 })();
