@@ -41,12 +41,12 @@
       assign only_empty_brand = true
     endif
   -%}
- <div class="footer-topbar" style="background:#f8f8f8; padding:18px 0;">
-  <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+ <div class="footer-topbar" style="background:#f8f8f8; padding:20px 0;">
+  <div class="page-width" style="display:grid; grid-template-columns:auto 1fr auto; align-items:center;">
 
     <!-- Left: Social -->
-    <div class="footer-topbar__social" style="display:flex; gap:20px; font-size:35px;">
-      {%- render 'social-icons', class: 'footer__list-social' -%}
+    <div class="footer-topbar__social" style="display:flex; gap:20px;">
+      {%- render 'social-icons', class: 'footer__list-social', style: 'display:flex; gap:20px;' -%}
     </div>
 
     <!-- Center: Trust Badges -->
@@ -66,7 +66,7 @@
     </div>
 
     <!-- Right: Newsletter -->
-    <div class="footer-topbar__newsletter">
+    <div class="footer-topbar__newsletter" style="display:flex; justify-content:flex-end;">
       {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <div class="field field--compact" style="display:flex; gap:10px;">
@@ -75,9 +75,9 @@
             name="contact[email]"
             placeholder="Enter your email"
             required
-            style="padding:10px 14px; font-size:15px; border:1px solid #ccc; border-radius:4px;"
+            style="padding:12px 14px; font-size:15px; border:1px solid #ccc; border-radius:4px;"
           >
-          <button type="submit" style="padding:10px 18px; font-size:15px; background:#111; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+          <button type="submit" style="padding:12px 18px; font-size:15px; background:#111; color:#fff; border:none; border-radius:4px; cursor:pointer;">
             Subscribe
           </button>
         </div>
@@ -86,6 +86,15 @@
 
   </div>
 </div>
+
+<!-- Force social icons bigger -->
+<style>
+  .footer__list-social svg {
+    width: 35px !important;
+    height: 35px !important;
+  }
+</style>
+
 
 
 
