@@ -27,47 +27,11 @@
   }
 {%- endstyle -%}
 {%- liquid
-  assign has_social_icons = true
-  if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
-    assign has_social_icons = false
-  endif
--%}
-<footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
-  {%- if section.settings.topbar_enable -%}
-    <div class="footer-topbar">
-      <div class="page-width isolate footer-topbar__inner">
-        <div class="footer-topbar__col footer-topbar__social">
-          {%- if section.settings.show_social and has_social_icons -%}
-            {%- render 'social-icons', class: 'footer__list-social' -%}
-          {%- endif -%}
-        </div>
-        <div class="footer-topbar__col footer-topbar__badges">
-          <div class="footer-topbar__badges-row">
-            {%- if section.settings.trust_badge_1 != blank -%}
-              <img src="{{ section.settings.trust_badge_1 | image_url: width: 200 }}" alt="Trust badge 1" loading="lazy" class="footer-topbar__badge" />
-            {%- endif -%}
-            {%- if section.settings.trust_badge_2 != blank -%}
-              <img src="{{ section.settings.trust_badge_2 | image_url: width: 200 }}" alt="Trust badge 2" loading="lazy" class="footer-topbar__badge" />
-            {%- endif -%}
-            {%- if section.settings.trust_badge_3 != blank -%}
-              <img src="{{ section.settings.trust_badge_3 | image_url: width: 200 }}" alt="Trust badge 3" loading="lazy" class="footer-topbar__badge" />
-            {%- endif -%}
-            {%- if section.settings.trust_badge_4 != blank -%}
-              <img src="{{ section.settings.trust_badge_4 | image_url: width: 200 }}" alt="Trust badge 4" loading="lazy" class="footer-topbar__badge" />
-            {%- endif -%}
-          </div>
-        </div>
-        <div class="footer-topbar__col footer-topbar__newsletter">
-          {%- form 'customer', id: 'FooterTopbarNewsletter', class: 'newsletter-form footer-topbar__form' -%}
-            <input type="hidden" name="contact[tags]" value="newsletter">
-            <input class="footer-topbar__input" type="email" name="contact[email]" value="" aria-label="Email" placeholder="{{ section.settings.newsletter_placeholder }}" required>
-            <button class="button footer-topbar__button" type="submit">{{ section.settings.newsletter_button_text }}</button>
-          {%- endform -%}
-        </div>
-      </div>
-    </div>
-  {%- endif -%}
-  {%- liquid
+    assign has_social_icons = true
+    if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
+      assign has_social_icons = false
+    endif
+
     if settings.brand_image == blank and settings.brand_headline == blank and settings.brand_description == blank
       assign brand_empty = true
     endif
@@ -429,48 +393,6 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Top bar"
-    },
-    {
-      "type": "checkbox",
-      "id": "topbar_enable",
-      "label": "Enable top bar above footer",
-      "default": true
-    },
-    {
-      "type": "image_picker",
-      "id": "trust_badge_1",
-      "label": "Trust badge 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "trust_badge_2",
-      "label": "Trust badge 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "trust_badge_3",
-      "label": "Trust badge 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "trust_badge_4",
-      "label": "Trust badge 4"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_placeholder",
-      "label": "Newsletter email placeholder",
-      "default": "Your email address"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_button_text",
-      "label": "Newsletter button text",
-      "default": "Subscribe"
     },
     {
       "type": "header",
