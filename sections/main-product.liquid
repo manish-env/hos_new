@@ -573,7 +573,8 @@
                             selectedService: sel ? sel.value : null,
                             extraUnit: sel ? parseInt((sel.dataset && sel.dataset.extraPrice) || sel.getAttribute('data-extra-price') || '0', 10) : 0,
                             qty: qty,
-                            variantPrice: getCurrentVariantPrice()
+                            variantPrice: getCurrentVariantPrice(),
+                            hasAddonVariant: sel ? sel.hasAttribute('data-addon-variant') : false
                           };
                           dbg.total = dbg.variantPrice * qty + dbg.extraUnit * qty;
                           console.debug('[OptionsToBuy] update', dbg);
@@ -584,6 +585,9 @@
                           var base = getCurrentVariantPrice();
                           var total = base * qty + extras;
                           totalEl.textContent = formatMoney(total);
+                          console.debug('[OptionsToBuy] Total updated to:', formatMoney(total), 'Base:', formatMoney(base * qty), 'Extras:', formatMoney(extras));
+                        } else {
+                          console.warn('[OptionsToBuy] Total element not found. Looking for:', 'OptionsTotal-{{ section.id }}');
                         }
                       }
                       // Ensure one service is selected by default BEFORE initial update
@@ -606,11 +610,26 @@
                       root.addEventListener('change', function(){ update(); });
                       // Initial updates: immediate, after DOM ready, and after a short delay to ensure buy-buttons snippet is in DOM
                       update();
-                      document.addEventListener('DOMContentLoaded', update);
-                      window.addEventListener('load', update);
-                      setTimeout(update, 200);
-                      setTimeout(update, 600);
-                      setTimeout(update, 1000);
+                      document.addEventListener('DOMContentLoaded', function(){
+                        console.debug('[OptionsToBuy] DOM ready, updating...');
+                        update();
+                      });
+                      window.addEventListener('load', function(){
+                        console.debug('[OptionsToBuy] Window loaded, updating...');
+                        update();
+                      });
+                      setTimeout(function(){
+                        console.debug('[OptionsToBuy] 200ms timeout, updating...');
+                        update();
+                      }, 200);
+                      setTimeout(function(){
+                        console.debug('[OptionsToBuy] 600ms timeout, updating...');
+                        update();
+                      }, 600);
+                      setTimeout(function(){
+                        console.debug('[OptionsToBuy] 1000ms timeout, updating...');
+                        update();
+                      }, 1000);
                       // Listen to Shopify variant change events emitted by product-form.js
                       document.addEventListener('variant:change', function(e){
                         // Only react if event is for this section
