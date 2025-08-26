@@ -560,6 +560,9 @@
                       function getExtrasUnit(){
                         var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!sel) return 0;
+                        // Only charge extras when an actual add-on product is mapped
+                        var hasAddonVariant = sel.hasAttribute('data-addon-variant');
+                        if(!hasAddonVariant) return 0;
                         var raw = (sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price')) || '0';
                         var v = parseInt(raw, 10);
                         return isNaN(v) ? 0 : v;
@@ -671,7 +674,8 @@
                             if(selectedAddonVariant){
                               var addonId = parseInt(selectedAddonVariant, 10);
                               if(!isNaN(addonId)){
-                                items.push({ id: addonId, quantity: 1, properties: { 'Add-on for': mainId } });
+                                // Match add-on quantity to main product quantity so pricing aligns with displayed total
+                                items.push({ id: addonId, quantity: qty, properties: { 'Add-on for': mainId } });
                               }
                             } else {
                               console.warn('No add-on product mapped for selected service; only main product will be added.');
