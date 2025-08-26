@@ -166,16 +166,11 @@
   }
   
   .footer__blocks-wrapper {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 12px;
     padding: 0 10px;
   }
-  
-  /* Center the last column on mobile (regardless of number of blocks) */
-  .footer__blocks-wrapper .grid__item:last-child {
-    grid-column: span 2;
-    text-align: center;
-  }
+  /* Remove multi-column behavior; each block full width */
   /* Company details content centered */
   .footer-block--company { text-align: center; }
   
