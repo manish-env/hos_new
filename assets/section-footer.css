@@ -5,6 +5,11 @@
   margin-top: 0;
 }
 
+/* Reduce bottom area padding on mobile */
+@media screen and (max-width: 749px) {
+  .footer__content-bottom { padding: 6px 0 10px; }
+}
+
 .footer__content-top {
   padding: 20px 0 20px;
   /* Use the theme's .page-width container for width & padding */
@@ -157,12 +162,12 @@
 
 @media screen and (max-width: 749px) {
   .footer__content-top {
-    padding: 40px 0 30px;
+    padding: 20px 0 10px;
   }
   
   .footer__blocks-wrapper {
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 12px;
     padding: 0 10px;
   }
   
@@ -172,8 +177,8 @@
   }
   
   .footer-block__heading {
-    font-size: 16px;
-    margin-bottom: 15px;
+    font-size: 15px;
+    margin-bottom: 8px;
   }
   
   .footer-block__details-content a {
@@ -182,8 +187,11 @@
 
   /* Footer accordion (mobile) */
   .footer-accordion {
-    border-top: 1px solid rgba(0,0,0,0.08);
-    padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding-top: 4px;
+    margin: 0;
+    background: transparent;
+    box-shadow: none;
   }
   .footer-accordion__summary {
     list-style: none;
@@ -191,7 +199,14 @@
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    padding: 6px 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
   }
+  .footer-accordion__summary .footer-block__heading { margin: 0; }
+  .footer-accordion__content { padding: 4px 0 6px; }
+  .footer-accordion__content li { margin-bottom: 6px; }
   .footer-accordion__summary::-webkit-details-marker {
     display: none;
   }
