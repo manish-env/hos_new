@@ -31,8 +31,8 @@
           "settings": {
             "heading": "Standard",
             "subtext": "",
-            "visibility_mode": "show_all",
-            "product_types": "",
+            "visibility_mode": "only_types",
+            "product_types": "Saree",
             "item_1_product": "custom-stitching",
             "item_1_handle": "",
             "item_1_label": "",
