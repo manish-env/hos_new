@@ -33,6 +33,7 @@
             "subtext": "",
             "visibility_mode": "only_types",
             "product_types": "Saree",
+            "selection_mode": "single",
             "item_1_product": "custom-stitching",
             "item_1_handle": "",
             "item_1_label": "",
