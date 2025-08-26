@@ -46,6 +46,10 @@
       var customVariantId = parseInt(root.getAttribute('data-custom-variant-id')||'0',10);
       var customPrice = parseInt(root.getAttribute('data-custom-price-cents')||'0',10);
       var cartBehavior = root.getAttribute('data-cart-behavior')||'drawer';
+
+      // New multi-service UI support
+      var servicesRoot = root.querySelector('[data-services]');
+      var serviceItems = servicesRoot ? Array.prototype.slice.call(servicesRoot.querySelectorAll('[data-service]')) : [];
       var isSubmitting = false;
 
       function selected(){
@@ -63,9 +67,50 @@
         if(customPanel) customPanel.hidden = s.type!=='custom';
       }
 
-      function updatePrice(){ var s = selected(); if(priceEl) priceEl.textContent = formatMoney(s.price); }
+      function calcServicesTotal(){
+        if(!servicesRoot) return 0;
+        var total = 0;
+        serviceItems.forEach(function(item){
+          var enabled = item.querySelector('[data-service-enable]')?.checked;
+          if(enabled){
+            var cents = parseInt(item.getAttribute('data-price-cents')||'0',10);
+            total += isNaN(cents) ? 0 : cents;
+          }
+        });
+        return total;
+      }
+
+      function updatePrice(){
+        if(!priceEl) return;
+        // Prefer multi-services price if present; fallback to original single service price
+        if(servicesRoot){ priceEl.textContent = formatMoney(calcServicesTotal()); return; }
+        var s = selected(); priceEl.textContent = formatMoney(s.price);
+      }
 
       function validate(){
+        // Multi-service validation
+        if(servicesRoot){
+          for(var i=0;i<serviceItems.length;i++){
+            var item = serviceItems[i];
+            var enabled = item.querySelector('[data-service-enable]')?.checked;
+            if(!enabled) continue;
+            var type = item.getAttribute('data-service-type');
+            if(type==='sizes' || type==='all'){
+              var sizeSel = item.querySelector('[data-service-size]');
+              if(sizeSel && !sizeSel.value){ sizeSel.focus(); return false; }
+            }
+            if(type==='input' || type==='all'){
+              var inp = item.querySelector('[data-service-input]');
+              if(inp && !inp.value){ inp.focus(); return false; }
+            }
+            if(type==='dropdown' || type==='all'){
+              var dd = item.querySelector('[data-service-dropdown]');
+              if(dd && !dd.value){ dd.focus(); return false; }
+            }
+          }
+          return true;
+        }
+        // Legacy single-service validation
         var s = selected();
         if(s.type==='standard' && standardPanel){
           // Support either radio swatches or a fallback select
@@ -89,6 +134,24 @@
       }
 
       function collectProperties(){
+        // For multi-services, embed per-service details as properties
+        if(servicesRoot){
+          var props = {};
+          serviceItems.forEach(function(item){
+            var enabled = item.querySelector('[data-service-enable]')?.checked;
+            if(!enabled) return;
+            var title = item.getAttribute('data-service-title') || 'Service';
+            props['Service - ' + title] = 'Yes';
+            var sizeSel = item.querySelector('[data-service-size]');
+            if(sizeSel && sizeSel.value) props[title + ' Size'] = sizeSel.value;
+            var inp = item.querySelector('[data-service-input]');
+            if(inp && inp.value) props[title + ' Note'] = inp.value;
+            var dd = item.querySelector('[data-service-dropdown]');
+            if(dd && dd.value) props[title + ' Option'] = dd.value;
+          });
+          return props;
+        }
+        // Legacy single-service properties
         var s = selected();
         var props = { 'Service': s.label };
         if(s.type==='standard' && standardPanel){
@@ -127,9 +190,58 @@
 
       // Change handlers
       radios.forEach(function(r){ r.addEventListener('change', function(){ togglePanels(); updatePrice(); }); });
+      if(servicesRoot){
+        // Toggle show/hide controls per service
+        serviceItems.forEach(function(item){
+          var checkbox = item.querySelector('[data-service-enable]');
+          var controls = item.querySelector('.service-controls');
+          if(checkbox){ checkbox.addEventListener('change', function(){ if(controls) controls.hidden = !checkbox.checked; updatePrice(); }); }
+          // Inputs also update price (not necessary for now but future-proof)
+          item.addEventListener('change', updatePrice);
+        });
+      }
       togglePanels(); updatePrice();
 
       function handleSubmit(e){
+        // Multi-service flow
+        if(servicesRoot){
+          var anyEnabled = serviceItems.some(function(item){ return item.querySelector('[data-service-enable]')?.checked; });
+          if(!anyEnabled) return; // nothing selected; normal submit
+          e.preventDefault();
+          if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+          if(e.stopPropagation) e.stopPropagation();
+          if(isSubmitting) return;
+          isSubmitting = true;
+          if(!validate()) return;
+
+          var qtyInput = productForm.querySelector('input[name="quantity"]');
+          var qty = qtyInput ? parseInt(qtyInput.value||'1',10) : 1;
+          var mainId = parseInt((productForm.querySelector('input[name="id"]')||{}).value,10);
+          if(!mainId){ productForm.submit(); return; }
+
+          var props = collectProperties();
+          var items = [{ id: mainId, quantity: qty, properties: props }];
+          serviceItems.forEach(function(item){
+            var enabled = item.querySelector('[data-service-enable]')?.checked;
+            if(!enabled) return;
+            var vid = parseInt(item.getAttribute('data-variant-id')||'0',10);
+            if(vid) items.push({ id: vid, quantity: qty });
+          });
+
+          fetch('/cart/add.js', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ items: items }) })
+            .then(function(r){ return r.json(); })
+            .then(function(addResp){
+              if(cartBehavior==='redirect'){ window.location.href = '/cart'; return; }
+              return fetchAndRenderCartUI(addResp).then(function(){
+                document.body.dispatchEvent(new CustomEvent('cart:update'));
+                isSubmitting = false;
+              });
+            })
+            .catch(function(){ isSubmitting = false; });
+          return;
+        }
+
+        // Legacy single-service flow
         var s = selected();
         if(!s.id){ return; } // Unstitched; let normal flow proceed
         // We are adding a service product alongside the main product

@@ -136,6 +136,51 @@
                   assign sizes = sizes_csv | split: ','
                 -%}
 
+                {%- liquid
+                  assign types_csv = block.settings.applicable_product_types | default: ''
+                  assign should_render_stitching = true
+                  if types_csv != ''
+                    assign types_list = types_csv | split: ','
+                    assign current_type = product.type | default: product.product_type
+                    assign current_type_norm = current_type | downcase | strip
+                    assign match_found = false
+                    for t in types_list
+                      assign t_norm = t | downcase | strip
+                      if t_norm == current_type_norm
+                        assign match_found = true
+                      endif
+                    endfor
+                    assign should_render_stitching = match_found
+                  endif
+                -%}
+
+                {%- if should_render_stitching -%}
+
+                {%- liquid
+                  assign current_type = product.type | default: product.product_type
+                  assign service_blocks = section.blocks | where: 'type', 'service'
+                  assign display_services = ''
+                  for sb in service_blocks
+                    assign map_csv = sb.settings.product_types | default: ''
+                    assign include = false
+                    if map_csv == ''
+                      assign include = true
+                    else
+                      assign types_list = map_csv | split: ','
+                      for t in types_list
+                        assign t_norm = t | downcase | strip
+                        if t_norm == current_type | downcase | strip
+                          assign include = true
+                        endif
+                      endfor
+                    endif
+                    if include and sb.settings.addon_product
+                      assign display_services = display_services | append: sb.id | append: ','
+                    endif
+                  endfor
+                  assign display_ids = display_services | split: ','
+                -%}
+
                 <div class="options-to-buy" id="StitchingServices-{{ block.id }}" {{ block.shopify_attributes }} data-cart-behavior="drawer"
                   {%- if standard_variant -%} data-standard-variant-id="{{ standard_variant.id }}" data-standard-price-cents="{{ standard_variant.price }}"{%- endif -%}
                   {%- if custom_variant -%} data-custom-variant-id="{{ custom_variant.id }}" data-custom-price-cents="{{ custom_variant.price }}"{%- endif -%}
@@ -147,6 +192,83 @@
                     {%- endif -%}
                   </div>
 
+                  {%- if display_ids.size > 0 -%}
+                  <div class="services-list" data-services>
+                    {%- for sb in section.blocks -%}
+                      {%- if sb.type == 'service' and display_ids contains sb.id -%}
+                        {%- assign addon = sb.settings.addon_product -%}
+                        {%- assign addon_variant = addon.selected_or_first_available_variant -%}
+                        <div class="service-item" data-service
+                          data-variant-id="{{ addon_variant.id }}"
+                          data-price-cents="{{ addon_variant.price }}"
+                          data-service-id="{{ sb.id }}"
+                          data-service-type="{{ sb.settings.service_type }}"
+                          data-service-title="{{ sb.settings.title | default: addon.title | escape }}">
+                          <label class="service-item__header">
+                            <input type="checkbox" class="service-toggle" data-service-enable>
+                            <span class="service-title">{{ sb.settings.title | default: addon.title }}</span>
+                            <span class="service-price">+ {{ addon_variant.price | money }}</span>
+                          </label>
+
+                          <div class="service-controls" hidden>
+                            {%- case sb.settings.service_type -%}
+                              {%- when 'sizes' -%}
+                                {%- assign size_list = sb.settings.sizes_csv | default: '32 in,34 in,36 in,38 in,40 in,42 in,44 in' | split: ',' -%}
+                                <div class="field">
+                                  <select class="select" data-service-size name="properties[{{ sb.settings.title | default: addon.title }} Size]">
+                                    <option value="" selected disabled>{{ sb.settings.size_placeholder | default: 'Select size' }}</option>
+                                    {%- for s in size_list -%}
+                                      {%- assign s_trim = s | strip -%}
+                                      <option value="{{ s_trim }}">{{ s_trim }}</option>
+                                    {%- endfor -%}
+                                  </select>
+                                </div>
+                              {%- when 'input' -%}
+                                <div class="field">
+                                  <input class="input" type="text" data-service-input name="properties[{{ sb.settings.title | default: addon.title }} Note]" placeholder="{{ sb.settings.input_placeholder | default: 'Enter details' }}">
+                                </div>
+                              {%- when 'dropdown' -%}
+                                {%- assign opts = sb.settings.dropdown_options | default: '' | split: ',' -%}
+                                <div class="field">
+                                  <select class="select" data-service-dropdown name="properties[{{ sb.settings.title | default: addon.title }} Option]">
+                                    <option value="" selected disabled>{{ sb.settings.dropdown_placeholder | default: 'Select option' }}</option>
+                                    {%- for o in opts -%}
+                                      {%- assign o_trim = o | strip -%}
+                                      <option value="{{ o_trim }}">{{ o_trim }}</option>
+                                    {%- endfor -%}
+                                  </select>
+                                </div>
+                              {%- when 'all' -%}
+                                {%- assign size_list = sb.settings.sizes_csv | default: '32 in,34 in,36 in,38 in,40 in,42 in,44 in' | split: ',' -%}
+                                <div class="field">
+                                  <select class="select" data-service-size name="properties[{{ sb.settings.title | default: addon.title }} Size]">
+                                    <option value="" selected disabled>{{ sb.settings.size_placeholder | default: 'Select size' }}</option>
+                                    {%- for s in size_list -%}
+                                      {%- assign s_trim = s | strip -%}
+                                      <option value="{{ s_trim }}">{{ s_trim }}</option>
+                                    {%- endfor -%}
+                                  </select>
+                                </div>
+                                <div class="field">
+                                  <input class="input" type="text" data-service-input name="properties[{{ sb.settings.title | default: addon.title }} Note]" placeholder="{{ sb.settings.input_placeholder | default: 'Enter details' }}">
+                                </div>
+                                {%- assign opts = sb.settings.dropdown_options | default: '' | split: ',' -%}
+                                <div class="field">
+                                  <select class="select" data-service-dropdown name="properties[{{ sb.settings.title | default: addon.title }} Option]">
+                                    <option value="" selected disabled>{{ sb.settings.dropdown_placeholder | default: 'Select option' }}</option>
+                                    {%- for o in opts -%}
+                                      {%- assign o_trim = o | strip -%}
+                                      <option value="{{ o_trim }}">{{ o_trim }}</option>
+                                    {%- endfor -%}
+                                  </select>
+                                </div>
+                            {%- endcase -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                  {%- else -%}
                   <ul class="options-to-buy__list" role="radiogroup" aria-label="{{ heading | escape }}">
                     {%- if enable_unstitched -%}
                       <li class="options-to-buy__item">
@@ -214,12 +336,14 @@
                       </li>
                     {%- endif -%}
                   </ul>
+                  {%- endif -%}
 
                   <div class="visually-hidden">
                     <span class="stitching-summary__amount" data-stitching-price>{{ 0 | money }}</span>
                   </div>
                 </div>
                 <script src="{{ 'stitching-services.js' | asset_url }}" defer></script>
+                {%- endif -%}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" class="product-price price-size-{{ block.settings.price_size | default: 'medium' }} price-align-{{ block.settings.price_align | default: section.settings.content_alignment | default: 'left' }}" {{ block.shopify_attributes }}>
                   {%- render 'price',
@@ -2470,7 +2594,30 @@
         { "type": "product", "id": "standard_product", "label": "Standard stitching product" },
         { "type": "product", "id": "custom_product", "label": "Custom stitching product" },
         { "type": "text", "id": "default_standard_handle", "label": "Default Standard service handle (fallback)", "default": "standard-stitching" },
-        { "type": "text", "id": "default_custom_handle", "label": "Default Custom service handle (fallback)", "default": "custom-stitching" }
+        { "type": "text", "id": "default_custom_handle", "label": "Default Custom service handle (fallback)", "default": "custom-stitching" },
+        { "type": "text", "id": "applicable_product_types", "label": "Applicable product types (CSV)", "info": "Only show for these product types, e.g. Saree, Lehenga" }
+      ]
+    }
+  ,
+    {
+      "type": "service",
+      "name": "Service",
+      "limit": 20,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Service title", "default": "Stitching" },
+        { "type": "text", "id": "product_types", "label": "Applicable product types (CSV)", "info": "Leave blank for all types" },
+        { "type": "product", "id": "addon_product", "label": "Add-on product for this service" },
+        { "type": "select", "id": "service_type", "label": "Service input type", "default": "sizes", "options": [
+          { "value": "sizes", "label": "Sizes" },
+          { "value": "input", "label": "Input box" },
+          { "value": "dropdown", "label": "Dropdown" },
+          { "value": "all", "label": "All (sizes + input + dropdown)" }
+        ]},
+        { "type": "text", "id": "sizes_csv", "label": "Sizes (CSV)", "default": "32 in,34 in,36 in,38 in,40 in,42 in,44 in" },
+        { "type": "text", "id": "size_placeholder", "label": "Size dropdown placeholder", "default": "Select size" },
+        { "type": "text", "id": "input_placeholder", "label": "Input placeholder", "default": "Enter details" },
+        { "type": "text", "id": "dropdown_options", "label": "Dropdown options (CSV)" },
+        { "type": "text", "id": "dropdown_placeholder", "label": "Dropdown placeholder", "default": "Select option" }
       ]
     }
   ],
