@@ -41,51 +41,50 @@
       assign only_empty_brand = true
     endif
   -%}
-  <div class="footer-topbar" style="background:#f8f8f8; padding:12px 0;">
-  <div class="footer-topbar" style="background:#f8f8f8; padding:12px 0;">
-  <div class="page-width" style="display:flex; align-items:center; flex-wrap:wrap;">
+ <div class="footer-topbar" style="background:#f8f8f8; padding:12px 0; position:relative;">
+  <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; position:relative;">
 
-    <!-- Left: Social (20%) -->
-    <div class="footer-topbar__social" style="width:20%; display:flex; gap:16px; font-size:24px; justify-content:flex-start;">
+    <!-- Left: Social -->
+    <div class="footer-topbar__social" style="display:flex; gap:16px; font-size:24px;">
       {%- render 'social-icons', class: 'footer__list-social' -%}
     </div>
 
-    <!-- Center: Trust Badges (60%) -->
-    <div class="footer-topbar__usps" style="width:60%; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; text-align:center; margin:0 auto;">
-      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px; justify-content:center;">
-        <img class="footer-topbar__usp-icon" src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/track_order.png?v=1756036707" alt="" style="width:28px; height:28px;">
-        <div class="footer-topbar__usp-text" style="font-size:15px;">Free Shipping</div>
+    <!-- Center: Trust Badges (truly centered) -->
+    <div class="footer-topbar__usps" style="position:absolute; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; flex-wrap:wrap; text-align:center;">
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
+        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/track_order.png?v=1756036707" alt="" style="width:28px; height:28px;">
+        <div style="font-size:15px;">Free Shipping</div>
       </div>
-      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px; justify-content:center;">
-        <img class="footer-topbar__usp-icon" src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/international_delivery-removebg-preview.png?v=1756036534" alt="" style="width:28px; height:28px;">
-        <div class="footer-topbar__usp-text" style="font-size:15px;">International Delivery</div>
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
+        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/international_delivery-removebg-preview.png?v=1756036534" alt="" style="width:28px; height:28px;">
+        <div style="font-size:15px;">International Delivery</div>
       </div>
-      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px; justify-content:center;">
-        <img class="footer-topbar__usp-icon" src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/sewing-machine-line-icon-outline-260nw-647074282-removebg-preview.png?v=1756037308" alt="" style="width:28px; height:28px;">
-        <div class="footer-topbar__usp-text" style="font-size:15px;">Professional Stitching</div>
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
+        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/sewing-machine-line-icon-outline-260nw-647074282-removebg-preview.png?v=1756037308" alt="" style="width:28px; height:28px;">
+        <div style="font-size:15px;">Professional Stitching</div>
       </div>
     </div>
 
-    <!-- Right: Newsletter (20%) -->
-    <div class="footer-topbar__newsletter" style="width:20%; display:flex; justify-content:flex-end;">
+    <!-- Right: Newsletter -->
+    <div class="footer-topbar__newsletter" style="display:flex; justify-content:flex-end;">
       {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
-        <div class="field field--compact" style="display:flex; gap:8px; width:100%; justify-content:flex-end;">
+        <div class="field field--compact" style="display:flex; gap:8px;">
           <input
             type="email"
             name="contact[email]"
-            class="field__input"
             placeholder="Enter your email"
             required
-            style="padding:8px 12px; font-size:14px; flex:1;"
+            style="padding:8px 12px; font-size:14px;"
           >
-          <button type="submit" class="button button--compact" style="padding:8px 16px; font-size:14px;">Subscribe</button>
+          <button type="submit" style="padding:8px 16px; font-size:14px;">Subscribe</button>
         </div>
       {% endform %}
     </div>
 
   </div>
 </div>
+
 
 
 
