@@ -41,29 +41,32 @@
       assign only_empty_brand = true
     endif
   -%}
- <div class="footer-topbar" style="background:#f8f8f8; padding:20px 0; position:relative;">
+<div class="footer-topbar" style="background:#f8f8f8; padding:20px 0; position:relative;">
   <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; position:relative;">
 
-    <!-- Left: Social -->
-    <div class="footer-topbar__social" style="display:flex; gap:20px;">
-      <div style="width:35px; height:35px;">{%- render 'icon-facebook' -%}</div>
-      <div style="width:35px; height:35px;">{%- render 'icon-instagram' -%}</div>
-      <div style="width:35px; height:35px;">{%- render 'icon-youtube' -%}</div>
+    <!-- Left: Social (scaled up reliably) -->
+    <div class="footer-topbar__social" style="display:flex; gap:18px; transform:scale(1.75); transform-origin:left center;">
+      {%- render 'social-icons', class: 'footer__list-social' -%}
     </div>
 
-    <!-- Center: Trust Badges -->
-    <div class="footer-topbar__usps" style="position:absolute; left:50%; transform:translateX(-50%); display:flex; justify-content:center; gap:30px; align-items:center;">
-      <div style="display:flex; align-items:center; gap:12px;">
+    <!-- Center: Trust Badges (perfectly centered to page) -->
+    <div class="footer-topbar__usps"
+         style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+                display:flex; gap:28px; align-items:center; flex-wrap:wrap; text-align:center;">
+
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
         <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/track_order.png?v=1756036707" alt="" style="width:32px; height:32px;">
-        <div style="font-size:15px;">Free Shipping</div>
+        <div style="font-size:15px;">FREE SHIPPING</div>
       </div>
-      <div style="display:flex; align-items:center; gap:12px;">
+
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
         <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/international_delivery-removebg-preview.png?v=1756036534" alt="" style="width:32px; height:32px;">
-        <div style="font-size:15px;">International Delivery</div>
+        <div style="font-size:15px;">INTERNATIONAL DELIVERY</div>
       </div>
-      <div style="display:flex; align-items:center; gap:12px;">
+
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
         <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/sewing-machine-line-icon-outline-260nw-647074282-removebg-preview.png?v=1756037308" alt="" style="width:32px; height:32px;">
-        <div style="font-size:15px;">Professional Stitching</div>
+        <div style="font-size:15px;">PROFESSIONAL STITCHING</div>
       </div>
     </div>
 
@@ -72,14 +75,10 @@
       {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <div style="display:flex; gap:10px; align-items:center;">
-          <input
-            type="email"
-            name="contact[email]"
-            placeholder="Enter your email"
-            required
-            style="padding:10px 14px; font-size:15px; border:1px solid #ccc; border-radius:4px;"
-          >
-          <button type="submit" style="padding:10px 18px; font-size:15px; background:#111; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+          <input type="email" name="contact[email]" placeholder="Enter your email" required
+                 style="padding:10px 14px; font-size:15px; border:1px solid #ccc; border-radius:4px;">
+          <button type="submit"
+                  style="padding:10px 18px; font-size:15px; background:#111; color:#fff; border:none; border-radius:4px; cursor:pointer;">
             Subscribe
           </button>
         </div>
@@ -88,6 +87,7 @@
 
   </div>
 </div>
+
 
 
 
