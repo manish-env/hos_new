@@ -307,6 +307,28 @@
   .footer-topbar__newsletter { justify-content: center; }
 }
 
+/* Mobile: hide trust badges and stack social + newsletter */
+@media (max-width: 749px) {
+  /* Hide USPs (trust badges) */
+  .footer-topbar__usps { display: none !important; }
+
+  /* Stack the remaining areas vertically and center them */
+  .footer-topbar__inner { grid-template-columns: 1fr; }
+  .footer-topbar .page-width {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  /* Neutralize any inline scaling applied to social icons */
+  .footer-topbar__social { transform: none !important; }
+
+  /* Ensure newsletter is centered */
+  .footer-topbar__newsletter { justify-content: center; width: 100%; }
+}
+
 @media (max-width: 480px) {
   .newsletter-form--compact .field__input { min-width: 190px; }
 }
