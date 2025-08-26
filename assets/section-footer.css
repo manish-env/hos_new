@@ -316,9 +316,9 @@
   .footer-topbar__inner { grid-template-columns: 1fr; }
   .footer-topbar .page-width {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 12px;
   }
 
@@ -326,7 +326,23 @@
   .footer-topbar__social { transform: none !important; }
 
   /* Ensure newsletter is centered */
-  .footer-topbar__newsletter { justify-content: center; width: 100%; }
+  .footer-topbar__newsletter { justify-content: center !important; width: 100%; }
+
+  /* Increase social icon size */
+  .footer-topbar__social .list-social { gap: 14px; }
+  .footer-topbar__social .list-social__link,
+  .footer-topbar__social .list-social__item a {
+    width: 45px;
+    height: 45px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .footer-topbar__social .icon,
+  .footer-topbar__social svg {
+    width: 45px;
+    height: 45px;
+  }
 }
 
 @media (max-width: 480px) {
