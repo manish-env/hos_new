@@ -101,6 +101,15 @@
     #mxcta3-{{ section.id }} .mxcta3-grid{grid-template-columns:1fr}
   }
 </style>
+<style>
+  /* MXCTA3: show CTA/title by default; only borders animate on hover */
+  #mxcta3-{{ section.id }} .mxcta3-overlay{
+    opacity: 1;                /* was 0 */
+    background: rgba(0,0,0,.35);
+  }
+  /* (optional) keep it locked visible on hover too */
+  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-overlay{ opacity: 1; }
+</style>
 
 {% schema %}
 {
