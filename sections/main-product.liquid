@@ -172,7 +172,7 @@
                             assign field_type = block.settings[field_type_key] | default: 'none'
                           -%}
                           {%- if field_type != 'none' -%}
-                            <div class="addon-services__extras" data-addon-index="{{ i }}">
+                            <div class="addon-services__extras hidden" data-addon-index="{{ i }}">
                               {%- if field_type == 'text_inputs' -%}
                                 {%- liquid
                                   assign cnt_key = 'item_' | append: i | append: '_inputs_count'
@@ -183,10 +183,10 @@
                                     {%- assign lbl_key = 'item_' | append: i | append: '_input_' | append: k | append: '_label' -%}
                                     {%- assign ilabel = block.settings[lbl_key] | default: 'Input ' | append: k -%}
                                     <div class="addon-extra-field">
-                                      <label class="form__label">{{ ilabel }}</label>
                                       <input type="text"
                                         class="input addon-extra-input"
                                         name="properties[Service {{ i }} - {{ ilabel | escape }}]"
+                                        placeholder="{{ ilabel }}"
                                         form="{{ form_id }}"
                                         disabled>
                                     </div>
@@ -199,8 +199,8 @@
                                 {%- assign dd_csv = block.settings[dd_opts_key] | default: '' -%}
                                 {%- assign dd_list = dd_csv | split: ',' -%}
                                 <div class="addon-extra-field">
-                                  <label class="form__label">{{ dd_label }}</label>
                                   <select class="select addon-extra-input" name="properties[Service {{ i }} - {{ dd_label | escape }}]" form="{{ form_id }}" disabled>
+                                    <option value="" disabled selected>{{ dd_label }}</option>
                                     {%- for opt in dd_list -%}
                                       {%- assign o = opt | strip -%}
                                       {%- if o != '' -%}
@@ -228,6 +228,14 @@
                       function updateExtrasFor(checkbox){
                         var li = checkbox.closest('li');
                         if(!li) return;
+                        var wrapper = li.querySelector('.addon-services__extras');
+                        if (wrapper) {
+                          if (checkbox.checked && !checkbox.disabled) {
+                            wrapper.classList.remove('hidden');
+                          } else {
+                            wrapper.classList.add('hidden');
+                          }
+                        }
                         var extras = li.querySelectorAll('.addon-services__extras .addon-extra-input');
                         extras.forEach(function(el){
                           if (checkbox.checked && !checkbox.disabled) {

@@ -1,3 +1,39 @@
+/* Add-on services: extras alignment and spacing */
+.options-to-buy--addons .addon-services__extras {
+  margin-top: 0.6rem;
+  /* indent to align under checkbox label text */
+  padding-left: 4rem;
+  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1rem;
+  row-gap: 0.8rem;
+}
+
+.options-to-buy--addons .addon-extra-field { margin-bottom: 0; }
+
+.options-to-buy--addons .addon-extra-field:last-child {
+  margin-bottom: 0;
+}
+
+.options-to-buy--addons .addon-extra-field .form__label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* Ensure inputs match theme sizing */
+.options-to-buy--addons .addon-extra-input.input,
+.options-to-buy--addons .addon-extra-input.select {
+  width: 100%;
+}
+
+/* Small screens: stack fields */
+@media screen and (max-width: 479px) {
+  .options-to-buy--addons .addon-services__extras {
+    grid-template-columns: 1fr;
+    padding-left: 3.2rem;
+  }
+}
 product-info {
   display: block;
 }
