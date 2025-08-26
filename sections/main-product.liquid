@@ -1072,11 +1072,20 @@
           var vid = parseInt(cb.getAttribute('data-addon-variant'),10);
           if(vid && ids.indexOf(vid)===-1) ids.push(vid);
         });
-        if(ids.length === 0) return; // let default submit proceed
+        // If no add-ons are selected, let theme's default submit run
+        if(ids.length === 0) return;
 
+        // Guard: if we're already handling a submit, don't re-enter
+        if (productForm.dataset.addonSubmitInProgress === '1') return;
+        productForm.dataset.addonSubmitInProgress = '1';
+
+        // Fully intercept so the theme doesn't also add the main product
         e.preventDefault();
+        if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+
         var mainIdInput = productForm.querySelector('input[name="id"]');
-        if(!mainIdInput) { productForm.submit(); return; }
+        if(!mainIdInput) { delete productForm.dataset.addonSubmitInProgress; productForm.submit(); return; }
         var mainId = parseInt(mainIdInput.value,10);
         var quantity = getQuantity();
 
@@ -1094,7 +1103,11 @@
         })
         .then(function(res){ return res.ok ? res.json() : res.json().then(function(j){ throw j; }); })
         .then(function(){ window.location.href = '/cart'; })
-        .catch(function(){ productForm.submit(); });
+        .catch(function(){
+          // fallback: allow theme default submit
+          delete productForm.dataset.addonSubmitInProgress;
+          productForm.submit();
+        });
       });
     });
   })();
