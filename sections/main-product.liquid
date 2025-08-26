@@ -590,6 +590,19 @@
     // Get product variants data
     var variants = {{ product.variants | json }};
     
+    // Safe money formatter (fallback if Shopify.formatMoney is not present)
+    function formatMoneySafe(cents) {
+      try {
+        if (window.Shopify && typeof Shopify.formatMoney === 'function') {
+          return Shopify.formatMoney(cents, "{{ shop.money_format }}");
+        }
+      } catch(e) {}
+      var mf = "{{ shop.money_format | escape }}"; // contains a token like {{amount}}
+      var amount = (parseInt(cents || 0, 10) / 100).toFixed(2);
+      // Replace first money token ({{amount}}, {{amount_no_decimals}}, etc.) with amount
+      return mf.replace(/\{\{[^}]+\}\}/, amount);
+    }
+
     // Function to get current variant price
     function getCurrentVariantPrice() {
       var variantIdInput = productForm.querySelector('input[name="id"]');
@@ -636,13 +649,13 @@
       
       // Update the extra price indicator
       if(extraPriceEl) {
-        extraPriceEl.textContent = extraPrice > 0 ? ' (+ ' + Shopify.formatMoney(extraPrice * quantity, "{{ shop.money_format }}") + ')' : '';
+        extraPriceEl.textContent = extraPrice > 0 ? ' (+ ' + formatMoneySafe(extraPrice * quantity) + ')' : '';
       }
       
       // Update any total display elements
       var totalEls = document.querySelectorAll('.options-total__amount');
       totalEls.forEach(function(el) {
-        el.textContent = Shopify.formatMoney(totalPrice, "{{ shop.money_format }}");
+        el.textContent = formatMoneySafe(totalPrice);
       });
     }
     
@@ -1006,6 +1019,14 @@
       if(productForm.dataset.addonHandlerAttached === '1') return;
       productForm.dataset.addonHandlerAttached = '1';
 
+      // Local safe money formatter
+      function formatMoneySafe(cents){
+        try { if (window.Shopify && typeof Shopify.formatMoney === 'function') { return Shopify.formatMoney(cents, "{{ shop.money_format }}"); } } catch(e) {}
+        var mf = "{{ shop.money_format | escape }}";
+        var amount = (parseInt(cents || 0,10)/100).toFixed(2);
+        return mf.replace(/\{\{[^}]+\}\}/, amount);
+      }
+
       function getQuantity(){
         var qtyInput = productForm.querySelector('input[name="quantity"]');
         return qtyInput ? parseInt(qtyInput.value || '1', 10) : 1;
@@ -1031,7 +1052,7 @@
         var addons = getCheckedAddonsPrice();
         var total = (base + addons) * qty;
         root.querySelectorAll('.options-total__amount').forEach(function(el){
-          el.textContent = Shopify.formatMoney(total, "{{ shop.money_format }}");
+          el.textContent = formatMoneySafe(total);
         });
       }
 
@@ -1060,7 +1081,11 @@
         var quantity = getQuantity();
 
         var items = [{ id: mainId, quantity: quantity }];
-        ids.forEach(function(vid){ items.push({ id: vid, quantity: quantity }); });
+        ids.forEach(function(vid){
+          if (vid !== mainId) {
+            items.push({ id: vid, quantity: quantity });
+          }
+        });
 
         fetch('/cart/add.js', {
           method: 'POST',
