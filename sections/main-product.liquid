@@ -560,7 +560,7 @@
                       function getExtrasUnit(){
                         var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
                         if(!sel) return 0;
-                        var raw = (sel.dataset && sel.dataset.extraPrice ? sel.dataset.extraPrice : sel.getAttribute('data-extra-price')) || '0';
+                        var raw = sel.getAttribute('data-extra-price') || '0';
                         var v = parseInt(raw, 10);
                         return isNaN(v) ? 0 : v;
                       }
@@ -571,7 +571,7 @@
                           var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
                           var dbg = {
                             selectedService: sel ? sel.value : null,
-                            extraUnit: sel ? parseInt((sel.dataset && sel.dataset.extraPrice) || sel.getAttribute('data-extra-price') || '0', 10) : 0,
+                            extraUnit: sel ? parseInt(sel.getAttribute('data-extra-price') || '0', 10) : 0,
                             qty: qty,
                             variantPrice: getCurrentVariantPrice(),
                             hasAddonVariant: sel ? sel.hasAttribute('data-addon-variant') : false
