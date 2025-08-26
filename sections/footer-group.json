@@ -53,15 +53,15 @@
         "color_scheme": "scheme-3e78b1ec-65f4-45e8-a095-4471902bc7e2",
         "newsletter_enable": false,
         "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": false,
+        "enable_follow_on_shop": true,
         "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false,
         "payment_enable": true,
         "show_policy": false,
         "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     }
   },
