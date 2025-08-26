@@ -43,27 +43,20 @@
   -%}
   <div class="footer-topbar">
   <div class="page-width">
-    
+
     <!-- Social Icons -->
     <div class="footer-topbar__social">
       {%- render 'social-icons', class: 'footer__list-social' -%}
     </div>
 
-    <!-- USP Blocks -->
+    <!-- USP + Newsletter (all blocks render everything) -->
     <div class="footer-topbar__usps">
       {%- for block in section.blocks -%}
-        {%- if block.type == 'usp' -%}
-          <div class="footer-topbar__usp" {{ block.shopify_attributes }}>
-            <img class="footer-topbar__usp-icon" src="{{ block.settings.icon | image_url: width: 64 }}" alt="" loading="lazy" width="32" height="32">
-            <div class="footer-topbar__usp-text">{{ block.settings.text }}</div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
+        <div class="footer-topbar__usp" {{ block.shopify_attributes }}>
+          <img class="footer-topbar__usp-icon" src="{{ block.settings.icon | image_url: width: 64 }}" alt="" loading="lazy" width="32" height="32">
+          <div class="footer-topbar__usp-text">{{ block.settings.text }}</div>
+        </div>
 
-    <!-- Newsletter Signup -->
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'topbar_newsletter' -%}
         <div class="footer-topbar__newsletter" {{ block.shopify_attributes }}>
           {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
             <input type="hidden" name="contact[tags]" value="newsletter">
@@ -91,10 +84,12 @@
             </small>
           {% endform %}
         </div>
-      {%- endif -%}
-    {%- endfor -%}
+      {%- endfor -%}
+    </div>
 
   </div>
+</div>
+
 </div>
 
   {%- if section.blocks.size > 0
