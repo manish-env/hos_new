@@ -460,10 +460,10 @@ a.product__text {
   margin-top: 0.6rem;
 }
 .stitching-custom.options-to-buy__panel {
-  background: rgba(var(--color-foreground), 0.03);
-  border: 1px solid rgba(var(--color-foreground), 0.08);
-  border-radius: 8px;
-  padding: 1rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0.25rem 0 0;
 }
 .stitching-grid {
   display: grid;
@@ -485,22 +485,19 @@ a.product__text {
 .stitching-grid .input {
   appearance: none;
   -webkit-appearance: none;
-  background: #fff;
-  border: 1px solid rgba(var(--color-foreground), 0.18);
-  border-radius: 6px;
-  padding: 0.8rem 0.9rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0.6rem 0.2rem;
   font-size: 0.95rem;
   outline: none;
-  transition: border-color 120ms ease, box-shadow 120ms ease;
+  box-shadow: none;
 }
-.stitching-grid .input:focus {
-  border-color: #C71E64; /* brand accent from memory */
-  box-shadow: 0 0 0 3px rgba(199, 30, 100, 0.12);
-}
+.stitching-grid .input:focus { box-shadow: none; }
 /* Tidy up number inputs */
 input[type="number"].input::-webkit-outer-spin-button,
 input[type="number"].input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-input[type="number"].input { -moz-appearance: textfield; }
+input[type="number"].input { appearance: textfield; -moz-appearance: textfield; }
 
 @media (max-width: 749px) {
   .product-form__buttons {
