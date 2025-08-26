@@ -55,26 +55,6 @@
             "swatch_shape": "circle"
           }
         },
-        "options_to_buy_AGE76w": {
-          "type": "options_to_buy",
-          "settings": {
-            "heading": "OPTIONS TO BUY",
-            "size_guide_label": "SIZE GUIDE",
-            "size_guide_link": "",
-            "option_1_label": "Saree with unstitched blouse",
-            "option_1_addon_product": "",
-            "option_1_price": 0,
-            "option_1_default": true,
-            "option_2_label": "Saree with Standard Stitched Blouse",
-            "option_2_addon_product": "",
-            "option_2_price": 1100,
-            "option_2_default": false,
-            "option_3_label": "Saree with Made to Measure Blouse",
-            "option_3_addon_product": "",
-            "option_3_price": 1400,
-            "option_3_default": false
-          }
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -113,7 +93,6 @@
         "stitching_services_WXPK8T",
         "custom_liquid_eda7b9",
         "variant_picker",
-        "options_to_buy_AGE76w",
         "buy_buttons",
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy",
