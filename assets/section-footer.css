@@ -1,6 +1,6 @@
 /* Pixel Perfect Footer Design */
 .footer {
-  background-color: #ffffff;
+  background-color: #f5f5f6;
   border: none;
   margin-top: 0;
 }
@@ -14,7 +14,7 @@
 .footer__blocks-wrapper {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 80px;
+  gap: 64px;
   padding: 0 20px;
 }
 

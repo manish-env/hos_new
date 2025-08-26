@@ -42,10 +42,14 @@
             "menu": "company-policy"
           }
         },
-        "brand_information_LAcTaF": {
-          "type": "brand_information",
+        "company_details_LikeDiva": {
+          "type": "company_details",
           "settings": {
-            "show_social": true
+            "heading": "LIKE A DIVA",
+            "company_name": "Like A Diva",
+            "copyright_text": "Copyright © 2025 Like A Diva.",
+            "rights_text": "All rights reserved.",
+            "ecommerce_text": "e-Commerce by KOL Limited"
           }
         }
       },
@@ -54,7 +58,7 @@
         "link_list_TMNXpm",
         "link_list_AmeKcj",
         "link_list_XdjNfa",
-        "brand_information_LAcTaF"
+        "company_details_LikeDiva"
       ],
       "settings": {
         "color_scheme": "scheme-3e78b1ec-65f4-45e8-a095-4471902bc7e2",
