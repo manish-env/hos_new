@@ -54,6 +54,20 @@
             "show_gift_card_recipient": false
           }
         },
+        "service_sample_1": {
+          "type": "service",
+          "settings": {
+            "title": "Sample Service",
+            "product_types": "",
+            "addon_product": "",
+            "service_type": "sizes",
+            "sizes_csv": "32 in,34 in,36 in,38 in,40 in,42 in,44 in",
+            "size_placeholder": "Select size",
+            "input_placeholder": "Enter details",
+            "dropdown_options": "",
+            "dropdown_placeholder": "Select option"
+          }
+        },
         "collapsible_tab_xxw6HD": {
           "type": "collapsible_tab",
           "settings": {
@@ -83,6 +97,7 @@
         "title",
         "price",
         "stitching_services_WXPK8T",
+        "service_sample_1",
         "custom_liquid_eda7b9",
         "variant_picker",
         "buy_buttons",
