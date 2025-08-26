@@ -12,10 +12,18 @@
 }
 
 .footer__blocks-wrapper {
-  display: grid;
+  /* Force Grid layout regardless of Dawn's .grid (flex) rules */
+  display: grid !important;
   grid-template-columns: repeat(5, 1fr);
   gap: 64px;
   padding: 0 20px;
+}
+
+/* Neutralize Dawn .grid__item widths/flex within footer to let CSS Grid control layout */
+.footer__blocks-wrapper .grid__item {
+  width: auto;
+  max-width: none;
+  flex: 0 0 auto;
 }
 
 .footer-block {
@@ -104,6 +112,12 @@
     gap: 60px;
     padding: 0 15px;
   }
+}
+
+/* Remove extra horizontal padding contributed by .page-width on the top container */
+.footer__content-top.page-width {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 @media screen and (max-width: 989px) {
