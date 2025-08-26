@@ -40,7 +40,6 @@
   font-family: var(--font-body-family);
   font-size: 14px;
   color: #000000;
-  margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   line-height: 1.2;
@@ -70,6 +69,7 @@
   font-weight: 400; /* lighter weight */
   transition: color 0.2s ease;
   display: block;
+  text-transform: capitalize;
 }
 
 .footer-block__details-content a:hover {
@@ -235,4 +235,78 @@
     grid-column: span 1;
     text-align: left;
   }
+}
+
+/* ===== Footer Topbar (above footer) ===== */
+.footer-topbar {
+  background: #F2F2F2;
+  border-top: 1px solid rgba(0,0,0,0.12);
+}
+.footer-topbar__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+/* Social area (left) */
+.footer-topbar__social .list-social {
+  margin: 0;
+}
+
+/* USP items (center) */
+.footer-topbar__usps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+}
+.footer-topbar__usp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  color: #333;
+  font-size: 12px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.footer-topbar__usp-icon { width: 32px; height: 32px; object-fit: contain; }
+.footer-topbar__usp-text { max-width: 160px; line-height: 1.25; }
+
+/* Newsletter (right) */
+.footer-topbar__newsletter { display: flex; justify-content: flex-end; }
+.newsletter-form--compact .field { display: flex; align-items: center; gap: 8px; }
+.newsletter-form--compact .field__input {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #CFCFCF;
+  background: #fff;
+  min-width: 260px;
+}
+.newsletter-form--compact .button.button--compact {
+  height: 40px;
+  padding: 0 14px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+/* Responsive */
+@media (max-width: 989px) {
+  .footer-topbar__inner {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .footer-topbar__social { justify-self: center; }
+  .footer-topbar__usps { flex-wrap: wrap; gap: 24px; }
+  .footer-topbar__newsletter { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .newsletter-form--compact .field__input { min-width: 190px; }
 }
