@@ -480,14 +480,14 @@
                     {%- for i in (1..3) -%}
                       {%- assign opt_label_key = 'option_' | append: i | append: '_label' -%}
                       {%- assign opt_label = block.settings[opt_label_key] -%}
-                      {%- assign opt_price_key = 'option_' | append: i | append: '_price' -%}
-                      {%- assign opt_price_units = block.settings[opt_price_key] | default: 0 | replace: ',', '' -%}
-                      {%- assign opt_price = opt_price_units | times: 100 -%}
                       {%- assign addon_handle = 'option_' | append: i | append: '_addon_product' -%}
                       {%- assign addon_product = block.settings[addon_handle] -%}
+                      {%- assign opt_price = 0 -%}
                       {%- if addon_product != blank -%}
                         {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
-                        {%- assign opt_price = addon_variant.price -%}
+                        {%- if addon_variant != blank -%}
+                          {%- assign opt_price = addon_variant.price -%}
+                        {%- endif -%}
                       {%- endif -%}
                       {%- assign opt_default_key = 'option_' | append: i | append: '_default' -%}
                       {%- assign opt_default = block.settings[opt_default_key] -%}
@@ -515,9 +515,14 @@
                     {%- endfor -%}
                   </ul>
                   <script>
+                    console.log('[DEBUG] Options to Buy script starting...');
                     (function(){
                       var root = document.getElementById('ProductInfo-{{ section.id }}');
-                      if(!root) return;
+                      console.log('[DEBUG] Root element found:', !!root);
+                      if(!root) {
+                        console.error('[DEBUG] ProductInfo root element not found!');
+                        return;
+                      }
                       var priceWrap = root.querySelector('#price-{{ section.id }} .price__container');
                       var extraEl = root.querySelector('#price-{{ section.id }} .options-extra');
                       if(!extraEl && priceWrap){
