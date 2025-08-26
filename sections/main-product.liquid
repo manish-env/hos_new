@@ -756,6 +756,94 @@
                   </script>
                 </div>
               {%- when 'buy_buttons' -%}
+                <!-- Stitching Services Section -->
+                <div class="stitching-services" style="margin-bottom: 2rem;">
+                  <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: #520000;">Choose Your Stitching Service</h3>
+                  
+                  <div class="stitching-options" style="display: grid; gap: 1rem; margin-bottom: 1.5rem;">
+                    <!-- Unstitched Option -->
+                    <div class="stitching-option" style="border: 2px solid #e5e5e5; border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease;">
+                      <input type="radio" id="unstitched-{{ section.id }}" name="stitching_service" value="unstitched" checked style="margin-right: 0.5rem;">
+                      <label for="unstitched-{{ section.id }}" style="cursor: pointer; font-weight: 500;">
+                        <strong>Unstitched</strong> - Free
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;">Get the fabric as-is, perfect for your own tailor</div>
+                      </label>
+                    </div>
+
+                    <!-- Standard Stitching Option -->
+                    <div class="stitching-option" style="border: 2px solid #e5e5e5; border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease;">
+                      <input type="radio" id="standard-{{ section.id }}" name="stitching_service" value="standard" style="margin-right: 0.5rem;">
+                      <label for="standard-{{ section.id }}" style="cursor: pointer; font-weight: 500;">
+                        <strong>Standard Stitching</strong> - 
+                        <span class="standard-price" data-price-cents="{{ all_products['standard-stitching'].price }}">
+                          {{ all_products['standard-stitching'].price | money }}
+                        </span>
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;">Professional stitching with standard sizing</div>
+                      </label>
+                    </div>
+
+                    <!-- Custom Stitching Option -->
+                    <div class="stitching-option" style="border: 2px solid #e5e5e5; border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease;">
+                      <input type="radio" id="custom-{{ section.id }}" name="stitching_service" value="custom" style="margin-right: 0.5rem;">
+                      <label for="custom-{{ section.id }}" style="cursor: pointer; font-weight: 500;">
+                        <strong>Custom Stitching</strong> - 
+                        <span class="custom-price" data-price-cents="{{ all_products['custom-stitching'].price }}">
+                          {{ all_products['custom-stitching'].price | money }}
+                        </span>
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;">Tailored to your exact measurements</div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Size Selection for Standard Stitching -->
+                  <div id="size-selection-{{ section.id }}" class="size-selection" style="display: none; margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Select Size:</label>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                      {% assign sizes = 'XS,S,M,L,XL' | split: ',' %}
+                      {% for size in sizes %}
+                        <button type="button" class="size-btn" data-size="{{ size }}" style="padding: 0.5rem 1rem; border: 2px solid #e5e5e5; background: white; border-radius: 4px; cursor: pointer; transition: all 0.3s ease;">{{ size }}</button>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                  <!-- Custom Measurements Form -->
+                  <div id="measurements-form-{{ section.id }}" class="measurements-form" style="display: none; background: #f9f9f9; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h4 style="margin-bottom: 1rem; color: #520000;">Enter Your Measurements (in inches)</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                      <div>
+                        <label style="display: block; margin-bottom: 0.25rem; font-size: 0.9rem;">Bust:</label>
+                        <input type="number" name="bust" step="0.5" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                      </div>
+                      <div>
+                        <label style="display: block; margin-bottom: 0.25rem; font-size: 0.9rem;">Waist:</label>
+                        <input type="number" name="waist" step="0.5" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                      </div>
+                      <div>
+                        <label style="display: block; margin-bottom: 0.25rem; font-size: 0.9rem;">Hip:</label>
+                        <input type="number" name="hip" step="0.5" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                      </div>
+                      <div>
+                        <label style="display: block; margin-bottom: 0.25rem; font-size: 0.9rem;">Length:</label>
+                        <input type="number" name="length" step="0.5" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                      </div>
+                      <div>
+                        <label style="display: block; margin-bottom: 0.25rem; font-size: 0.9rem;">Shoulder:</label>
+                        <input type="number" name="shoulder" step="0.5" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                      </div>
+                      <div>
+                        <label style="display: block; margin-bottom: 0.25rem; font-size: 0.9rem;">Sleeve:</label>
+                        <input type="number" name="sleeve" step="0.5" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Total Price Display -->
+                  <div class="total-price" style="background: #520000; color: white; padding: 1rem; border-radius: 8px; text-align: center; margin-bottom: 1rem;">
+                    <div style="font-size: 0.9rem; margin-bottom: 0.25rem;">Total Price:</div>
+                    <div id="total-amount-{{ section.id }}" style="font-size: 1.5rem; font-weight: bold;">{{ product.price | money }}</div>
+                  </div>
+                </div>
+
                 {%- render 'buy-buttons',
                   block: block,
                   product: product,
@@ -2635,3 +2723,131 @@
   ]
 }
 {% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sectionId = '{{ section.id }}';
+  const productPrice = {{ product.price }};
+  const standardPrice = parseInt(document.querySelector('.standard-price')?.dataset.priceCents || '0');
+  const customPrice = parseInt(document.querySelector('.custom-price')?.dataset.priceCents || '0');
+  
+  const stitchingOptions = document.querySelectorAll('input[name="stitching_service"]');
+  const sizeSelection = document.getElementById(`size-selection-${sectionId}`);
+  const measurementsForm = document.getElementById(`measurements-form-${sectionId}`);
+  const totalAmount = document.getElementById(`total-amount-${sectionId}`);
+  const sizeBtns = document.querySelectorAll('.size-btn');
+  
+  let selectedSize = '';
+  
+  // Handle stitching service selection
+  stitchingOptions.forEach(option => {
+    option.addEventListener('change', function() {
+      const selectedOption = this.closest('.stitching-option');
+      
+      // Reset all options
+      document.querySelectorAll('.stitching-option').forEach(opt => {
+        opt.style.borderColor = '#e5e5e5';
+        opt.style.backgroundColor = 'white';
+      });
+      
+      // Highlight selected option
+      selectedOption.style.borderColor = '#520000';
+      selectedOption.style.backgroundColor = '#f9f9f9';
+      
+      // Show/hide relevant sections
+      if (this.value === 'standard') {
+        sizeSelection.style.display = 'block';
+        measurementsForm.style.display = 'none';
+        updateTotalPrice(productPrice + standardPrice);
+      } else if (this.value === 'custom') {
+        sizeSelection.style.display = 'none';
+        measurementsForm.style.display = 'block';
+        updateTotalPrice(productPrice + customPrice);
+      } else {
+        sizeSelection.style.display = 'none';
+        measurementsForm.style.display = 'none';
+        updateTotalPrice(productPrice);
+      }
+    });
+  });
+  
+  // Handle size selection
+  sizeBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      sizeBtns.forEach(b => {
+        b.style.borderColor = '#e5e5e5';
+        b.style.backgroundColor = 'white';
+        b.style.color = 'black';
+      });
+      
+      this.style.borderColor = '#520000';
+      this.style.backgroundColor = '#520000';
+      this.style.color = 'white';
+      selectedSize = this.dataset.size;
+    });
+  });
+  
+  // Update total price display
+  function updateTotalPrice(totalCents) {
+    const formatted = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(totalCents / 100);
+    totalAmount.textContent = formatted;
+  }
+  
+  // Modify the existing add to cart functionality
+  const addToCartForm = document.querySelector(`#product-form-${sectionId}`);
+  if (addToCartForm) {
+    addToCartForm.addEventListener('submit', function(e) {
+      const selectedService = document.querySelector('input[name="stitching_service"]:checked').value;
+      
+      if (selectedService === 'standard' && !selectedSize) {
+        e.preventDefault();
+        alert('Please select a size for standard stitching.');
+        return;
+      }
+      
+      if (selectedService === 'custom') {
+        const measurements = {};
+        const measurementInputs = measurementsForm.querySelectorAll('input[type="number"]');
+        let allFilled = true;
+        
+        measurementInputs.forEach(input => {
+          if (!input.value) {
+            allFilled = false;
+          } else {
+            measurements[input.name] = input.value;
+          }
+        });
+        
+        if (!allFilled) {
+          e.preventDefault();
+          alert('Please fill in all measurements for custom stitching.');
+          return;
+        }
+      }
+      
+      // Add stitching service details to cart notes
+      let cartNotes = '';
+      if (selectedService === 'standard') {
+        cartNotes = `Stitching: Standard (Size: ${selectedSize})`;
+      } else if (selectedService === 'custom') {
+        const measurements = Array.from(measurementsForm.querySelectorAll('input[type="number"]'))
+          .map(input => `${input.name}: ${input.value}"`)
+          .join(', ');
+        cartNotes = `Stitching: Custom (${measurements})`;
+      } else {
+        cartNotes = 'Stitching: Unstitched';
+      }
+      
+      // Add hidden input for cart notes
+      const notesInput = document.createElement('input');
+      notesInput.type = 'hidden';
+      notesInput.name = 'properties[Stitching Details]';
+      notesInput.value = cartNotes;
+      this.appendChild(notesInput);
+    });
+  }
+});
+</script>
