@@ -52,31 +52,32 @@
 }
 
 .footer-block__details-content li {
-  margin-bottom: 4px; /* tighter gap between links */
+  margin-bottom: 2px; /* tighter gap between links */
 }
 
 .footer-block__details-content a {
-  color: #666666;
+  color: #000000; /* default black */
   text-decoration: none;
   font-size: 14px;
   line-height: 1.4; /* reduce vertical spacing */
+  font-weight: 400; /* lighter weight */
   transition: color 0.2s ease;
   display: block;
 }
 
 .footer-block__details-content a:hover {
-  color: #000000;
+  color: #FA05E8; /* brand pink on hover */
 }
 
-/* Special styling for highlighted links */
+/* Special styling for highlighted links (align to default/hover) */
 .footer-block__details-content a[href*="returns"],
 .footer-block__details-content a[href*="fabric-guide"] {
-  color: #e91e63;
+  color: #000000;
 }
 
 .footer-block__details-content a[href*="returns"]:hover,
 .footer-block__details-content a[href*="fabric-guide"]:hover {
-  color: #c2185b;
+  color: #FA05E8;
 }
 
 /* Company details styling */
