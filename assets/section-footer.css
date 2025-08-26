@@ -179,6 +179,35 @@
   .footer-block__details-content a {
     font-size: 15px;
   }
+
+  /* Footer accordion (mobile) */
+  .footer-accordion {
+    border-top: 1px solid rgba(0,0,0,0.08);
+    padding-top: 10px;
+  }
+  .footer-accordion__summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .footer-accordion__summary::-webkit-details-marker {
+    display: none;
+  }
+  .footer-accordion__summary::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    margin-left: 10px;
+  }
+  .footer-accordion[open] .footer-accordion__summary::after {
+    transform: rotate(-135deg);
+  }
 }
 
 @media screen and (max-width: 479px) {

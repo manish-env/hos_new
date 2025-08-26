@@ -4,6 +4,7 @@
 {{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
 {{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{{ 'footer-accordion.js' | asset_url | script_tag }}
 
 {%- style -%}
   .footer {
@@ -74,7 +75,7 @@
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
-                  {%- if block.settings.heading != blank -%}
+                  {%- if block.settings.heading != blank and block.type != 'link_list' -%}
                     <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
                   {%- endif -%}
 
@@ -87,18 +88,25 @@
                     </div>
                   {%- when 'link_list' -%}
                     {%- if block.settings.menu != blank -%}
-                      <ul class="footer-block__details-content list-unstyled">
-                        {%- for link in block.settings.menu.links -%}
-                          <li>
-                            <a
-                              href="{{ link.url }}"
-                              class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
-                            >
-                              {{ link.title | escape }}
-                            </a>
-                          </li>
-                        {%- endfor -%}
-                      </ul>
+                      <details class="footer-accordion" open>
+                        <summary class="footer-accordion__summary">
+                          {%- if block.settings.heading != blank -%}
+                            <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
+                          {%- endif -%}
+                        </summary>
+                        <ul class="footer-block__details-content list-unstyled footer-accordion__content">
+                          {%- for link in block.settings.menu.links -%}
+                            <li>
+                              <a
+                                href="{{ link.url }}"
+                                class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                              >
+                                {{ link.title | escape }}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </details>
                     {%- endif -%}
                   {%- when 'brand_information' -%}
                     <div class="footer-block__brand-info">
