@@ -57,7 +57,7 @@
 }
 
 .footer-block__details-content li {
-  margin-bottom: 2px; /* tighter gap between links */
+  margin-bottom: -5px; /* tighter gap between links */
 }
 
 .footer-block__details-content a {
