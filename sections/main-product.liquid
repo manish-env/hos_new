@@ -200,7 +200,7 @@
                                 {%- assign dd_csv = block.settings[dd_opts_key] | default: '' -%}
                                 {%- assign dd_list = dd_csv | split: ',' -%}
                                 <div class="addon-extra-field">
-                                  <select class="select addon-extra-input" name="properties[Service {{ i }} - {{ dd_label | escape }}]" form="{{ form_id }}" disabled>
+                                  <select class="select addon-extra-input" name="properties[Service {{ i }} - {{ dd_label | escape }}]" form="{{ form_id }}" disabled style="padding:6px;">
                                     <option value="" disabled selected>{{ dd_label }}</option>
                                     {%- for opt in dd_list -%}
                                       {%- assign o = opt | strip -%}
