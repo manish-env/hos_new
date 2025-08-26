@@ -340,6 +340,9 @@
     align-items: center;
     justify-content: center;
   }
+  /* Ensure the inline SVG wrapper and the svg fill the 45px box */
+  .footer-topbar__social .svg-wrapper { width: 45px !important; height: 45px !important; display: inline-flex; align-items: center; justify-content: center; }
+  .footer-topbar__social .svg-wrapper svg { width: 45px !important; height: 45px !important; }
 }
 
 @media (max-width: 480px) {
