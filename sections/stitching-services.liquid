@@ -1,0 +1,200 @@
+{%- comment -%}
+  Standalone Stitching Services Section
+  - Does not modify existing product section or templates.
+  - Add this section to the Product template via Theme Editor.
+
+  Behavior:
+  - Shows Unstitched, Standard, Custom options.
+  - Maps by product.type using repeatable rules (blocks) to pick service products.
+  - Uses service product variant price for display and adds service as a second line item.
+  - Preserves line item properties (Service, Size or measurements) through the existing product form.
+{%- endcomment -%}
+
+{%- if product == nil -%}
+  {%- comment -%} Only render on product templates {%- endcomment -%}
+  <div class="stitching-services note">This section is intended for product pages.</div>
+  {% schema %}
+  {
+    "name": "Stitching services",
+    "settings": [
+      { "type": "paragraph", "content": "Add this section to your Product template. It automatically connects to the page's product." }
+    ],
+    "blocks": [],
+    "presets": [{ "name": "Stitching services" }]
+  }
+  {% endschema %}
+  {%- return -%}
+{%- endif -%}
+
+{%- liquid
+  assign rules = section.blocks | where: 'type', 'stitching_rule'
+  assign matched_rule = nil
+  for r in rules
+    if r.settings.product_type == product.type
+      assign matched_rule = r
+      break
+    endif
+  endfor
+
+  assign enable_unstitched = section.settings.enable_unstitched
+  assign enable_standard = section.settings.enable_standard
+  assign enable_custom = section.settings.enable_custom
+
+  if matched_rule
+    if matched_rule.settings.enable_standard == false
+      assign enable_standard = false
+    endif
+    if matched_rule.settings.enable_custom == false
+      assign enable_custom = false
+    endif
+  endif
+
+  assign standard_product = nil
+  assign custom_product = nil
+  if matched_rule
+    assign standard_product = matched_rule.settings.standard_product
+    assign custom_product = matched_rule.settings.custom_product
+  endif
+
+  assign standard_variant = nil
+  if standard_product != blank
+    assign standard_variant = standard_product.selected_or_first_available_variant
+  endif
+  assign custom_variant = nil
+  if custom_product != blank
+    assign custom_variant = custom_product.selected_or_first_available_variant
+  endif
+
+  assign sizes_csv = section.settings.standard_sizes | default: 'XS,S,M,L,XL'
+  assign sizes = sizes_csv | split: ','
+
+  assign heading = section.settings.heading | default: 'Stitching Services'
+  assign size_chart_label = section.settings.size_chart_label
+  assign size_chart_link = section.settings.size_chart_link
+  assign cart_behavior = section.settings.cart_behavior | default: 'drawer'
+-%}
+
+<div class="stitching-services" id="StitchingServices-{{ section.id }}" data-cart-behavior="{{ cart_behavior }}"
+  {%- if standard_variant -%} data-standard-variant-id="{{ standard_variant.id }}" data-standard-price-cents="{{ standard_variant.price }}"{%- endif -%}
+  {%- if custom_variant -%} data-custom-variant-id="{{ custom_variant.id }}" data-custom-price-cents="{{ custom_variant.price }}"{%- endif -%}
+>
+  <div class="stitching-services__header">
+    <span class="stitching-services__title">{{ heading }}</span>
+    {%- if size_chart_label != blank and size_chart_link != blank -%}
+      <a class="stitching-services__size-chart" href="{{ size_chart_link }}" target="_blank" rel="noopener">{{ size_chart_label }}</a>
+    {%- endif -%}
+  </div>
+
+  <div class="stitching-services__options" role="radiogroup" aria-label="{{ heading | escape }}">
+    {%- if enable_unstitched -%}
+      <label class="stitching-radio">
+        <input type="radio" name="properties[Service]" value="Unstitched" form="{{ product.selected_or_first_available_variant.id }}-form" checked>
+        <span>Unstitched</span>
+        <span class="stitching-radio__price">+ {{ 0 | money }}</span>
+      </label>
+    {%- endif -%}
+
+    {%- if enable_standard and standard_variant -%}
+      <label class="stitching-radio">
+        <input type="radio" name="properties[Service]" value="Standard Stitching" data-service="standard">
+        <span>Standard Stitching</span>
+        <span class="stitching-radio__price">+ {{ standard_variant.price | money }}</span>
+      </label>
+    {%- endif -%}
+
+    {%- if enable_custom and custom_variant -%}
+      <label class="stitching-radio">
+        <input type="radio" name="properties[Service]" value="Custom Stitching" data-service="custom">
+        <span>Custom Stitching</span>
+        <span class="stitching-radio__price">+ {{ custom_variant.price | money }}</span>
+      </label>
+    {%- endif -%}
+  </div>
+
+  {%- if enable_standard and standard_variant -%}
+  <div class="stitching-standard" data-panel="standard" hidden>
+    <label class="form__label" for="StitchingSize-{{ section.id }}">Select size</label>
+    <select id="StitchingSize-{{ section.id }}" class="select" name="properties[Service Size]">
+      <option value="" selected disabled>Choose size</option>
+      {%- for s in sizes -%}
+        {%- assign size_trim = s | strip -%}
+        <option value="{{ size_trim }}">{{ size_trim }}</option>
+      {%- endfor -%}
+    </select>
+  </div>
+  {%- endif -%}
+
+  {%- if enable_custom and custom_variant -%}
+  <div class="stitching-custom" data-panel="custom" hidden>
+    <div class="stitching-grid">
+      <div class="field">
+        <label for="MeasBust-{{ section.id }}" class="form__label">Bust (in)</label>
+        <input id="MeasBust-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Bust]" />
+      </div>
+      <div class="field">
+        <label for="MeasWaist-{{ section.id }}" class="form__label">Waist (in)</label>
+        <input id="MeasWaist-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Waist]" />
+      </div>
+      <div class="field">
+        <label for="MeasHip-{{ section.id }}" class="form__label">Hip (in)</label>
+        <input id="MeasHip-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Hip]" />
+      </div>
+      <div class="field">
+        <label for="MeasLength-{{ section.id }}" class="form__label">Blouse Length (in)</label>
+        <input id="MeasLength-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Length]" />
+      </div>
+      <div class="field">
+        <label for="MeasShoulder-{{ section.id }}" class="form__label">Shoulder (in)</label>
+        <input id="MeasShoulder-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Shoulder]" />
+      </div>
+      <div class="field">
+        <label for="MeasSleeve-{{ section.id }}" class="form__label">Sleeve Length (in)</label>
+        <input id="MeasSleeve-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Sleeve]" />
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+
+  <div class="stitching-summary">
+    <span class="stitching-summary__label">Service price:</span>
+    <span class="stitching-summary__amount" data-stitching-price>{{ 0 | money }}</span>
+  </div>
+</div>
+
+<script src="{{ 'stitching-services.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Stitching services",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Stitching Services" },
+    { "type": "checkbox", "id": "enable_unstitched", "label": "Enable Unstitched", "default": true },
+    { "type": "checkbox", "id": "enable_standard", "label": "Enable Standard Stitching", "default": true },
+    { "type": "checkbox", "id": "enable_custom", "label": "Enable Custom Stitching", "default": true },
+    { "type": "text", "id": "standard_sizes", "label": "Standard sizes (comma-separated)", "default": "XS,S,M,L,XL" },
+    { "type": "text", "id": "size_chart_label", "label": "Size chart label", "default": "Size Chart" },
+    { "type": "url", "id": "size_chart_link", "label": "Size chart link" },
+    { "type": "select", "id": "cart_behavior", "label": "Add to cart behavior", "default": "drawer", "options": [
+      { "value": "drawer", "label": "Open cart drawer/notification" },
+      { "value": "redirect", "label": "Redirect to cart page" }
+    ]}
+  ],
+  "blocks": [
+    {
+      "type": "stitching_rule",
+      "name": "Stitching rule (by product type)",
+      "limit": 20,
+      "settings": [
+        { "type": "text", "id": "product_type", "label": "Product type (exact match)", "default": "Saree" },
+        { "type": "checkbox", "id": "enable_standard", "label": "Enable Standard for this type", "default": true },
+        { "type": "checkbox", "id": "enable_custom", "label": "Enable Custom for this type", "default": true },
+        { "type": "product", "id": "standard_product", "label": "Standard stitching product" },
+        { "type": "product", "id": "custom_product", "label": "Custom stitching product" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Stitching services" }
+  ]
+}
+{% endschema %}
