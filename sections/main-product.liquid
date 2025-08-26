@@ -607,8 +607,18 @@
     function getSelectedOptionPrice() {
       var selectedOption = root.querySelector('.options-to-buy input[type="radio"]:checked');
       if(!selectedOption) return 0;
-      
       return parseInt(selectedOption.getAttribute('data-extra-price') || '0', 10);
+    }
+
+    // Function to get total of checked add-on checkboxes
+    function getCheckedAddonsPrice() {
+      var total = 0;
+      var checked = root.querySelectorAll('.addon-services__input:checked[data-price-cents]');
+      checked.forEach(function(cb){
+        var p = parseInt(cb.getAttribute('data-price-cents') || '0', 10);
+        if(!isNaN(p)) total += p;
+      });
+      return total;
     }
     
     // Function to update displayed price
@@ -616,7 +626,8 @@
       var basePrice = getCurrentVariantPrice();
       var quantity = getQuantity();
       var extraPrice = getSelectedOptionPrice();
-      var totalPrice = (basePrice * quantity) + (extraPrice * quantity);
+      var addonsPrice = getCheckedAddonsPrice();
+      var totalPrice = (basePrice * quantity) + (extraPrice * quantity) + (addonsPrice * quantity);
       
       // Update the extra price indicator
       if(extraPriceEl) {
@@ -633,6 +644,12 @@
     // Listen for option changes
     root.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(radio) {
       radio.addEventListener('change', updatePriceDisplay);
+    });
+
+    // Listen for add-on checkbox changes
+    root.querySelectorAll('.addon-services__input[type="checkbox"]').forEach(function(cb) {
+      cb.addEventListener('change', updatePriceDisplay);
+      cb.addEventListener('input', updatePriceDisplay);
     });
     
     // Listen for quantity changes
