@@ -59,7 +59,7 @@
           "settings": {
             "title": "Sample Service",
             "product_types": "",
-            "addon_product": "",
+            "addon_product": "standard-stitching",
             "service_type": "sizes",
             "sizes_csv": "32 in,34 in,36 in,38 in,40 in,42 in,44 in",
             "size_placeholder": "Select size",
