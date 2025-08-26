@@ -119,9 +119,13 @@
                     {%- for i in (1..6) -%}
                       {%- assign item_label_key = 'item_' | append: i | append: '_label' -%}
                       {%- assign item_product_key = 'item_' | append: i | append: '_product' -%}
+                      {%- assign item_handle_key = 'item_' | append: i | append: '_handle' -%}
                       {%- assign item_default_key = 'item_' | append: i | append: '_default' -%}
                       {%- assign label = block.settings[item_label_key] -%}
                       {%- assign addon_product = block.settings[item_product_key] -%}
+                      {%- if addon_product == blank and block.settings[item_handle_key] != blank -%}
+                        {%- assign addon_product = all_products[block.settings[item_handle_key]] -%}
+                      {%- endif -%}
                       {%- assign is_default = block.settings[item_default_key] -%}
                       {%- if addon_product != blank and addon_product.selected_or_first_available_variant != blank -%}
                         {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
@@ -1122,26 +1126,32 @@
         { "type": "text", "id": "subtext", "label": "Subtext" },
         { "type": "header", "content": "Item 1" },
         { "type": "product", "id": "item_1_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_1_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty. Example: custom-stitching" },
         { "type": "text", "id": "item_1_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_1_default", "label": "Checked by default", "default": false },
         { "type": "header", "content": "Item 2" },
         { "type": "product", "id": "item_2_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_2_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_2_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_2_default", "label": "Checked by default", "default": false },
         { "type": "header", "content": "Item 3" },
         { "type": "product", "id": "item_3_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_3_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_3_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_3_default", "label": "Checked by default", "default": false },
         { "type": "header", "content": "Item 4" },
         { "type": "product", "id": "item_4_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_4_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_4_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_4_default", "label": "Checked by default", "default": false },
         { "type": "header", "content": "Item 5" },
         { "type": "product", "id": "item_5_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_5_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_5_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_5_default", "label": "Checked by default", "default": false },
         { "type": "header", "content": "Item 6" },
         { "type": "product", "id": "item_6_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_6_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_6_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_6_default", "label": "Checked by default", "default": false }
       ]
