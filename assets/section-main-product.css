@@ -415,6 +415,46 @@ a.product__text {
   box-shadow: inset 0 0 0 3px #fff;
 }
 
+/* Stitching sizes as square swatches */
+.stitching-sizes { margin-top: 0.8rem; }
+.stitching-sizes__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.stitching-size__radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.stitching-size__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 0.6rem;
+  border: 1.5px solid #222;
+  border-radius: 4px; /* square */
+  background: #fff;
+  color: #222;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  user-select: none;
+}
+.stitching-size__radio:checked + .stitching-size__label {
+  background: #222;
+  color: #fff;
+}
+.stitching-size__radio:focus + .stitching-size__label {
+  outline: 2px solid rgba(0,0,0,0.35);
+  outline-offset: 2px;
+}
+.stitching-size__label:hover { filter: brightness(0.95); }
+
 @media (max-width: 749px) {
   .product-form__buttons {
     flex-direction: column;

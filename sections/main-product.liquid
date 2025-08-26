@@ -166,14 +166,16 @@
                           <span class="options-to-buy__price">+ {{ standard_variant.price | money }}</span>
                         </label>
                         <div class="stitching-standard options-to-buy__panel" data-panel="standard" hidden>
-                          <label class="form__label" for="StitchingSize-{{ block.id }}">Select size</label>
-                          <select id="StitchingSize-{{ block.id }}" class="select" name="properties[Service Size]" form="{{ product_form_id }}">
-                            <option value="" selected disabled>Choose size</option>
-                            {%- for s in sizes -%}
-                              {%- assign size_trim = s | strip -%}
-                              <option value="{{ size_trim }}">{{ size_trim }}</option>
-                            {%- endfor -%}
-                          </select>
+                          <div class="stitching-sizes">
+                            <span class="form__label">Select size</span>
+                            <div class="stitching-sizes__grid" role="radiogroup" aria-label="Select size">
+                              {%- for s in sizes -%}
+                                {%- assign size_trim = s | strip -%}
+                                <input class="stitching-size__radio" type="radio" id="StitchSize-{{ block.id }}-{{ size_trim | handle }}" name="properties[Service Size]" value="{{ size_trim }}" form="{{ product_form_id }}">
+                                <label class="stitching-size__label" for="StitchSize-{{ block.id }}-{{ size_trim | handle }}">{{ size_trim }}</label>
+                              {%- endfor -%}
+                            </div>
+                          </div>
                         </div>
                       </li>
                     {%- endif -%}

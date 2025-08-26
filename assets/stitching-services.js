@@ -68,8 +68,18 @@
       function validate(){
         var s = selected();
         if(s.type==='standard' && standardPanel){
+          // Support either radio swatches or a fallback select
+          var checkedRadio = standardPanel.querySelector('input.stitching-size__radio:checked');
           var sel = standardPanel.querySelector('select');
-          if(sel && !sel.value){ sel.focus(); return false; }
+          var hasSize = !!(checkedRadio && checkedRadio.value) || !!(sel && sel.value);
+          if(!hasSize){
+            if(standardPanel.querySelector('input.stitching-size__radio')){
+              // Focus first radio label for accessibility
+              var firstLbl = standardPanel.querySelector('label.stitching-size__label');
+              if(firstLbl) firstLbl.focus();
+            } else if(sel) { sel.focus(); }
+            return false;
+          }
         }
         if(s.type==='custom' && customPanel){
           var inputs = customPanel.querySelectorAll('input');
@@ -82,8 +92,10 @@
         var s = selected();
         var props = { 'Service': s.label };
         if(s.type==='standard' && standardPanel){
+          var checkedRadio = standardPanel.querySelector('input.stitching-size__radio:checked');
           var sel = standardPanel.querySelector('select');
-          if(sel && sel.value) props['Service Size'] = sel.value;
+          var sizeVal = checkedRadio ? checkedRadio.value : (sel && sel.value ? sel.value : '');
+          if(sizeVal) props['Service Size'] = sizeVal;
         }
         if(s.type==='custom' && customPanel){
           var inputs = customPanel.querySelectorAll('input');
