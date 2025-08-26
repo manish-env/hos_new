@@ -107,15 +107,15 @@
                   </a>
                 </div>
               {%- when 'addon_services' -%}
-                <div class="addon-services" {{ block.shopify_attributes }}>
+                <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }}>
                   {%- assign form_id = product_form_id -%}
-                  <div class="addon-services__header">
-                    <span class="addon-services__title">{{ block.settings.heading | default: 'Add-on Services' }}</span>
+                  <div class="options-to-buy__header">
+                    <span class="options-to-buy__title">{{ block.settings.heading | default: 'Add-on Services' }}</span>
                     {%- if block.settings.subtext != blank -%}
-                      <p class="addon-services__subtext">{{ block.settings.subtext }}</p>
+                      <p class="options-to-buy__subtext">{{ block.settings.subtext }}</p>
                     {%- endif -%}
                   </div>
-                  <ul class="addon-services__list" role="list">
+                  <ul class="options-to-buy__list" role="list">
                     {%- for i in (1..6) -%}
                       {%- assign item_label_key = 'item_' | append: i | append: '_label' -%}
                       {%- assign item_product_key = 'item_' | append: i | append: '_product' -%}
@@ -129,11 +129,11 @@
                       {%- assign is_default = block.settings[item_default_key] -%}
                       {%- if addon_product != blank and addon_product.selected_or_first_available_variant != blank -%}
                         {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
-                        <li class="addon-services__item">
-                          <label class="addon-services__checkbox">
+                        <li class="options-to-buy__item">
+                          <label class="options-to-buy__radio">
                             <input
                               type="checkbox"
-                              class="addon-services__input"
+                              class="addon-services__input options-to-buy__input"
                               name="properties[Add-on {{ i }}]"
                               value="{{ label | default: addon_product.title | escape }}"
                               form="{{ form_id }}"
@@ -142,15 +142,15 @@
                               {% if is_default and addon_variant.available %}checked{% endif %}
                               {% unless addon_variant.available %}disabled aria-disabled="true"{% endunless %}
                             >
-                            <span class="addon-services__text">{{ label | default: addon_product.title }}</span>
-                            <span class="addon-services__price">+ {{ addon_variant.price | money }}</span>
+                            <span class="options-to-buy__text">{{ label | default: addon_product.title }}</span>
+                            <span class="options-to-buy__price">+ {{ addon_variant.price | money }}</span>
                           </label>
                         </li>
                       {%- elsif label != blank -%}
-                        <li class="addon-services__item addon-services__item--disabled">
-                          <label class="addon-services__checkbox">
-                            <input type="checkbox" class="addon-services__input" disabled>
-                            <span class="addon-services__text">{{ label }}</span>
+                        <li class="options-to-buy__item options-to-buy__item--disabled">
+                          <label class="options-to-buy__radio">
+                            <input type="checkbox" class="addon-services__input options-to-buy__input" disabled>
+                            <span class="options-to-buy__text">{{ label }}</span>
                           </label>
                         </li>
                       {%- endif -%}
