@@ -6,6 +6,32 @@
     catch(e){ return (cents/100).toFixed(2); }
   }
 
+  function fetchAndRenderCartUI(addResponse){
+    // Determine which UI is present
+    var drawer = document.querySelector('cart-drawer');
+    var notif = document.querySelector('cart-notification');
+    var sections = [];
+    if(drawer){ sections = ['cart-drawer','cart-icon-bubble']; }
+    else if(notif){ sections = ['cart-notification-product','cart-notification-button','cart-icon-bubble']; }
+    else { return Promise.resolve(); }
+
+    var url = window.location.pathname + '?sections=' + encodeURIComponent(sections.join(','));
+    return fetch(url)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        // Build parsedState similar to Dawn
+        var firstItem = (addResponse && addResponse.items && addResponse.items[0]) || null;
+        var parsedState = { sections: data };
+        if(firstItem){
+          parsedState.key = firstItem.key;
+          parsedState.id = firstItem.product_id || firstItem.id;
+        }
+        if(drawer && drawer.renderContents){ drawer.renderContents(parsedState); }
+        if(!drawer && notif && notif.renderContents){ notif.renderContents(parsedState); }
+      })
+      .catch(function(){ /* noop */ });
+  }
+
   ready(function(){
     var sections = document.querySelectorAll('[id^="StitchingServices-"]');
     if(!sections.length) return;
@@ -117,14 +143,13 @@
 
         fetch('/cart/add.js', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ items: items }) })
           .then(function(r){ return r.json(); })
-          .then(function(){
+          .then(function(addResp){
             if(cartBehavior==='redirect'){ window.location.href = '/cart'; return; }
-            var drawer = document.querySelector('cart-drawer');
-            if(drawer && drawer.open){ drawer.open(); }
-            var notif = document.querySelector('cart-notification');
-            if(notif && notif.renderContents){ notif.renderContents(); }
-            document.body.dispatchEvent(new CustomEvent('cart:update'));
-            isSubmitting = false;
+            // Refresh cart UI sections and open the appropriate UI
+            return fetchAndRenderCartUI(addResp).then(function(){
+              document.body.dispatchEvent(new CustomEvent('cart:update'));
+              isSubmitting = false;
+            });
           })
           .catch(function(){ isSubmitting = false; /* swallow to avoid duplicate adds */ });
       }
