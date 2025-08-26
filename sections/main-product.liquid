@@ -172,7 +172,7 @@
                             assign field_type = block.settings[field_type_key] | default: 'none'
                           -%}
                           {%- if field_type != 'none' -%}
-                            <div class="addon-services__extras" data-addon-index="{{ i }}">
+                            <div class="addon-services__extras hidden" data-addon-index="{{ i }}">
                               {%- if field_type == 'text_inputs' -%}
                                 {%- liquid
                                   assign cnt_key = 'item_' | append: i | append: '_inputs_count'
@@ -228,6 +228,14 @@
                       function updateExtrasFor(checkbox){
                         var li = checkbox.closest('li');
                         if(!li) return;
+                        var wrapper = li.querySelector('.addon-services__extras');
+                        if (wrapper) {
+                          if (checkbox.checked && !checkbox.disabled) {
+                            wrapper.classList.remove('hidden');
+                          } else {
+                            wrapper.classList.add('hidden');
+                          }
+                        }
                         var extras = li.querySelectorAll('.addon-services__extras .addon-extra-input');
                         extras.forEach(function(el){
                           if (checkbox.checked && !checkbox.disabled) {
