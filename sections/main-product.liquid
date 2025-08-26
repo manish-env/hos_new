@@ -106,6 +106,52 @@
                     </h2>
                   </a>
                 </div>
+              {%- when 'addon_services' -%}
+                <div class="addon-services" {{ block.shopify_attributes }}>
+                  {%- assign form_id = product_form_id -%}
+                  <div class="addon-services__header">
+                    <span class="addon-services__title">{{ block.settings.heading | default: 'Add-on Services' }}</span>
+                    {%- if block.settings.subtext != blank -%}
+                      <p class="addon-services__subtext">{{ block.settings.subtext }}</p>
+                    {%- endif -%}
+                  </div>
+                  <ul class="addon-services__list" role="list">
+                    {%- for i in (1..6) -%}
+                      {%- assign item_label_key = 'item_' | append: i | append: '_label' -%}
+                      {%- assign item_product_key = 'item_' | append: i | append: '_product' -%}
+                      {%- assign item_default_key = 'item_' | append: i | append: '_default' -%}
+                      {%- assign label = block.settings[item_label_key] -%}
+                      {%- assign addon_product = block.settings[item_product_key] -%}
+                      {%- assign is_default = block.settings[item_default_key] -%}
+                      {%- if addon_product != blank and addon_product.selected_or_first_available_variant != blank -%}
+                        {%- assign addon_variant = addon_product.selected_or_first_available_variant -%}
+                        <li class="addon-services__item">
+                          <label class="addon-services__checkbox">
+                            <input
+                              type="checkbox"
+                              class="addon-services__input"
+                              name="properties[Add-on {{ i }}]"
+                              value="{{ label | default: addon_product.title | escape }}"
+                              form="{{ form_id }}"
+                              data-addon-variant="{{ addon_variant.id }}"
+                              data-price-cents="{{ addon_variant.price }}"
+                              {% if is_default %}checked{% endif %}
+                            >
+                            <span class="addon-services__text">{{ label | default: addon_product.title }}</span>
+                            <span class="addon-services__price">+ {{ addon_variant.price | money }}</span>
+                          </label>
+                        </li>
+                      {%- elsif label != blank -%}
+                        <li class="addon-services__item addon-services__item--disabled">
+                          <label class="addon-services__checkbox">
+                            <input type="checkbox" class="addon-services__input" disabled>
+                            <span class="addon-services__text">{{ label }}</span>
+                          </label>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                </div>
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" class="product-price price-size-{{ block.settings.price_size | default: 'medium' }} price-align-{{ block.settings.price_align | default: section.settings.content_alignment | default: 'left' }}" {{ block.shopify_attributes }}>
                   {%- render 'price',
@@ -602,53 +648,63 @@
     // Update price initially
     updatePriceDisplay();
     
-    // Modify form submission to handle add-on products
+    // Modify form submission to handle add-on products (options_to_buy radio + addon_services checkboxes)
     productForm.addEventListener('submit', function(e) {
-      // Only handle if an option with add-on is selected
+      var items = [];
+      var quantity = getQuantity();
+      var mainVariantIdInput = productForm.querySelector('input[name="id"]');
+      if(!mainVariantIdInput) return; // let default submit happen
+
+      var mainVariantId = parseInt(mainVariantIdInput.value, 10);
+
+      // Collect selected service (from options_to_buy radios if present)
       var selectedOption = root.querySelector('.options-to-buy input[type="radio"]:checked');
-      var addonVariantId = selectedOption ? selectedOption.getAttribute('data-addon-variant') : null;
-      
-      if(addonVariantId) {
-        e.preventDefault();
-        
-        // Get the main product variant ID and quantity
-        var mainVariantId = productForm.querySelector('input[name="id"]').value;
-        var quantity = getQuantity();
-        
-        // Prepare the items array for the cart API
-        var items = [
-          {
-            id: parseInt(mainVariantId, 10),
-            quantity: quantity,
-            properties: {
-              'Service': selectedOption.value
-            }
-          },
-          {
-            id: parseInt(addonVariantId, 10),
-            quantity: quantity
-          }
-        ];
-        
-        // Add to cart using Fetch API
-        fetch('/cart/add.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ items: items })
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Redirect to cart page
-          window.location.href = '/cart';
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          // Fallback to regular form submission
-          productForm.submit();
-        });
+      var optionAddonVariantId = selectedOption ? selectedOption.getAttribute('data-addon-variant') : null;
+
+      // Collect add-on services from checkboxes
+      var checkboxNodes = root.querySelectorAll('.addon-services__input:checked[data-addon-variant]');
+      var checkboxAddonIds = [];
+      checkboxNodes.forEach(function(cb){
+        var vid = parseInt(cb.getAttribute('data-addon-variant'), 10);
+        if(vid && checkboxAddonIds.indexOf(vid) === -1) checkboxAddonIds.push(vid);
+      });
+
+      // If nothing extra selected and no option add-on, allow normal submit
+      if(!optionAddonVariantId && checkboxAddonIds.length === 0) return;
+
+      // Prevent default and use AJAX to add multiple items at once
+      e.preventDefault();
+
+      // Main product item (include selected service value as property when applicable)
+      var mainItem = { id: mainVariantId, quantity: quantity };
+      if(selectedOption) {
+        mainItem.properties = { 'Service': selectedOption.value };
       }
+      items.push(mainItem);
+
+      // Add radio-selected add-on
+      if(optionAddonVariantId) {
+        items.push({ id: parseInt(optionAddonVariantId, 10), quantity: quantity });
+      }
+
+      // Add checkbox-selected add-ons
+      checkboxAddonIds.forEach(function(vid){
+        items.push({ id: vid, quantity: quantity });
+      });
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      })
+      .then(function(res){ return res.ok ? res.json() : res.json().then(function(j){ throw j; }); })
+      .then(function(){
+        window.location.href = '/cart';
+      })
+      .catch(function(err){
+        console.error('Add to cart error', err);
+        productForm.submit();
+      });
     });
   });
 })();
@@ -957,6 +1013,39 @@
           "default": "body",
           "label": "t:sections.main-product.blocks.text.settings.text_style.label"
         }
+      ]
+    },
+    {
+      "type": "addon_services",
+      "name": "Add-on services",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Add-on Services" },
+        { "type": "text", "id": "subtext", "label": "Subtext" },
+        { "type": "header", "content": "Item 1" },
+        { "type": "product", "id": "item_1_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_1_label", "label": "Label (optional)" },
+        { "type": "checkbox", "id": "item_1_default", "label": "Checked by default", "default": false },
+        { "type": "header", "content": "Item 2" },
+        { "type": "product", "id": "item_2_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_2_label", "label": "Label (optional)" },
+        { "type": "checkbox", "id": "item_2_default", "label": "Checked by default", "default": false },
+        { "type": "header", "content": "Item 3" },
+        { "type": "product", "id": "item_3_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_3_label", "label": "Label (optional)" },
+        { "type": "checkbox", "id": "item_3_default", "label": "Checked by default", "default": false },
+        { "type": "header", "content": "Item 4" },
+        { "type": "product", "id": "item_4_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_4_label", "label": "Label (optional)" },
+        { "type": "checkbox", "id": "item_4_default", "label": "Checked by default", "default": false },
+        { "type": "header", "content": "Item 5" },
+        { "type": "product", "id": "item_5_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_5_label", "label": "Label (optional)" },
+        { "type": "checkbox", "id": "item_5_default", "label": "Checked by default", "default": false },
+        { "type": "header", "content": "Item 6" },
+        { "type": "product", "id": "item_6_product", "label": "Add-on product" },
+        { "type": "text", "id": "item_6_label", "label": "Label (optional)" },
+        { "type": "checkbox", "id": "item_6_default", "label": "Checked by default", "default": false }
       ]
     },
     {
