@@ -36,8 +36,14 @@
     assign custom_product = matched_rule.settings.custom_product
   endif
 
-  assign standard_variant = standard_product.selected_or_first_available_variant
-  assign custom_variant = custom_product.selected_or_first_available_variant
+  assign standard_variant = nil
+  if standard_product != blank
+    assign standard_variant = standard_product.selected_or_first_available_variant
+  endif
+  assign custom_variant = nil
+  if custom_product != blank
+    assign custom_variant = custom_product.selected_or_first_available_variant
+  endif
 
   assign sizes_csv = block.settings.standard_sizes | default: 'XS,S,M,L,XL'
   assign sizes = sizes_csv | split: ','
