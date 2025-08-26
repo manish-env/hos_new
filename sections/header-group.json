@@ -8,78 +8,64 @@
  * ------------------------------------------------------------
  */
 {
-  "name": "t:sections.header.name",
-  "type": "header",
+  "name": "t:sections.footer.name",
+  "type": "footer",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
+    "footer": {
+      "type": "footer",
       "blocks": {
-        "announcement_Qfg9Tn": {
-          "type": "announcement",
+        "c40e5025-2128-4ed6-bb3e-f9b39e0cc52a": {
+          "type": "brand_information",
           "settings": {
-            "text": "✨PLUS 5% OFF | USE CODE DIVA5 ✨",
-            "link": ""
+            "show_social": true
           }
         },
-        "announcement_LhBY4g": {
-          "type": "announcement",
+        "link_list_8c7W87": {
+          "type": "link_list",
           "settings": {
-            "text": "✨ SALE UPTO 20% OFF EVERYTHING ✨",
-            "link": ""
+            "heading": "Quick links",
+            "menu": "footer"
           }
         },
-        "announcement-bar-0": {
-          "type": "announcement",
+        "link_list_gXjrCg": {
+          "type": "link_list",
           "settings": {
-            "text": "✨ FREE DELIVERY ACROSS INDIA ✨",
-            "link": ""
+            "heading": "Shop Online",
+            "menu": "main-menu"
+          }
+        },
+        "text_meB6b9": {
+          "type": "text",
+          "settings": {
+            "heading": "Customer Service",
+            "subtext": "<p><strong>Phone: </strong><a href=\"https://wa.me/919227828195\">+91 92278 28195<br/></a><strong>WhatsApp: </strong><a href=\"https://wa.me/919227828195\">+91 92278 28195</a><em><br/>Mon-Sat 10:00am to 7:30pm IST</em></p>"
           }
         }
       },
       "block_order": [
-        "announcement_Qfg9Tn",
-        "announcement_LhBY4g",
-        "announcement-bar-0"
+        "c40e5025-2128-4ed6-bb3e-f9b39e0cc52a",
+        "link_list_8c7W87",
+        "link_list_gXjrCg",
+        "text_meB6b9"
       ],
+      "custom_css": [],
       "settings": {
-        "auto_rotate": true,
-        "change_slides_speed": 5,
-        "color_scheme": "scheme-4",
-        "show_line_separator": true,
-        "show_whatsapp": true,
-        "phone_number": "+1234567890",
-        "make_sticky": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true
-      }
-    },
-    "header": {
-      "type": "header",
-      "settings": {
-        "logo_position": "top-center",
-        "mobile_logo_position": "center",
-        "menu": "main-menu",
-        "menu_type_desktop": "mega",
-        "desktop_search_style": "input",
-        "show_promo_tabs": true,
-        "promo_text_1": "PERFECT TAILORING",
-        "promo_text_2": "FREE DELIVERY ACROSS INDIA",
-        "promo_text_3": "TRENDIEST TOP QUALITY DRESSES",
-        "sticky_header_type": "always",
-        "show_line_separator": true,
-        "color_scheme": "scheme-1",
-        "menu_color_scheme": "scheme-1",
+        "color_scheme": "background-2",
+        "newsletter_enable": false,
+        "newsletter_heading": "Subscribe to our",
+        "enable_follow_on_shop": false,
+        "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false,
-        "enable_customer_avatar": false,
-        "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
+        "payment_enable": false,
+        "show_policy": false,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 0
       }
     }
   },
   "order": [
-    "announcement-bar",
-    "header"
+    "footer"
   ]
 }
