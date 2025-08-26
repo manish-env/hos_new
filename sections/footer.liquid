@@ -41,27 +41,27 @@
       assign only_empty_brand = true
     endif
   -%}
-  <div class="footer-topbar">
-  <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;">
+  <div class="footer-topbar" style="background:#f8f8f8; padding:12px 0;">
+  <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
 
     <!-- Left: Social -->
-    <div class="footer-topbar__social">
+    <div class="footer-topbar__social" style="display:flex; gap:16px; font-size:24px;">
       {%- render 'social-icons', class: 'footer__list-social' -%}
     </div>
 
-    <!-- Center: Badges -->
-    <div class="footer-topbar__usps" style="display:flex; gap:16px; justify-content:center; flex:1; flex-wrap:wrap;">
-      <div class="footer-topbar__usp">
-        <img class="footer-topbar__usp-icon" src="{{ 'badge1.png' | asset_url }}" alt="">
-        <div class="footer-topbar__usp-text">Free Shipping</div>
+    <!-- Center: Trust Badges -->
+    <div class="footer-topbar__usps" style="flex:1; display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
+        <img class="footer-topbar__usp-icon" src="{{ 'badge1.png' | asset_url }}" alt="" style="width:28px; height:28px;">
+        <div class="footer-topbar__usp-text" style="font-size:16px; font-weight:500;">Free Shipping</div>
       </div>
-      <div class="footer-topbar__usp">
-        <img class="footer-topbar__usp-icon" src="{{ 'badge2.png' | asset_url }}" alt="">
-        <div class="footer-topbar__usp-text">Secure Checkout</div>
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
+        <img class="footer-topbar__usp-icon" src="{{ 'badge2.png' | asset_url }}" alt="" style="width:28px; height:28px;">
+        <div class="footer-topbar__usp-text" style="font-size:16px; font-weight:500;">Secure Checkout</div>
       </div>
-      <div class="footer-topbar__usp">
-        <img class="footer-topbar__usp-icon" src="{{ 'badge3.png' | asset_url }}" alt="">
-        <div class="footer-topbar__usp-text">24/7 Support</div>
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
+        <img class="footer-topbar__usp-icon" src="{{ 'badge3.png' | asset_url }}" alt="" style="width:28px; height:28px;">
+        <div class="footer-topbar__usp-text" style="font-size:16px; font-weight:500;">24/7 Support</div>
       </div>
     </div>
 
@@ -69,21 +69,23 @@
     <div class="footer-topbar__newsletter">
       {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
-        <div class="field field--compact">
+        <div class="field field--compact" style="display:flex; gap:8px;">
           <input
             type="email"
             name="contact[email]"
             class="field__input"
             placeholder="Enter your email"
             required
+            style="padding:8px 12px; font-size:14px;"
           >
-          <button type="submit" class="button button--compact">Subscribe</button>
+          <button type="submit" class="button button--compact" style="padding:8px 16px; font-size:14px;">Subscribe</button>
         </div>
       {% endform %}
     </div>
 
   </div>
 </div>
+
 
 </div>
 
