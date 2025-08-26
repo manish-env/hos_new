@@ -41,66 +41,62 @@
       assign only_empty_brand = true
     endif
   -%}
-  {%- if section.settings.enable_topbar -%}
-    <div class="footer-topbar">
-      <div class="page-width">
-        {%- if section.settings.show_social_topbar and has_social_icons -%}
-          <div class="footer-topbar__social">
-            {%- render 'social-icons', class: 'footer__list-social' -%}
+  <div class="footer-topbar">
+  <div class="page-width">
+    
+    <!-- Social Icons -->
+    <div class="footer-topbar__social">
+      {%- render 'social-icons', class: 'footer__list-social' -%}
+    </div>
+
+    <!-- USP Blocks -->
+    <div class="footer-topbar__usps">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'usp' -%}
+          <div class="footer-topbar__usp" {{ block.shopify_attributes }}>
+            <img class="footer-topbar__usp-icon" src="{{ block.settings.icon | image_url: width: 64 }}" alt="" loading="lazy" width="32" height="32">
+            <div class="footer-topbar__usp-text">{{ block.settings.text }}</div>
           </div>
         {%- endif -%}
-
-        <div class="footer-topbar__usps">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'usp' -%}
-              <div class="footer-topbar__usp" {{ block.shopify_attributes }}>
-                {%- if block.settings.icon != blank -%}
-                  <img class="footer-topbar__usp-icon" src="{{ block.settings.icon | image_url: width: 64 }}" alt="" loading="lazy" width="32" height="32">
-                {%- endif -%}
-                {%- if block.settings.text != blank -%}
-                  <div class="footer-topbar__usp-text">{{ block.settings.text }}</div>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'topbar_newsletter' -%}
-            <div class="footer-topbar__newsletter" {{ block.shopify_attributes }}>
-              {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="field field--compact">
-                  <input
-                    id="FooterTopbarNewsletter-{{ section.id }}"
-                    type="email"
-                    name="contact[email]"
-                    class="field__input"
-                    value="{{ form.email }}"
-                    aria-required="true"
-                    autocorrect="off"
-                    autocapitalize="off"
-                    autocomplete="email"
-                    placeholder="{{ block.settings.placeholder | default: 'Enter your email address' }}"
-                    required
-                  >
-                  <button type="submit" class="button button--compact" name="commit" aria-label="{{ block.settings.button_label | default: 'Subscribe' }}">
-                    {{ block.settings.button_label | default: 'Subscribe' }}
-                  </button>
-                </div>
-                {%- if form.errors -%}
-                  <small class="newsletter-form__message form__message">
-                    <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
-                    {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
-                  </small>
-                {%- endif -%}
-              {% endform %}
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
+      {%- endfor -%}
     </div>
-  {%- endif -%}
+
+    <!-- Newsletter Signup -->
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'topbar_newsletter' -%}
+        <div class="footer-topbar__newsletter" {{ block.shopify_attributes }}>
+          {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="field field--compact">
+              <input
+                id="FooterTopbarNewsletter-{{ section.id }}"
+                type="email"
+                name="contact[email]"
+                class="field__input"
+                value="{{ form.email }}"
+                aria-required="true"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="email"
+                placeholder="{{ block.settings.placeholder | default: 'Enter your email address' }}"
+                required
+              >
+              <button type="submit" class="button button--compact" name="commit" aria-label="{{ block.settings.button_label | default: 'Subscribe' }}">
+                {{ block.settings.button_label | default: 'Subscribe' }}
+              </button>
+            </div>
+            <small class="newsletter-form__message form__message">
+              <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+              {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
+            </small>
+          {% endform %}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+</div>
+
   {%- if section.blocks.size > 0
     or section.settings.newsletter_enable
     or section.settings.show_social
