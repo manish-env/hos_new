@@ -28,9 +28,9 @@
             "standard_sizes": "XS,S,M,L,XL",
             "size_chart_label": "Size Chart",
             "size_chart_link": "",
-            "standard_product": "standard-stitiching",
+            "standard_product": "standard-stitching",
             "custom_product": "custom-stitching",
-            "default_standard_handle": "standard-stitiching",
+            "default_standard_handle": "standard-stitching",
             "default_custom_handle": "custom-stitching"
           }
         },
@@ -47,12 +47,6 @@
             "swatch_shape": "circle"
           }
         },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
-          }
         },
         "service_sample_1": {
           "type": "service",
