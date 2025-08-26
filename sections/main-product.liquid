@@ -184,6 +184,7 @@
                                     {%- assign ilabel = block.settings[lbl_key] | default: 'Input ' | append: k -%}
                                     <div class="addon-extra-field">
                                       <input type="text"
+                                        style="padding:6px;"
                                         class="input addon-extra-input"
                                         name="properties[Service {{ i }} - {{ ilabel | escape }}]"
                                         placeholder="{{ ilabel }}"
