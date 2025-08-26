@@ -45,11 +45,11 @@
         "company_details_LikeDiva": {
           "type": "company_details",
           "settings": {
-            "heading": "LIKE A DIVA",
-            "company_name": "Like A Diva",
-            "copyright_text": "Copyright © 2025 Like A Diva.",
+            "heading": "House of Sonali",
+            "company_name": "",
+            "copyright_text": "Copyright © 2025 House Of Sonali.",
             "rights_text": "All rights reserved.",
-            "ecommerce_text": "e-Commerce by KOL Limited"
+            "ecommerce_text": ""
           }
         }
       },
