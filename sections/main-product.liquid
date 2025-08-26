@@ -114,7 +114,8 @@
                   assign csv_lc = csv | downcase
                   assign ptype_lc = ptype | downcase
                   assign match = false
-                  for t in csv_lc | split: ','
+                  assign type_list = csv_lc | split: ","
+                  for t in type_list
                     assign t_clean = t | strip
                     if t_clean != '' and t_clean == ptype_lc
                       assign match = true
@@ -178,6 +179,7 @@
                     {%- endfor -%}
                   </ul>
                 </div>
+                {%- endif -%}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" class="product-price price-size-{{ block.settings.price_size | default: 'medium' }} price-align-{{ block.settings.price_align | default: section.settings.content_alignment | default: 'left' }}" {{ block.shopify_attributes }}>
                   {%- render 'price',
