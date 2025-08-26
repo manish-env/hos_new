@@ -183,10 +183,10 @@
                                     {%- assign lbl_key = 'item_' | append: i | append: '_input_' | append: k | append: '_label' -%}
                                     {%- assign ilabel = block.settings[lbl_key] | default: 'Input ' | append: k -%}
                                     <div class="addon-extra-field">
-                                      <label class="form__label">{{ ilabel }}</label>
                                       <input type="text"
                                         class="input addon-extra-input"
                                         name="properties[Service {{ i }} - {{ ilabel | escape }}]"
+                                        placeholder="{{ ilabel }}"
                                         form="{{ form_id }}"
                                         disabled>
                                     </div>
@@ -199,8 +199,8 @@
                                 {%- assign dd_csv = block.settings[dd_opts_key] | default: '' -%}
                                 {%- assign dd_list = dd_csv | split: ',' -%}
                                 <div class="addon-extra-field">
-                                  <label class="form__label">{{ dd_label }}</label>
                                   <select class="select addon-extra-input" name="properties[Service {{ i }} - {{ dd_label | escape }}]" form="{{ form_id }}" disabled>
+                                    <option value="" disabled selected>{{ dd_label }}</option>
                                     {%- for opt in dd_list -%}
                                       {%- assign o = opt | strip -%}
                                       {%- if o != '' -%}
