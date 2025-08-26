@@ -37,7 +37,7 @@
             "item_1_handle": "",
             "item_1_label": "",
             "item_1_default": false,
-            "item_1_field_type": "dropdown",
+            "item_1_field_type": "text_inputs",
             "item_1_inputs_count": 4,
             "item_1_input_1_label": "L",
             "item_1_input_2_label": "M",
