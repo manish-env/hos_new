@@ -167,13 +167,16 @@
                         </label>
                         <div class="stitching-standard options-to-buy__panel" data-panel="standard" hidden>
                           <div class="stitching-sizes">
-                            <div class="stitching-sizes__grid" role="radiogroup" aria-label="Select size">
-                              {%- for s in sizes -%}
-                                {%- assign size_trim = s | strip -%}
-                                <input class="stitching-size__radio" type="radio" id="StitchSize-{{ block.id }}-{{ size_trim | handle }}" name="properties[Service Size]" value="{{ size_trim }}" form="{{ product_form_id }}">
-                                <label class="stitching-size__label" for="StitchSize-{{ block.id }}-{{ size_trim | handle }}">{{ size_trim }}</label>
-                              {%- endfor -%}
-                            </div>
+                            <select id="StitchingSize-{{ block.id }}" class="select" name="properties[Service Size]" form="{{ product_form_id }}">
+                              <option value="" selected disabled>Select size (inches)</option>
+                              <option value="32 in">32 in</option>
+                              <option value="34 in">34 in</option>
+                              <option value="36 in">36 in</option>
+                              <option value="38 in">38 in</option>
+                              <option value="40 in">40 in</option>
+                              <option value="42 in">42 in</option>
+                              <option value="44 in">44 in</option>
+                            </select>
                           </div>
                         </div>
                       </li>
@@ -189,28 +192,22 @@
                         <div class="stitching-custom options-to-buy__panel" data-panel="custom" hidden>
                           <div class="stitching-grid">
                             <div class="field">
-                              <label for="MeasBust-{{ block.id }}" class="form__label">Bust (in)</label>
-                              <input id="MeasBust-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Bust]" form="{{ product_form_id }}" />
+                              <input id="MeasBust-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Bust]" placeholder="Bust (in)" form="{{ product_form_id }}" />
                             </div>
                             <div class="field">
-                              <label for="MeasWaist-{{ block.id }}" class="form__label">Waist (in)</label>
-                              <input id="MeasWaist-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Waist]" form="{{ product_form_id }}" />
+                              <input id="MeasWaist-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Waist]" placeholder="Waist (in)" form="{{ product_form_id }}" />
                             </div>
                             <div class="field">
-                              <label for="MeasHip-{{ block.id }}" class="form__label">Hip (in)</label>
-                              <input id="MeasHip-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Hip]" form="{{ product_form_id }}" />
+                              <input id="MeasHip-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Hip]" placeholder="Hip (in)" form="{{ product_form_id }}" />
                             </div>
                             <div class="field">
-                              <label for="MeasLength-{{ block.id }}" class="form__label">Blouse Length (in)</label>
-                              <input id="MeasLength-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Length]" form="{{ product_form_id }}" />
+                              <input id="MeasLength-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Length]" placeholder="Blouse Length (in)" form="{{ product_form_id }}" />
                             </div>
                             <div class="field">
-                              <label for="MeasShoulder-{{ block.id }}" class="form__label">Shoulder (in)</label>
-                              <input id="MeasShoulder-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Shoulder]" form="{{ product_form_id }}" />
+                              <input id="MeasShoulder-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Shoulder]" placeholder="Shoulder (in)" form="{{ product_form_id }}" />
                             </div>
                             <div class="field">
-                              <label for="MeasSleeve-{{ block.id }}" class="form__label">Sleeve Length (in)</label>
-                              <input id="MeasSleeve-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Sleeve]" form="{{ product_form_id }}" />
+                              <input id="MeasSleeve-{{ block.id }}" class="input" type="number" min="0" step="0.1" name="properties[Sleeve]" placeholder="Sleeve Length (in)" form="{{ product_form_id }}" />
                             </div>
                           </div>
                         </div>
