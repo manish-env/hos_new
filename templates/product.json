@@ -47,6 +47,12 @@
             "swatch_shape": "circle"
           }
         },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
         },
         "service_sample_1": {
           "type": "service",
