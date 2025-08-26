@@ -133,9 +133,10 @@
                               name="properties[Add-on {{ i }}]"
                               value="{{ label | default: addon_product.title | escape }}"
                               form="{{ form_id }}"
-                              data-addon-variant="{{ addon_variant.id }}"
+                              {% if addon_variant.available %}data-addon-variant="{{ addon_variant.id }}"{% endif %}
                               data-price-cents="{{ addon_variant.price }}"
-                              {% if is_default %}checked{% endif %}
+                              {% if is_default and addon_variant.available %}checked{% endif %}
+                              {% unless addon_variant.available %}disabled aria-disabled="true"{% endunless %}
                             >
                             <span class="addon-services__text">{{ label | default: addon_product.title }}</span>
                             <span class="addon-services__price">+ {{ addon_variant.price | money }}</span>
@@ -989,6 +990,86 @@
       {{ product | structured_data }}
     </script>
   </div>
+  <script>
+  (function(){
+    document.addEventListener('DOMContentLoaded', function(){
+      var root = document.getElementById('ProductInfo-{{ section.id }}');
+      if(!root) return;
+      var productForm = root.querySelector('form#product-form-{{ section.id }}');
+      if(!productForm) return;
+
+      // Prevent double-binding if other script already attached
+      if(productForm.dataset.addonHandlerAttached === '1') return;
+      productForm.dataset.addonHandlerAttached = '1';
+
+      function getQuantity(){
+        var qtyInput = productForm.querySelector('input[name="quantity"]');
+        return qtyInput ? parseInt(qtyInput.value || '1', 10) : 1;
+      }
+      function getCurrentVariantPrice(){
+        var variants = {{ product.variants | json }};
+        var idInput = productForm.querySelector('input[name="id"]');
+        var vid = idInput ? parseInt(idInput.value, 10) : null;
+        for(var i=0;i<variants.length;i++){ if(variants[i].id === vid) return variants[i].price; }
+        return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
+      }
+      function getCheckedAddonsPrice(){
+        var total = 0;
+        root.querySelectorAll('.addon-services__input:checked[data-price-cents]').forEach(function(cb){
+          var p = parseInt(cb.getAttribute('data-price-cents')||'0',10);
+          if(!isNaN(p)) total += p;
+        });
+        return total;
+      }
+      function updateTotal(){
+        var base = getCurrentVariantPrice();
+        var qty = getQuantity();
+        var addons = getCheckedAddonsPrice();
+        var total = (base + addons) * qty;
+        root.querySelectorAll('.options-total__amount').forEach(function(el){
+          el.textContent = Shopify.formatMoney(total, "{{ shop.money_format }}");
+        });
+      }
+
+      root.querySelectorAll('.addon-services__input[type="checkbox"]').forEach(function(cb){
+        cb.addEventListener('change', updateTotal);
+        cb.addEventListener('input', updateTotal);
+      });
+      var qty = productForm.querySelector('input[name="quantity"]');
+      if(qty){ qty.addEventListener('change', updateTotal); qty.addEventListener('input', updateTotal); }
+      document.addEventListener('variant:change', updateTotal);
+      updateTotal();
+
+      productForm.addEventListener('submit', function(e){
+        // Collect checkbox add-ons
+        var ids = [];
+        root.querySelectorAll('.addon-services__input:checked[data-addon-variant]').forEach(function(cb){
+          var vid = parseInt(cb.getAttribute('data-addon-variant'),10);
+          if(vid && ids.indexOf(vid)===-1) ids.push(vid);
+        });
+        if(ids.length === 0) return; // let default submit proceed
+
+        e.preventDefault();
+        var mainIdInput = productForm.querySelector('input[name="id"]');
+        if(!mainIdInput) { productForm.submit(); return; }
+        var mainId = parseInt(mainIdInput.value,10);
+        var quantity = getQuantity();
+
+        var items = [{ id: mainId, quantity: quantity }];
+        ids.forEach(function(vid){ items.push({ id: vid, quantity: quantity }); });
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: items })
+        })
+        .then(function(res){ return res.ok ? res.json() : res.json().then(function(j){ throw j; }); })
+        .then(function(){ window.location.href = '/cart'; })
+        .catch(function(){ productForm.submit(); });
+      });
+    });
+  })();
+  </script>
 </product-info>
 
 {% schema %}
