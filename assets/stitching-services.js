@@ -20,6 +20,7 @@
       var customVariantId = parseInt(root.getAttribute('data-custom-variant-id')||'0',10);
       var customPrice = parseInt(root.getAttribute('data-custom-price-cents')||'0',10);
       var cartBehavior = root.getAttribute('data-cart-behavior')||'drawer';
+      var isSubmitting = false;
 
       function selected(){
         var r = root.querySelector('input[type="radio"][name^="properties[Service]"]:checked');
@@ -95,6 +96,11 @@
         if(!s.id){ return; } // Unstitched; let normal flow proceed
         // We are adding a service product alongside the main product
         e.preventDefault();
+        // Prevent theme's default product-form JS from also submitting
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+        if(e.stopPropagation) e.stopPropagation();
+        if(isSubmitting) return; // guard against double fires
+        isSubmitting = true;
         if(!validate()) return;
 
         var qtyInput = productForm.querySelector('input[name="quantity"]');
@@ -118,8 +124,9 @@
             var notif = document.querySelector('cart-notification');
             if(notif && notif.renderContents){ notif.renderContents(); }
             document.body.dispatchEvent(new CustomEvent('cart:update'));
+            isSubmitting = false;
           })
-          .catch(function(){ productForm.submit(); });
+          .catch(function(){ isSubmitting = false; productForm.submit(); });
       }
 
       // Attach to this specific form
