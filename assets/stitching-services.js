@@ -65,15 +65,32 @@
         return props;
       }
 
-      // Hook the main product form on the page (first add-to-cart form)
-      var productForm = document.querySelector('form[action^="/cart/add"]');
+      // Resolve the correct product form for this block
+      function resolveProductForm(){
+        // 1) Try radios' form attribute
+        var anyRadio = root.querySelector('input[type="radio"][name^="properties[Service]"]');
+        if(anyRadio){
+          var formId = anyRadio.getAttribute('form');
+          if(formId){
+            var viaId = document.getElementById(formId);
+            if(viaId) return viaId;
+          }
+        }
+        // 2) Try nearest form within same section/container
+        var nearestForm = root.closest('section, .product, .product__info-wrapper')?.querySelector('form[action^="/cart/add"]');
+        if(nearestForm) return nearestForm;
+        // 3) Fallback: first add-to-cart form on page
+        return document.querySelector('form[action^="/cart/add"]');
+      }
+
+      var productForm = resolveProductForm();
       if(!productForm) return;
 
       // Change handlers
       radios.forEach(function(r){ r.addEventListener('change', function(){ togglePanels(); updatePrice(); }); });
       togglePanels(); updatePrice();
 
-      productForm.addEventListener('submit', function(e){
+      function handleSubmit(e){
         var s = selected();
         if(!s.id){ return; } // Unstitched; let normal flow proceed
         // We are adding a service product alongside the main product
@@ -103,7 +120,10 @@
             document.body.dispatchEvent(new CustomEvent('cart:update'));
           })
           .catch(function(){ productForm.submit(); });
-      });
+      }
+
+      // Attach to this specific form
+      productForm.addEventListener('submit', handleSubmit);
     });
   });
 })();
