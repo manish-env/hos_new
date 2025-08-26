@@ -167,6 +167,51 @@
                             <span class="options-to-buy__text">{{ label | default: addon_product.title }}</span>
                             <span class="options-to-buy__price">+ {{ addon_variant.price | money }}</span>
                           </label>
+                          {%- liquid
+                            assign field_type_key = 'item_' | append: i | append: '_field_type'
+                            assign field_type = block.settings[field_type_key] | default: 'none'
+                          -%}
+                          {%- if field_type != 'none' -%}
+                            <div class="addon-services__extras" data-addon-index="{{ i }}">
+                              {%- if field_type == 'text_inputs' -%}
+                                {%- liquid
+                                  assign cnt_key = 'item_' | append: i | append: '_inputs_count'
+                                  assign cnt = block.settings[cnt_key] | default: 0
+                                -%}
+                                {%- for k in (1..10) -%}
+                                  {%- if k <= cnt -%}
+                                    {%- assign lbl_key = 'item_' | append: i | append: '_input_' | append: k | append: '_label' -%}
+                                    {%- assign ilabel = block.settings[lbl_key] | default: 'Input ' | append: k -%}
+                                    <div class="addon-extra-field">
+                                      <label class="form__label">{{ ilabel }}</label>
+                                      <input type="text"
+                                        class="input addon-extra-input"
+                                        name="properties[Service {{ i }} - {{ ilabel | escape }}]"
+                                        form="{{ form_id }}"
+                                        disabled>
+                                    </div>
+                                  {%- endif -%}
+                                {%- endfor -%}
+                              {%- elsif field_type == 'dropdown' -%}
+                                {%- assign dd_label_key = 'item_' | append: i | append: '_dropdown_label' -%}
+                                {%- assign dd_opts_key  = 'item_' | append: i | append: '_dropdown_options' -%}
+                                {%- assign dd_label = block.settings[dd_label_key] | default: 'Select option' -%}
+                                {%- assign dd_csv = block.settings[dd_opts_key] | default: '' -%}
+                                {%- assign dd_list = dd_csv | split: ',' -%}
+                                <div class="addon-extra-field">
+                                  <label class="form__label">{{ dd_label }}</label>
+                                  <select class="select addon-extra-input" name="properties[Service {{ i }} - {{ dd_label | escape }}]" form="{{ form_id }}" disabled>
+                                    {%- for opt in dd_list -%}
+                                      {%- assign o = opt | strip -%}
+                                      {%- if o != '' -%}
+                                        <option value="{{ o | escape }}">{{ o }}</option>
+                                      {%- endif -%}
+                                    {%- endfor -%}
+                                  </select>
+                                </div>
+                              {%- endif -%}
+                            </div>
+                          {%- endif -%}
                         </li>
                       {%- elsif label != blank -%}
                         <li class="options-to-buy__item options-to-buy__item--disabled">
@@ -178,6 +223,27 @@
                       {%- endif -%}
                     {%- endfor -%}
                   </ul>
+                  <script>
+                    (function(){
+                      function updateExtrasFor(checkbox){
+                        var li = checkbox.closest('li');
+                        if(!li) return;
+                        var extras = li.querySelectorAll('.addon-services__extras .addon-extra-input');
+                        extras.forEach(function(el){
+                          if (checkbox.checked && !checkbox.disabled) {
+                            el.removeAttribute('disabled');
+                          } else {
+                            el.setAttribute('disabled', 'disabled');
+                          }
+                        });
+                      }
+                      document.querySelectorAll('.addon-services__input').forEach(function(cb){
+                        cb.addEventListener('change', function(){ updateExtrasFor(cb); });
+                        // init
+                        updateExtrasFor(cb);
+                      });
+                    })();
+                  </script>
                 </div>
                 {%- endif -%}
               {%- when 'price' -%}
@@ -1208,31 +1274,139 @@
         { "type": "text", "id": "item_1_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty. Example: custom-stitching" },
         { "type": "text", "id": "item_1_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_1_default", "label": "Checked by default", "default": false },
+        { "type": "select", "id": "item_1_field_type", "label": "Extra fields type", "default": "none", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "text_inputs", "label": "Text inputs (up to 10)" },
+          { "value": "dropdown", "label": "Dropdown" }
+        ] },
+        { "type": "range", "id": "item_1_inputs_count", "min": 0, "max": 10, "step": 1, "label": "Number of text inputs", "default": 0 },
+        { "type": "text", "id": "item_1_input_1_label", "label": "Input 1 label" },
+        { "type": "text", "id": "item_1_input_2_label", "label": "Input 2 label" },
+        { "type": "text", "id": "item_1_input_3_label", "label": "Input 3 label" },
+        { "type": "text", "id": "item_1_input_4_label", "label": "Input 4 label" },
+        { "type": "text", "id": "item_1_input_5_label", "label": "Input 5 label" },
+        { "type": "text", "id": "item_1_input_6_label", "label": "Input 6 label" },
+        { "type": "text", "id": "item_1_input_7_label", "label": "Input 7 label" },
+        { "type": "text", "id": "item_1_input_8_label", "label": "Input 8 label" },
+        { "type": "text", "id": "item_1_input_9_label", "label": "Input 9 label" },
+        { "type": "text", "id": "item_1_input_10_label", "label": "Input 10 label" },
+        { "type": "text", "id": "item_1_dropdown_label", "label": "Dropdown label" },
+        { "type": "text", "id": "item_1_dropdown_options", "label": "Dropdown options (comma-separated)" },
         { "type": "header", "content": "Item 2" },
         { "type": "product", "id": "item_2_product", "label": "Add-on product" },
         { "type": "text", "id": "item_2_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_2_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_2_default", "label": "Checked by default", "default": false },
+        { "type": "select", "id": "item_2_field_type", "label": "Extra fields type", "default": "none", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "text_inputs", "label": "Text inputs (up to 10)" },
+          { "value": "dropdown", "label": "Dropdown" }
+        ] },
+        { "type": "range", "id": "item_2_inputs_count", "min": 0, "max": 10, "step": 1, "label": "Number of text inputs", "default": 0 },
+        { "type": "text", "id": "item_2_input_1_label", "label": "Input 1 label" },
+        { "type": "text", "id": "item_2_input_2_label", "label": "Input 2 label" },
+        { "type": "text", "id": "item_2_input_3_label", "label": "Input 3 label" },
+        { "type": "text", "id": "item_2_input_4_label", "label": "Input 4 label" },
+        { "type": "text", "id": "item_2_input_5_label", "label": "Input 5 label" },
+        { "type": "text", "id": "item_2_input_6_label", "label": "Input 6 label" },
+        { "type": "text", "id": "item_2_input_7_label", "label": "Input 7 label" },
+        { "type": "text", "id": "item_2_input_8_label", "label": "Input 8 label" },
+        { "type": "text", "id": "item_2_input_9_label", "label": "Input 9 label" },
+        { "type": "text", "id": "item_2_input_10_label", "label": "Input 10 label" },
+        { "type": "text", "id": "item_2_dropdown_label", "label": "Dropdown label" },
+        { "type": "text", "id": "item_2_dropdown_options", "label": "Dropdown options (comma-separated)" },
         { "type": "header", "content": "Item 3" },
         { "type": "product", "id": "item_3_product", "label": "Add-on product" },
         { "type": "text", "id": "item_3_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_3_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_3_default", "label": "Checked by default", "default": false },
+        { "type": "select", "id": "item_3_field_type", "label": "Extra fields type", "default": "none", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "text_inputs", "label": "Text inputs (up to 10)" },
+          { "value": "dropdown", "label": "Dropdown" }
+        ] },
+        { "type": "range", "id": "item_3_inputs_count", "min": 0, "max": 10, "step": 1, "label": "Number of text inputs", "default": 0 },
+        { "type": "text", "id": "item_3_input_1_label", "label": "Input 1 label" },
+        { "type": "text", "id": "item_3_input_2_label", "label": "Input 2 label" },
+        { "type": "text", "id": "item_3_input_3_label", "label": "Input 3 label" },
+        { "type": "text", "id": "item_3_input_4_label", "label": "Input 4 label" },
+        { "type": "text", "id": "item_3_input_5_label", "label": "Input 5 label" },
+        { "type": "text", "id": "item_3_input_6_label", "label": "Input 6 label" },
+        { "type": "text", "id": "item_3_input_7_label", "label": "Input 7 label" },
+        { "type": "text", "id": "item_3_input_8_label", "label": "Input 8 label" },
+        { "type": "text", "id": "item_3_input_9_label", "label": "Input 9 label" },
+        { "type": "text", "id": "item_3_input_10_label", "label": "Input 10 label" },
+        { "type": "text", "id": "item_3_dropdown_label", "label": "Dropdown label" },
+        { "type": "text", "id": "item_3_dropdown_options", "label": "Dropdown options (comma-separated)" },
         { "type": "header", "content": "Item 4" },
         { "type": "product", "id": "item_4_product", "label": "Add-on product" },
         { "type": "text", "id": "item_4_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_4_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_4_default", "label": "Checked by default", "default": false },
+        { "type": "select", "id": "item_4_field_type", "label": "Extra fields type", "default": "none", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "text_inputs", "label": "Text inputs (up to 10)" },
+          { "value": "dropdown", "label": "Dropdown" }
+        ] },
+        { "type": "range", "id": "item_4_inputs_count", "min": 0, "max": 10, "step": 1, "label": "Number of text inputs", "default": 0 },
+        { "type": "text", "id": "item_4_input_1_label", "label": "Input 1 label" },
+        { "type": "text", "id": "item_4_input_2_label", "label": "Input 2 label" },
+        { "type": "text", "id": "item_4_input_3_label", "label": "Input 3 label" },
+        { "type": "text", "id": "item_4_input_4_label", "label": "Input 4 label" },
+        { "type": "text", "id": "item_4_input_5_label", "label": "Input 5 label" },
+        { "type": "text", "id": "item_4_input_6_label", "label": "Input 6 label" },
+        { "type": "text", "id": "item_4_input_7_label", "label": "Input 7 label" },
+        { "type": "text", "id": "item_4_input_8_label", "label": "Input 8 label" },
+        { "type": "text", "id": "item_4_input_9_label", "label": "Input 9 label" },
+        { "type": "text", "id": "item_4_input_10_label", "label": "Input 10 label" },
+        { "type": "text", "id": "item_4_dropdown_label", "label": "Dropdown label" },
+        { "type": "text", "id": "item_4_dropdown_options", "label": "Dropdown options (comma-separated)" },
         { "type": "header", "content": "Item 5" },
         { "type": "product", "id": "item_5_product", "label": "Add-on product" },
         { "type": "text", "id": "item_5_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_5_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_5_default", "label": "Checked by default", "default": false },
+        { "type": "select", "id": "item_5_field_type", "label": "Extra fields type", "default": "none", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "text_inputs", "label": "Text inputs (up to 10)" },
+          { "value": "dropdown", "label": "Dropdown" }
+        ] },
+        { "type": "range", "id": "item_5_inputs_count", "min": 0, "max": 10, "step": 1, "label": "Number of text inputs", "default": 0 },
+        { "type": "text", "id": "item_5_input_1_label", "label": "Input 1 label" },
+        { "type": "text", "id": "item_5_input_2_label", "label": "Input 2 label" },
+        { "type": "text", "id": "item_5_input_3_label", "label": "Input 3 label" },
+        { "type": "text", "id": "item_5_input_4_label", "label": "Input 4 label" },
+        { "type": "text", "id": "item_5_input_5_label", "label": "Input 5 label" },
+        { "type": "text", "id": "item_5_input_6_label", "label": "Input 6 label" },
+        { "type": "text", "id": "item_5_input_7_label", "label": "Input 7 label" },
+        { "type": "text", "id": "item_5_input_8_label", "label": "Input 8 label" },
+        { "type": "text", "id": "item_5_input_9_label", "label": "Input 9 label" },
+        { "type": "text", "id": "item_5_input_10_label", "label": "Input 10 label" },
+        { "type": "text", "id": "item_5_dropdown_label", "label": "Dropdown label" },
+        { "type": "text", "id": "item_5_dropdown_options", "label": "Dropdown options (comma-separated)" },
         { "type": "header", "content": "Item 6" },
         { "type": "product", "id": "item_6_product", "label": "Add-on product" },
         { "type": "text", "id": "item_6_handle", "label": "Product handle (optional)", "info": "Used if product picker is empty." },
         { "type": "text", "id": "item_6_label", "label": "Label (optional)" },
         { "type": "checkbox", "id": "item_6_default", "label": "Checked by default", "default": false }
+        ,{ "type": "select", "id": "item_6_field_type", "label": "Extra fields type", "default": "none", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "text_inputs", "label": "Text inputs (up to 10)" },
+          { "value": "dropdown", "label": "Dropdown" }
+        ] },
+        { "type": "range", "id": "item_6_inputs_count", "min": 0, "max": 10, "step": 1, "label": "Number of text inputs", "default": 0 },
+        { "type": "text", "id": "item_6_input_1_label", "label": "Input 1 label" },
+        { "type": "text", "id": "item_6_input_2_label", "label": "Input 2 label" },
+        { "type": "text", "id": "item_6_input_3_label", "label": "Input 3 label" },
+        { "type": "text", "id": "item_6_input_4_label", "label": "Input 4 label" },
+        { "type": "text", "id": "item_6_input_5_label", "label": "Input 5 label" },
+        { "type": "text", "id": "item_6_input_6_label", "label": "Input 6 label" },
+        { "type": "text", "id": "item_6_input_7_label", "label": "Input 7 label" },
+        { "type": "text", "id": "item_6_input_8_label", "label": "Input 8 label" },
+        { "type": "text", "id": "item_6_input_9_label", "label": "Input 9 label" },
+        { "type": "text", "id": "item_6_input_10_label", "label": "Input 10 label" },
+        { "type": "text", "id": "item_6_dropdown_label", "label": "Dropdown label" },
+        { "type": "text", "id": "item_6_dropdown_options", "label": "Dropdown options (comma-separated)" }
       ]
     },
     {
