@@ -42,52 +42,49 @@
     endif
   -%}
   <div class="footer-topbar">
-  <div class="page-width">
+  <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;">
 
-    <!-- Social Icons -->
+    <!-- Left: Social -->
     <div class="footer-topbar__social">
       {%- render 'social-icons', class: 'footer__list-social' -%}
     </div>
 
-    <!-- USP + Newsletter (all blocks render everything) -->
-    <div class="footer-topbar__usps">
-      {%- for block in section.blocks -%}
-        <div class="footer-topbar__usp" {{ block.shopify_attributes }}>
-          <img class="footer-topbar__usp-icon" src="{{ block.settings.icon | image_url: width: 64 }}" alt="" loading="lazy" width="32" height="32">
-          <div class="footer-topbar__usp-text">{{ block.settings.text }}</div>
-        </div>
+    <!-- Center: Badges -->
+    <div class="footer-topbar__usps" style="display:flex; gap:16px; justify-content:center; flex:1; flex-wrap:wrap;">
+      <div class="footer-topbar__usp">
+        <img class="footer-topbar__usp-icon" src="{{ 'badge1.png' | asset_url }}" alt="">
+        <div class="footer-topbar__usp-text">Free Shipping</div>
+      </div>
+      <div class="footer-topbar__usp">
+        <img class="footer-topbar__usp-icon" src="{{ 'badge2.png' | asset_url }}" alt="">
+        <div class="footer-topbar__usp-text">Secure Checkout</div>
+      </div>
+      <div class="footer-topbar__usp">
+        <img class="footer-topbar__usp-icon" src="{{ 'badge3.png' | asset_url }}" alt="">
+        <div class="footer-topbar__usp-text">24/7 Support</div>
+      </div>
+    </div>
 
-        <div class="footer-topbar__newsletter" {{ block.shopify_attributes }}>
-          {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
-            <input type="hidden" name="contact[tags]" value="newsletter">
-            <div class="field field--compact">
-              <input
-                id="FooterTopbarNewsletter-{{ section.id }}"
-                type="email"
-                name="contact[email]"
-                class="field__input"
-                value="{{ form.email }}"
-                aria-required="true"
-                autocorrect="off"
-                autocapitalize="off"
-                autocomplete="email"
-                placeholder="{{ block.settings.placeholder | default: 'Enter your email address' }}"
-                required
-              >
-              <button type="submit" class="button button--compact" name="commit" aria-label="{{ block.settings.button_label | default: 'Subscribe' }}">
-                {{ block.settings.button_label | default: 'Subscribe' }}
-              </button>
-            </div>
-            <small class="newsletter-form__message form__message">
-              <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
-              {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
-            </small>
-          {% endform %}
+    <!-- Right: Newsletter -->
+    <div class="footer-topbar__newsletter">
+      {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="field field--compact">
+          <input
+            type="email"
+            name="contact[email]"
+            class="field__input"
+            placeholder="Enter your email"
+            required
+          >
+          <button type="submit" class="button button--compact">Subscribe</button>
         </div>
-      {%- endfor -%}
+      {% endform %}
     </div>
 
   </div>
+</div>
+
 </div>
 
 </div>
