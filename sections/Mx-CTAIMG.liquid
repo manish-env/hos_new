@@ -1,36 +1,53 @@
-{% comment %}
-  MX – Dual Image CTA Section
-{% endcomment %}
+{% comment %} MXCTA3 – Dual Image CTA (scoped) {% endcomment %}
 
-<section class="mx-dual-cta" id="mx-dual-cta-{{ section.id }}">
-  <div class="mx-container">
-    <div class="mx-grid">
-      
-      <!-- Blank Image -->
-      <div class="mx-item">
+<section id="mxcta3-{{ section.id }}" class="mxcta3-root"
+  style="--mxcta3-inset: {{ section.settings.border_inset | default: 25 }}px; --mxcta3-line: 2px;">
+  <div class="mxcta3-container">
+    <div class="mxcta3-grid">
+
+      <!-- LEFT: Plain image (no CTA) -->
+      <div class="mxcta3-item">
         {% if section.settings.image_1 != blank %}
-          <div class="mx-img-wrapper">
-            <img src="{{ section.settings.image_1 | image_url: width: 800 }}" alt="Image 1" loading="lazy">
+          <div class="mxcta3-figure">
+            <img src="{{ section.settings.image_1 | image_url: width: 1600 }}" alt="Image 1" loading="lazy">
+            <span class="mxcta3-b mxcta3-b-top"></span>
+            <span class="mxcta3-b mxcta3-b-right"></span>
+            <span class="mxcta3-b mxcta3-b-bottom"></span>
+            <span class="mxcta3-b mxcta3-b-left"></span>
           </div>
         {% endif %}
       </div>
 
-      <!-- Image with CTA -->
-      <div class="mx-item">
+      <!-- RIGHT: Image with optional CTA -->
+      <div class="mxcta3-item">
         {% if section.settings.image_2 != blank %}
-          <div class="mx-img-wrapper">
-            <img src="{{ section.settings.image_2 | image_url: width: 800 }}" alt="Image 2" loading="lazy">
-            <div class="mx-overlay">
-              <h2 class="mx-title">{{ section.settings.title }}</h2>
-              <div class="mx-cta">
-                {% if section.settings.facebook_link != blank %}
-                  <a href="{{ section.settings.facebook_link }}" class="mx-btn" target="_blank">FOLLOW US ON <i class="fa-brands fa-facebook-f"></i></a>
+          {% assign show_fb = section.settings.facebook_link %}
+          {% assign show_ig = section.settings.instagram_link %}
+          {% assign show_cta = false %}
+          {% if show_fb != blank or show_ig != blank %}{% assign show_cta = true %}{% endif %}
+
+          <div class="mxcta3-figure">
+            <img src="{{ section.settings.image_2 | image_url: width: 1600 }}" alt="Image 2" loading="lazy">
+            <span class="mxcta3-b mxcta3-b-top"></span>
+            <span class="mxcta3-b mxcta3-b-right"></span>
+            <span class="mxcta3-b mxcta3-b-bottom"></span>
+            <span class="mxcta3-b mxcta3-b-left"></span>
+
+            {% if show_cta %}
+              <div class="mxcta3-overlay">
+                {% if section.settings.title != blank %}
+                  <h2 class="mxcta3-title">{{ section.settings.title }}</h2>
                 {% endif %}
-                {% if section.settings.instagram_link != blank %}
-                  <a href="{{ section.settings.instagram_link }}" class="mx-btn" target="_blank">FOLLOW US ON <i class="fa-brands fa-instagram"></i></a>
-                {% endif %}
+                <div class="mxcta3-cta">
+                  {% if show_fb != blank %}
+                    <a class="mxcta3-btn" href="{{ section.settings.facebook_link }}" target="_blank" rel="noopener">FOLLOW US ON <span class="mxcta3-ico">f</span></a>
+                  {% endif %}
+                  {% if show_ig != blank %}
+                    <a class="mxcta3-btn" href="{{ section.settings.instagram_link }}" target="_blank" rel="noopener">FOLLOW US ON <span class="mxcta3-ico">@</span></a>
+                  {% endif %}
+                </div>
               </div>
-            </div>
+            {% endif %}
           </div>
         {% endif %}
       </div>
@@ -40,148 +57,72 @@
 </section>
 
 <style>
-.mx-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-.mx-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-.mx-item {
-  position: relative;
-  overflow: hidden;
-}
-.mx-img-wrapper {
-  position: relative;
-}
-.mx-img-wrapper img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+  /* ===== Strict scoping: NOTHING outside this id gets affected ===== */
+  #mxcta3-{{ section.id }} .mxcta3-container{max-width:1400px;margin:0 auto;padding:0 16px;}
+  #mxcta3-{{ section.id }} .mxcta3-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  #mxcta3-{{ section.id }} .mxcta3-item{position:relative}
+  #mxcta3-{{ section.id }} .mxcta3-figure{position:relative;overflow:hidden}
+  #mxcta3-{{ section.id }} .mxcta3-figure img{display:block;width:100%;height:auto}
 
-/* Hover border effect */
-.mx-img-wrapper::before,
-.mx-img-wrapper::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  background: #fff;
-  transition: all 0.3s ease;
-}
-.mx-img-wrapper::before {
-  top: 0; left: 0; right: 0; margin: auto;
-}
-.mx-img-wrapper::after {
-  bottom: 0; left: 0; right: 0; margin: auto;
-}
-.mx-img-wrapper:hover::before,
-.mx-img-wrapper:hover::after {
-  width: 100%;
-}
+  /* Overlay (only when links exist) */
+  #mxcta3-{{ section.id }} .mxcta3-overlay{
+    position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;color:#fff;background:rgba(0,0,0,.35);opacity:0;transition:opacity .3s ease
+  }
+  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-overlay{opacity:1}
+  #mxcta3-{{ section.id }} .mxcta3-title{font-size:clamp(22px,2.2vw,36px);line-height:1.25;margin:0 0 14px}
+  #mxcta3-{{ section.id }} .mxcta3-cta{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  #mxcta3-{{ section.id }} .mxcta3-btn{
+    border:1px solid #fff;padding:10px 18px;color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    transition:background .25s ease,color .25s ease
+  }
+  #mxcta3-{{ section.id }} .mxcta3-btn:hover{background:#fff;color:#000}
+  #mxcta3-{{ section.id }} .mxcta3-ico{font-weight:700}
 
-.mx-img-wrapper span::before,
-.mx-img-wrapper span::after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 0;
-  background: #fff;
-  transition: all 0.3s ease;
-}
-.mx-img-wrapper span::before {
-  left: 0; top: 0; bottom: 0; margin: auto;
-}
-.mx-img-wrapper span::after {
-  right: 0; top: 0; bottom: 0; margin: auto;
-}
-.mx-img-wrapper:hover span::before,
-.mx-img-wrapper:hover span::after {
-  height: 100%;
-}
+  /* Inside-image border lines (2px white, inset by var) */
+  #mxcta3-{{ section.id }} .mxcta3-b{position:absolute;background:#fff;pointer-events:none}
+  #mxcta3-{{ section.id }} .mxcta3-b-top,
+  #mxcta3-{{ section.id }} .mxcta3-b-bottom{height:var(--mxcta3-line);left:var(--mxcta3-inset);right:var(--mxcta3-inset);transform-origin:center;transform:scaleX(0)}
+  #mxcta3-{{ section.id }} .mxcta3-b-left,
+  #mxcta3-{{ section.id }} .mxcta3-b-right{width:var(--mxcta3-line);top:var(--mxcta3-inset);bottom:var(--mxcta3-inset);transform-origin:center;transform:scaleY(0)}
 
-/* Overlay Content */
-.mx-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  background: rgba(0,0,0,0.3);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  text-align: center;
-}
-.mx-img-wrapper:hover .mx-overlay {
-  opacity: 1;
-}
-.mx-title {
-  font-size: 24px;
-  margin-bottom: 15px;
-}
-.mx-cta {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.mx-btn {
-  padding: 10px 20px;
-  border: 1px solid #fff;
-  color: #fff;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-.mx-btn:hover {
-  background: #fff;
-  color: #000;
-}
-@media(max-width:768px){
-  .mx-grid { grid-template-columns: 1fr; }
-}
+  #mxcta3-{{ section.id }} .mxcta3-b-top{top:var(--mxcta3-inset)}
+  #mxcta3-{{ section.id }} .mxcta3-b-right{right:var(--mxcta3-inset)}
+  #mxcta3-{{ section.id }} .mxcta3-b-bottom{bottom:var(--mxcta3-inset)}
+  #mxcta3-{{ section.id }} .mxcta3-b-left{left:var(--mxcta3-inset)}
+
+  /* Animate so all 4 sides meet into a box */
+  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-top,
+  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-bottom{transform:scaleX(1);transition:transform .35s ease}
+  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-left,
+  #mxcta3-{{ section.id }} .mxcta3-figure:hover .mxcta3-b-right{transform:scaleY(1);transition:transform .35s ease}
+
+  @media (max-width: 768px){
+    #mxcta3-{{ section.id }} .mxcta3-grid{grid-template-columns:1fr}
+  }
 </style>
 
 {% schema %}
 {
-  "name": "MX Dual Image CTA",
+  "name": "MXCTA3 Dual",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "image_1",
-      "label": "Blank Image"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "Image with CTA"
-    },
+    { "type": "image_picker", "id": "image_1", "label": "Left image (plain)" },
+    { "type": "image_picker", "id": "image_2", "label": "Right image (with CTA)" },
     {
       "type": "text",
       "id": "title",
-      "label": "CTA Title",
+      "label": "CTA Title (optional)",
       "default": "Follow us on Facebook / Instagram for exciting updates!"
     },
+    { "type": "url", "id": "facebook_link", "label": "Facebook link" },
+    { "type": "url", "id": "instagram_link", "label": "Instagram link" },
     {
-      "type": "url",
-      "id": "facebook_link",
-      "label": "Facebook Link"
-    },
-    {
-      "type": "url",
-      "id": "instagram_link",
-      "label": "Instagram Link"
+      "type": "range",
+      "id": "border_inset",
+      "label": "Border inset inside image",
+      "min": 0, "max": 60, "step": 1, "default": 25
     }
   ],
-  "presets": [
-    {
-      "name": "MX Dual Image CTA"
-    }
-  ]
+  "presets": [{ "name": "MXCTA3 Dual)" }]
 }
 {% endschema %}
