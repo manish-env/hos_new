@@ -55,13 +55,13 @@
             if section.blocks.size == 9
               assign footer_grid_class = 'grid--3-col-tablet'
             elsif section.blocks.size > 6
-              assign footer_grid_class = 'grid--4-col-desktop'
+              assign footer_grid_class = 'grid--5-col-desktop'
             elsif section.blocks.size > 4
-              assign footer_grid_class = 'grid--3-col-tablet'
+              assign footer_grid_class = 'grid--5-col-desktop'
             endif
           -%}
           <div
-            class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet {{ footer_grid_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--5-col-tablet {{ footer_grid_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
             {% if settings.animations_reveal_on_scroll %}
               data-cascade
             {% endif %}
@@ -130,6 +130,21 @@
                       {%- endif -%}
                       {%- if block.settings.show_social and has_social_icons -%}
                         {%- render 'social-icons', class: 'footer__list-social' -%}
+                      {%- endif -%}
+                    </div>
+                  {%- when 'company_details' -%}
+                    <div class="footer-block__details-content footer-block--company">
+                      {%- if block.settings.company_name != blank -%}
+                        <p><strong>{{ block.settings.company_name }}</strong></p>
+                      {%- endif -%}
+                      {%- if block.settings.copyright_text != blank -%}
+                        <p>{{ block.settings.copyright_text }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.rights_text != blank -%}
+                        <p>{{ block.settings.rights_text }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.ecommerce_text != blank -%}
+                        <p>{{ block.settings.ecommerce_text }}</p>
                       {%- endif -%}
                     </div>
                   {%- when 'image' -%}
@@ -419,6 +434,42 @@
             }
           ],
           "default": "center"
+        }
+      ]
+    },
+    {
+      "type": "company_details",
+      "name": "Company Details",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "LIKE A DIVA",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "company_name",
+          "default": "Like A Diva",
+          "label": "Company Name"
+        },
+        {
+          "type": "text",
+          "id": "copyright_text",
+          "default": "Copyright © 2025 Like A Diva.",
+          "label": "Copyright Text"
+        },
+        {
+          "type": "text",
+          "id": "rights_text",
+          "default": "All rights reserved.",
+          "label": "Rights Text"
+        },
+        {
+          "type": "text",
+          "id": "ecommerce_text",
+          "default": "e-Commerce by KOL Limited",
+          "label": "E-commerce Text"
         }
       ]
     }
