@@ -514,246 +514,145 @@
                       {%- endif -%}
                     {%- endfor -%}
                   </ul>
-                  <script>
-                    console.log('[DEBUG] Options to Buy script starting...');
-                    (function(){
-                      var root = document.getElementById('ProductInfo-{{ section.id }}');
-                      console.log('[DEBUG] Root element found:', !!root);
-                      if(!root) {
-                        console.error('[DEBUG] ProductInfo root element not found!');
-                        return;
-                      }
-                      var priceWrap = root.querySelector('#price-{{ section.id }} .price__container');
-                      var extraEl = root.querySelector('#price-{{ section.id }} .options-extra');
-                      if(!extraEl && priceWrap){
-                        extraEl = document.createElement('span');
-                        extraEl.className = 'options-extra';
-                        priceWrap.appendChild(extraEl);
-                      }
-                      var variants = {{ product.variants | json }};
-                      var moneyFormat = {{ shop.money_format | json }};
-                      function formatMoney(cents){
-                        try {
-                          if (window.Shopify && typeof Shopify.formatMoney === 'function') {
-                            return Shopify.formatMoney(cents, moneyFormat);
-                          }
-                        } catch(e) {}
-                        var fmt = moneyFormat || '{{amount}}';
-                        var amount = (cents / 100).toFixed(2);
-                        var start = fmt.indexOf('{{');
-                        var end = fmt.indexOf('}}', start + 2);
-                        if (start !== -1 && end !== -1) {
-                          return fmt.slice(0, start) + amount + fmt.slice(end + 2);
-                        }
-                        return amount;
-                      }
-                      function getCurrentVariantId(){
-                        var idInput = root.querySelector('input.product-variant-id');
-                        return idInput ? parseInt(idInput.value,10) : null;
-                      }
-                      function getCurrentVariantPrice(){
-                        var id = getCurrentVariantId();
-                        if(!id) return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
-                        for(var i=0;i<variants.length;i++){ if(variants[i].id === id) return variants[i].price; }
-                        return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
-                      }
-                      function getQuantity(){
-                        var q = root.querySelector('input[name="quantity"]');
-                        var v = parseInt(q && q.value ? q.value : '1', 10);
-                        return isNaN(v) || v < 1 ? 1 : v;
-                      }
-                      function getExtrasUnit(){
-                        var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                        if(!sel) {
-                          console.log('[DEBUG] No radio button selected');
-                          return 0;
-                        }
-                        var raw = sel.getAttribute('data-extra-price') || '0';
-                        var v = parseInt(raw, 10);
-                        console.log('[DEBUG] Selected option:', sel.value, 'Raw price:', raw, 'Parsed price:', v);
-                        return isNaN(v) ? 0 : v;
-                      }
-                      function update(){
-                        console.log('[DEBUG] Update function called');
-                        var qty = getQuantity();
-                        var extras = getExtrasUnit() * qty; // apply service per quantity
-                        console.log('[DEBUG] Quantity:', qty, 'Extras total:', extras);
-                        
-                        try {
-                          var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                          var dbg = {
-                            selectedService: sel ? sel.value : null,
-                            extraUnit: sel ? parseInt(sel.getAttribute('data-extra-price') || '0', 10) : 0,
-                            qty: qty,
-                            variantPrice: getCurrentVariantPrice(),
-                            hasAddonVariant: sel ? sel.hasAttribute('data-addon-variant') : false
-                          };
-                          dbg.total = dbg.variantPrice * qty + dbg.extraUnit * qty;
-                          console.debug('[OptionsToBuy] update', dbg);
-                        } catch(_e) {
-                          console.error('[DEBUG] Error in debug section:', _e);
-                        }
-                        
-                        if(extraEl){ 
-                          extraEl.textContent = extras > 0 ? ' (+ ' + formatMoney(extras) + ')' : ''; 
-                          console.log('[DEBUG] Updated extraEl with:', extraEl.textContent);
-                        }
-                        
-                        var totalEl = document.getElementById('OptionsTotal-{{ section.id }}') || root.querySelector('.product-form__buttons .options-total__amount');
-                        console.log('[DEBUG] Total element found:', !!totalEl, 'ID searched:', 'OptionsTotal-{{ section.id }}');
-                        
-                        if(totalEl){
-                          var base = getCurrentVariantPrice();
-                          var total = base * qty + extras;
-                          totalEl.textContent = formatMoney(total);
-                          console.log('[DEBUG] Total updated - Base:', formatMoney(base * qty), 'Extras:', formatMoney(extras), 'Final:', formatMoney(total));
-                        } else {
-                          console.warn('[OptionsToBuy] Total element not found. Looking for:', 'OptionsTotal-{{ section.id }}');
-                          // Try alternative selectors
-                          var altTotal = root.querySelector('.options-total__amount');
-                          console.log('[DEBUG] Alternative total element found:', !!altTotal);
-                          if(altTotal) {
-                            var base = getCurrentVariantPrice();
-                            var total = base * qty + extras;
-                            altTotal.textContent = formatMoney(total);
-                            console.log('[DEBUG] Updated alternative total element');
-                          }
-                        }
-                      }
-                      // Ensure one service is selected by default BEFORE initial update
-                      (function ensureDefaultService(){
-                        var anyChecked = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                        if(!anyChecked){
-                          var first = root.querySelector('.options-to-buy input[type="radio"]');
-                          if(first){ first.checked = true; }
-                        }
-                      })();
-                      // Recalculate after default selection is ensured
-                      update();
-
-                      // Listen to specific radio changes and quantity changes
-                      root.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(r){
-                        r.addEventListener('change', update);
-                      });
-                      var qtyInput = root.querySelector('input[name="quantity"]');
-                      if(qtyInput){ qtyInput.addEventListener('input', update); qtyInput.addEventListener('change', update); }
-                      root.addEventListener('change', function(){ update(); });
-                      // Initial updates: immediate, after DOM ready, and after a short delay to ensure buy-buttons snippet is in DOM
-                      update();
-                      document.addEventListener('DOMContentLoaded', function(){
-                        console.debug('[OptionsToBuy] DOM ready, updating...');
-                        update();
-                      });
-                      window.addEventListener('load', function(){
-                        console.debug('[OptionsToBuy] Window loaded, updating...');
-                        update();
-                      });
-                      setTimeout(function(){
-                        console.debug('[OptionsToBuy] 200ms timeout, updating...');
-                        update();
-                      }, 200);
-                      setTimeout(function(){
-                        console.debug('[OptionsToBuy] 600ms timeout, updating...');
-                        update();
-                      }, 600);
-                      setTimeout(function(){
-                        console.debug('[OptionsToBuy] 1000ms timeout, updating...');
-                        update();
-                      }, 1000);
-                      // Listen to Shopify variant change events emitted by product-form.js
-                      document.addEventListener('variant:change', function(e){
-                        // Only react if event is for this section
-                        try {
-                          var formEl = root.querySelector('form#{{ product_form_id }}');
-                          if(!formEl) return update();
-                          if(e && e.target && formEl.contains(e.target)) update(); else update();
-                        } catch(_e) { update(); }
-                      });
-                      // Some themes dispatch detail.variant; when present, use it to set price fallback
-                      document.addEventListener('variant:change', function(e){
-                        try {
-                          if(e && e.detail && e.detail.variant && typeof e.detail.variant.price === 'number'){
-                            // overwrite getCurrentVariantPrice fallback via closure side-effect by updating variants array
-                            for(var i=0;i<variants.length;i++){
-                              if(variants[i].id === e.detail.variant.id){ variants[i].price = e.detail.variant.price; break; }
-                            }
-                          }
-                        } catch(_e) {}
-                        update();
-                      });
-                      // Observe DOM changes in price and button containers
-                      try {
-                        var observer = new MutationObserver(function(){ update(); });
-                        var observeTargets = [
-                          root.querySelector('#price-{{ section.id }}'),
-                          root.querySelector('.product-form__buttons')
-                        ].filter(Boolean);
-                        observeTargets.forEach(function(t){ observer.observe(t, { childList: true, subtree: true }); });
-                      } catch(_e) {}
-                      // Intercept main product form submit to add selected service add-on
-                      var form = root.querySelector('form#{{ product_form_id }}');
-                      if(form){
-                        form.addEventListener('submit', function(evt){
-                          try {
-                            var selected = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                            var selectedAddonVariant = selected && selected.getAttribute('data-addon-variant');
-                            var hasAddon = !!selectedAddonVariant;
-                            // Always AJAX submit for consistency
-                            evt.preventDefault();
-
-                            var fd = new FormData(form);
-                            var mainId = parseInt(fd.get('id'), 10);
-                            var qty = parseInt(fd.get('quantity') || '1', 10);
-                            if(!qty || qty < 1) qty = 1;
-
-                            // Collect properties destined for the main item (includes selected service)
-                            var properties = {};
-                            form.querySelectorAll('[name^="properties["]').forEach(function(input){
-                              if (input.type === 'checkbox' && !input.checked) return;
-                              if (input.type === 'radio' && !input.checked) return;
-                              var name = input.name.replace(/^properties\[|\]$/g,'');
-                              var val = input.value;
-                              if (val && name) properties[name] = val;
-                            });
-
-                            var items = [{ id: mainId, quantity: qty, properties: properties }];
-                            if(selectedAddonVariant){
-                              var addonId = parseInt(selectedAddonVariant, 10);
-                              if(!isNaN(addonId)){
-                                // Match add-on quantity to main product quantity so pricing aligns with displayed total
-                                items.push({ id: addonId, quantity: qty, properties: { 'Add-on for': mainId } });
-                              }
-                            } else {
-                              console.warn('No add-on product mapped for selected service; only main product will be added.');
-                            }
-
-                            console.debug('[OptionsToBuy] add to cart payload', items);
-
-                            fetch('/cart/add.js', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                              body: JSON.stringify({ items: items })
-                            })
-                            .then(function(r){
-                              if(!r.ok){ throw r; }
-                              return r.json();
-                            })
-                            .then(function(){
-                              // Redirect to cart for clarity and consistency
-                              window.location.href = '/cart';
-                            })
-                            .catch(function(err){
-                              console.error('Add to cart failed', err);
-                              // Fallback to normal submission so the main product still gets added
-                              form.submit();
-                            });
-                          } catch(ex) {
-                            console.error(ex);
-                          }
-                        }, { passive: false });
-                      }
-                    })();
-                  </script>
+<script>
+(function(){
+  // Wait for DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    var root = document.getElementById('ProductInfo-{{ section.id }}');
+    if(!root) return;
+    
+    // Find the product form
+    var productForm = root.querySelector('form#{{ product_form_id }}');
+    if(!productForm) return;
+    
+    // Find the price container
+    var priceContainer = root.querySelector('#price-{{ section.id }} .price__container');
+    var extraPriceEl = root.querySelector('#price-{{ section.id }} .options-extra');
+    
+    // Create extra price element if it doesn't exist
+    if(!extraPriceEl && priceContainer){
+      extraPriceEl = document.createElement('span');
+      extraPriceEl.className = 'options-extra';
+      priceContainer.appendChild(extraPriceEl);
+    }
+    
+    // Get product variants data
+    var variants = {{ product.variants | json }};
+    
+    // Function to get current variant price
+    function getCurrentVariantPrice() {
+      var variantIdInput = productForm.querySelector('input[name="id"]');
+      if(!variantIdInput) return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
+      
+      var variantId = parseInt(variantIdInput.value, 10);
+      for(var i = 0; i < variants.length; i++) {
+        if(variants[i].id === variantId) return variants[i].price;
+      }
+      return {{ product.selected_or_first_available_variant.price | default: product.price | json }};
+    }
+    
+    // Function to get quantity
+    function getQuantity() {
+      var qtyInput = productForm.querySelector('input[name="quantity"]');
+      return qtyInput ? parseInt(qtyInput.value || '1', 10) : 1;
+    }
+    
+    // Function to get selected option extra price
+    function getSelectedOptionPrice() {
+      var selectedOption = root.querySelector('.options-to-buy input[type="radio"]:checked');
+      if(!selectedOption) return 0;
+      
+      return parseInt(selectedOption.getAttribute('data-extra-price') || '0', 10);
+    }
+    
+    // Function to update displayed price
+    function updatePriceDisplay() {
+      var basePrice = getCurrentVariantPrice();
+      var quantity = getQuantity();
+      var extraPrice = getSelectedOptionPrice();
+      var totalPrice = (basePrice * quantity) + (extraPrice * quantity);
+      
+      // Update the extra price indicator
+      if(extraPriceEl) {
+        extraPriceEl.textContent = extraPrice > 0 ? ' (+ ' + Shopify.formatMoney(extraPrice * quantity, "{{ shop.money_format }}") + ')' : '';
+      }
+      
+      // Update any total display elements
+      var totalEls = document.querySelectorAll('.options-total__amount');
+      totalEls.forEach(function(el) {
+        el.textContent = Shopify.formatMoney(totalPrice, "{{ shop.money_format }}");
+      });
+    }
+    
+    // Listen for option changes
+    root.querySelectorAll('.options-to-buy input[type="radio"]').forEach(function(radio) {
+      radio.addEventListener('change', updatePriceDisplay);
+    });
+    
+    // Listen for quantity changes
+    var qtyInput = productForm.querySelector('input[name="quantity"]');
+    if(qtyInput) {
+      qtyInput.addEventListener('change', updatePriceDisplay);
+      qtyInput.addEventListener('input', updatePriceDisplay);
+    }
+    
+    // Listen for variant changes
+    document.addEventListener('variant:change', updatePriceDisplay);
+    
+    // Update price initially
+    updatePriceDisplay();
+    
+    // Modify form submission to handle add-on products
+    productForm.addEventListener('submit', function(e) {
+      // Only handle if an option with add-on is selected
+      var selectedOption = root.querySelector('.options-to-buy input[type="radio"]:checked');
+      var addonVariantId = selectedOption ? selectedOption.getAttribute('data-addon-variant') : null;
+      
+      if(addonVariantId) {
+        e.preventDefault();
+        
+        // Get the main product variant ID and quantity
+        var mainVariantId = productForm.querySelector('input[name="id"]').value;
+        var quantity = getQuantity();
+        
+        // Prepare the items array for the cart API
+        var items = [
+          {
+            id: parseInt(mainVariantId, 10),
+            quantity: quantity,
+            properties: {
+              'Service': selectedOption.value
+            }
+          },
+          {
+            id: parseInt(addonVariantId, 10),
+            quantity: quantity
+          }
+        ];
+        
+        // Add to cart using Fetch API
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ items: items })
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Redirect to cart page
+          window.location.href = '/cart';
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          // Fallback to regular form submission
+          productForm.submit();
+        });
+      }
+    });
+  });
+})();
+</script>
                 </div>
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
