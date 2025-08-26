@@ -96,9 +96,34 @@
   color: #000000;
 }
 
-/* Remove bottom section completely for clean design */
+/* Show bottom area for payment icons */
 .footer__content-bottom {
-  display: none;
+  display: block;
+  padding: 10px 0 20px;
+}
+
+/* Hide localization and copyright rows; show only payment */
+.footer__localization,
+.footer__content-bottom-wrapper .footer__copyright {
+  display: none !important;
+}
+
+/* Center payment icons */
+.footer__payment {
+  display: flex;
+  justify-content: center;
+}
+
+.footer__payment .list-payment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer__payment .list-payment .icon {
+  width: 36px;
+  height: auto;
 }
 
 .footer-block--newsletter {
