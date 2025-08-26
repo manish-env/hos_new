@@ -41,49 +41,52 @@
       assign only_empty_brand = true
     endif
   -%}
- <div class="footer-topbar" style="background:#f8f8f8; padding:12px 0; position:relative;">
-  <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; position:relative;">
+ <div class="footer-topbar" style="background:#f8f8f8; padding:18px 0;">
+  <div class="page-width" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
 
     <!-- Left: Social -->
-    <div class="footer-topbar__social" style="display:flex; gap:16px; font-size:24px;">
+    <div class="footer-topbar__social" style="display:flex; gap:20px; font-size:35px;">
       {%- render 'social-icons', class: 'footer__list-social' -%}
     </div>
 
-    <!-- Center: Trust Badges (truly centered) -->
-    <div class="footer-topbar__usps" style="position:absolute; left:50%; transform:translateX(-50%); display:flex; gap:20px; align-items:center; flex-wrap:wrap; text-align:center;">
-      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
-        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/track_order.png?v=1756036707" alt="" style="width:28px; height:28px;">
+    <!-- Center: Trust Badges -->
+    <div class="footer-topbar__usps" style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap; text-align:center;">
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:12px; padding:8px 14px;">
+        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/track_order.png?v=1756036707" alt="" style="width:32px; height:32px;">
         <div style="font-size:15px;">Free Shipping</div>
       </div>
-      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
-        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/international_delivery-removebg-preview.png?v=1756036534" alt="" style="width:28px; height:28px;">
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:12px; padding:8px 14px;">
+        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/international_delivery-removebg-preview.png?v=1756036534" alt="" style="width:32px; height:32px;">
         <div style="font-size:15px;">International Delivery</div>
       </div>
-      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:10px;">
-        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/sewing-machine-line-icon-outline-260nw-647074282-removebg-preview.png?v=1756037308" alt="" style="width:28px; height:28px;">
+      <div class="footer-topbar__usp" style="display:flex; align-items:center; gap:12px; padding:8px 14px;">
+        <img src="https://cdn.shopify.com/s/files/1/0675/5886/7014/files/sewing-machine-line-icon-outline-260nw-647074282-removebg-preview.png?v=1756037308" alt="" style="width:32px; height:32px;">
         <div style="font-size:15px;">Professional Stitching</div>
       </div>
     </div>
 
     <!-- Right: Newsletter -->
-    <div class="footer-topbar__newsletter" style="display:flex; justify-content:flex-end;">
+    <div class="footer-topbar__newsletter">
       {% form 'customer', class: 'newsletter-form newsletter-form--compact' %}
         <input type="hidden" name="contact[tags]" value="newsletter">
-        <div class="field field--compact" style="display:flex; gap:8px;">
+        <div class="field field--compact" style="display:flex; gap:10px;">
           <input
             type="email"
             name="contact[email]"
             placeholder="Enter your email"
             required
-            style="padding:8px 12px; font-size:14px;"
+            style="padding:10px 14px; font-size:15px; border:1px solid #ccc; border-radius:4px;"
           >
-          <button type="submit" style="padding:8px 16px; font-size:14px;">Subscribe</button>
+          <button type="submit" style="padding:10px 18px; font-size:15px; background:#111; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+            Subscribe
+          </button>
         </div>
       {% endform %}
     </div>
 
   </div>
 </div>
+
 
 
 
