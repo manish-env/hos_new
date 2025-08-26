@@ -1,0 +1,138 @@
+{%- comment -%}
+  Renders stitching services UI based on per-product-type rules.
+  Expects params:
+  - product
+  - product_form_id
+  - section (for accessing section.blocks to find stitching_rule blocks)
+  - block (stitching_services block)
+{%- endcomment -%}
+{%- liquid
+  assign rules = section.blocks | where: 'type', 'stitching_rule'
+  assign matched_rule = nil
+  for r in rules
+    if r.settings.product_type == product.type
+      assign matched_rule = r
+      break
+    endif
+  endfor
+
+  assign enable_unstitched = block.settings.enable_unstitched
+  assign enable_standard = block.settings.enable_standard
+  assign enable_custom = block.settings.enable_custom
+
+  if matched_rule
+    if matched_rule.settings.enable_standard == false
+      assign enable_standard = false
+    endif
+    if matched_rule.settings.enable_custom == false
+      assign enable_custom = false
+    endif
+  endif
+
+  assign standard_product = nil
+  assign custom_product = nil
+  if matched_rule
+    assign standard_product = matched_rule.settings.standard_product
+    assign custom_product = matched_rule.settings.custom_product
+  endif
+
+  assign standard_variant = standard_product.selected_or_first_available_variant
+  assign custom_variant = custom_product.selected_or_first_available_variant
+
+  assign sizes_csv = block.settings.standard_sizes | default: 'XS,S,M,L,XL'
+  assign sizes = sizes_csv | split: ','
+
+  assign heading = block.settings.heading | default: 'Stitching Services'
+  assign size_chart_label = block.settings.size_chart_label
+  assign size_chart_link = block.settings.size_chart_link
+  assign cart_behavior = block.settings.cart_behavior | default: 'drawer'
+-%}
+
+<div id="StitchingServices-{{ section.id }}" class="stitching-services" data-cart-behavior="{{ cart_behavior }}"
+  {%- if standard_variant -%} data-standard-variant-id="{{ standard_variant.id }}" data-standard-price-cents="{{ standard_variant.price }}"{%- endif -%}
+  {%- if custom_variant -%} data-custom-variant-id="{{ custom_variant.id }}" data-custom-price-cents="{{ custom_variant.price }}"{%- endif -%}
+>
+  <div class="stitching-services__header">
+    <span class="stitching-services__title">{{ heading }}</span>
+    {%- if size_chart_label != blank and size_chart_link != blank -%}
+      <a class="stitching-services__size-chart" href="{{ size_chart_link }}" target="_blank" rel="noopener">{{ size_chart_label }}</a>
+    {%- endif -%}
+  </div>
+
+  <div class="stitching-services__options" role="radiogroup" aria-label="{{ heading | escape }}">
+    {%- if enable_unstitched -%}
+      <label class="stitching-radio">
+        <input type="radio" name="properties[Service]" value="Unstitched" form="{{ product_form_id }}" checked>
+        <span>Unstitched</span>
+        <span class="stitching-radio__price">+ {{ 0 | money }}</span>
+      </label>
+    {%- endif -%}
+
+    {%- if enable_standard and standard_variant -%}
+      <label class="stitching-radio">
+        <input type="radio" name="properties[Service]" value="Standard Stitching" form="{{ product_form_id }}" data-service="standard">
+        <span>Standard Stitching</span>
+        <span class="stitching-radio__price">+ {{ standard_variant.price | money }}</span>
+      </label>
+    {%- endif -%}
+
+    {%- if enable_custom and custom_variant -%}
+      <label class="stitching-radio">
+        <input type="radio" name="properties[Service]" value="Custom Stitching" form="{{ product_form_id }}" data-service="custom">
+        <span>Custom Stitching</span>
+        <span class="stitching-radio__price">+ {{ custom_variant.price | money }}</span>
+      </label>
+    {%- endif -%}
+  </div>
+
+  {%- if enable_standard and standard_variant -%}
+  <div class="stitching-standard" data-panel="standard" hidden>
+    <label class="form__label" for="StitchingSize-{{ section.id }}">Select size</label>
+    <select id="StitchingSize-{{ section.id }}" class="select" name="properties[Service Size]" form="{{ product_form_id }}">
+      <option value="" selected disabled>Choose size</option>
+      {%- for s in sizes -%}
+        {%- assign size_trim = s | strip -%}
+        <option value="{{ size_trim }}">{{ size_trim }}</option>
+      {%- endfor -%}
+    </select>
+  </div>
+  {%- endif -%}
+
+  {%- if enable_custom and custom_variant -%}
+  <div class="stitching-custom" data-panel="custom" hidden>
+    <div class="stitching-grid">
+      <div class="field">
+        <label for="MeasBust-{{ section.id }}" class="form__label">Bust (inches)</label>
+        <input id="MeasBust-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Bust]" form="{{ product_form_id }}" />
+      </div>
+      <div class="field">
+        <label for="MeasWaist-{{ section.id }}" class="form__label">Waist (inches)</label>
+        <input id="MeasWaist-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Waist]" form="{{ product_form_id }}" />
+      </div>
+      <div class="field">
+        <label for="MeasHip-{{ section.id }}" class="form__label">Hip (inches)</label>
+        <input id="MeasHip-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Hip]" form="{{ product_form_id }}" />
+      </div>
+      <div class="field">
+        <label for="MeasLength-{{ section.id }}" class="form__label">Blouse Length (inches)</label>
+        <input id="MeasLength-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Length]" form="{{ product_form_id }}" />
+      </div>
+      <div class="field">
+        <label for="MeasShoulder-{{ section.id }}" class="form__label">Shoulder (inches)</label>
+        <input id="MeasShoulder-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Shoulder]" form="{{ product_form_id }}" />
+      </div>
+      <div class="field">
+        <label for="MeasSleeve-{{ section.id }}" class="form__label">Sleeve Length (inches)</label>
+        <input id="MeasSleeve-{{ section.id }}" class="input" type="number" min="0" step="0.1" name="properties[Sleeve]" form="{{ product_form_id }}" />
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+
+  <div class="stitching-summary">
+    <span class="stitching-summary__label">Service price:</span>
+    <span class="stitching-summary__amount" data-stitching-price>{{ 0 | money }}</span>
+  </div>
+</div>
+
+<script src="{{ 'stitching.js' | asset_url }}" defer></script>
