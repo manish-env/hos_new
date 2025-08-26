@@ -559,14 +559,21 @@
                       }
                       function getExtrasUnit(){
                         var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
-                        if(!sel) return 0;
+                        if(!sel) {
+                          console.log('[DEBUG] No radio button selected');
+                          return 0;
+                        }
                         var raw = sel.getAttribute('data-extra-price') || '0';
                         var v = parseInt(raw, 10);
+                        console.log('[DEBUG] Selected option:', sel.value, 'Raw price:', raw, 'Parsed price:', v);
                         return isNaN(v) ? 0 : v;
                       }
                       function update(){
+                        console.log('[DEBUG] Update function called');
                         var qty = getQuantity();
                         var extras = getExtrasUnit() * qty; // apply service per quantity
+                        console.log('[DEBUG] Quantity:', qty, 'Extras total:', extras);
+                        
                         try {
                           var sel = root.querySelector('.options-to-buy input[type="radio"]:checked');
                           var dbg = {
@@ -578,16 +585,34 @@
                           };
                           dbg.total = dbg.variantPrice * qty + dbg.extraUnit * qty;
                           console.debug('[OptionsToBuy] update', dbg);
-                        } catch(_e) {}
-                        if(extraEl){ extraEl.textContent = extras > 0 ? ' (+ ' + formatMoney(extras) + ')' : ''; }
+                        } catch(_e) {
+                          console.error('[DEBUG] Error in debug section:', _e);
+                        }
+                        
+                        if(extraEl){ 
+                          extraEl.textContent = extras > 0 ? ' (+ ' + formatMoney(extras) + ')' : ''; 
+                          console.log('[DEBUG] Updated extraEl with:', extraEl.textContent);
+                        }
+                        
                         var totalEl = document.getElementById('OptionsTotal-{{ section.id }}') || root.querySelector('.product-form__buttons .options-total__amount');
+                        console.log('[DEBUG] Total element found:', !!totalEl, 'ID searched:', 'OptionsTotal-{{ section.id }}');
+                        
                         if(totalEl){
                           var base = getCurrentVariantPrice();
                           var total = base * qty + extras;
                           totalEl.textContent = formatMoney(total);
-                          console.debug('[OptionsToBuy] Total updated to:', formatMoney(total), 'Base:', formatMoney(base * qty), 'Extras:', formatMoney(extras));
+                          console.log('[DEBUG] Total updated - Base:', formatMoney(base * qty), 'Extras:', formatMoney(extras), 'Final:', formatMoney(total));
                         } else {
                           console.warn('[OptionsToBuy] Total element not found. Looking for:', 'OptionsTotal-{{ section.id }}');
+                          // Try alternative selectors
+                          var altTotal = root.querySelector('.options-total__amount');
+                          console.log('[DEBUG] Alternative total element found:', !!altTotal);
+                          if(altTotal) {
+                            var base = getCurrentVariantPrice();
+                            var total = base * qty + extras;
+                            altTotal.textContent = formatMoney(total);
+                            console.log('[DEBUG] Updated alternative total element');
+                          }
                         }
                       }
                       // Ensure one service is selected by default BEFORE initial update
