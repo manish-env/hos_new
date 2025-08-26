@@ -43,7 +43,7 @@
   -%}
   {%- if section.settings.enable_topbar -%}
     <div class="footer-topbar">
-      <div class="page-width footer-topbar__inner">
+      <div class="page-width">
         {%- if section.settings.show_social_topbar and has_social_icons -%}
           <div class="footer-topbar__social">
             {%- render 'social-icons', class: 'footer__list-social' -%}
