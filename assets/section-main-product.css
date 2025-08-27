@@ -2006,3 +2006,69 @@ html.no-scroll, html.no-scroll body { overflow: hidden !important; }
   overflow: hidden;
   white-space: nowrap;
 }
+
+/* --- Similar by Chart ID carousel --- */
+.similar-by-chart { margin-top: 2.0rem; }
+.similar-by-chart .similar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(var(--color-foreground), 0.2);
+  margin-top: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+.similar-by-chart .similar-title {
+  font-size: 1.4rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.similar-by-chart .similar-nav { display: inline-flex; gap: 0.6rem; }
+.similar-by-chart .similar-btn {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(var(--color-foreground), 0.25);
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background var(--duration-short) ease, opacity var(--duration-short) ease;
+}
+.similar-by-chart .similar-btn:hover { background: rgba(var(--color-foreground), 0.06); }
+.similar-by-chart .similar-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+.similar-by-chart .similar-btn svg { width: 16px; height: 16px; }
+
+.similar-by-chart .similar-track-viewport {
+  overflow: hidden;
+  position: relative;
+}
+.similar-by-chart .similar-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.2rem; /* room for hidden scrollbar */
+}
+/* Hide scrollbar visually */
+.similar-by-chart .similar-track { scrollbar-width: none; }
+.similar-by-chart .similar-track::-webkit-scrollbar { display: none; height: 0; }
+
+.similar-by-chart .similar-item {
+  flex: 0 0 55%;
+  scroll-snap-align: start;
+}
+@media screen and (min-width: 480px) {
+  .similar-by-chart .similar-item { flex-basis: 40%; }
+}
+@media screen and (min-width: 750px) {
+  .similar-by-chart .similar-item { flex-basis: 28%; }
+}
+@media screen and (min-width: 990px) {
+  .similar-by-chart .similar-item { flex-basis: 22%; }
+}
