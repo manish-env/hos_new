@@ -435,6 +435,17 @@
             "page": ""
           }
         },
+        "collapsible_tab_XE8LEY": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "WHAT IS SEMI STITCHED ?",
+            "visibility_mode": "show_all",
+            "product_types": "SampleType",
+            "icon": "none",
+            "content": "<p>With Semi Stitched dress material, you will need to get the outfit tailored as per your size. The Semi-stitched material pieces come with a pattern, like the neck pattern, sleeves with embroidery/ pattern ,semi stitched skirt/bottom with the flair and beautiful border/hem which you will then easily be able to get it customised/adjusted as per your size. The finished / ready to wear outfit, once tailored as per your size will look just the same as on the model in the picture. All materials come with dupatta, salwar /churidar fabric as shown in the picture.</p>",
+            "page": ""
+          }
+        },
         "custom_liquid_HADfAx": {
           "type": "custom_liquid",
           "settings": {
@@ -454,6 +465,7 @@
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy",
         "collapsible_tab_wKhBQm",
+        "collapsible_tab_XE8LEY",
         "custom_liquid_HADfAx"
       ],
       "settings": {
