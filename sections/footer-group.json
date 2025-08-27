@@ -11,17 +11,6 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
-    "custom_liquid_4TyFDx": {
-      "type": "custom-liquid",
-      "custom_css": [],
-      "name": "t:sections.custom-liquid.presets.name",
-      "settings": {
-        "custom_liquid": "",
-        "color_scheme": "",
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
-    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -90,7 +79,6 @@
     }
   },
   "order": [
-    "custom_liquid_4TyFDx",
     "footer"
   ]
 }
