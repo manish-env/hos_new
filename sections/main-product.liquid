@@ -128,7 +128,11 @@
                         -%}
                         {%- if p_chart != '' and p_chart == current_chart -%}
                           <li class="similar-item">
-                            {% render 'card-product', card_product: p, media_aspect_ratio: settings.card_image_ratio, show_vendor: false %}
+                            <a class="similar-link" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+                              {%- if p.featured_media -%}
+                                {{ p.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', class: 'similar-img', alt: p.featured_media.alt | default: p.title }}
+                              {%- endif -%}
+                            </a>
                           </li>
                           {%- assign shown = shown | plus: 1 -%}
                           {%- if shown >= limit_n -%}{%- break -%}{%- endif -%}
@@ -577,13 +581,9 @@
                   <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
                     <details id="Details-{{ block.id }}-{{ section.id }}">
                       <summary>
-                        <div class="summary__title">
-                          {% render 'icon-accordion', icon: block.settings.icon %}
-                          <h2 class="h4 accordion__title inline-richtext">
-                            {{ block.settings.heading | default: block.settings.page.title | escape }}
-                          </h2>
-                        </div>
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                        <h2 class="h4 accordion__title inline-richtext">
+                          {{ block.settings.heading | default: block.settings.page.title | escape }}
+                        </h2>
                       </summary>
                       <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
                         {{ block.settings.content }}

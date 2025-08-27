@@ -2054,6 +2054,8 @@ html.no-scroll, html.no-scroll body { overflow: hidden !important; }
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   padding-bottom: 0.2rem; /* room for hidden scrollbar */
+  list-style: none; /* no bullets */
+  padding-left: 0; /* align to left edge under media */
 }
 /* Hide scrollbar visually */
 .similar-by-chart .similar-track { scrollbar-width: none; }
@@ -2062,6 +2064,20 @@ html.no-scroll, html.no-scroll body { overflow: hidden !important; }
 .similar-by-chart .similar-item {
   flex: 0 0 55%;
   scroll-snap-align: start;
+}
+.similar-by-chart .similar-link {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4; /* portrait */
+  background: rgba(var(--color-foreground), 0.04);
+  overflow: hidden;
+  border-radius: var(--card-corner-radius, 0px);
+}
+.similar-by-chart .similar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crop to portrait */
+  display: block;
 }
 @media screen and (min-width: 480px) {
   .similar-by-chart .similar-item { flex-basis: 40%; }
