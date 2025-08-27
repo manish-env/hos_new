@@ -386,6 +386,9 @@
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+    <!-- Wishlist persistence and UI sync -->
+    <script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
