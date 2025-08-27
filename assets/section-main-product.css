@@ -2008,6 +2008,14 @@ html.no-scroll, html.no-scroll body { overflow: hidden !important; }
 }
 
 /* --- Similar by Chart ID carousel --- */
+/* Visibility: show desktop instance only on tablet/desktop; show mobile instance only on mobile */
+@media screen and (max-width: 749px) {
+  .similar-by-chart--desktop { display: none !important; }
+}
+@media screen and (min-width: 750px) {
+  .similar-by-chart--mobile { display: none !important; }
+}
+
 .similar-by-chart { margin-top: 2.0rem; }
 .similar-by-chart .similar-header {
   display: flex;
