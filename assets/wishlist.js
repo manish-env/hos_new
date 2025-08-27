@@ -81,6 +81,11 @@
         icon.classList.toggle('fa-solid', !!active);
         icon.classList.toggle('fa-regular', !active);
       }
+      // Also support SVG-based heart wrapper
+      var svgWrap = btn.querySelector('.wishlist-svg');
+      if (svgWrap) {
+        svgWrap.classList.toggle('is-active', !!active);
+      }
     } catch(_e) {}
   }
 
@@ -140,6 +145,12 @@
       // Defer to ensure the inline script's class toggles are applied
       setTimeout(function(){
         try {
+          // If storage is not available, inform user and just sync UI (non-persistent)
+          if (!store) {
+            setBtnState(btn || { classList: { contains: function(){ return !!(detail && detail.active); } }, setAttribute: function(){} }, !!(detail && detail.active));
+            showToast('Wishlist is unavailable in this browser (storage disabled)');
+            return;
+          }
           var obj = getWishlist();
           var isActive = !!(btn && btn.classList.contains('active'));
           if (isActive) {

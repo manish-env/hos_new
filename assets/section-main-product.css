@@ -10,6 +10,54 @@
   row-gap: 0.8rem;
 }
 
+/* Wishlist (under main media) */
+.product__share-under-media {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+
+.product__share-right .product__wishlist-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  border-radius: 50%;
+  background: rgba(var(--color-background), 1);
+  color: rgb(var(--color-foreground));
+  transition: transform var(--duration-short) ease, border-color var(--duration-short) ease, background var(--duration-short) ease;
+}
+
+.product__share-right .product__wishlist-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(var(--color-foreground), 0.3);
+}
+
+.product__share-right .product__wishlist-btn:active {
+  transform: translateY(0);
+}
+
+.product__share-right .product__wishlist-btn .wishlist-svg .icon-heart {
+  display: block;
+  width: 18px;
+  height: 18px;
+  /* Inactive: outline only */
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.6px;
+}
+
+.product__share-right .product__wishlist-btn.active .wishlist-svg .icon-heart,
+.product__share-right .product__wishlist-btn .wishlist-svg.is-active .icon-heart {
+  /* Active: filled */
+  fill: currentColor;
+  stroke: currentColor;
+}
+
 /* Utility: ensure hidden actually hides within add-on block */
 .options-to-buy--addons .hidden { display: none !important; }
 

@@ -52,8 +52,12 @@
       data-product-price="{{ product.price }}"
       data-product-currency="{{ shop.currency }}"
       aria-label="Add to wishlist"
+      aria-pressed="false"
     >
-      <i class="fa-regular fa-heart" aria-hidden="true"></i>
+      {%- comment -%} Inline theme SVG icon instead of Font Awesome {%- endcomment -%}
+      <span class="wishlist-svg" aria-hidden="true">
+        {{ 'icon-heart.svg' | inline_asset_content }}
+      </span>
     </button>
   </div>
 </div>
@@ -78,18 +82,19 @@
         setTimeout(function(){ btn.classList.remove('copied'); }, 1500);
       } catch(_err) {}
     });
-    // Wishlist toggle and event dispatch
+    // Wishlist toggle and event dispatch (SVG-based)
     document.addEventListener('click', function(e){
       var w = e.target.closest && e.target.closest('.product__wishlist-btn');
       if(!w) return;
       var active = w.classList.toggle('active');
+      // Update aria attributes and optional svg state class
       try {
-        var icon = w.querySelector('i');
-        if (icon) {
-          icon.classList.toggle('fa-regular', !active);
-          icon.classList.toggle('fa-solid', active);
-        }
+        w.setAttribute('aria-pressed', String(!!active));
+        w.setAttribute('aria-label', active ? 'Remove from wishlist' : 'Add to wishlist');
+        var svgWrap = w.querySelector('.wishlist-svg');
+        if (svgWrap) svgWrap.classList.toggle('is-active', !!active);
       } catch(_e) {}
+      // Notify global wishlist handler
       try {
         var detail = { productId: w.getAttribute('data-product-id'), active: active };
         w.dispatchEvent(new CustomEvent('wishlist:toggle', { bubbles: true, detail: detail }));
