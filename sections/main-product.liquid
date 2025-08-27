@@ -159,7 +159,7 @@
                             <input
                               type="checkbox"
                               class="addon-services__input options-to-buy__input"
-                              name="properties[Add-on {{ i }}]"
+                              name="properties[{{ block.id }} - Add-on {{ i }}]"
                               value="{{ label | default: addon_product.title | escape }}"
                               form="{{ form_id }}"
                               {% if addon_variant.available %}data-addon-variant="{{ addon_variant.id }}"{% endif %}
@@ -189,7 +189,7 @@
                                       <input type="text"
                                         style="padding:6px;"
                                         class="input addon-extra-input"
-                                        name="properties[Service {{ i }} - {{ ilabel | escape }}]"
+                                        name="properties[{{ block.id }} - Service {{ i }} - {{ ilabel | escape }}]"
                                         placeholder="{{ ilabel }}"
                                         form="{{ form_id }}"
                                         disabled>
@@ -203,7 +203,7 @@
                                 {%- assign dd_csv = block.settings[dd_opts_key] | default: '' -%}
                                 {%- assign dd_list = dd_csv | split: ',' -%}
                                 <div class="addon-extra-field">
-                                  <select class="select addon-extra-input" name="properties[Service {{ i }} - {{ dd_label | escape }}]" form="{{ form_id }}" disabled style="padding:6px;">
+                                  <select class="select addon-extra-input" name="properties[{{ block.id }} - Service {{ i }} - {{ dd_label | escape }}]" form="{{ form_id }}" disabled style="padding:6px;">
                                     <option value="" disabled selected>{{ dd_label }}</option>
                                     {%- for opt in dd_list -%}
                                       {%- assign o = opt | strip -%}
@@ -1227,7 +1227,7 @@
     {
       "type": "addon_services",
       "name": "Add-on services",
-      "limit": 1,
+      "limit": 5,
       "settings": [
         { "type": "text", "id": "heading", "label": "Heading", "default": "Add-on Services" },
         { "type": "text", "id": "subtext", "label": "Subtext" },
