@@ -24,9 +24,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
   <div class="mxrc__inner">
-    {% if section.settings.heading != blank %}
-      <h2 class="mxrc__title">{{ section.settings.heading }}</h2>
-    {% endif %}
+    <!-- Great Vibes font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<h2 class="mxrc__title">{{ section.settings.heading }}</h2>
+
+<style>
+  #mxrc-{{ section.id }} .mxrc__title {
+    margin: 0 0 18px;
+    text-align: center;
+    font-family: 'Great Vibes', cursive !important;
+    font-size: 40px;
+    line-height: 1;
+    font-weight: 400;
+  }
+</style>
+
 
     <div class="mxrc__viewport" data-index="0" aria-roledescription="carousel" aria-label="Customer reviews">
       <button class="mxrc__arrow mxrc__arrow--prev" aria-label="Previous review" type="button">
