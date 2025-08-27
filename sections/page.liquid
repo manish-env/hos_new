@@ -16,16 +16,19 @@
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width">
+    {% comment %} Fallback to the current page if no page is selected in settings {% endcomment %}
+    {% assign pg = section.settings.page %}
+    {% if pg == blank %}{% assign pg = page %}{% endif %}
     <h2 class="page-title {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      {%- if section.settings.page.title != blank -%}
-        {{ section.settings.page.title | escape }}
+      {%- if pg and pg.title != blank -%}
+        {{ pg.title | escape }}
       {%- else -%}
         {{ 'sections.page.title' | t }}
       {%- endif -%}
     </h2>
     <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      {%- if section.settings.page.content != blank -%}
-        {{ section.settings.page.content }}
+      {%- if pg and pg.content != blank -%}
+        {{ pg.content }}
       {%- else -%}
         <div class="page-placeholder-wrapper placeholder">
           {{ 'page' | placeholder_svg_tag: 'page-placeholder' }}
