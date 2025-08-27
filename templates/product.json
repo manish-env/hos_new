@@ -26,6 +26,12 @@
             "price_align": "center"
           }
         },
+        "custom_liquid_eda7b9": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<!-- Load Font Awesome (if not already included in your theme) -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css\">\n\n<div style=\"display:flex; justify-content:space-between; align-items:center; margin:10px 0;\">\n  \n  <!-- Product Color from metafield -->\n  <span style=\"font-size:14px; color:#111;\">\n    Color: \n    {{ product.metafields.custom.color | default: 'N/A' }}\n  </span>\n\n  <!-- Free Shipping Badge -->\n  <span style=\"display:flex; align-items:center; font-size:14px; font-weight:500;\">\n    <i class=\"fa-solid fa-truck\" style=\"font-size:16px; margin-right:6px; color:#000;\"></i>\n    <span style=\"color:#ff00ff;\">FREE SHIPPING</span>\n  </span>\n\n</div>"
+          }
+        },
         "addon_services_rczpF7": {
           "type": "addon_services",
           "settings": {
@@ -501,17 +507,17 @@
             "item_6_dropdown_options": ""
           }
         },
-        "custom_liquid_eda7b9": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "<!-- Load Font Awesome (if not already included in your theme) -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css\">\n\n<div style=\"display:flex; justify-content:space-between; align-items:center; margin:10px 0;\">\n  \n  <!-- Product Color from metafield -->\n  <span style=\"font-size:14px; color:#111;\">\n    Color: \n    {{ product.metafields.custom.color | default: 'N/A' }}\n  </span>\n\n  <!-- Free Shipping Badge -->\n  <span style=\"display:flex; align-items:center; font-size:14px; font-weight:500;\">\n    <i class=\"fa-solid fa-truck\" style=\"font-size:16px; margin-right:6px; color:#000;\"></i>\n    <span style=\"color:#ff00ff;\">FREE SHIPPING</span>\n  </span>\n\n</div>"
-          }
-        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
             "picker_type": "button",
             "swatch_shape": "circle"
+          }
+        },
+        "custom_liquid_HADfAx": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% assign c  = product.metafields.custom.color %}\n{% assign f  = product.metafields.custom.fabric %}\n{% assign w  = product.metafields.custom.work %}\n{% assign cv = c.value | default: c %}\n{% assign fv = f.value | default: f %}\n{% assign wv = w.value | default: w %}\n\n<div class=\"mx-final\">\n\n  <div class=\"mx-specs\">\n    <div>\n      <div class=\"mx-label\">COLOUR</div>\n      <div class=\"mx-value\">{{ cv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">FABRIC</div>\n      <div class=\"mx-value\">{{ fv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">WORK</div>\n      <div class=\"mx-value\">{{ wv | default: '—' }}</div>\n    </div>\n  </div>\n\n  <hr class=\"mx-rule\">\n\n  <div class=\"mx-label\">SHIPPING INFORMATION</div>\n  <p class=\"mx-value\">This product will be shipped to you in <strong>12 – 15 days</strong> from the date of order placed.</p>\n</div>\n\n<style>\n  .mx-final{\n    margin-top:16px;\n    color:inherit;\n    font-family:inherit;\n  }\n\n  /* Labels */\n  .mx-final .mx-label{\n    font-size:16px;\n    font-weight:500;\n    margin:0 0 4px 0;\n    text-transform:uppercase;\n    letter-spacing:.03em;\n  }\n\n  /* Values / description */\n  .mx-final .mx-value{\n    font-size:15px;\n    font-weight:400;\n    margin:0 0 10px 0;\n    line-height:1.6;\n  }\n\n  /* Divider */\n  .mx-final .mx-rule{\n    border:0;\n    border-top:1px solid #00000022;\n    margin:12px 0;\n    height:0;\n  }\n\n  /* Specs grid */\n  .mx-final .mx-specs{\n    display:grid;\n    grid-template-columns:repeat(3,minmax(0,1fr));\n    gap:10px 16px;\n  }\n\n  @media(max-width:749px){\n    .mx-final .mx-specs{ grid-template-columns:1fr; }\n  }\n</style>"
           }
         },
         "buy_buttons": {
@@ -576,12 +582,6 @@
             "page": ""
           }
         },
-        "custom_liquid_HADfAx": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "{% assign c  = product.metafields.custom.color %}\n{% assign f  = product.metafields.custom.fabric %}\n{% assign w  = product.metafields.custom.work %}\n{% assign cv = c.value | default: c %}\n{% assign fv = f.value | default: f %}\n{% assign wv = w.value | default: w %}\n\n<div class=\"mx-final\">\n\n  <div class=\"mx-specs\">\n    <div>\n      <div class=\"mx-label\">COLOUR</div>\n      <div class=\"mx-value\">{{ cv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">FABRIC</div>\n      <div class=\"mx-value\">{{ fv | default: '—' }}</div>\n    </div>\n    <div>\n      <div class=\"mx-label\">WORK</div>\n      <div class=\"mx-value\">{{ wv | default: '—' }}</div>\n    </div>\n  </div>\n\n  <hr class=\"mx-rule\">\n\n  <div class=\"mx-label\">SHIPPING INFORMATION</div>\n  <p class=\"mx-value\">This product will be shipped to you in <strong>12 – 15 days</strong> from the date of order placed.</p>\n</div>\n\n<style>\n  .mx-final{\n    margin-top:16px;\n    color:inherit;\n    font-family:inherit;\n  }\n\n  /* Labels */\n  .mx-final .mx-label{\n    font-size:16px;\n    font-weight:500;\n    margin:0 0 4px 0;\n    text-transform:uppercase;\n    letter-spacing:.03em;\n  }\n\n  /* Values / description */\n  .mx-final .mx-value{\n    font-size:15px;\n    font-weight:400;\n    margin:0 0 10px 0;\n    line-height:1.6;\n  }\n\n  /* Divider */\n  .mx-final .mx-rule{\n    border:0;\n    border-top:1px solid #00000022;\n    margin:12px 0;\n    height:0;\n  }\n\n  /* Specs grid */\n  .mx-final .mx-specs{\n    display:grid;\n    grid-template-columns:repeat(3,minmax(0,1fr));\n    gap:10px 16px;\n  }\n\n  @media(max-width:749px){\n    .mx-final .mx-specs{ grid-template-columns:1fr; }\n  }\n</style>"
-          }
-        },
         "similar_by_chart_D4yCN7": {
           "type": "similar_by_chart",
           "settings": {
@@ -594,19 +594,19 @@
       "block_order": [
         "title",
         "price",
+        "custom_liquid_eda7b9",
         "addon_services_rczpF7",
         "addon_services_QhERr3",
         "addon_services_iBR3Ei",
         "addon_services_3kMkkD",
-        "custom_liquid_eda7b9",
         "variant_picker",
+        "custom_liquid_HADfAx",
         "buy_buttons",
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy",
         "collapsible_tab_aBMyxf",
         "collapsible_tab_wKhBQm",
         "collapsible_tab_XE8LEY",
-        "custom_liquid_HADfAx",
         "similar_by_chart_D4yCN7"
       ],
       "settings": {
@@ -643,10 +643,61 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "mx_reviews_nMgNCL": {
+      "type": "Mx-Reviews",
+      "blocks": {
+        "review_KKyGMh": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        },
+        "review_hQ6nep": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        },
+        "review_VgJJ3F": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        }
+      },
+      "block_order": [
+        "review_KKyGMh",
+        "review_hQ6nep",
+        "review_VgJJ3F"
+      ],
+      "name": "MX • Reviews",
+      "settings": {
+        "heading": "Customer Reviews",
+        "width_mode": "page",
+        "color_scheme": "background-1",
+        "quote_color": "#ff4fd4",
+        "text_color": "#222222",
+        "accent_color": "#22c55e",
+        "muted_color": "#7a7a7a",
+        "card_max": 640,
+        "pad_top": 28,
+        "pad_bottom": 28
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "mx_reviews_nMgNCL"
   ]
 }
