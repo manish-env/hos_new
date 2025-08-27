@@ -406,6 +406,8 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "DESCRIPTION",
+            "visibility_mode": "show_all",
+            "product_types": "SampleType",
             "icon": "none",
             "content": "<p>Discover the elegance of tradition blended with modern charm in this beautifully crafted saree. Designed for comfort and grace, it is perfect for festive occasions, weddings, parties, or everyday wear. The saree features a soft, breathable fabric that drapes effortlessly, offering both style and ease of movement.</p>",
             "page": ""
@@ -415,8 +417,21 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "WASH & CARE TIPS",
+            "visibility_mode": "show_all",
+            "product_types": "SampleType",
             "icon": "none",
             "content": "<p>Dry clean or gentle hand wash recommended</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_wKhBQm": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "WHAT SIZE CAN THIS BE STITCHED UPTO ?",
+            "visibility_mode": "only_types",
+            "product_types": "saree",
+            "icon": "none",
+            "content": "<p>This style can be stitched to fit upto bust size = 42 inches</p>",
             "page": ""
           }
         },
@@ -438,6 +453,7 @@
         "buy_buttons",
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy",
+        "collapsible_tab_wKhBQm",
         "custom_liquid_HADfAx"
       ],
       "settings": {
