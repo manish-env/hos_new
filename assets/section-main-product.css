@@ -1949,12 +1949,12 @@ a.product__text {
   left: 50%;
   transform: translate(-50%, -50%);
   background: #fff;
-  max-width: min(92vw, 920px);
-  max-height: 85vh;
-  width: 92vw;
   border-radius: 8px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  padding: 1.2rem 1.2rem 1.2rem 1.2rem;
+  padding: 15px; /* 15px padding around image */
+  width: auto; /* shrink to content width (image) */
+  max-width: calc(100vw - 30px); /* viewport minus padding on both sides */
+  max-height: calc(100vh - 30px);
   overflow: auto;
 }
 .addon-size-chart__dialog img {
@@ -1963,22 +1963,23 @@ a.product__text {
   height: auto;
 }
 .addon-size-chart__close {
-  position: sticky;
-  top: 0;
-  margin-left: auto;
+  position: absolute; /* place at right corner */
+  top: 8px;
+  right: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid rgba(0,0,0,0.15);
   background: #fff;
   color: #333;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  z-index: 2;
 }
 .addon-size-chart__close:hover,
 .addon-size-chart__close:focus { background: #f6f6f6; }
