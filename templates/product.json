@@ -643,10 +643,61 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "mx_reviews_nMgNCL": {
+      "type": "Mx-Reviews",
+      "blocks": {
+        "review_KKyGMh": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        },
+        "review_hQ6nep": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        },
+        "review_VgJJ3F": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        }
+      },
+      "block_order": [
+        "review_KKyGMh",
+        "review_hQ6nep",
+        "review_VgJJ3F"
+      ],
+      "name": "MX • Reviews",
+      "settings": {
+        "heading": "Customer Reviews",
+        "width_mode": "page",
+        "color_scheme": "background-1",
+        "quote_color": "#ff4fd4",
+        "text_color": "#222222",
+        "accent_color": "#22c55e",
+        "muted_color": "#7a7a7a",
+        "card_max": 640,
+        "pad_top": 28,
+        "pad_bottom": 28
+      }
     }
   },
   "order": [
     "main",
-    "related-products"
+    "related-products",
+    "mx_reviews_nMgNCL"
   ]
 }
