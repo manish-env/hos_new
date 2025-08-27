@@ -138,6 +138,18 @@
                   </ul>
                 </div>
               </div>
+              {%- if shown == 0 and request.design_mode -%}
+                <div class="similar-by-chart" {{ block.shopify_attributes }}>
+                  <div class="similar-header">
+                    <div class="similar-title">
+                      {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
+                    </div>
+                  </div>
+                  <p class="rte" style="opacity:.7; margin: .5rem 0 0;">
+                    No matching products found. Set a collection in block settings and ensure products share the metafield <code>custom.chart_id</code> with the current product.
+                  </p>
+                </div>
+              {%- endif -%}
               <script>
                 (function(){
                   var root = document.getElementById('{{ slider_id }}');
@@ -170,6 +182,17 @@
                   requestAnimationFrame(update);
                 })();
               </script>
+            {%- elsif request.design_mode -%}
+              <div class="similar-by-chart" {{ block.shopify_attributes }}>
+                <div class="similar-header">
+                  <div class="similar-title">
+                    {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
+                  </div>
+                </div>
+                <p class="rte" style="opacity:.7; margin: .5rem 0 0;">
+                  Add a source collection in this block and set the product metafield <code>custom.chart_id</code> to see similar products here.
+                </p>
+              </div>
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
