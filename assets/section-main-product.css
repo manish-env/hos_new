@@ -1912,22 +1912,23 @@ a.product__text {
 
 .options-to-buy__header .addon-size-chart__trigger {
   margin-left: auto; /* push to the right inside header */
-  font-size: 0.875rem;
+  font-size: 15px; /* requested font size */
+  font-weight: normal; /* requested weight */
   padding: 0.5rem 0.9rem;
-  border: 2px solid #C71E64 !important; /* brand pink */
-  color: #C71E64 !important;
+  border: 2px solid #FA05E8 !important; /* requested outline */
+  color: #000 !important; /* requested text color */
   background: transparent !important;
-  border-radius: 4px;
+  border-radius: 0; /* no border radius */
   line-height: 1;
   box-shadow: none !important;
   cursor: pointer;
 }
 .options-to-buy__header .addon-size-chart__trigger:hover,
 .options-to-buy__header .addon-size-chart__trigger:focus {
-  background: rgba(199,30,100,0.08);
+  background: rgba(250,5,232,0.08); /* subtle hover tint matching outline */
 }
 .options-to-buy__header .addon-size-chart__trigger:focus-visible {
-  outline: 2px solid #C71E64;
+  outline: 2px solid #FA05E8;
   outline-offset: 2px;
 }
 
@@ -1956,6 +1957,14 @@ a.product__text {
   max-width: calc(100vw - 30px); /* viewport minus padding on both sides */
   max-height: calc(100vh - 30px);
   overflow: auto;
+  /* Hide scrollbars but allow scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.addon-size-chart__dialog::-webkit-scrollbar { /* Chrome/Safari */
+  width: 0;
+  height: 0;
+  display: none;
 }
 .addon-size-chart__dialog img {
   display: block;
