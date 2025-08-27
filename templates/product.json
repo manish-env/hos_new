@@ -149,8 +149,8 @@
           "settings": {
             "heading": "Petticoat Or Inskirt",
             "subtext": "",
-            "visibility_mode": "show_all",
-            "product_types": "",
+            "visibility_mode": "only_types",
+            "product_types": "saree",
             "selection_mode": "single",
             "item_1_product": "",
             "item_1_handle": "",
