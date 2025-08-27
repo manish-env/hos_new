@@ -53,13 +53,6 @@
             "menu": "policies"
           }
         },
-        "link_list_6XBnJ6": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Quick links",
-            "menu": "company-policy"
-          }
-        },
         "company_details_LikeDiva": {
           "type": "company_details",
           "settings": {
@@ -76,7 +69,6 @@
         "link_list_TMNXpm",
         "link_list_AmeKcj",
         "link_list_XdjNfa",
-        "link_list_6XBnJ6",
         "company_details_LikeDiva"
       ],
       "settings": {
