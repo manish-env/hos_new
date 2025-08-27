@@ -24,20 +24,38 @@
 
   var store = getStore();
 
+  // Wishlist store structure: { [productId: string]: { id, title, url, image, price, currency, handle } }
   function getWishlist(){
-    if (!store) return new Set();
+    if (!store) return {};
     var raw = store.getItem(STORAGE_KEY);
-    var arr = Array.isArray(raw) ? raw : safeParse(raw, []);
-    if (!Array.isArray(arr)) arr = [];
-    return new Set(arr.map(String));
+    var obj = safeParse(raw, {});
+    return (obj && typeof obj === 'object') ? obj : {};
   }
 
-  function saveWishlist(set){
+  function saveWishlist(obj){
     if (!store) return;
-    try {
-      var arr = Array.from(set);
-      store.setItem(STORAGE_KEY, JSON.stringify(arr));
-    } catch(_e) {}
+    try { store.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(_e) {}
+  }
+
+  function hasInWishlist(obj, id){
+    id = String(id);
+    return !!(obj && Object.prototype.hasOwnProperty.call(obj, id));
+  }
+
+  function addToWishlist(obj, product){
+    if (!product || !product.id) return obj;
+    var id = String(product.id);
+    var next = Object.assign({}, obj);
+    next[id] = product;
+    return next;
+  }
+
+  function removeFromWishlist(obj, id){
+    id = String(id);
+    if (!obj || !Object.prototype.hasOwnProperty.call(obj, id)) return obj || {};
+    var next = Object.assign({}, obj);
+    delete next[id];
+    return next;
   }
 
   function updateHeaderIcon(hasAny){
@@ -102,14 +120,14 @@
   }
 
   function initButtonsFromStore(){
-    var set = getWishlist();
+    var storeObj = getWishlist();
     var buttons = document.querySelectorAll('.product__wishlist-btn[data-product-id]');
     buttons.forEach(function(btn){
       var id = btn.getAttribute('data-product-id');
-      var active = id && set.has(String(id));
+      var active = id && hasInWishlist(storeObj, id);
       setBtnState(btn, active);
     });
-    updateHeaderIcon(set.size > 0);
+    updateHeaderIcon(Object.keys(storeObj).length > 0);
   }
 
   // Persist when any wishlist button toggles (snippet dispatches this event already)
@@ -118,11 +136,34 @@
       var detail = e && e.detail || {};
       var id = detail.productId != null ? String(detail.productId) : null;
       if (!id) return;
-      var set = getWishlist();
-      if (detail.active) set.add(id); else set.delete(id);
-      saveWishlist(set);
-      updateHeaderIcon(set.size > 0);
-      showToast(detail.active ? 'Added to wishlist' : 'Removed from wishlist');
+      var btn = (e.target && e.target.closest) ? e.target.closest('.product__wishlist-btn[data-product-id]') : null;
+      // Defer to ensure the inline script's class toggles are applied
+      setTimeout(function(){
+        try {
+          var obj = getWishlist();
+          var isActive = !!(btn && btn.classList.contains('active'));
+          if (isActive) {
+            var product = {
+              id: id,
+              title: (btn && btn.getAttribute('data-product-title')) || '',
+              handle: (btn && btn.getAttribute('data-product-handle')) || '',
+              url: (btn && btn.getAttribute('data-product-url')) || '',
+              image: (btn && btn.getAttribute('data-product-image')) || '',
+              price: (btn && parseInt(btn.getAttribute('data-product-price') || '0', 10)) || 0,
+              currency: (btn && btn.getAttribute('data-product-currency')) || (window.Shopify && Shopify.currency && Shopify.currency.active) || ''
+            };
+            obj = addToWishlist(obj, product);
+            saveWishlist(obj);
+            updateHeaderIcon(true);
+            showToast('Added to wishlist');
+          } else {
+            obj = removeFromWishlist(obj, id);
+            saveWishlist(obj);
+            updateHeaderIcon(Object.keys(obj).length > 0);
+            showToast('Removed from wishlist');
+          }
+        } catch(_e) {}
+      }, 0);
     } catch(_e) {}
   }, true);
 
@@ -135,6 +176,8 @@
       try {
         var id = String(btn.getAttribute('data-product-id'));
         var active = btn.classList.contains('active');
+        // Ensure aria-pressed is updated on the clicked button as well
+        setBtnState(btn, active);
         // Sync all other buttons for same product id
         document.querySelectorAll('.product__wishlist-btn[data-product-id="' + CSS.escape(id) + '"]').forEach(function(other){
           if (other === btn) return;
@@ -153,8 +196,8 @@
 
   // Expose minimal API for debugging
   window.Wishlist = window.Wishlist || {
-    get: function(){ return Array.from(getWishlist()); },
-    clear: function(){ var s = getWishlist(); s.clear(); saveWishlist(s); updateHeaderIcon(false); },
-    has: function(id){ return getWishlist().has(String(id)); }
+    get: function(){ return getWishlist(); },
+    clear: function(){ saveWishlist({}); updateHeaderIcon(false); initButtonsFromStore(); },
+    has: function(id){ return hasInWishlist(getWishlist(), id); }
   };
 })();
