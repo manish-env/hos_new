@@ -2,6 +2,8 @@
   'use strict';
 
   var STORAGE_KEY = 'hos_wishlist';
+  var toastEl = null;
+  var toastTimer = null;
 
   function safeParse(json, fallback){
     try { return JSON.parse(json); } catch(_e) { return fallback; }
@@ -55,11 +57,47 @@
   function setBtnState(btn, active){
     try {
       btn.classList.toggle('active', !!active);
+      btn.setAttribute('aria-pressed', !!active);
       var icon = btn.querySelector('i');
       if (icon) {
         icon.classList.toggle('fa-solid', !!active);
         icon.classList.toggle('fa-regular', !active);
       }
+    } catch(_e) {}
+  }
+
+  function ensureToast(){
+    if (toastEl) return toastEl;
+    toastEl = document.createElement('div');
+    toastEl.setAttribute('role', 'status');
+    toastEl.setAttribute('aria-live', 'polite');
+    toastEl.style.position = 'fixed';
+    toastEl.style.left = '50%';
+    toastEl.style.bottom = '24px';
+    toastEl.style.transform = 'translateX(-50%)';
+    toastEl.style.zIndex = '2147483647';
+    toastEl.style.background = 'rgba(0,0,0,0.85)';
+    toastEl.style.color = '#fff';
+    toastEl.style.padding = '10px 14px';
+    toastEl.style.borderRadius = '8px';
+    toastEl.style.fontSize = '14px';
+    toastEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.25)';
+    toastEl.style.opacity = '0';
+    toastEl.style.pointerEvents = 'none';
+    toastEl.style.transition = 'opacity 200ms ease';
+    document.body.appendChild(toastEl);
+    return toastEl;
+  }
+
+  function showToast(message){
+    try {
+      var el = ensureToast();
+      el.textContent = message;
+      el.style.opacity = '1';
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function(){
+        el.style.opacity = '0';
+      }, 1600);
     } catch(_e) {}
   }
 
@@ -84,6 +122,7 @@
       if (detail.active) set.add(id); else set.delete(id);
       saveWishlist(set);
       updateHeaderIcon(set.size > 0);
+      showToast(detail.active ? 'Added to wishlist' : 'Removed from wishlist');
     } catch(_e) {}
   }, true);
 
