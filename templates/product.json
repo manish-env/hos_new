@@ -424,6 +424,17 @@
             "page": ""
           }
         },
+        "collapsible_tab_aBMyxf": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "PERFECT STITCHING, BOUTQUE STYLE.",
+            "visibility_mode": "show_all",
+            "product_types": "SampleType",
+            "icon": "none",
+            "content": "<p>Our inhouse specialist tailors try their best to stitch the style chosen by you in the most beautiful way. The stitching will be boutique style and will be done in a skillful way. </p>",
+            "page": ""
+          }
+        },
         "collapsible_tab_wKhBQm": {
           "type": "collapsible_tab",
           "settings": {
@@ -464,6 +475,7 @@
         "buy_buttons",
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy",
+        "collapsible_tab_aBMyxf",
         "collapsible_tab_wKhBQm",
         "collapsible_tab_XE8LEY",
         "custom_liquid_HADfAx"
