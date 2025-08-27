@@ -2079,6 +2079,11 @@ html.no-scroll, html.no-scroll body { overflow: hidden !important; }
   object-fit: cover; /* crop to portrait */
   display: block;
 }
+@media screen and (min-width: 750px) {
+  .product--thumbnail_left .product__media-wrapper .similar-by-chart {
+    margin-left: 12rem; /* same offset as gallery padding-left */
+  }
+}
 @media screen and (min-width: 480px) {
   .similar-by-chart .similar-item { flex-basis: 40%; }
 }
