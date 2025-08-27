@@ -249,20 +249,24 @@
                       var containers = root.querySelectorAll('.options-to-buy--addons');
                       containers.forEach(function(container){
                         var single = container.getAttribute('data-selection-mode') === 'single';
-                        var inputs = container.querySelectorAll('.addon-services__input');
-                        inputs.forEach(function(cb){
-                          cb.addEventListener('change', function(){
-                            if (single && cb.checked) {
-                              inputs.forEach(function(other){
-                                if (other !== cb && other.checked) {
-                                  other.checked = false;
-                                  updateExtrasFor(other);
-                                }
-                              });
-                            }
-                            updateExtrasFor(cb);
-                          });
-                          // init
+
+                        // Event delegation for reliable handling
+                        container.addEventListener('change', function(ev){
+                          var cb = ev.target && ev.target.closest && ev.target.closest('.addon-services__input');
+                          if (!cb || !container.contains(cb)) return;
+                          if (single && cb.checked) {
+                            container.querySelectorAll('.addon-services__input').forEach(function(other){
+                              if (other !== cb && other.checked) {
+                                other.checked = false;
+                                updateExtrasFor(other);
+                              }
+                            });
+                          }
+                          updateExtrasFor(cb);
+                        });
+
+                        // Apply initial state on load
+                        container.querySelectorAll('.addon-services__input').forEach(function(cb){
                           updateExtrasFor(cb);
                         });
                       });
@@ -796,64 +800,6 @@
     // Update price initially
     updatePriceDisplay();
     
-    // Modify form submission to handle add-on products (options_to_buy radio + addon_services checkboxes)
-    productForm.addEventListener('submit', function(e) {
-      var items = [];
-      var quantity = getQuantity();
-      var mainVariantIdInput = productForm.querySelector('input[name="id"]');
-      if(!mainVariantIdInput) return; // let default submit happen
-
-      var mainVariantId = parseInt(mainVariantIdInput.value, 10);
-
-      // Collect selected service (from options_to_buy radios if present)
-      var selectedOption = root.querySelector('.options-to-buy input[type="radio"]:checked');
-      var optionAddonVariantId = selectedOption ? selectedOption.getAttribute('data-addon-variant') : null;
-
-      // Collect add-on services from checkboxes
-      var checkboxNodes = root.querySelectorAll('.addon-services__input:checked[data-addon-variant]');
-      var checkboxAddonIds = [];
-      checkboxNodes.forEach(function(cb){
-        var vid = parseInt(cb.getAttribute('data-addon-variant'), 10);
-        if(vid && checkboxAddonIds.indexOf(vid) === -1) checkboxAddonIds.push(vid);
-      });
-
-      // If nothing extra selected and no option add-on, allow normal submit
-      if(!optionAddonVariantId && checkboxAddonIds.length === 0) return;
-
-      // Prevent default and use AJAX to add multiple items at once
-      e.preventDefault();
-
-      // Main product item (include selected service value as property when applicable)
-      var mainItem = { id: mainVariantId, quantity: quantity };
-      if(selectedOption) {
-        mainItem.properties = { 'Service': selectedOption.value };
-      }
-      items.push(mainItem);
-
-      // Add radio-selected add-on
-      if(optionAddonVariantId) {
-        items.push({ id: parseInt(optionAddonVariantId, 10), quantity: quantity });
-      }
-
-      // Add checkbox-selected add-ons
-      checkboxAddonIds.forEach(function(vid){
-        items.push({ id: vid, quantity: quantity });
-      });
-
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: items })
-      })
-      .then(function(res){ return res.ok ? res.json() : res.json().then(function(j){ throw j; }); })
-      .then(function(){
-        window.location.href = '/cart';
-      })
-      .catch(function(err){
-        console.error('Add to cart error', err);
-        productForm.submit();
-      });
-    });
   });
 })();
 </script>

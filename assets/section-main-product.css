@@ -10,6 +10,9 @@
   row-gap: 0.8rem;
 }
 
+/* Utility: ensure hidden actually hides within add-on block */
+.options-to-buy--addons .hidden { display: none !important; }
+
 .options-to-buy--addons .addon-extra-field { margin-bottom: 0; }
 
 .options-to-buy--addons .addon-extra-field:last-child {
