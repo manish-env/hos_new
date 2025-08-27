@@ -31,6 +31,7 @@
           "settings": {
             "heading": "Blouse Stitching",
             "subtext": "",
+            "size_chart_image": "shopify://shop_images/size_chart.png",
             "visibility_mode": "only_types",
             "product_types": "Saree",
             "selection_mode": "single",
