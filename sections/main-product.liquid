@@ -127,6 +127,9 @@
                   elsif mode == 'exclude_types'
                     assign show_block = match | not
                   endif
+                  if request.design_mode
+                    assign show_block = true
+                  endif
                 -%}
                 {%- if show_block -%}
                 <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }} data-selection-mode="{{ block.settings.selection_mode | default: 'multiple' }}">
