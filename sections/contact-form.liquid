@@ -6,16 +6,67 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  /* Contact grid layout */
+  .contact-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .contact-grid-{{ section.id }} .contact-grid__info {
+    background: var(--color-background, #fff);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .contact-grid-{{ section.id }} .contact-info__row {
+    margin: 10px 0;
+    line-height: 1.6;
+  }
+
+  .contact-grid-{{ section.id }} .contact-info__label {
+    font-weight: 600;
+    color: rgb(var(--color-foreground));
+    margin-right: 6px;
+  }
+
+  .contact-grid-{{ section.id }} .contact-info__heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+  }
+
+  .contact-grid-{{ section.id }} .contact-info__flag {
+    width: 22px;
+    height: 16px;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  @media screen and (min-width: 990px) {
+    .contact-grid-{{ section.id }} {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+      gap: 32px;
+    }
+    /* Ensure info left, form right */
+    .contact-grid-{{ section.id }} .contact-grid__info { order: 1; }
+    .contact-grid-{{ section.id }} .contact-grid__form { order: 2; }
+  }
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
+  <div class="contact page-width section-{{ section.id }}-padding">
     {%- if section.settings.heading != blank -%}
       <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {{ section.settings.heading }}
@@ -23,13 +74,38 @@
     {%- else -%}
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
     {%- endif -%}
-    {%- liquid
-      assign contact_form_class = 'isolate'
-      if settings.animations_reveal_on_scroll
-        assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
-      endif
-    -%}
-    {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+    <div class="contact-grid-{{ section.id }}">
+      <div class="contact-grid__info">
+        {%- if section.settings.info_title != blank or section.settings.info_flag != blank -%}
+          <div class="contact-info__heading">
+            {%- if section.settings.info_flag != blank -%}
+              <img class="contact-info__flag" src="{{ section.settings.info_flag | image_url: width: 44, height: 32 }}" alt="" loading="lazy">
+            {%- endif -%}
+            <span>{{ section.settings.info_title }}</span>
+          </div>
+        {%- endif -%}
+        <div class="rte contact-info__content">
+          {%- if section.settings.info_richtext != blank -%}
+            {{ section.settings.info_richtext }}
+          {%- else -%}
+            <div class="contact-info__row"><span class="contact-info__label">Call us on:</span> (+44) 7458342886</div>
+            <div class="contact-info__row"><span class="contact-info__label">WhatsApp us on:</span> (+44) 7458342886</div>
+            <div class="contact-info__row"><span class="contact-info__label">Email:</span> sales@likeadiva.com</div>
+            <div class="contact-info__row"><span class="contact-info__label">Address:</span> 3.22 Qwest, Great West Road, Brentford</div>
+            <div class="contact-info__row"><span class="contact-info__label">Pincode / Zipcode:</span> TW8 0GP</div>
+            <div class="contact-info__row"><span class="contact-info__label">City:</span> London</div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- liquid
+        assign contact_form_class = 'isolate'
+        if settings.animations_reveal_on_scroll
+          assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
+        endif
+      -%}
+      <div class="contact-grid__form">
+      {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
       {%- if form.posted_successfully? -%}
         <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
           {{- 'icon-success.svg' | inline_asset_content -}}
@@ -131,7 +207,9 @@
           {{ 'templates.contact.form.send' | t }}
         </button>
       </div>
-    {%- endform -%}
+      {%- endform -%}
+      </div>
+    </div>
   </div>
 </div>
 
@@ -149,6 +227,23 @@
       "id": "heading",
       "default": "t:sections.contact-form.settings.title.default",
       "label": "t:sections.contact-form.settings.title.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "info_title",
+      "label": "Info title (left column)",
+      "default": "FOR SALE ENQUIRIES"
+    },
+    {
+      "type": "image_picker",
+      "id": "info_flag",
+      "label": "Info flag image (optional)"
+    },
+    {
+      "type": "richtext",
+      "id": "info_richtext",
+      "label": "Info content (left column)",
+      "default": "<p><strong>Call us on:</strong> (+44) 7458342886</p><p><strong>WhatsApp us on:</strong> (+44) 7458342886</p><p><strong>Email:</strong> sales@likeadiva.com</p><p><strong>Address:</strong> 3.22 Qwest, Great West Road, Brentford</p><p><strong>Pincode / Zipcode:</strong> TW8 0GP</p><p><strong>City:</strong> London</p>"
     },
     {
       "type": "select",
