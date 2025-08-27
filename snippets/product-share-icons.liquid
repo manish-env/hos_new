@@ -47,7 +47,7 @@
       data-product-title="{{ product.title | strip | escape }}"
       data-product-handle="{{ product.handle }}"
       data-product-url="{{ product.url | prepend: request.origin }}"
-      data-product-image="{{ (product.featured_image | default: product.images.first) | image_url: width: 400 }}"
+      data-product-image="{{ _image | image_url: width: 400 }}"
       data-product-price="{{ product.price }}"
       data-product-currency="{{ shop.currency }}"
       aria-label="Add to wishlist"
