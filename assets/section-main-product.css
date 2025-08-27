@@ -1922,6 +1922,9 @@ a.product__text {
   line-height: 1;
   box-shadow: none !important;
   cursor: pointer;
+  display: inline-flex; /* align icon + text */
+  align-items: center;
+  gap: 8px;
 }
 .options-to-buy__header .addon-size-chart__trigger:hover,
 .options-to-buy__header .addon-size-chart__trigger:focus {
@@ -1930,6 +1933,14 @@ a.product__text {
 .options-to-buy__header .addon-size-chart__trigger:focus-visible {
   outline: 2px solid #FA05E8;
   outline-offset: 2px;
+}
+
+/* Icon inside the Size Chart button */
+.options-to-buy__header .addon-size-chart__trigger .addon-size-chart__icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: currentColor; /* keep icon same color as text */
 }
 
 /* Custom Size Chart Modal */
