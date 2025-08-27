@@ -137,23 +137,46 @@
                   <div class="options-to-buy__header">
                     <span class="options-to-buy__title">{{ block.settings.heading | default: 'Add-on Services' }}</span>
                     {%- if block.settings.size_chart_image != blank -%}
-                      <button type="button" id="addon-size-chart-trigger-{{ block.id }}" class="button button--tertiary addon-size-chart__trigger" aria-haspopup="dialog" aria-controls="addon-size-chart-{{ block.id }}">
-                        Size Chart
-                      </button>
+                      <modal-opener
+                        class="product-popup-modal__opener"
+                        data-modal="#AddonSizeChartModal-{{ block.id }}"
+                      >
+                        <button
+                          id="AddonSizeChartTrigger-{{ block.id }}"
+                          class="product-popup-modal__button link addon-size-chart__trigger"
+                          type="button"
+                          aria-haspopup="dialog"
+                        >
+                          Size Chart
+                        </button>
+                      </modal-opener>
                     {%- endif -%}
                   {%- if block.settings.subtext != blank -%}
                     <p class="options-to-buy__subtext">{{ block.settings.subtext }}</p>
                   {%- endif -%}
                   </div>
                   {%- if block.settings.size_chart_image != blank -%}
-                    <div id="addon-size-chart-{{ block.id }}" class="addon-size-chart__modal" hidden>
-                      <div class="addon-size-chart__overlay" data-close></div>
-                      <div class="addon-size-chart__dialog" role="dialog" aria-modal="true" aria-labelledby="addon-size-chart-title-{{ block.id }}">
-                        <button type="button" class="addon-size-chart__close" aria-label="Close" data-close>&times;</button>
-                        <h3 id="addon-size-chart-title-{{ block.id }}" class="visually-hidden">Size chart</h3>
-                        <img src="{{ block.settings.size_chart_image | image_url: width: 1600 }}" alt="Size chart" loading="lazy">
+                    <modal-dialog id="AddonSizeChartModal-{{ block.id }}" class="product-popup-modal">
+                      <div
+                        role="dialog"
+                        aria-label="Size chart"
+                        aria-modal="true"
+                        class="product-popup-modal__content"
+                        tabindex="-1"
+                      >
+                        <button
+                          id="AddonSizeChartClose-{{ block.id }}"
+                          type="button"
+                          class="product-popup-modal__toggle"
+                          aria-label="{{ 'accessibility.close' | t }}"
+                        >
+                          {{- 'icon-close.svg' | inline_asset_content -}}
+                        </button>
+                        <div class="product-popup-modal__content-info">
+                          <img src="{{ block.settings.size_chart_image | image_url: width: 1600 }}" alt="Size chart" loading="lazy">
+                        </div>
                       </div>
-                    </div>
+                    </modal-dialog>
                   {%- endif -%}
                   <ul class="options-to-buy__list" role="list">
                     {%- for i in (1..6) -%}
@@ -244,35 +267,6 @@
                   </ul>
                   <script>
                     (function(){
-                      // Size chart modal open/close (one per add-on services block)
-                      try {
-                        var trigger = document.getElementById('addon-size-chart-trigger-{{ block.id }}');
-                        var modal = document.getElementById('addon-size-chart-{{ block.id }}');
-                        if (trigger && modal) {
-                          var openModal = function(){
-                            // Move modal to body to avoid transformed ancestors affecting positioning
-                            if (modal.parentNode !== document.body) {
-                              document.body.appendChild(modal);
-                            }
-                            modal.removeAttribute('hidden');
-                            document.documentElement.classList.add('no-scroll');
-                          };
-                          var closeModal = function(){
-                            modal.setAttribute('hidden','');
-                            document.documentElement.classList.remove('no-scroll');
-                          };
-                          trigger.addEventListener('click', openModal);
-                          modal.addEventListener('click', function(e){
-                            if (e.target.hasAttribute('data-close') || (e.target.closest && e.target.closest('[data-close]'))) {
-                              closeModal();
-                            }
-                          });
-                          document.addEventListener('keydown', function(e){
-                            if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
-                          });
-                        }
-                      } catch(e){}
-
                       function updateExtrasFor(checkbox){
                         var li = checkbox.closest('li');
                         if(!li) return;
