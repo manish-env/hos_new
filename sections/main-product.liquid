@@ -97,7 +97,7 @@
             -%}
             {%- if current_chart != '' and base_collection != blank -%}
               {%- assign slider_id = 'similar-' | append: block.id -%}
-              <div class="similar-by-chart" id="{{ slider_id }}" {{ block.shopify_attributes }}>
+              <div class="similar-by-chart similar-by-chart--desktop" id="{{ slider_id }}" {{ block.shopify_attributes }}>
                 <div class="similar-header">
                   <div class="similar-title">
                     {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
@@ -143,7 +143,7 @@
                 </div>
               </div>
               {%- if shown == 0 and request.design_mode -%}
-                <div class="similar-by-chart" {{ block.shopify_attributes }}>
+                <div class="similar-by-chart similar-by-chart--desktop" {{ block.shopify_attributes }}>
                   <div class="similar-header">
                     <div class="similar-title">
                       {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
@@ -187,7 +187,7 @@
                 })();
               </script>
             {%- elsif request.design_mode -%}
-              <div class="similar-by-chart" {{ block.shopify_attributes }}>
+              <div class="similar-by-chart similar-by-chart--desktop" {{ block.shopify_attributes }}>
                 <div class="similar-header">
                   <div class="similar-title">
                     {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
@@ -1220,6 +1220,128 @@
         <div class="product__share-under-details">
           {% render 'product-share-icons' %}
         </div>
+        {%- comment -%} Mobile-only Similar by Chart block placed below product info and share icons {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'similar_by_chart' -%}
+            {%- liquid
+              assign current_chart = ''
+              if product.metafields.custom.chart_id
+                if product.metafields.custom.chart_id.value
+                  assign current_chart = product.metafields.custom.chart_id.value | append: ''
+                else
+                  assign current_chart = product.metafields.custom.chart_id | append: ''
+                endif
+              endif
+              assign base_collection = block.settings.collection
+              if base_collection == blank and product.collections and product.collections.size > 0
+                assign base_collection = product.collections.first
+              endif
+              assign limit_n = block.settings.max_count | default: 8
+            -%}
+            {%- if current_chart != '' and base_collection != blank -%}
+              {%- assign slider_id_m = 'similar-mobile-' | append: block.id -%}
+              <div class="similar-by-chart similar-by-chart--mobile" id="{{ slider_id_m }}" {{ block.shopify_attributes }}>
+                <div class="similar-header">
+                  <div class="similar-title">
+                    {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
+                  </div>
+                  <div class="similar-nav">
+                    <button type="button" class="similar-btn prev" aria-label="Previous" disabled>
+                      {{- 'icon-caret.svg' | inline_asset_content -}}
+                    </button>
+                    <button type="button" class="similar-btn next" aria-label="Next">
+                      {{- 'icon-caret.svg' | inline_asset_content -}}
+                    </button>
+                  </div>
+                </div>
+                <div class="similar-track-viewport">
+                  <ul class="similar-track" role="list">
+                    {%- assign shown = 0 -%}
+                    {%- for p in base_collection.products -%}
+                      {%- if p.id != product.id -%}
+                        {%- liquid
+                          assign p_chart = ''
+                          if p.metafields.custom.chart_id
+                            if p.metafields.custom.chart_id.value
+                              assign p_chart = p.metafields.custom.chart_id.value | append: ''
+                            else
+                              assign p_chart = p.metafields.custom.chart_id | append: ''
+                            endif
+                          endif
+                        -%}
+                        {%- if p_chart != '' and p_chart == current_chart -%}
+                          <li class="similar-item">
+                            <a class="similar-link" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+                              {%- if p.featured_media -%}
+                                {{ p.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', class: 'similar-img', alt: p.featured_media.alt | default: p.title }}
+                              {%- endif -%}
+                            </a>
+                          </li>
+                          {%- assign shown = shown | plus: 1 -%}
+                          {%- if shown >= limit_n -%}{%- break -%}{%- endif -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </div>
+              <script>
+                (function(){
+                  var root = document.getElementById('{{ slider_id_m }}');
+                  if(!root) return;
+                  var vp = root.querySelector('.similar-track-viewport');
+                  var track = root.querySelector('.similar-track');
+                  var prev = root.querySelector('.similar-btn.prev');
+                  var next = root.querySelector('.similar-btn.next');
+                  if(!vp || !track || !prev || !next) return;
+                  function update(){
+                    var maxScroll = track.scrollWidth - vp.clientWidth;
+                    var x = vp.scrollLeft;
+                    prev.disabled = x <= 0;
+                    next.disabled = x >= maxScroll - 2;
+                    var nsvg = next.querySelector('svg');
+                    if(nsvg){ nsvg.style.transform = 'rotate(270deg)'; }
+                    var psvg = prev.querySelector('svg');
+                    if(psvg){ psvg.style.transform = 'rotate(90deg)'; }
+                  }
+                  function scrollByItems(dir){
+                    var item = track.querySelector('.similar-item');
+                    var step = item ? item.clientWidth + 16 : 280;
+                    vp.scrollBy({ left: dir * step, behavior: 'smooth' });
+                  }
+                  prev.addEventListener('click', function(){ scrollByItems(-1); });
+                  next.addEventListener('click', function(){ scrollByItems(1); });
+                  vp.addEventListener('scroll', update, { passive: true });
+                  window.addEventListener('resize', update);
+                  requestAnimationFrame(update);
+                })();
+              </script>
+              {%- if shown == 0 and request.design_mode -%}
+                <div class="similar-by-chart similar-by-chart--mobile" {{ block.shopify_attributes }}>
+                  <div class="similar-header">
+                    <div class="similar-title">
+                      {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
+                    </div>
+                  </div>
+                  <p class="rte" style="opacity:.7; margin: .5rem 0 0;">
+                    No matching products found. Set a collection in block settings and ensure products share the metafield <code>custom.chart_id</code> with the current product.
+                  </p>
+                </div>
+              {%- endif -%}
+              {%- elsif request.design_mode -%}
+                <div class="similar-by-chart similar-by-chart--mobile" {{ block.shopify_attributes }}>
+                  <div class="similar-header">
+                    <div class="similar-title">
+                      {{ block.settings.heading | default: 'Available Colours & Similar Styles' }}
+                    </div>
+                  </div>
+                  <p class="rte" style="opacity:.7; margin: .5rem 0 0;">
+                    Add a source collection in this block and set the product metafield <code>custom.chart_id</code> to see similar products here.
+                  </p>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
       </div>
     </div>
 
