@@ -1,0 +1,232 @@
+{% comment %}
+  MX — Reviews Carousel (single-slide)
+  - One review visible; others scroll with arrows
+  - Large decorative quotes around review
+  - Heading in Great Vibes
+  - Namespaced CSS/JS: mxrc-*
+{% endcomment %}
+
+<section id="mxrc-{{ section.id }}"
+  class="mxrc color-{{ section.settings.color_scheme }} {% if section.settings.width_mode == 'full' %}mxrc--full{% else %}mxrc--page{% endif %}"
+  style="
+    --mxrc-pad-top: {{ section.settings.pad_top }}px;
+    --mxrc-pad-bottom: {{ section.settings.pad_bottom }}px;
+    --mxrc-quote-color: {{ section.settings.quote_color }};
+    --mxrc-text: {{ section.settings.text_color }};
+    --mxrc-accent: {{ section.settings.accent_color }};
+    --mxrc-muted: {{ section.settings.muted_color }};
+    --mxrc-card-max: {{ section.settings.card_max }}px;
+  "
+>
+  <!-- Great Vibes for title -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <div class="mxrc__inner">
+    {% if section.settings.heading != blank %}
+      <h2 class="mxrc__title">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="mxrc__viewport" data-index="0" aria-roledescription="carousel" aria-label="Customer reviews">
+      <button class="mxrc__arrow mxrc__arrow--prev" aria-label="Previous review" type="button">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15.5 3.9 7.4 12l8.1 8.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <div class="mxrc__track">
+        {% for block in section.blocks %}
+          {% assign stars = block.settings.stars | default: 5 | at_least: 0 | at_most: 5 %}
+          <article class="mxrc__slide" {{ block.shopify_attributes }} role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}">
+            <div class="mxrc__card">
+              <div class="mxrc__quote">
+                <p class="mxrc__text">{{ block.settings.review | escape }}</p>
+              </div>
+
+              <div class="mxrc__rating" aria-label="{{ stars }} out of 5 stars">
+                {% for i in (1..5) %}
+                  {% if i <= stars %}
+                    <svg class="mxrc__star" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 17.3l-6 3.5 1.6-6.7L2 9.7l6.9-.6L12 2.8l3.1 6.3 6.9.6-5.6 4.4 1.6 6.7z"/></svg>
+                  {% else %}
+                    <svg class="mxrc__star mxrc__star--off" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 17.3l-6 3.5 1.6-6.7L2 9.7l6.9-.6L12 2.8l3.1 6.3 6.9.6-5.6 4.4 1.6 6.7z" /></svg>
+                  {% endif %}
+                {% endfor %}
+              </div>
+
+              <div class="mxrc__author">
+                {% if block.settings.name != blank %}
+                  <div class="mxrc__name">{{ block.settings.name }}</div>
+                {% endif %}
+                {% if block.settings.meta != blank %}
+                  <div class="mxrc__meta">{{ block.settings.meta }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <button class="mxrc__arrow mxrc__arrow--next" aria-label="Next review" type="button">
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8.5 3.9 16.6 12l-8.1 8.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <style>
+    /* ===== Namespaced styles ===== */
+    #mxrc-{{ section.id }} { padding-top: var(--mxrc-pad-top); padding-bottom: var(--mxrc-pad-bottom); color: var(--mxrc-text); }
+    #mxrc-{{ section.id }} .mxrc__inner { max-width: {% if section.settings.width_mode == 'full' %}var(--page-width, 1400px){% else %}var(--page-width, 1200px){% endif %}; margin: 0 auto; padding: 0 16px; }
+    #mxrc-{{ section.id }} .mxrc__title {
+      margin: 0 0 18px; text-align: center; font-family: 'Great Vibes', cursive; font-size: 40px; line-height: 1; font-weight: 400;
+    }
+
+    #mxrc-{{ section.id }} .mxrc__viewport {
+      position: relative; overflow: hidden; width: 100%;
+    }
+    #mxrc-{{ section.id }} .mxrc__track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 100%;
+      transition: transform .35s ease;
+    }
+    #mxrc-{{ section.id }} .mxrc__slide { display: flex; justify-content: center; padding: 8px 0; }
+    #mxrc-{{ section.id }} .mxrc__card {
+      max-width: var(--mxrc-card-max);
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Big decorative quotes */
+    #mxrc-{{ section.id }} .mxrc__quote {
+      position: relative; padding: 28px 14px 8px;
+    }
+    #mxrc-{{ section.id }} .mxrc__quote::before,
+    #mxrc-{{ section.id }} .mxrc__quote::after{
+      content: "“";
+      position: absolute; font-size: 72px; line-height: .7; color: var(--mxrc-quote-color); font-weight: 700; font-family: Georgia, serif; opacity:.95;
+    }
+    #mxrc-{{ section.id }} .mxrc__quote::before { left: -6px; top: -6px; }
+    #mxrc-{{ section.id }} .mxrc__quote::after  { content: "”"; right: -6px; bottom: -18px; transform: translateY(30%); }
+
+    #mxrc-{{ section.id }} .mxrc__text { margin: 0; font-size: 18px; line-height: 1.6; }
+    #mxrc-{{ section.id }} .mxrc__rating { margin-top: 14px; color: var(--mxrc-accent); }
+    #mxrc-{{ section.id }} .mxrc__star--off { opacity: .2; color: var(--mxrc-accent); }
+
+    #mxrc-{{ section.id }} .mxrc__author { margin-top: 10px; }
+    #mxrc-{{ section.id }} .mxrc__name { color: var(--mxrc-accent); font-weight: 600; }
+    #mxrc-{{ section.id }} .mxrc__meta { color: var(--mxrc-muted); font-style: italic; font-size: 14px; }
+
+    /* Arrows */
+    #mxrc-{{ section.id }} .mxrc__arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #9a9a9a;
+      width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer; transition: color .2s ease, transform .2s ease;
+    }
+    #mxrc-{{ section.id }} .mxrc__arrow:hover { color: #666; transform: translateY(-50%) scale(1.05); }
+    #mxrc-{{ section.id }} .mxrc__arrow--prev { left: 8px; }
+    #mxrc-{{ section.id }} .mxrc__arrow--next { right: 8px; }
+
+    /* Responsiveness */
+    @media (max-width: 768px){
+      #mxrc-{{ section.id }} .mxrc__title { font-size: 34px; }
+      #mxrc-{{ section.id }} .mxrc__quote::before { left: -2px; top: -4px; font-size: 64px; }
+      #mxrc-{{ section.id }} .mxrc__quote::after  { right: -2px; bottom: -12px; font-size: 64px; }
+      #mxrc-{{ section.id }} .mxrc__text { font-size: 16px; }
+    }
+    @media (max-width: 480px){
+      #mxrc-{{ section.id }} .mxrc__title { font-size: 30px; }
+      #mxrc-{{ section.id }} .mxrc__arrow { width: 38px; height: 38px; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const root = document.getElementById('mxrc-{{ section.id }}');
+      const viewport = root.querySelector('.mxrc__viewport');
+      const track = root.querySelector('.mxrc__track');
+      const slides = root.querySelectorAll('.mxrc__slide');
+      const prev = root.querySelector('.mxrc__arrow--prev');
+      const next = root.querySelector('.mxrc__arrow--next');
+      if (!slides.length) return;
+
+      function clamp(n, min, max){ return Math.max(min, Math.min(n, max)); }
+      function goTo(i){
+        const max = slides.length - 1;
+        const idx = clamp(i, 0, max);
+        viewport.dataset.index = idx;
+        track.style.transform = 'translateX(' + (-idx * 100) + '%)';
+      }
+
+      prev.addEventListener('click', () => {
+        let i = parseInt(viewport.dataset.index||'0', 10) - 1;
+        if (i < 0) i = slides.length - 1; // loop
+        goTo(i);
+      });
+      next.addEventListener('click', () => {
+        let i = parseInt(viewport.dataset.index||'0', 10) + 1;
+        if (i > slides.length - 1) i = 0; // loop
+        goTo(i);
+      });
+
+      // Update position on resize to keep exact slide width
+      let to; window.addEventListener('resize', () => { clearTimeout(to); to = setTimeout(() => goTo(parseInt(viewport.dataset.index||'0',10)), 120); });
+
+      // Init
+      goTo(0);
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "MX • Reviews Carousel2",
+  "tag": "section",
+  "class": "mxrc-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
+    {
+      "type": "radio", "id": "width_mode", "label": "Width",
+      "options": [ { "value": "page", "label": "Page width" }, { "value": "full", "label": "Full width" } ],
+      "default": "page"
+    },
+    { "type": "select", "id": "color_scheme", "label": "Color scheme",
+      "options": [
+        { "value": "background-1", "label": "Background 1" },
+        { "value": "background-2", "label": "Background 2" },
+        { "value": "inverse", "label": "Inverse" }
+      ],
+      "default": "background-1"
+    },
+    { "type": "color", "id": "quote_color", "label": "Quote color", "default": "#ff4fd4" },
+    { "type": "color", "id": "text_color", "label": "Main text color", "default": "#222222" },
+    { "type": "color", "id": "accent_color", "label": "Accent (stars & name)", "default": "#22c55e" },
+    { "type": "color", "id": "muted_color", "label": "Muted (location)", "default": "#7a7a7a" },
+    { "type": "range", "id": "card_max", "label": "Max text width (px)", "min": 420, "max": 820, "step": 10, "default": 640 },
+    { "type": "range", "id": "pad_top", "label": "Top padding (px)", "min": 0, "max": 100, "step": 2, "default": 28 },
+    { "type": "range", "id": "pad_bottom", "label": "Bottom padding (px)", "min": 0, "max": 100, "step": 2, "default": 28 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "review", "label": "Review text", "default": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you." },
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Kulwinder K Samrai" },
+        { "type": "text", "id": "meta", "label": "Location / Meta", "default": "Gravesend, United Kingdom" },
+        { "type": "range", "id": "stars", "label": "Stars", "min": 0, "max": 5, "step": 1, "default": 5 }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "MX • Reviews Carousel2",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
