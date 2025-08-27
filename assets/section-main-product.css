@@ -2052,22 +2052,21 @@ html.no-scroll, html.no-scroll body { overflow: hidden !important; }
 .similar-by-chart .similar-btn svg { width: 16px; height: 16px; }
 
 .similar-by-chart .similar-track-viewport {
-  overflow: hidden;
+  overflow-x: auto; /* make viewport the scroller */
+  -webkit-overflow-scrolling: touch;
   position: relative;
+  scroll-snap-type: x mandatory; /* snapping on the scroll container */
 }
 .similar-by-chart .similar-track {
   display: flex;
   gap: 1rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
   padding-bottom: 0.2rem; /* room for hidden scrollbar */
   list-style: none; /* no bullets */
   padding-left: 0; /* align to left edge under media */
 }
-/* Hide scrollbar visually */
-.similar-by-chart .similar-track { scrollbar-width: none; }
-.similar-by-chart .similar-track::-webkit-scrollbar { display: none; height: 0; }
+/* Hide scrollbar visually on the viewport */
+.similar-by-chart .similar-track-viewport { scrollbar-width: none; }
+.similar-by-chart .similar-track-viewport::-webkit-scrollbar { display: none; height: 0; }
 
 .similar-by-chart .similar-item {
   flex: 0 0 55%;
