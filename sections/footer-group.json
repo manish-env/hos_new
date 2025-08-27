@@ -11,6 +11,17 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "custom_liquid_4TyFDx": {
+      "type": "custom-liquid",
+      "custom_css": [],
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -39,7 +50,7 @@
           "type": "link_list",
           "settings": {
             "heading": "POLICIES",
-            "menu": "company-policy"
+            "menu": "policies"
           }
         },
         "company_details_LikeDiva": {
@@ -66,7 +77,7 @@
         "color_scheme": "scheme-3e78b1ec-65f4-45e8-a095-4471902bc7e2",
         "newsletter_enable": true,
         "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
+        "enable_follow_on_shop": false,
         "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false,
@@ -79,6 +90,7 @@
     }
   },
   "order": [
+    "custom_liquid_4TyFDx",
     "footer"
   ]
 }
