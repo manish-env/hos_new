@@ -1909,3 +1909,24 @@ a.product__text {
   font-size: 1.2rem;
   color: rgba(var(--color-foreground), 0.6);
 }
+
+.options-to-buy__header .addon-size-chart__trigger {
+  margin-left: auto; /* push to the right inside header */
+  font-size: 0.875rem;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid #C71E64 !important; /* brand pink */
+  color: #C71E64 !important;
+  background: transparent !important;
+  border-radius: 4px;
+  line-height: 1;
+  box-shadow: none !important;
+  cursor: pointer;
+}
+.options-to-buy__header .addon-size-chart__trigger:hover,
+.options-to-buy__header .addon-size-chart__trigger:focus {
+  background: rgba(199,30,100,0.08);
+}
+.options-to-buy__header .addon-size-chart__trigger:focus-visible {
+  outline: 2px solid #C71E64;
+  outline-offset: 2px;
+}

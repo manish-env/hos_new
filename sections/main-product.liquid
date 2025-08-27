@@ -250,6 +250,10 @@
                         var modal = document.getElementById('addon-size-chart-{{ block.id }}');
                         if (trigger && modal) {
                           var openModal = function(){
+                            // Move modal to body to avoid transformed ancestors affecting positioning
+                            if (modal.parentNode !== document.body) {
+                              document.body.appendChild(modal);
+                            }
                             modal.removeAttribute('hidden');
                             document.documentElement.classList.add('no-scroll');
                           };
