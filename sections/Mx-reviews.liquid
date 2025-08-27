@@ -1,0 +1,247 @@
+{% comment %} LDMX – Video 50% + Reviews 50% (quotes fixed, name color #FA05E8) {% endcomment %}
+{%- assign ldmx_id = section.id -%}
+<section class="ldmx-wrap" data-ldmx="{{ ldmx_id }}"
+  style="padding-top: {{ section.settings.pad_top | default: 48 }}px; padding-bottom: {{ section.settings.pad_bottom | default: 48 }}px;">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ===== Scoped Vars ===== */
+    [data-ldmx="{{ ldmx_id }}"]{
+      --ldmx-accent: {{ section.settings.accent_color }};
+      --ldmx-text:#222;
+      --ldmx-muted:#666;
+    }
+
+    /* ===== Layout (page width) ===== */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-container.page-width{margin-inline:auto;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr; /* 50% / 50% */
+      gap:32px;
+      align-items:start;
+    }
+    @media(max-width: 992px){
+      [data-ldmx="{{ ldmx_id }}"] .ldmx-grid{grid-template-columns:1fr; gap:24px;}
+    }
+
+    /* Columns as vertical stacks so titles align */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-col{display:flex; flex-direction:column; align-items:stretch;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-title{
+      margin:0 0 12px; line-height:1.1; text-align:center;
+      font-size:clamp(26px, 3.2vw, 40px);
+      color:var(--ldmx-text);
+      min-height:1.3em;
+    }
+    /* Great Vibes on reviews title */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-title-rev{
+      font-family:'Great Vibes', cursive !important;
+      font-weight:400 !important;
+      font-size:clamp(30px, 3.6vw, 46px);
+    }
+
+    /* ===== Video (no border, no radius) ===== */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame{
+      position:relative; width:100%;
+      aspect-ratio: 16 / 9;
+      overflow:hidden;
+      border:none; border-radius:0;
+      background:#000;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame iframe,
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-media-frame video{
+      width:100%; height:100%; display:block; object-fit:cover; border:0; outline:0; border-radius:0;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-poster{position:absolute; inset:0; background:#000 center/cover no-repeat;}
+
+    /* ===== Reviews ===== */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-carousel{position:relative; overflow:hidden; width:100%;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-track{display:flex; transition:transform .4s ease; will-change: transform;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide{
+      flex:0 0 100%;
+      min-width:100%;
+      position:relative;
+      overflow:hidden;               /* clips its own content—no peeking */
+      box-sizing:border-box;
+      padding:28px 40px 40px;        /* space so quotes never get cut */
+    }
+    /* Quotes belong to the SLIDE (not the inner review) so they can't be clipped */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:before,
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:after{
+      position:absolute; color:var(--ldmx-accent); opacity:.9; line-height:1;
+      font-family:Georgia, serif; font-weight:700; pointer-events:none; z-index:0;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:before{content:"“"; left:10px; top:6px; font-size:78px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-slide:after{content:"”"; right:10px; bottom:6px; font-size:78px;}
+
+    /* review content sits above quotes */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-review{position:relative; z-index:1; max-width:700px; width:100%; margin:0 auto; text-align:center;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-text{font-size:16px; line-height:1.8; color:var(--ldmx-text); margin-bottom:14px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-stars{color:#21a956; letter-spacing:1px; font-size:18px; margin:6px 0 8px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-author{margin-top:6px; font-weight:700; color:#FA05E8;} /* <-- requested color */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-meta{font-size:13px; color:#757575; font-style:italic;}
+
+    /* arrows */
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-nav{position:absolute; inset:0; pointer-events:none;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-btn{
+      pointer-events:auto; position:absolute; top:50%; transform:translateY(-50%);
+      width:42px; height:42px; border-radius:999px; background:transparent; border:none;
+    }
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-btn i{font-size:22px; color:#9b9b9b;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-prev{left:6px;}
+    [data-ldmx="{{ ldmx_id }}"] .ldmx-next{right:6px;}
+  </style>
+
+  <div class="ldmx-container page-width">
+    <div class="ldmx-grid">
+
+      <!-- LEFT: VIDEO (50%) -->
+      <div class="ldmx-col">
+        <h2 class="ldmx-title ldmx-title-media">{{ section.settings.media_title }}</h2>
+        <div class="ldmx-media-frame">
+          {%- if section.settings.video_url != blank -%}
+            {%- assign v = section.settings.video_url -%}
+            {%- if v.type == "youtube" -%}
+              <iframe src="https://www.youtube.com/embed/{{ v.id }}?rel=0&modestbranding=1&playsinline=1&autoplay={{ section.settings.autoplay | json | replace: 'true','1' | replace: 'false','0' }}&mute={{ section.settings.muted | json | replace: 'true','1' | replace: 'false','0' }}&loop={{ section.settings.loop | json | replace: 'true','1' | replace: 'false','0' }}"
+                      allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
+            {%- elsif v.type == "vimeo" -%}
+              <iframe src="https://player.vimeo.com/video/{{ v.id }}?autoplay={{ section.settings.autoplay | json | replace: 'true','1' | replace: 'false','0' }}&muted={{ section.settings.muted | json | replace: 'true','1' | replace: 'false','0' }}&loop={{ section.settings.loop | json | replace: 'true','1' | replace: 'false','0' }}"
+                      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            {%- endif -%}
+          {%- elsif section.settings.video != blank -%}
+            {{ section.settings.video
+              | video_tag:
+                controls: section.settings.controls,
+                autoplay: section.settings.autoplay,
+                loop: section.settings.loop,
+                muted: section.settings.muted,
+                playsinline: true
+            }}
+          {%- elsif section.settings.video_mp4 != blank -%}
+            <video
+              src="{{ section.settings.video_mp4 }}"
+              {% if section.settings.autoplay %}autoplay{% endif %}
+              {% if section.settings.loop %}loop{% endif %}
+              {% if section.settings.muted %}muted{% endif %}
+              {% if section.settings.controls %}controls{% endif %}
+              playsinline></video>
+            {% if section.settings.poster_image != blank %}
+              <span class="ldmx-poster" style="background-image:url('{{ section.settings.poster_image | image_url: width: 1200 }}');"></span>
+            {% endif %}
+          {%- else -%}
+            <div style="position:absolute; inset:0; display:grid; place-items:center; color:#aaa; font-size:14px; background:#111;">Add a video in settings</div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- RIGHT: REVIEWS (50%) -->
+      <div class="ldmx-col">
+        <h2 class="ldmx-title ldmx-title-rev" style="font-family:'Great Vibes',cursive !important;font-weight:400 !important;">
+          {{ section.settings.reviews_title }}
+        </h2>
+
+        <div class="ldmx-carousel" id="ldmx-cr-{{ ldmx_id }}">
+          <div class="ldmx-track">
+            {% for block in section.blocks %}
+              {% if block.type == 'review' %}
+              <div class="ldmx-slide">
+                <div class="ldmx-review">
+                  <div class="ldmx-text">{{ block.settings.text }}</div>
+                  {% if section.settings.show_stars %}
+                    <div class="ldmx-stars">
+                      {% assign s = block.settings.stars | default: 5 %}
+                      {% for i in (1..s) %}<i class="fa-solid fa-star"></i>{% endfor %}
+                    </div>
+                  {% endif %}
+                  <div class="ldmx-author">{{ block.settings.author }}</div>
+                  <div class="ldmx-meta">
+                    {% if block.settings.location %}{{ block.settings.location }}{% endif %}
+                    {% if block.settings.date %} · {{ block.settings.date }}{% endif %}
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if section.blocks.size > 1 %}
+          <div class="ldmx-nav">
+            <button class="ldmx-btn ldmx-prev" type="button" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="ldmx-btn ldmx-next" type="button" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const root = document.querySelector('[data-ldmx="{{ ldmx_id }}"]');
+      if(!root) return;
+      const car = root.querySelector('#ldmx-cr-{{ ldmx_id }}');
+      if(!car) return;
+      const track = car.querySelector('.ldmx-track');
+      const slides = car.querySelectorAll('.ldmx-slide');
+      const prev = car.querySelector('.ldmx-prev');
+      const next = car.querySelector('.ldmx-next');
+      let idx = 0;
+      function go(n){ idx = (n + slides.length) % slides.length; track.style.transform = 'translateX(' + (-idx*100) + '%)'; }
+      if(prev && next){ prev.addEventListener('click', ()=>go(idx-1)); next.addEventListener('click', ()=>go(idx+1)); }
+      {% if section.settings.auto_rotate %} setInterval(()=>go(idx+1), {{ section.settings.rotate_ms | default: 5000 }}); {% endif %}
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "LDMX – Reviews",
+  "settings": [
+    { "type": "text", "id": "media_title", "label": "Video title", "default": "In Motion" },
+    { "type": "text", "id": "reviews_title", "label": "Reviews title (Great Vibes)", "default": "Customer Reviews" },
+
+    { "type": "color", "id": "accent_color", "label": "Accent (quotes)", "default": "#ff4aa2" },
+    { "type": "checkbox", "id": "show_stars", "label": "Show star ratings", "default": true },
+
+    { "type": "range", "id": "pad_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "pad_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+
+    { "type": "header", "content": "Video source" },
+    { "type": "video", "id": "video", "label": "Shopify-hosted video" },
+    { "type": "video_url", "id": "video_url", "label": "YouTube or Vimeo URL", "accept": ["youtube", "vimeo"] },
+    { "type": "text", "id": "video_mp4", "label": "Direct MP4 URL (optional)" },
+    { "type": "image_picker", "id": "poster_image", "label": "Poster image (MP4 only)" },
+
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "checkbox", "id": "loop", "label": "Loop", "default": true },
+    { "type": "checkbox", "id": "muted", "label": "Muted", "default": true },
+    { "type": "checkbox", "id": "controls", "label": "Show controls", "default": true },
+
+    { "type": "header", "content": "Auto-rotate reviews" },
+    { "type": "checkbox", "id": "auto_rotate", "label": "Auto-rotate", "default": false },
+    { "type": "number", "id": "rotate_ms", "label": "Rotate interval (ms)", "default": 5000 }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Review text", "default": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>" },
+        { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },
+        { "type": "text", "id": "author", "label": "Author", "default": "Kulwinder K Samrai" },
+        { "type": "text", "id": "location", "label": "Location", "default": "Gravesend, United Kingdom" },
+        { "type": "text", "id": "date", "label": "Date (optional)" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    { "name": "LDMX – Reviews", "blocks": [{ "type": "review" }] }
+  ]
+}
+{% endschema %}
