@@ -527,6 +527,17 @@
             "show_gift_card_recipient": false
           }
         },
+        "collapsible_tab_kwRME6": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "DESCRIPTION",
+            "visibility_mode": "only_types",
+            "product_types": "Mens",
+            "icon": "check_mark",
+            "content": "<p>Discover classic elegance with our Men’s Kurta Pajama collection — crafted in fine fabrics, tailored for comfort, and perfect for every celebration. From festive gatherings to weddings, our timeless styles bring tradition and modern charm together</p>",
+            "page": ""
+          }
+        },
         "collapsible_tab_xxw6HD": {
           "type": "collapsible_tab",
           "settings": {
@@ -602,6 +613,7 @@
         "variant_picker",
         "custom_liquid_HADfAx",
         "buy_buttons",
+        "collapsible_tab_kwRME6",
         "collapsible_tab_xxw6HD",
         "collapsible_tab_QrQHUy",
         "collapsible_tab_aBMyxf",
