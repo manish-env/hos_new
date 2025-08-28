@@ -43,47 +43,57 @@
 </style>
 
 
-    <div class="mxrc__viewport" data-index="0" aria-roledescription="carousel" aria-label="Customer reviews">
-      <button class="mxrc__arrow mxrc__arrow--prev" aria-label="Previous review" type="button">
-        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15.5 3.9 7.4 12l8.1 8.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-
-      <div class="mxrc__track">
-        {% for block in section.blocks %}
-          {% assign stars = block.settings.stars | default: 5 | at_least: 0 | at_most: 5 %}
-          <article class="mxrc__slide" {{ block.shopify_attributes }} role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}">
-            <div class="mxrc__card">
-              <div class="mxrc__quote">
-                <p class="mxrc__text">{{ block.settings.review | escape }}</p>
-              </div>
-
-              <div class="mxrc__rating" aria-label="{{ stars }} out of 5 stars">
-                {% for i in (1..5) %}
-                  {% if i <= stars %}
-                    <svg class="mxrc__star" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 17.3l-6 3.5 1.6-6.7L2 9.7l6.9-.6L12 2.8l3.1 6.3 6.9.6-5.6 4.4 1.6 6.7z"/></svg>
-                  {% else %}
-                    <svg class="mxrc__star mxrc__star--off" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 17.3l-6 3.5 1.6-6.7L2 9.7l6.9-.6L12 2.8l3.1 6.3 6.9.6-5.6 4.4 1.6 6.7z" /></svg>
-                  {% endif %}
-                {% endfor %}
-              </div>
-
-              <div class="mxrc__author">
-                {% if block.settings.name != blank %}
-                  <div class="mxrc__name">{{ block.settings.name }}</div>
-                {% endif %}
-                {% if block.settings.meta != blank %}
-                  <div class="mxrc__meta">{{ block.settings.meta }}</div>
-                {% endif %}
-              </div>
-            </div>
-          </article>
-        {% endfor %}
+    {% if section.settings.source == 'judgeme_featured' %}
+      <div class="mxrc__jdgm">
+        <div class="jdgm-widget jdgm-carousel" data-widget-type="featured_carousel" data-id="{{ shop.id }}"></div>
       </div>
+    {% elsif section.settings.source == 'judgeme_product' and product %}
+      <div class="mxrc__jdgm">
+        <div class="jdgm-widget jdgm-carousel" data-widget-type="product_carousel" data-id="{{ product.id }}"></div>
+      </div>
+    {% else %}
+      <div class="mxrc__viewport" data-index="0" aria-roledescription="carousel" aria-label="Customer reviews">
+        <button class="mxrc__arrow mxrc__arrow--prev" aria-label="Previous review" type="button">
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M15.5 3.9 7.4 12l8.1 8.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
 
-      <button class="mxrc__arrow mxrc__arrow--next" aria-label="Next review" type="button">
-        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8.5 3.9 16.6 12l-8.1 8.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
+        <div class="mxrc__track">
+          {% for block in section.blocks %}
+            {% assign stars = block.settings.stars | default: 5 | at_least: 0 | at_most: 5 %}
+            <article class="mxrc__slide" {{ block.shopify_attributes }} role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}">
+              <div class="mxrc__card">
+                <div class="mxrc__quote">
+                  <p class="mxrc__text">{{ block.settings.review | escape }}</p>
+                </div>
+
+                <div class="mxrc__rating" aria-label="{{ stars }} out of 5 stars">
+                  {% for i in (1..5) %}
+                    {% if i <= stars %}
+                      <svg class="mxrc__star" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 17.3l-6 3.5 1.6-6.7L2 9.7l6.9-.6L12 2.8l3.1 6.3 6.9.6-5.6 4.4 1.6 6.7z"/></svg>
+                    {% else %}
+                      <svg class="mxrc__star mxrc__star--off" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 17.3l-6 3.5 1.6-6.7L2 9.7l6.9-.6L12 2.8l3.1 6.3 6.9.6-5.6 4.4 1.6 6.7z" /></svg>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
+                <div class="mxrc__author">
+                  {% if block.settings.name != blank %}
+                    <div class="mxrc__name">{{ block.settings.name }}</div>
+                  {% endif %}
+                  {% if block.settings.meta != blank %}
+                    <div class="mxrc__meta">{{ block.settings.meta }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        <button class="mxrc__arrow mxrc__arrow--next" aria-label="Next review" type="button">
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M8.5 3.9 16.6 12l-8.1 8.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    {% endif %}
   </div>
 
   <style>
@@ -92,6 +102,38 @@
     #mxrc-{{ section.id }} .mxrc__inner { max-width: {% if section.settings.width_mode == 'full' %}var(--page-width, 1400px){% else %}var(--page-width, 1200px){% endif %}; margin: 0 auto; padding: 0 16px; }
     #mxrc-{{ section.id }} .mxrc__title {
       margin: 0 0 18px; text-align: center; font-family: 'Great Vibes', cursive; font-size: 40px; line-height: 1; font-weight: 400;
+    }
+
+    /* Judge.me inside this section — adopt MX styling */
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-widget { text-align: center; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__item { max-width: var(--mxrc-card-max); margin: 0 auto; padding: 8px 14px; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-star { color: var(--mxrc-accent) !important; fill: var(--mxrc-accent) !important; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__author { color: var(--mxrc-accent); font-weight: 600; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__timestamp { color: var(--mxrc-muted); font-size: 0.92em; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body { position: relative; font-size: 18px; line-height: 1.6; padding: 28px 14px 8px; color: var(--mxrc-text); }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body::before,
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body::after { content: "“"; position: absolute; font-size: 72px; line-height: .7; color: var(--mxrc-quote-color); font-weight: 700; font-family: Georgia, serif; opacity: .95; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body::before { left: -6px; top: -6px; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body::after { content: "”"; right: -6px; bottom: -18px; transform: translateY(30%); }
+
+    /* Arrows and dots for Judge.me */
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__arrows button,
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__left-arrow,
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__right-arrow {
+      width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--mxrc-accent); background: transparent; color: var(--mxrc-accent);
+      display: inline-flex; align-items: center; justify-content: center; transition: background .2s ease, color .2s ease;
+    }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__arrows button:hover,
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__left-arrow:hover,
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__right-arrow:hover { background: var(--mxrc-accent); color: #fff; }
+
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__dots button { width: 8px; height: 8px; border-radius: 50%; background: var(--mxrc-accent); opacity: .35; transition: opacity .2s ease, transform .2s ease; }
+    #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-carousel__dots button[aria-current='true'] { opacity: 1; transform: scale(1.15); }
+
+    @media (max-width: 768px){
+      #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body { font-size: 16px; }
+      #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body::before,
+      #mxrc-{{ section.id }} .mxrc__jdgm .jdgm-rev__body::after { font-size: 64px; }
     }
 
     #mxrc-{{ section.id }} .mxrc__viewport {
@@ -154,6 +196,7 @@
     }
   </style>
 
+  {% if section.settings.source == 'manual' or section.settings.source == blank %}
   <script>
     (function() {
       const root = document.getElementById('mxrc-{{ section.id }}');
@@ -190,6 +233,7 @@
       goTo(0);
     })();
   </script>
+  {% endif %}
 </section>
 
 {% schema %}
@@ -198,6 +242,11 @@
   "tag": "section",
   "class": "mxrc-section",
   "settings": [
+    { "type": "select", "id": "source", "label": "Data source", "default": "manual", "options": [
+      { "value": "manual", "label": "Manual (section blocks)" },
+      { "value": "judgeme_featured", "label": "Judge.me • Featured Carousel (shop-wide)" },
+      { "value": "judgeme_product", "label": "Judge.me • Product Carousel (on product pages)" }
+    ]},
     { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
     {
       "type": "radio", "id": "width_mode", "label": "Width",
