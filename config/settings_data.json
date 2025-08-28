@@ -147,6 +147,13 @@
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
         "settings": {}
+      },
+      "14710238943034738919": {
+        "type": "shopify://apps/air-product-reviews/blocks/app-embed/c4e1e9ca-4d46-4e76-bc39-7e42417cb327",
+        "disabled": true,
+        "settings": {
+          "air_reviews_json_ld_v2": ""
+        }
       }
     },
     "color_schemes": {
