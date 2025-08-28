@@ -39,7 +39,7 @@
             "subtext": "",
             "size_chart_image": "shopify://shop_images/mens-wear-sizehcart.jpg",
             "visibility_mode": "only_types",
-            "product_types": "Mens",
+            "product_types": "Mens,Lehenga Choli",
             "selection_mode": "single",
             "item_1_product": "standard-stitiching",
             "item_1_handle": "",
