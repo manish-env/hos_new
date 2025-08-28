@@ -3696,3 +3696,186 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* =====================
+   Judge.me Featured Carousel — MX Reviews Skin
+   Scope: Home apps section (#shopify-section-17564054231aee1416)
+          Product apps section (#shopify-section-175640298040697bb9)
+   This styles the Judge.me featured carousel to visually match the custom
+   `Mx-reviews-new` section (fonts, quotes, stars, spacing, arrows, dots).
+   ===================== */
+
+#shopify-section-17564054231aee1416,
+#shopify-section-175640298040697bb9 {
+  /* Accent and muted colors to echo Mx-reviews-new */
+  --mxrc-accent: #FA05E8;
+  --mxrc-muted: rgba(var(--color-foreground), 0.6);
+  --mxrc-quote: rgba(var(--color-foreground), 0.12);
+}
+
+#shopify-section-17564054231aee1416 .jdgm-widget,
+#shopify-section-175640298040697bb9 .jdgm-widget {
+  text-align: center;
+}
+
+/* Optional title from Judge.me block */
+#shopify-section-17564054231aee1416 .jdgm-carousel-title,
+#shopify-section-175640298040697bb9 .jdgm-carousel-title {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 1.2;
+  margin: 0 0 1.5rem;
+  color: rgb(var(--color-foreground));
+}
+
+/* Carousel item shell */
+#shopify-section-17564054231aee1416 .jdgm-carousel__item,
+#shopify-section-175640298040697bb9 .jdgm-carousel__item {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Stars coloring */
+#shopify-section-17564054231aee1416 .jdgm-star,
+#shopify-section-175640298040697bb9 .jdgm-star,
+#shopify-section-17564054231aee1416 .jdgm-star.jdgm--on,
+#shopify-section-175640298040697bb9 .jdgm-star.jdgm--on {
+  color: var(--mxrc-accent) !important;
+  fill: var(--mxrc-accent) !important;
+}
+
+/* Review body with decorative quotes */
+#shopify-section-17564054231aee1416 .jdgm-rev__body,
+#shopify-section-175640298040697bb9 .jdgm-rev__body {
+  position: relative;
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), 0.9);
+  padding: 1.2rem 2.4rem;
+}
+
+#shopify-section-17564054231aee1416 .jdgm-rev__body::before,
+#shopify-section-175640298040697bb9 .jdgm-rev__body::before,
+#shopify-section-17564054231aee1416 .jdgm-rev__body::after,
+#shopify-section-175640298040697bb9 .jdgm-rev__body::after {
+  position: absolute;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 1;
+  color: var(--mxrc-quote);
+}
+
+#shopify-section-17564054231aee1416 .jdgm-rev__body::before,
+#shopify-section-175640298040697bb9 .jdgm-rev__body::before {
+  content: '“';
+  left: 0.4rem;
+  top: -0.8rem;
+}
+
+#shopify-section-17564054231aee1416 .jdgm-rev__body::after,
+#shopify-section-175640298040697bb9 .jdgm-rev__body::after {
+  content: '”';
+  right: 0.4rem;
+  bottom: -1.2rem;
+}
+
+/* Reviewer meta */
+#shopify-section-17564054231aee1416 .jdgm-rev__author,
+#shopify-section-175640298040697bb9 .jdgm-rev__author {
+  margin-top: 0.6rem;
+  color: var(--mxrc-accent);
+  font-weight: 600;
+}
+
+#shopify-section-17564054231aee1416 .jdgm-rev__timestamp,
+#shopify-section-175640298040697bb9 .jdgm-rev__timestamp {
+  color: var(--mxrc-muted);
+  font-size: 0.92em;
+}
+
+/* Arrows */
+#shopify-section-17564054231aee1416 .jdgm-carousel__arrows button,
+#shopify-section-175640298040697bb9 .jdgm-carousel__arrows button,
+#shopify-section-17564054231aee1416 .jdgm-carousel__left-arrow,
+#shopify-section-175640298040697bb9 .jdgm-carousel__left-arrow,
+#shopify-section-17564054231aee1416 .jdgm-carousel__right-arrow,
+#shopify-section-175640298040697bb9 .jdgm-carousel__right-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--mxrc-accent);
+  color: var(--mxrc-accent);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--duration-default) ease, color var(--duration-default) ease;
+}
+
+#shopify-section-17564054231aee1416 .jdgm-carousel__arrows button:hover,
+#shopify-section-175640298040697bb9 .jdgm-carousel__arrows button:hover,
+#shopify-section-17564054231aee1416 .jdgm-carousel__left-arrow:hover,
+#shopify-section-175640298040697bb9 .jdgm-carousel__left-arrow:hover,
+#shopify-section-17564054231aee1416 .jdgm-carousel__right-arrow:hover,
+#shopify-section-175640298040697bb9 .jdgm-carousel__right-arrow:hover {
+  background: var(--mxrc-accent);
+  color: white;
+}
+
+/* Dots */
+#shopify-section-17564054231aee1416 .jdgm-carousel__dots button,
+#shopify-section-175640298040697bb9 .jdgm-carousel__dots button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mxrc-accent);
+  opacity: 0.35;
+  transition: opacity var(--duration-default) ease, transform var(--duration-default) ease;
+}
+
+#shopify-section-17564054231aee1416 .jdgm-carousel__dots button[aria-current='true'],
+#shopify-section-175640298040697bb9 .jdgm-carousel__dots button[aria-current='true'] {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Spacing harmony */
+#shopify-section-17564054231aee1416 .jdgm-carousel-wrapper,
+#shopify-section-175640298040697bb9 .jdgm-carousel-wrapper {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Responsive tweaks */
+@media screen and (max-width: 749px) {
+  #shopify-section-17564054231aee1416 .jdgm-carousel-title,
+  #shopify-section-175640298040697bb9 .jdgm-carousel-title {
+    font-size: 32px;
+  }
+
+  #shopify-section-17564054231aee1416 .jdgm-rev__body,
+  #shopify-section-175640298040697bb9 .jdgm-rev__body {
+    font-size: 16px;
+    padding: 1rem 1.6rem;
+  }
+
+  #shopify-section-17564054231aee1416 .jdgm-rev__body::before,
+  #shopify-section-175640298040697bb9 .jdgm-rev__body::before,
+  #shopify-section-17564054231aee1416 .jdgm-rev__body::after,
+  #shopify-section-175640298040697bb9 .jdgm-rev__body::after {
+    font-size: 46px;
+  }
+
+  #shopify-section-17564054231aee1416 .jdgm-carousel__arrows button,
+  #shopify-section-175640298040697bb9 .jdgm-carousel__arrows button,
+  #shopify-section-17564054231aee1416 .jdgm-carousel__left-arrow,
+  #shopify-section-175640298040697bb9 .jdgm-carousel__left-arrow,
+  #shopify-section-17564054231aee1416 .jdgm-carousel__right-arrow,
+  #shopify-section-175640298040697bb9 .jdgm-carousel__right-arrow {
+    width: 38px;
+    height: 38px;
+  }
+}
