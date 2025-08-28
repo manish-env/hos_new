@@ -2935,7 +2935,7 @@ details[open] > .header__menu-item .header__active-menu-item {
 .mega-menu__content .list-unstyled li a.mega-menu__link {
   /* tighten vertical rhythm for links */
   padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  
 }
 
 .global-settings-popup,
