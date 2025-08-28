@@ -722,10 +722,6 @@
     "175640298040697bb9": {
       "type": "apps",
       "blocks": {
-        "judge_me_reviews_medals_TJK4jC": {
-          "type": "shopify://apps/judge-me-reviews/blocks/medals/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        },
         "judge_me_reviews_featured_carousel_zqGE4w": {
           "type": "shopify://apps/judge-me-reviews/blocks/featured_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
@@ -734,11 +730,60 @@
         }
       },
       "block_order": [
-        "judge_me_reviews_medals_TJK4jC",
         "judge_me_reviews_featured_carousel_zqGE4w"
       ],
       "settings": {
         "include_margins": true
+      }
+    },
+    "mx_reviews_new_3TCRjz": {
+      "type": "Mx-reviews-new",
+      "blocks": {
+        "review_WL4FLF": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        },
+        "review_rbbKHi": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        },
+        "review_CJ8tXd": {
+          "type": "review",
+          "settings": {
+            "review": "Hi. I received both my outfits yesterday. They fit perfectly! Thank you.",
+            "name": "Kulwinder K Samrai",
+            "meta": "Gravesend, United Kingdom",
+            "stars": 5
+          }
+        }
+      },
+      "block_order": [
+        "review_WL4FLF",
+        "review_rbbKHi",
+        "review_CJ8tXd"
+      ],
+      "name": "MX • Reviews Carousel2",
+      "settings": {
+        "heading": "Customer Reviews",
+        "width_mode": "page",
+        "color_scheme": "background-1",
+        "quote_color": "#ff4fd4",
+        "text_color": "#222222",
+        "accent_color": "#22c55e",
+        "muted_color": "#7a7a7a",
+        "card_max": 640,
+        "pad_top": 28,
+        "pad_bottom": 28
       }
     }
   },
@@ -748,6 +793,7 @@
     "related-products",
     "1756403372ba07b091",
     "mx_reviews_new_LLe4JP",
-    "175640298040697bb9"
+    "175640298040697bb9",
+    "mx_reviews_new_3TCRjz"
   ]
 }
