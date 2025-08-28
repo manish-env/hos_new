@@ -41,24 +41,13 @@
             "heading": "POLICIES",
             "menu": "policies"
           }
-        },
-        "company_details_LikeDiva": {
-          "type": "company_details",
-          "settings": {
-            "heading": "House of Sonali",
-            "company_name": "",
-            "copyright_text": "Copyright © 2025 House Of Sonali.",
-            "rights_text": "All rights reserved.",
-            "ecommerce_text": ""
-          }
         }
       },
       "block_order": [
         "link_list_mnXWWH",
         "link_list_TMNXpm",
         "link_list_AmeKcj",
-        "link_list_XdjNfa",
-        "company_details_LikeDiva"
+        "link_list_XdjNfa"
       ],
       "settings": {
         "enable_topbar": true,
