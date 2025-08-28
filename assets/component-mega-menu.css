@@ -181,7 +181,7 @@
 
 .mega-menu__colors {
   display: grid;
-  grid-template-columns: repeat(6, 1.6rem);
+  grid-template-columns: repeat(5, 1.6rem);
   gap: 0.6rem 1rem;
 }
 
@@ -193,12 +193,12 @@
 
 .color-swatch {
   --swatch: #ccc;
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.9rem;
+  height: 1.9rem;
   display: inline-block;
   border: 1px solid rgba(var(--color-foreground), 0.25);
   background: var(--swatch);
-  border-radius: 0.2rem;
+  
   box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
   text-decoration: none;
 }
