@@ -41,13 +41,21 @@
             "heading": "POLICIES",
             "menu": "policies"
           }
+        },
+        "text_ifaqh4": {
+          "type": "text",
+          "settings": {
+            "heading": "House of Sonalii",
+            "subtext": "<p><strong>Phone<br/></strong><a href=\"tel:+91 92278 28195\" target=\"_blank\" title=\"tel:+91 92278 28195\">+91 92278 28195</a></p><p><strong>WhatsApp<br/></strong><a href=\"https://api.whatsapp.com/send?phone=+91-9227828195\" title=\"https://api.whatsapp.com/send?phone=+91-9227828195\">+91-9227828195<br/></a><em>Mon-Sat 10:00am to 7:30pm IST</em></p>"
+          }
         }
       },
       "block_order": [
         "link_list_mnXWWH",
         "link_list_TMNXpm",
         "link_list_AmeKcj",
-        "link_list_XdjNfa"
+        "link_list_XdjNfa",
+        "text_ifaqh4"
       ],
       "settings": {
         "enable_topbar": true,
