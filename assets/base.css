@@ -12,6 +12,9 @@
 {
   display:none !important;
 }
+.jdgm-carousel-wrapper{
+  padding:25px 0 !important;
+}
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
