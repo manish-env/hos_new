@@ -16,6 +16,9 @@
   margin-top:0px !important;
   padding:25px 0 !important;
 }
+..jdgm-carousel-item__review-body>p{
+  margin-top:15px !important;
+}
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
