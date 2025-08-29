@@ -19,6 +19,11 @@
 .jdgm-carousel-item__review-body>p{
   margin-top:15px !important;
 }
+.jdgm-carousel-item__reviewer-name {
+  margin-top:-30px !important;
+  color:darkgreen !important;
+}
+
 .product-card-wrapper .card,
 .contains-card--product {
   --border-radius: var(--product-card-corner-radius);
