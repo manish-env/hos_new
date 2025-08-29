@@ -63,7 +63,7 @@
             <article class="mxrc__slide" {{ block.shopify_attributes }} role="group" aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}">
               <div class="mxrc__card">
                 <div class="mxrc__quote">
-                  <p class="mxrc__text">{{ block.settings.review | escape }}</p>
+                  <p class="mxrc__text jdgm-carousel-item__review-body jdgm-line-clamp">{{ block.settings.review | escape }}</p>
                 </div>
 
                 <div class="mxrc__rating" aria-label="{{ stars }} out of 5 stars">
