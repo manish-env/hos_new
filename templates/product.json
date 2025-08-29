@@ -736,6 +736,16 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "custom_liquid_HfMfmC": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
     }
   },
   "order": [
@@ -744,6 +754,7 @@
     "related-products",
     "1756403372ba07b091",
     "mx_reviews_new_LLe4JP",
-    "175640298040697bb9"
+    "175640298040697bb9",
+    "custom_liquid_HfMfmC"
   ]
 }
