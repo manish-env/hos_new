@@ -720,6 +720,16 @@
         "pad_bottom": 28
       }
     },
+    "custom_liquid_HfMfmC": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "{%- comment -%}\n  MX — Review Title\n  Usage: {% render 'mx-review-title', title: 'Customer Reviews' %}\n{%- endcomment -%}\n\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap\" rel=\"stylesheet\">\n\n<h2 class=\"mx-review-title\">\n  {{ title | default: 'Customer Reviews' }}\n</h2>\n\n<style>\n  .mx-review-title {\n   margin-bottom:0;\nmargin-top:0;\n    text-align: center;\n    font-family: 'Great Vibes', cursive !important;\n    font-size: 40px;\n    line-height: 1.1;\n    font-weight: 400;\n  }\n\n  @media (max-width: 768px) {\n    .mx-review-title { font-size: 34px; }\n  }\n  @media (max-width: 480px) {\n    .mx-review-title { font-size: 30px; }\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
     "175640298040697bb9": {
       "type": "apps",
       "blocks": {
@@ -736,16 +746,6 @@
       "settings": {
         "include_margins": true
       }
-    },
-    "custom_liquid_HfMfmC": {
-      "type": "custom-liquid",
-      "name": "t:sections.custom-liquid.presets.name",
-      "settings": {
-        "custom_liquid": "",
-        "color_scheme": "",
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
     }
   },
   "order": [
@@ -754,7 +754,7 @@
     "related-products",
     "1756403372ba07b091",
     "mx_reviews_new_LLe4JP",
-    "175640298040697bb9",
-    "custom_liquid_HfMfmC"
+    "custom_liquid_HfMfmC",
+    "175640298040697bb9"
   ]
 }
