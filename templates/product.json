@@ -600,12 +600,6 @@
             "collection": "",
             "max_count": 8
           }
-        },
-        "sku_6iVMJV": {
-          "type": "sku",
-          "settings": {
-            "text_style": "body"
-          }
         }
       },
       "block_order": [
@@ -625,8 +619,7 @@
         "collapsible_tab_aBMyxf",
         "collapsible_tab_wKhBQm",
         "collapsible_tab_XE8LEY",
-        "similar_by_chart_D4yCN7",
-        "sku_6iVMJV"
+        "similar_by_chart_D4yCN7"
       ],
       "settings": {
         "enable_sticky_info": true,
