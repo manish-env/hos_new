@@ -99,16 +99,46 @@
     .header__search--mobile-left .header__icon-close { display: none !important; }
   }
 
-  /* Promo tabs styles */
-  .header-promo-tabs { margin-top: 0.75rem; width: 100%; max-width: 100vw; overflow: hidden; }
-  .header-promo-track { display: flex; gap: 0; transition: transform 400ms ease; }
-  .header-promo-item { flex: 0 0 100%; box-sizing: border-box; text-align: center; padding: 0.875rem 1rem; font-weight: 500; }
-  .header-promo-item:nth-child(2n) { background: rgba(0,0,0,0.04); }
-  .header-promo-item:nth-child(2n+1) { background: rgba(0,0,0,0.06); }
-  @media screen and (min-width: 990px) {
-    .header-promo-track { display: grid; grid-template-columns: repeat(3, 1fr); transform: none !important; }
-    .header-promo-item { flex: unset; }
-  }
+     /* Promo tabs styles */
+   .header-promo-tabs { 
+     margin-top: 0.75rem; 
+     width: 100%; 
+     max-width: 100vw; 
+     overflow: hidden; 
+     position: relative;
+   }
+   .header-promo-track { 
+     display: flex; 
+     gap: 0; 
+     transition: transform 400ms ease; 
+   }
+   .header-promo-item { 
+     flex: 0 0 100%; 
+     box-sizing: border-box; 
+     text-align: center; 
+     padding: 0.875rem 1rem; 
+     font-weight: 500; 
+   }
+   .header-promo-item:nth-child(2n) { background: rgba(0,0,0,0.04); }
+   .header-promo-item:nth-child(2n+1) { background: rgba(0,0,0,0.06); }
+   @media screen and (min-width: 990px) {
+     .header-promo-track { display: grid; grid-template-columns: repeat(3, 1fr); transform: none !important; }
+     .header-promo-item { flex: unset; }
+   }
+
+   /* Currency selector in announcement bar - right corner */
+   .currency-selector--announcement {
+     position: absolute;
+     top: 50%;
+     right: 20px;
+     transform: translateY(-50%);
+     z-index: 10;
+   }
+
+   .currency-selector--announcement .currency-selector-dropdown {
+     right: 0;
+     left: auto;
+   }
 
   /* Account text instead of profile icon */
   .header__account-text { display: inline-flex; align-items: center; }
@@ -463,100 +493,7 @@
           </localization-form>
         {%- endif -%}
 
-        <!-- Currency Selector - Replacing envelope icon -->
-        {%- if section.settings.enable_currency_selector -%}
-        <div class="currency-selector-wrapper small-hide medium-hide">
-          <button class="currency-selector-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Change Currency">
-            <span class="currency-flag">🇺🇸</span>
-            <span class="currency-code">{{ cart.currency.iso_code | default: 'USD' }}</span>
-            <svg class="currency-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          
-          <div class="currency-selector-dropdown" role="menu">
-            <div class="currency-selector-header">
-              <h3>Change Currency</h3>
-            </div>
-            <div class="currency-grid">
-              <button class="currency-option" data-currency="USD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇺🇸</span>
-                <span class="currency-code">USD</span>
-              </button>
-              <button class="currency-option" data-currency="INR" data-symbol="₹" role="menuitem">
-                <span class="currency-flag">🇮🇳</span>
-                <span class="currency-code">INR</span>
-              </button>
-              <button class="currency-option" data-currency="EUR" data-symbol="€" role="menuitem">
-                <span class="currency-flag">🇪🇺</span>
-                <span class="currency-code">EUR</span>
-              </button>
-              <button class="currency-option" data-currency="GBP" data-symbol="£" role="menuitem">
-                <span class="currency-flag">🇬🇧</span>
-                <span class="currency-code">GBP</span>
-              </button>
-              <button class="currency-option" data-currency="CAD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇨🇦</span>
-                <span class="currency-code">CAD</span>
-              </button>
-              <button class="currency-option" data-currency="AUD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇦🇺</span>
-                <span class="currency-code">AUD</span>
-              </button>
-              <button class="currency-option" data-currency="AED" data-symbol="د.إ" role="menuitem">
-                <span class="currency-flag">🇦🇪</span>
-                <span class="currency-code">AED</span>
-              </button>
-              <button class="currency-option" data-currency="SGD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇸🇬</span>
-                <span class="currency-code">SGD</span>
-              </button>
-              <button class="currency-option" data-currency="MYR" data-symbol="RM" role="menuitem">
-                <span class="currency-flag">🇲🇾</span>
-                <span class="currency-code">MYR</span>
-              </button>
-              <button class="currency-option" data-currency="HKD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇭🇰</span>
-                <span class="currency-code">HKD</span>
-              </button>
-              <button class="currency-option" data-currency="NZD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇳🇿</span>
-                <span class="currency-code">NZD</span>
-              </button>
-              <button class="currency-option" data-currency="SAR" data-symbol="ر.س" role="menuitem">
-                <span class="currency-flag">🇸🇦</span>
-                <span class="currency-code">SAR</span>
-              </button>
-              <button class="currency-option" data-currency="ZAR" data-symbol="R" role="menuitem">
-                <span class="currency-flag">🇿🇦</span>
-                <span class="currency-code">ZAR</span>
-              </button>
-              <button class="currency-option" data-currency="CHF" data-symbol="CHF" role="menuitem">
-                <span class="currency-flag">🇨🇭</span>
-                <span class="currency-code">CHF</span>
-              </button>
-              <button class="currency-option" data-currency="NOK" data-symbol="kr" role="menuitem">
-                <span class="currency-flag">🇳🇴</span>
-                <span class="currency-code">NOK</span>
-              </button>
-              <button class="currency-option" data-currency="DKK" data-symbol="kr" role="menuitem">
-                <span class="currency-flag">🇩🇰</span>
-                <span class="currency-code">DKK</span>
-              </button>
-              <button class="currency-option" data-currency="THB" data-symbol="฿" role="menuitem">
-                <span class="currency-flag">🇹🇭</span>
-                <span class="currency-code">THB</span>
-              </button>
-            </div>
-          </div>
-        </div>
         
-        <!-- Hidden Shopify Currency Form -->
-        <form id="currency-form" action="/cart/update" method="post" style="display: none;">
-          <input type="hidden" name="currency" id="currency-input">
-          <input type="hidden" name="return_to" value="{{ request.page_type }}">
-        </form>
-        {%- endif -%}
       </div>
 
       <!-- Search Icon - Right side -->
@@ -609,21 +546,116 @@
       </a>
     </div>
   </header>
-  {%- if section.settings.show_promo_tabs -%}
-    <div class="header-promo-tabs" role="region" aria-label="Header promotions">
-      <div class="header-promo-track">
-        {%- if section.settings.promo_text_1 != blank -%}
-          <div class="header-promo-item">{{ section.settings.promo_text_1 }}</div>
-        {%- endif -%}
-        {%- if section.settings.promo_text_2 != blank -%}
-          <div class="header-promo-item" style="background:#FFEEEE">{{ section.settings.promo_text_2 }}</div>
-        {%- endif -%}
-        {%- if section.settings.promo_text_3 != blank -%}
-          <div class="header-promo-item">{{ section.settings.promo_text_3 }}</div>
-        {%- endif -%}
-      </div>
-    </div>
-  {%- endif -%}
+     {%- if section.settings.show_promo_tabs -%}
+     <div class="header-promo-tabs" role="region" aria-label="Header promotions">
+       <div class="header-promo-track">
+         {%- if section.settings.promo_text_1 != blank -%}
+           <div class="header-promo-item">{{ section.settings.promo_text_1 }}</div>
+         {%- endif -%}
+         {%- if section.settings.promo_text_2 != blank -%}
+           <div class="header-promo-item" style="background:#FFEEEE">{{ section.settings.promo_text_2 }}</div>
+         {%- endif -%}
+         {%- if section.settings.promo_text_3 != blank -%}
+           <div class="header-promo-item">{{ section.settings.promo_text_3 }}</div>
+         {%- endif -%}
+       </div>
+       
+       <!-- Currency Selector in Announcement Bar - Right Corner -->
+       {%- if section.settings.enable_currency_selector -%}
+       <div class="currency-selector-wrapper currency-selector--announcement small-hide medium-hide">
+         <button class="currency-selector-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Change Currency">
+           <span class="currency-flag">🇺🇸</span>
+           <span class="currency-code">{{ cart.currency.iso_code | default: 'USD' }}</span>
+           <svg class="currency-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+             <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+           </svg>
+         </button>
+         
+         <div class="currency-selector-dropdown" role="menu">
+           <div class="currency-selector-header">
+             <h3>Change Currency</h3>
+           </div>
+           <div class="currency-grid">
+             <button class="currency-option" data-currency="USD" data-symbol="$" role="menuitem">
+               <span class="currency-flag">🇺🇸</span>
+               <span class="currency-code">USD</span>
+             </button>
+             <button class="currency-option" data-currency="INR" data-symbol="₹" role="menuitem">
+               <span class="currency-flag">🇮🇳</span>
+               <span class="currency-code">INR</span>
+             </button>
+             <button class="currency-option" data-currency="EUR" data-symbol="€" role="menuitem">
+               <span class="currency-flag">🇪🇺</span>
+               <span class="currency-code">EUR</span>
+             </button>
+             <button class="currency-option" data-currency="GBP" data-symbol="£" role="menuitem">
+               <span class="currency-flag">🇬🇧</span>
+               <span class="currency-code">GBP</span>
+             </button>
+             <button class="currency-option" data-currency="CAD" data-symbol="$" role="menuitem">
+               <span class="currency-flag">🇨🇦</span>
+               <span class="currency-code">CAD</span>
+             </button>
+             <button class="currency-option" data-currency="AUD" data-symbol="$" role="menuitem">
+               <span class="currency-flag">🇦🇺</span>
+               <span class="currency-code">AUD</span>
+             </button>
+             <button class="currency-option" data-currency="AED" data-symbol="د.إ" role="menuitem">
+               <span class="currency-flag">🇦🇪</span>
+               <span class="currency-code">AED</span>
+             </button>
+             <button class="currency-option" data-currency="SGD" data-symbol="$" role="menuitem">
+               <span class="currency-flag">🇸🇬</span>
+               <span class="currency-code">SGD</span>
+             </button>
+             <button class="currency-option" data-currency="MYR" data-symbol="RM" role="menuitem">
+               <span class="currency-flag">🇲🇾</span>
+               <span class="currency-code">MYR</span>
+             </button>
+             <button class="currency-option" data-currency="HKD" data-symbol="$" role="menuitem">
+               <span class="currency-flag">🇭🇰</span>
+               <span class="currency-code">HKD</span>
+             </button>
+             <button class="currency-option" data-currency="NZD" data-symbol="$" role="menuitem">
+               <span class="currency-flag">🇳🇿</span>
+               <span class="currency-code">NZD</span>
+             </button>
+             <button class="currency-option" data-currency="SAR" data-symbol="ر.س" role="menuitem">
+               <span class="currency-flag">🇸🇦</span>
+               <span class="currency-code">SAR</span>
+             </button>
+             <button class="currency-option" data-currency="ZAR" data-symbol="R" role="menuitem">
+               <span class="currency-flag">🇿🇦</span>
+               <span class="currency-code">ZAR</span>
+             </button>
+             <button class="currency-option" data-currency="CHF" data-symbol="CHF" role="menuitem">
+               <span class="currency-flag">🇨🇭</span>
+               <span class="currency-code">CHF</span>
+             </button>
+             <button class="currency-option" data-currency="NOK" data-symbol="kr" role="menuitem">
+               <span class="currency-flag">🇳🇴</span>
+               <span class="currency-code">NOK</span>
+             </button>
+             <button class="currency-option" data-currency="DKK" data-symbol="kr" role="menuitem">
+               <span class="currency-flag">🇩🇰</span>
+               <span class="currency-code">DKK</span>
+             </button>
+             <button class="currency-option" data-currency="THB" data-symbol="฿" role="menuitem">
+               <span class="currency-flag">🇹🇭</span>
+               <span class="currency-code">THB</span>
+             </button>
+           </div>
+         </div>
+       </div>
+       
+       <!-- Hidden Shopify Currency Form -->
+       <form id="currency-form" action="/cart/update" method="post" style="display: none;">
+         <input type="hidden" name="currency" id="currency-input">
+         <input type="hidden" name="return_to" value="{{ request.page_type }}">
+       </form>
+       {%- endif -%}
+     </div>
+   {%- endif -%}
 </{{ header_tag }}>
 
 {%- if settings.cart_type == 'notification' -%}
