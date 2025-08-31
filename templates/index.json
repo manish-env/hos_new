@@ -228,6 +228,56 @@
         "review_67YBH8": {
           "type": "review",
           "settings": {
+            "text": "<p>Great quality for the price. The dupatta border is elegant and not too heavy</p>",
+            "stars": 5,
+            "author": "Anamika Rao",
+            "location": "Gravesend, United Kingdom",
+            "date": ""
+          }
+        },
+        "review_BUfCiD": {
+          "type": "review",
+          "settings": {
+            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
+            "stars": 5,
+            "author": "Kulwinder K Samrai",
+            "location": "Gravesend, United Kingdom",
+            "date": ""
+          }
+        },
+        "review_UxhAKQ": {
+          "type": "review",
+          "settings": {
+            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
+            "stars": 5,
+            "author": "Kulwinder K Samrai",
+            "location": "Gravesend, United Kingdom",
+            "date": ""
+          }
+        },
+        "review_EcAVPB": {
+          "type": "review",
+          "settings": {
+            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
+            "stars": 5,
+            "author": "Kulwinder K Samrai",
+            "location": "Gravesend, United Kingdom",
+            "date": ""
+          }
+        },
+        "review_eDjgYw": {
+          "type": "review",
+          "settings": {
+            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
+            "stars": 5,
+            "author": "Kulwinder K Samrai",
+            "location": "Gravesend, United Kingdom",
+            "date": ""
+          }
+        },
+        "review_GhiXCd": {
+          "type": "review",
+          "settings": {
             "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
             "stars": 5,
             "author": "Kulwinder K Samrai",
@@ -248,6 +298,11 @@
       },
       "block_order": [
         "review_67YBH8",
+        "review_BUfCiD",
+        "review_UxhAKQ",
+        "review_EcAVPB",
+        "review_eDjgYw",
+        "review_GhiXCd",
         "review_VcKfcQ"
       ],
       "name": "LDMX Reviews + Banner",
