@@ -407,7 +407,7 @@
          <!-- Floating Currency Button -->
      <div id="floating-currency-btn" class="floating-currency-btn">
        <button type="button" aria-label="Change Currency" class="floating-currency-trigger">
-         <i class="fas fa-dollar-sign"></i>
+         <img src="https://flagcdn.com/w20/us.png" alt="US Flag" class="floating-currency-flag" width="24" height="18">
        </button>
      </div>
 
@@ -503,21 +503,30 @@
         display: none;
       }
       
-      .floating-currency-trigger {
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        border: 3px solid #ffffff;
-        color: #ffffff;
-        font-size: 20px;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+             .floating-currency-trigger {
+         width: 56px;
+         height: 56px;
+         border-radius: 50%;
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+         border: 3px solid #ffffff;
+         color: #ffffff;
+         font-size: 20px;
+         cursor: pointer;
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+         transition: all 0.3s ease;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         padding: 0;
+       }
+       
+       .floating-currency-flag {
+         width: 24px;
+         height: 18px;
+         border-radius: 3px;
+         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+         object-fit: cover;
+       }
       
       .floating-currency-trigger:hover {
         transform: scale(1.1);
@@ -748,8 +757,8 @@
              // Add selected class to clicked option
              this.classList.add('selected');
              
-             // Update floating button icon
-             updateFloatingButtonIcon(currency);
+                            // Update floating button flag
+               updateFloatingButtonFlag(currency);
              
              // Store selection in localStorage
              localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol }));
@@ -818,8 +827,8 @@
            window.location.href = currentUrl.toString();
          }
         
-                 // Update floating button icon based on current currency
-         function updateFloatingButtonIcon(currency = null) {
+                 // Update floating button flag based on current currency
+         function updateFloatingButtonFlag(currency = null) {
            let currencyCode = currency;
            
            // If no currency provided, try to get from localStorage or default to USD
@@ -837,19 +846,33 @@
              }
            }
            
-           const icon = floatingTrigger.querySelector('i');
+           const flagImg = floatingTrigger.querySelector('.floating-currency-flag');
            
-           // Update icon based on currency
-           if (currencyCode === 'USD') {
-             icon.className = 'fas fa-dollar-sign';
-           } else if (currencyCode === 'EUR') {
-             icon.className = 'fas fa-euro-sign';
-           } else if (currencyCode === 'GBP') {
-             icon.className = 'fas fa-pound-sign';
-           } else if (currencyCode === 'INR') {
-             icon.className = 'fas fa-rupee-sign';
-           } else {
-             icon.className = 'fas fa-money-bill';
+           // Currency flag mapping
+           const currencyFlags = {
+             'USD': 'https://flagcdn.com/w20/us.png',
+             'INR': 'https://flagcdn.com/w20/in.png',
+             'EUR': 'https://flagcdn.com/w20/eu.png',
+             'GBP': 'https://flagcdn.com/w20/gb.png',
+             'CAD': 'https://flagcdn.com/w20/ca.png',
+             'AUD': 'https://flagcdn.com/w20/au.png',
+             'AED': 'https://flagcdn.com/w20/ae.png',
+             'SGD': 'https://flagcdn.com/w20/sg.png',
+             'MYR': 'https://flagcdn.com/w20/my.png',
+             'HKD': 'https://flagcdn.com/w20/hk.png',
+             'NZD': 'https://flagcdn.com/w20/nz.png',
+             'SAR': 'https://flagcdn.com/w20/sa.png',
+             'ZAR': 'https://flagcdn.com/w20/za.png',
+             'CHF': 'https://flagcdn.com/w20/ch.png',
+             'NOK': 'https://flagcdn.com/w20/no.png',
+             'DKK': 'https://flagcdn.com/w20/dk.png',
+             'THB': 'https://flagcdn.com/w20/th.png'
+           };
+           
+           // Update flag image
+           if (flagImg && currencyFlags[currencyCode]) {
+             flagImg.src = currencyFlags[currencyCode];
+             flagImg.alt = `${currencyCode} Flag`;
            }
            
            // Also update the selected state in mobile popup
@@ -861,13 +884,13 @@
            });
          }
         
-        // Update icon on page load
-        updateFloatingButtonIcon();
-        
-        // Listen for currency changes
-        document.addEventListener('currencyChanged', function(e) {
-          updateFloatingButtonIcon();
-        });
+                 // Update flag on page load
+         updateFloatingButtonFlag();
+         
+         // Listen for currency changes
+         document.addEventListener('currencyChanged', function(e) {
+           updateFloatingButtonFlag();
+         });
       });
     </script>
   </body>
