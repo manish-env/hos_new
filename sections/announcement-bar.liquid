@@ -87,6 +87,8 @@
     right: 0;
     left: auto;
     top: calc(100% + 8px);
+    position: fixed;
+    margin-top: 0;
   }
 
   .currency-selector-trigger {
@@ -138,17 +140,19 @@
     top: 100%;
     right: 0;
     margin-top: 8px;
-    background: #ffffff;
+    background: #ffffff !important;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     min-width: 320px;
     z-index: 9999;
     display: none;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
     pointer-events: auto;
+    max-height: 400px;
+    overflow-y: auto;
   }
 
   .currency-selector-dropdown.show {
@@ -350,10 +354,22 @@ document.addEventListener('DOMContentLoaded', function() {
           dropdown.style.visibility = 'visible';
           dropdown.style.opacity = '1';
           dropdown.style.transform = 'none';
+          dropdown.style.position = 'fixed';
+          dropdown.style.top = 'auto';
+          dropdown.style.bottom = 'auto';
+          dropdown.style.left = 'auto';
+          dropdown.style.right = 'auto';
+          
+          // Position dropdown relative to trigger
+          const triggerRect = trigger.getBoundingClientRect();
+          dropdown.style.top = (triggerRect.bottom + 8) + 'px';
+          dropdown.style.right = (window.innerWidth - triggerRect.right) + 'px';
+          
           trigger.setAttribute('aria-expanded', 'true');
           console.log('OPENED dropdown');
           console.log('After setting display block:', dropdown.style.display);
           console.log('After setting display block - computed:', window.getComputedStyle(dropdown).display);
+          console.log('Dropdown position:', dropdown.style.top, dropdown.style.right);
         }
       });
 
