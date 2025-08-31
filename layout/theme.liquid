@@ -403,5 +403,119 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <!-- Floating Currency Button -->
+    <div id="floating-currency-btn" class="floating-currency-btn">
+      <button type="button" aria-label="Change Currency" class="floating-currency-trigger">
+        <i class="fas fa-dollar-sign"></i>
+      </button>
+    </div>
+
+    <style>
+      .floating-currency-btn {
+        position: fixed;
+        left: 20px;
+        bottom: 30px;
+        z-index: 99999;
+        display: none;
+      }
+      
+      .floating-currency-trigger {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: 3px solid #ffffff;
+        color: #ffffff;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .floating-currency-trigger:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      }
+      
+      .floating-currency-trigger:active {
+        transform: scale(0.95);
+      }
+      
+      /* Show on mobile only */
+      @media screen and (max-width: 989px) {
+        .floating-currency-btn {
+          display: block;
+        }
+      }
+      
+      /* Hide on desktop */
+      @media screen and (min-width: 990px) {
+        .floating-currency-btn {
+          display: none;
+        }
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const floatingBtn = document.getElementById('floating-currency-btn');
+        const floatingTrigger = floatingBtn.querySelector('.floating-currency-trigger');
+        
+        // Find the currency selector in the announcement bar
+        function findCurrencySelector() {
+          return document.querySelector('.currency-selector-wrapper .currency-selector-trigger');
+        }
+        
+        // Click handler for floating button
+        floatingTrigger.addEventListener('click', function() {
+          const currencySelector = findCurrencySelector();
+          
+          if (currencySelector) {
+            // Trigger the currency selector click
+            currencySelector.click();
+          } else {
+            // Fallback: show a simple alert or create a basic currency selector
+            alert('Currency selector not found. Please refresh the page.');
+          }
+        });
+        
+        // Update floating button icon based on current currency
+        function updateFloatingButtonIcon() {
+          const currencySelector = findCurrencySelector();
+          if (currencySelector) {
+            const currencyCode = currencySelector.querySelector('.currency-code');
+            if (currencyCode) {
+              const currency = currencyCode.textContent;
+              const icon = floatingTrigger.querySelector('i');
+              
+              // Update icon based on currency
+              if (currency === 'USD') {
+                icon.className = 'fas fa-dollar-sign';
+              } else if (currency === 'EUR') {
+                icon.className = 'fas fa-euro-sign';
+              } else if (currency === 'GBP') {
+                icon.className = 'fas fa-pound-sign';
+              } else if (currency === 'INR') {
+                icon.className = 'fas fa-rupee-sign';
+              } else {
+                icon.className = 'fas fa-money-bill';
+              }
+            }
+          }
+        }
+        
+        // Update icon on page load
+        updateFloatingButtonIcon();
+        
+        // Listen for currency changes
+        document.addEventListener('currencyChanged', function(e) {
+          updateFloatingButtonIcon();
+        });
+      });
+    </script>
   </body>
 </html>
