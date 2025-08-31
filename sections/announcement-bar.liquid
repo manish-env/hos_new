@@ -144,8 +144,7 @@
     transition: all 0.2s ease;
   }
 
-  .currency-selector-wrapper:hover .currency-selector-dropdown,
-  .currency-selector-wrapper:focus-within .currency-selector-dropdown {
+  .currency-selector-dropdown.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -328,22 +327,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdown = currencySelector.querySelector('.currency-selector-dropdown');
     const options = currencySelector.querySelectorAll('.currency-option');
 
-    // Toggle dropdown on click
-    trigger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-      trigger.setAttribute('aria-expanded', !isExpanded);
-      
-      if (!isExpanded) {
-        dropdown.style.opacity = '1';
-        dropdown.style.visibility = 'visible';
-        dropdown.style.transform = 'translateY(0)';
-      } else {
-        dropdown.style.opacity = '0';
-        dropdown.style.visibility = 'hidden';
-        dropdown.style.transform = 'translateY(-8px)';
-      }
-    });
+         // Toggle dropdown on click
+     trigger.addEventListener('click', (e) => {
+       e.stopPropagation();
+       const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+       trigger.setAttribute('aria-expanded', !isExpanded);
+       
+       if (!isExpanded) {
+         dropdown.classList.add('show');
+       } else {
+         dropdown.classList.remove('show');
+       }
+     });
 
     // Handle currency selection
     options.forEach(option => {
@@ -384,11 +379,9 @@ document.addEventListener('DOMContentLoaded', function() {
           trigger.querySelector('.currency-code').style.color = '#374151';
         }
         
-        // Close dropdown
-        trigger.setAttribute('aria-expanded', 'false');
-        dropdown.style.opacity = '0';
-        dropdown.style.visibility = 'hidden';
-        dropdown.style.transform = 'translateY(-8px)';
+                 // Close dropdown
+         trigger.setAttribute('aria-expanded', 'false');
+         dropdown.classList.remove('show');
         
                  // Store selection in localStorage
          localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol }));
@@ -403,25 +396,21 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!currencySelector.contains(e.target)) {
-        trigger.setAttribute('aria-expanded', 'false');
-        dropdown.style.opacity = '0';
-        dropdown.style.visibility = 'hidden';
-        dropdown.style.transform = 'translateY(-8px)';
-      }
-    });
+         // Close dropdown when clicking outside
+     document.addEventListener('click', (e) => {
+       if (!currencySelector.contains(e.target)) {
+         trigger.setAttribute('aria-expanded', 'false');
+         dropdown.classList.remove('show');
+       }
+     });
 
-    // Close dropdown on escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        trigger.setAttribute('aria-expanded', 'false');
-        dropdown.style.opacity = '0';
-        dropdown.style.visibility = 'hidden';
-        dropdown.style.transform = 'translateY(-8px)';
-      }
-    });
+         // Close dropdown on escape key
+     document.addEventListener('keydown', (e) => {
+       if (e.key === 'Escape') {
+         trigger.setAttribute('aria-expanded', 'false');
+         dropdown.classList.remove('show');
+       }
+     });
 
     // Restore saved currency on page load
     const savedCurrency = localStorage.getItem('selectedCurrency');
