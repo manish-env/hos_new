@@ -404,12 +404,95 @@
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    <!-- Floating Currency Button -->
-    <div id="floating-currency-btn" class="floating-currency-btn">
-      <button type="button" aria-label="Change Currency" class="floating-currency-trigger">
-        <i class="fas fa-dollar-sign"></i>
-      </button>
-    </div>
+         <!-- Floating Currency Button -->
+     <div id="floating-currency-btn" class="floating-currency-btn">
+       <button type="button" aria-label="Change Currency" class="floating-currency-trigger">
+         <i class="fas fa-dollar-sign"></i>
+       </button>
+     </div>
+
+     <!-- Mobile Currency Selection Popup -->
+     <div id="mobile-currency-popup" class="mobile-currency-popup">
+       <div class="mobile-currency-popup-overlay"></div>
+       <div class="mobile-currency-popup-content">
+         <div class="mobile-currency-popup-header">
+           <h3>Select Currency</h3>
+           <button type="button" class="mobile-currency-popup-close" aria-label="Close">
+             <i class="fas fa-times"></i>
+           </button>
+         </div>
+         <div class="mobile-currency-grid">
+           <button class="mobile-currency-option" data-currency="USD" data-symbol="$">
+             <img src="https://flagcdn.com/w20/us.png" alt="US Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">USD</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="INR" data-symbol="₹">
+             <img src="https://flagcdn.com/w20/in.png" alt="IN Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">INR</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="EUR" data-symbol="€">
+             <img src="https://flagcdn.com/w20/eu.png" alt="EU Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">EUR</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="GBP" data-symbol="£">
+             <img src="https://flagcdn.com/w20/gb.png" alt="GB Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">GBP</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="CAD" data-symbol="$">
+             <img src="https://flagcdn.com/w20/ca.png" alt="CA Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">CAD</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="AUD" data-symbol="$">
+             <img src="https://flagcdn.com/w20/au.png" alt="AU Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">AUD</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="AED" data-symbol="د.إ">
+             <img src="https://flagcdn.com/w20/ae.png" alt="AE Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">AED</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="SGD" data-symbol="$">
+             <img src="https://flagcdn.com/w20/sg.png" alt="SG Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">SGD</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="MYR" data-symbol="RM">
+             <img src="https://flagcdn.com/w20/my.png" alt="MY Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">MYR</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="HKD" data-symbol="$">
+             <img src="https://flagcdn.com/w20/hk.png" alt="HK Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">HKD</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="NZD" data-symbol="$">
+             <img src="https://flagcdn.com/w20/nz.png" alt="NZ Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">NZD</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="SAR" data-symbol="ر.س">
+             <img src="https://flagcdn.com/w20/sa.png" alt="SA Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">SAR</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="ZAR" data-symbol="R">
+             <img src="https://flagcdn.com/w20/za.png" alt="ZA Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">ZAR</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="CHF" data-symbol="CHF">
+             <img src="https://flagcdn.com/w20/ch.png" alt="CH Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">CHF</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="NOK" data-symbol="kr">
+             <img src="https://flagcdn.com/w20/no.png" alt="NO Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">NOK</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="DKK" data-symbol="kr">
+             <img src="https://flagcdn.com/w20/dk.png" alt="DK Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">DKK</span>
+           </button>
+           <button class="mobile-currency-option" data-currency="THB" data-symbol="฿">
+             <img src="https://flagcdn.com/w20/th.png" alt="TH Flag" class="mobile-currency-flag">
+             <span class="mobile-currency-code">THB</span>
+           </button>
+         </div>
+       </div>
+     </div>
 
     <style>
       .floating-currency-btn {
@@ -452,13 +535,163 @@
         }
       }
       
-      /* Hide on desktop */
-      @media screen and (min-width: 990px) {
-        .floating-currency-btn {
-          display: none;
-        }
-      }
-    </style>
+             /* Hide on desktop */
+       @media screen and (min-width: 990px) {
+         .floating-currency-btn {
+           display: none;
+         }
+       }
+
+       /* Mobile Currency Popup Styles */
+       .mobile-currency-popup {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         z-index: 999999;
+         display: none;
+         opacity: 0;
+         visibility: hidden;
+         transition: all 0.3s ease;
+       }
+
+       .mobile-currency-popup.show {
+         display: block;
+         opacity: 1;
+         visibility: visible;
+       }
+
+       .mobile-currency-popup-overlay {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: rgba(0, 0, 0, 0.5);
+         backdrop-filter: blur(4px);
+       }
+
+       .mobile-currency-popup-content {
+         position: absolute;
+         bottom: 0;
+         left: 0;
+         width: 100%;
+         background: #ffffff;
+         border-radius: 20px 20px 0 0;
+         padding: 24px 20px 40px 20px;
+         transform: translateY(100%);
+         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+         max-height: 80vh;
+         overflow-y: auto;
+       }
+
+       .mobile-currency-popup.show .mobile-currency-popup-content {
+         transform: translateY(0);
+       }
+
+       .mobile-currency-popup-header {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         margin-bottom: 24px;
+         padding-bottom: 16px;
+         border-bottom: 1px solid #e5e7eb;
+       }
+
+       .mobile-currency-popup-header h3 {
+         margin: 0;
+         font-size: 20px;
+         font-weight: 600;
+         color: #111827;
+       }
+
+       .mobile-currency-popup-close {
+         width: 40px;
+         height: 40px;
+         border-radius: 50%;
+         background: #f3f4f6;
+         border: none;
+         color: #6b7280;
+         font-size: 18px;
+         cursor: pointer;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         transition: all 0.2s ease;
+       }
+
+       .mobile-currency-popup-close:hover {
+         background: #e5e7eb;
+         color: #374151;
+       }
+
+       .mobile-currency-grid {
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         gap: 12px;
+       }
+
+       .mobile-currency-option {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 8px;
+         padding: 16px 12px;
+         background: #ffffff;
+         border: 2px solid #e5e7eb;
+         border-radius: 12px;
+         cursor: pointer;
+         transition: all 0.2s ease;
+         text-align: center;
+       }
+
+       .mobile-currency-option:hover {
+         border-color: #667eea;
+         background: #f8fafc;
+         transform: translateY(-2px);
+         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+       }
+
+       .mobile-currency-option.selected {
+         border-color: #667eea;
+         background: #f0f4ff;
+         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+       }
+
+       .mobile-currency-flag {
+         width: 32px;
+         height: 24px;
+         border-radius: 4px;
+         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+       }
+
+       .mobile-currency-code {
+         font-size: 14px;
+         font-weight: 600;
+         color: #374151;
+       }
+
+       .mobile-currency-option.selected .mobile-currency-code {
+         color: #667eea;
+       }
+
+       /* Responsive adjustments for very small screens */
+       @media screen and (max-width: 480px) {
+         .mobile-currency-grid {
+           grid-template-columns: repeat(2, 1fr);
+           gap: 10px;
+         }
+         
+         .mobile-currency-option {
+           padding: 14px 10px;
+         }
+         
+         .mobile-currency-popup-content {
+           padding: 20px 16px 32px 16px;
+         }
+       }
+     </style>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
@@ -473,44 +706,160 @@
                  // Click handler for floating button
          floatingTrigger.addEventListener('click', function() {
            console.log('Floating button clicked!');
-           const currencySelector = findCurrencySelector();
-           console.log('Found currency selector:', currencySelector);
-           
-           if (currencySelector) {
-             // Trigger the currency selector click
-             console.log('Triggering currency selector click...');
-             currencySelector.click();
-           } else {
-             // Fallback: show a simple alert or create a basic currency selector
-             console.log('Currency selector not found');
-             alert('Currency selector not found. Please refresh the page.');
+           showMobileCurrencyPopup();
+         });
+         
+         // Mobile Currency Popup Functionality
+         const mobilePopup = document.getElementById('mobile-currency-popup');
+         const mobilePopupOverlay = mobilePopup.querySelector('.mobile-currency-popup-overlay');
+         const mobilePopupClose = mobilePopup.querySelector('.mobile-currency-popup-close');
+         const mobileCurrencyOptions = mobilePopup.querySelectorAll('.mobile-currency-option');
+         
+         function showMobileCurrencyPopup() {
+           mobilePopup.classList.add('show');
+           document.body.style.overflow = 'hidden';
+         }
+         
+         function hideMobileCurrencyPopup() {
+           mobilePopup.classList.remove('show');
+           document.body.style.overflow = '';
+         }
+         
+         // Close popup when clicking overlay or close button
+         mobilePopupOverlay.addEventListener('click', hideMobileCurrencyPopup);
+         mobilePopupClose.addEventListener('click', hideMobileCurrencyPopup);
+         
+         // Close popup on escape key
+         document.addEventListener('keydown', function(e) {
+           if (e.key === 'Escape' && mobilePopup.classList.contains('show')) {
+             hideMobileCurrencyPopup();
            }
          });
+         
+         // Handle currency selection in mobile popup
+         mobileCurrencyOptions.forEach(option => {
+           option.addEventListener('click', function() {
+             const currency = this.dataset.currency;
+             const symbol = this.dataset.symbol;
+             
+             // Remove selected class from all options
+             mobileCurrencyOptions.forEach(opt => opt.classList.remove('selected'));
+             
+             // Add selected class to clicked option
+             this.classList.add('selected');
+             
+             // Update floating button icon
+             updateFloatingButtonIcon(currency);
+             
+             // Store selection in localStorage
+             localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol }));
+             
+             // Change Shopify currency
+             changeShopifyCurrency(currency);
+             
+             // Close popup
+             hideMobileCurrencyPopup();
+             
+             // Trigger custom event for other components
+             document.dispatchEvent(new CustomEvent('currencyChanged', {
+               detail: { currency, symbol }
+             }));
+           });
+         });
+         
+         // Function to change Shopify currency
+         function changeShopifyCurrency(currencyCode) {
+           // Method 1: Try using Shopify's currency selector if available
+           const shopifyCurrencySelector = document.querySelector('select[name="currency_code"], select[name="currency"], .currency-selector select');
+           if (shopifyCurrencySelector) {
+             shopifyCurrencySelector.value = currencyCode;
+             shopifyCurrencySelector.dispatchEvent(new Event('change'));
+             return;
+           }
+           
+           // Method 2: Use AJAX to update currency without page redirect
+           if (typeof fetch !== 'undefined') {
+             const formData = new FormData();
+             formData.append('currency', currencyCode);
+             formData.append('return_to', window.location.pathname);
+             
+             fetch('/cart/update', {
+               method: 'POST',
+               body: formData,
+               headers: {
+                 'X-Requested-With': 'XMLHttpRequest'
+               }
+             })
+             .then(response => response.json())
+             .then(data => {
+               if (data.status === 200) {
+                 // Currency updated successfully, reload page to show new prices
+                 window.location.reload();
+               } else {
+                 // Fallback to URL parameter method
+                 const currentUrl = new URL(window.location);
+                 currentUrl.searchParams.set('currency', currencyCode);
+                 window.location.href = currentUrl.toString();
+               }
+             })
+             .catch(error => {
+               console.log('AJAX currency update failed, using fallback method');
+               // Fallback to URL parameter method
+               const currentUrl = new URL(window.location);
+               currentUrl.searchParams.set('currency', currencyCode);
+               window.location.href = currentUrl.toString();
+             });
+             return;
+           }
+           
+           // Method 3: Reload page with currency parameter
+           const currentUrl = new URL(window.location);
+           currentUrl.searchParams.set('currency', currencyCode);
+           window.location.href = currentUrl.toString();
+         }
         
-        // Update floating button icon based on current currency
-        function updateFloatingButtonIcon() {
-          const currencySelector = findCurrencySelector();
-          if (currencySelector) {
-            const currencyCode = currencySelector.querySelector('.currency-code');
-            if (currencyCode) {
-              const currency = currencyCode.textContent;
-              const icon = floatingTrigger.querySelector('i');
-              
-              // Update icon based on currency
-              if (currency === 'USD') {
-                icon.className = 'fas fa-dollar-sign';
-              } else if (currency === 'EUR') {
-                icon.className = 'fas fa-euro-sign';
-              } else if (currency === 'GBP') {
-                icon.className = 'fas fa-pound-sign';
-              } else if (currency === 'INR') {
-                icon.className = 'fas fa-rupee-sign';
-              } else {
-                icon.className = 'fas fa-money-bill';
-              }
-            }
-          }
-        }
+                 // Update floating button icon based on current currency
+         function updateFloatingButtonIcon(currency = null) {
+           let currencyCode = currency;
+           
+           // If no currency provided, try to get from localStorage or default to USD
+           if (!currencyCode) {
+             const savedCurrency = localStorage.getItem('selectedCurrency');
+             if (savedCurrency) {
+               try {
+                 const { currency: saved } = JSON.parse(savedCurrency);
+                 currencyCode = saved;
+               } catch (e) {
+                 currencyCode = 'USD';
+               }
+             } else {
+               currencyCode = 'USD';
+             }
+           }
+           
+           const icon = floatingTrigger.querySelector('i');
+           
+           // Update icon based on currency
+           if (currencyCode === 'USD') {
+             icon.className = 'fas fa-dollar-sign';
+           } else if (currencyCode === 'EUR') {
+             icon.className = 'fas fa-euro-sign';
+           } else if (currencyCode === 'GBP') {
+             icon.className = 'fas fa-pound-sign';
+           } else if (currencyCode === 'INR') {
+             icon.className = 'fas fa-rupee-sign';
+           } else {
+             icon.className = 'fas fa-money-bill';
+           }
+           
+           // Also update the selected state in mobile popup
+           mobileCurrencyOptions.forEach(option => {
+             option.classList.remove('selected');
+             if (option.dataset.currency === currencyCode) {
+               option.classList.add('selected');
+             }
+           });
+         }
         
         // Update icon on page load
         updateFloatingButtonIcon();
