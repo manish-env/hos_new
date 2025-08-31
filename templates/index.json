@@ -222,107 +222,6 @@
         "cover": true
       }
     },
-    "mx_reviews_jwfikg": {
-      "type": "Mx-Reviews",
-      "blocks": {
-        "review_67YBH8": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Great quality for the price. The dupatta border is elegant and not too heavy</p>",
-            "stars": 5,
-            "author": "Anamika Rao",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_BUfCiD": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
-            "stars": 5,
-            "author": "Kulwinder K Samrai",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_UxhAKQ": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
-            "stars": 5,
-            "author": "Kulwinder K Samrai",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_EcAVPB": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
-            "stars": 5,
-            "author": "Kulwinder K Samrai",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_eDjgYw": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
-            "stars": 5,
-            "author": "Kulwinder K Samrai",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_GhiXCd": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Hi. I received both my outfits yesterday. They fit perfectly! Thank you.</p>",
-            "stars": 5,
-            "author": "Kulwinder K Samrai",
-            "location": "Gravesend, United Kingdom",
-            "date": ""
-          }
-        },
-        "review_VcKfcQ": {
-          "type": "review",
-          "settings": {
-            "text": "<p>Absolutely loved the fabric and fit. Delivery was quick too!</p>",
-            "stars": 5,
-            "author": "Sonia P.",
-            "location": "Pune, India",
-            "date": ""
-          }
-        }
-      },
-      "block_order": [
-        "review_67YBH8",
-        "review_BUfCiD",
-        "review_UxhAKQ",
-        "review_EcAVPB",
-        "review_eDjgYw",
-        "review_GhiXCd",
-        "review_VcKfcQ"
-      ],
-      "name": "LDMX Reviews + Banner",
-      "settings": {
-        "media_title": "",
-        "reviews_title": "Customer Reviews",
-        "accent_color": "#ff4aa2",
-        "show_stars": true,
-        "pad_top": 48,
-        "pad_bottom": 48,
-        "video_url": "",
-        "video_mp4": "https://cdn.shopify.com/videos/c/o/v/40e809a229db4d8f904800222bfc9a11.mp4",
-        "autoplay": true,
-        "loop": true,
-        "muted": true,
-        "controls": true,
-        "auto_rotate": true,
-        "rotate_ms": 5000
-      }
-    },
     "custom_liquid_atVrEf": {
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
@@ -346,7 +245,6 @@
     "mx_reels_4VwnF4",
     "mx_ctaimg_9RyYd3",
     "csutom_collections_BMFka7",
-    "mx_reviews_jwfikg",
     "custom_liquid_atVrEf",
     "17564054231aee1416"
   ]
