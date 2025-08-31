@@ -404,12 +404,12 @@
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-         <!-- Floating Currency Button -->
-     <div id="floating-currency-btn" class="floating-currency-btn">
-       <button type="button" aria-label="Change Currency" class="floating-currency-trigger">
-         <img src="https://flagcdn.com/w20/us.png" alt="US Flag" class="floating-currency-flag" width="24" height="18">
-       </button>
-     </div>
+               <!-- Floating Currency Button -->
+      <div id="floating-currency-btn" class="floating-currency-btn">
+        <button type="button" aria-label="Change Currency" class="floating-currency-trigger">
+          <img src="https://flagcdn.com/w80/us.png" alt="US Flag" class="floating-currency-flag" width="80" height="60">
+        </button>
+      </div>
 
      <!-- Mobile Currency Selection Popup -->
      <div id="mobile-currency-popup" class="mobile-currency-popup">
@@ -521,13 +521,15 @@
           overflow: hidden;
         }
         
-        .floating-currency-flag {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          box-shadow: none;
-          object-fit: cover;
-        }
+                 .floating-currency-flag {
+           width: 100%;
+           height: 100%;
+           border-radius: 50%;
+           box-shadow: none;
+           object-fit: cover;
+           image-rendering: -webkit-optimize-contrast;
+           image-rendering: crisp-edges;
+         }
       
              .floating-currency-trigger:hover {
          transform: scale(1.1);
@@ -850,26 +852,26 @@
            
            const flagImg = floatingTrigger.querySelector('.floating-currency-flag');
            
-           // Currency flag mapping
-           const currencyFlags = {
-             'USD': 'https://flagcdn.com/w20/us.png',
-             'INR': 'https://flagcdn.com/w20/in.png',
-             'EUR': 'https://flagcdn.com/w20/eu.png',
-             'GBP': 'https://flagcdn.com/w20/gb.png',
-             'CAD': 'https://flagcdn.com/w20/ca.png',
-             'AUD': 'https://flagcdn.com/w20/au.png',
-             'AED': 'https://flagcdn.com/w20/ae.png',
-             'SGD': 'https://flagcdn.com/w20/sg.png',
-             'MYR': 'https://flagcdn.com/w20/my.png',
-             'HKD': 'https://flagcdn.com/w20/hk.png',
-             'NZD': 'https://flagcdn.com/w20/nz.png',
-             'SAR': 'https://flagcdn.com/w20/sa.png',
-             'ZAR': 'https://flagcdn.com/w20/za.png',
-             'CHF': 'https://flagcdn.com/w20/ch.png',
-             'NOK': 'https://flagcdn.com/w20/no.png',
-             'DKK': 'https://flagcdn.com/w20/dk.png',
-             'THB': 'https://flagcdn.com/w20/th.png'
-           };
+                       // Currency flag mapping
+            const currencyFlags = {
+              'USD': 'https://flagcdn.com/w80/us.png',
+              'INR': 'https://flagcdn.com/w80/in.png',
+              'EUR': 'https://flagcdn.com/w80/eu.png',
+              'GBP': 'https://flagcdn.com/w80/gb.png',
+              'CAD': 'https://flagcdn.com/w80/ca.png',
+              'AUD': 'https://flagcdn.com/w80/au.png',
+              'AED': 'https://flagcdn.com/w80/ae.png',
+              'SGD': 'https://flagcdn.com/w80/sg.png',
+              'MYR': 'https://flagcdn.com/w80/my.png',
+              'HKD': 'https://flagcdn.com/w80/hk.png',
+              'NZD': 'https://flagcdn.com/w80/nz.png',
+              'SAR': 'https://flagcdn.com/w80/sa.png',
+              'ZAR': 'https://flagcdn.com/w80/za.png',
+              'CHF': 'https://flagcdn.com/w80/ch.png',
+              'NOK': 'https://flagcdn.com/w80/no.png',
+              'DKK': 'https://flagcdn.com/w80/dk.png',
+              'THB': 'https://flagcdn.com/w80/th.png'
+            };
            
            // Update flag image
            if (flagImg && currencyFlags[currencyCode]) {
