@@ -142,12 +142,14 @@
     visibility: hidden;
     transform: translateY(-8px);
     transition: all 0.2s ease;
+    pointer-events: none;
   }
 
   .currency-selector-dropdown.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    pointer-events: auto;
   }
 
   .currency-selector-header {
@@ -330,12 +332,18 @@ document.addEventListener('DOMContentLoaded', function() {
          // Toggle dropdown on click
      trigger.addEventListener('click', (e) => {
        e.stopPropagation();
+       console.log('Currency selector clicked');
        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-       trigger.setAttribute('aria-expanded', !isExpanded);
        
        if (!isExpanded) {
+         // Open dropdown
+         console.log('Opening dropdown');
+         trigger.setAttribute('aria-expanded', 'true');
          dropdown.classList.add('show');
        } else {
+         // Close dropdown
+         console.log('Closing dropdown');
+         trigger.setAttribute('aria-expanded', 'false');
          dropdown.classList.remove('show');
        }
      });
