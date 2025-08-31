@@ -554,6 +554,7 @@
         <!-- Hidden Shopify Currency Form -->
         <form id="currency-form" action="/cart/update" method="post" style="display: none;">
           <input type="hidden" name="currency" id="currency-input">
+          <input type="hidden" name="return_to" value="{{ request.page_type }}">
         </form>
         {%- endif -%}
       </div>
@@ -769,36 +770,70 @@
      const currencySelectors = document.querySelectorAll('.currency-selector-wrapper');
      if (currencySelectors.length === 0) return;
 
-     // Function to change Shopify currency
-     function changeShopifyCurrency(currencyCode) {
-       // Method 1: Try using Shopify's currency selector if available
-       const shopifyCurrencySelector = document.querySelector('select[name="currency_code"], select[name="currency"], .currency-selector select');
-       if (shopifyCurrencySelector) {
-         shopifyCurrencySelector.value = currencyCode;
-         shopifyCurrencySelector.dispatchEvent(new Event('change'));
-         return;
-       }
-       
-       // Method 2: Try using the hidden form approach
-       const currencyForm = document.getElementById('currency-form');
-       const currencyInput = document.getElementById('currency-input');
-       if (currencyForm && currencyInput) {
-         currencyInput.value = currencyCode;
-         currencyForm.submit();
-         return;
-       }
-       
-       // Method 3: Try using Shopify's AJAX currency change
-       if (typeof Shopify !== 'undefined' && Shopify.onCartUpdate) {
-         // This is a fallback - you might need to implement based on your theme
-         console.log('Currency changed to:', currencyCode);
-       }
-       
-       // Method 4: Reload page with currency parameter
-       const currentUrl = new URL(window.location);
-       currentUrl.searchParams.set('currency', currencyCode);
-       window.location.href = currentUrl.toString();
-     }
+           // Function to change Shopify currency
+      function changeShopifyCurrency(currencyCode) {
+        // Method 1: Try using Shopify's currency selector if available
+        const shopifyCurrencySelector = document.querySelector('select[name="currency_code"], select[name="currency"], .currency-selector select');
+        if (shopifyCurrencySelector) {
+          shopifyCurrencySelector.value = currencyCode;
+          shopifyCurrencySelector.dispatchEvent(new Event('change'));
+          return;
+        }
+        
+        // Method 2: Use AJAX to update currency without page redirect
+        if (typeof fetch !== 'undefined') {
+          const formData = new FormData();
+          formData.append('currency', currencyCode);
+          formData.append('return_to', window.location.pathname);
+          
+          fetch('/cart/update', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 200) {
+              // Currency updated successfully, reload page to show new prices
+              window.location.reload();
+            } else {
+              // Fallback to URL parameter method
+              const currentUrl = new URL(window.location);
+              currentUrl.searchParams.set('currency', currencyCode);
+              window.location.href = currentUrl.toString();
+            }
+          })
+          .catch(error => {
+            console.log('AJAX currency update failed, using fallback method');
+            // Fallback to URL parameter method
+            const currentUrl = new URL(window.location);
+            currentUrl.searchParams.set('currency', currencyCode);
+            window.location.href = currentUrl.toString();
+          });
+          return;
+        }
+        
+        // Method 3: Try using the hidden form approach (fallback)
+        const currencyForm = document.getElementById('currency-form');
+        const currencyInput = document.getElementById('currency-input');
+        if (currencyForm && currencyInput) {
+          currencyInput.value = currencyCode;
+          // Add return_to to prevent cart redirect
+          const returnToInput = currencyForm.querySelector('input[name="return_to"]');
+          if (returnToInput) {
+            returnToInput.value = window.location.pathname;
+          }
+          currencyForm.submit();
+          return;
+        }
+        
+        // Method 4: Reload page with currency parameter
+        const currentUrl = new URL(window.location);
+        currentUrl.searchParams.set('currency', currencyCode);
+        window.location.href = currentUrl.toString();
+      }
 
     // Handle all currency selectors on the page
     currencySelectors.forEach(currencySelector => {
