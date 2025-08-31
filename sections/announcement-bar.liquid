@@ -60,6 +60,13 @@
     position: relative;
     display: inline-block;
   }
+  
+  /* Ensure dropdown is hidden by default and only shows on click */
+  .currency-selector-wrapper:hover .currency-selector-dropdown {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
 
   /* Ensure proper alignment in the announcement bar */
   .utility-bar {
@@ -143,6 +150,7 @@
     transform: translateY(-8px);
     transition: all 0.2s ease;
     pointer-events: none;
+    display: none;
   }
 
   .currency-selector-dropdown.show {
@@ -150,6 +158,7 @@
     visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
+    display: block;
   }
 
   .currency-selector-header {
@@ -332,7 +341,11 @@ document.addEventListener('DOMContentLoaded', function() {
          // Toggle dropdown on click
      trigger.addEventListener('click', (e) => {
        e.stopPropagation();
+       e.preventDefault();
        console.log('Currency selector clicked');
+       console.log('Current aria-expanded:', trigger.getAttribute('aria-expanded'));
+       console.log('Current dropdown classes:', dropdown.className);
+       
        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
        
        if (!isExpanded) {
@@ -340,11 +353,14 @@ document.addEventListener('DOMContentLoaded', function() {
          console.log('Opening dropdown');
          trigger.setAttribute('aria-expanded', 'true');
          dropdown.classList.add('show');
+         console.log('After opening - dropdown classes:', dropdown.className);
+         console.log('After opening - dropdown display:', window.getComputedStyle(dropdown).display);
        } else {
          // Close dropdown
          console.log('Closing dropdown');
          trigger.setAttribute('aria-expanded', 'false');
          dropdown.classList.remove('show');
+         console.log('After closing - dropdown classes:', dropdown.className);
        }
      });
 
