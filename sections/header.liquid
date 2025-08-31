@@ -122,6 +122,25 @@
     display: inline-block;
   }
 
+  /* Left-positioned currency selector (next to search bar) */
+  .currency-selector--left {
+    margin-right: 16px;
+    margin-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .currency-selector--left .currency-selector-dropdown {
+    left: 0;
+    right: auto;
+  }
+
+  /* Ensure proper spacing when inline search is enabled */
+  .header__search-inline {
+    display: inline-flex;
+    align-items: center;
+  }
+
   .currency-selector-trigger {
     display: inline-flex;
     align-items: center;
@@ -347,6 +366,107 @@
     {%- comment -%} Mobile search icon removed {%- endcomment -%}
 
     {%- if section.settings.desktop_search_style == 'input' -%}
+      <!-- Currency Selector - Left of Search Bar -->
+      {%- if section.settings.enable_currency_selector -%}
+      <div class="currency-selector-wrapper currency-selector--left small-hide medium-hide">
+        <button class="currency-selector-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Change Currency">
+          <span class="currency-flag">🇺🇸</span>
+          <span class="currency-code">USD</span>
+          <svg class="currency-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <div class="currency-selector-dropdown" role="menu">
+          <div class="currency-selector-header">
+            <h3>Change Currency</h3>
+          </div>
+          <div class="currency-grid">
+            <button class="currency-option" data-currency="AUD" data-symbol="$" role="menuitem">
+              <span class="currency-flag">🇦🇺</span>
+              <span class="currency-code">AUD</span>
+            </button>
+            <button class="currency-option" data-currency="GBP" data-symbol="£" role="menuitem">
+              <span class="currency-flag">🇬🇧</span>
+              <span class="currency-code">GBP</span>
+            </button>
+            <button class="currency-option" data-currency="CAD" data-symbol="$" role="menuitem">
+              <span class="currency-flag">🇨🇦</span>
+              <span class="currency-code">CAD</span>
+            </button>
+            <button class="currency-option" data-currency="DKK" data-symbol="kr" role="menuitem">
+              <span class="currency-flag">🇩🇰</span>
+              <span class="currency-code">DKK</span>
+            </button>
+            <button class="currency-option" data-currency="AED" data-symbol="د.إ" role="menuitem">
+              <span class="currency-flag">🇦🇪</span>
+              <span class="currency-code">AED</span>
+            </button>
+            <button class="currency-option" data-currency="EUR" data-symbol="€" role="menuitem">
+              <span class="currency-flag">🇪🇺</span>
+              <span class="currency-code">EUR</span>
+            </button>
+            <button class="currency-option" data-currency="FJD" data-symbol="$" role="menuitem">
+              <span class="currency-flag">🇫🇯</span>
+              <span class="currency-code">FJD</span>
+            </button>
+            <button class="currency-option" data-currency="HKD" data-symbol="$" role="menuitem">
+              <span class="currency-flag">🇭🇰</span>
+              <span class="currency-code">HKD</span>
+            </button>
+            <button class="currency-option" data-currency="INR" data-symbol="₹" role="menuitem">
+              <span class="currency-flag">🇮🇳</span>
+              <span class="currency-code">INR</span>
+            </button>
+            <button class="currency-option" data-currency="MYR" data-symbol="RM" role="menuitem">
+              <span class="currency-flag">🇲🇾</span>
+              <span class="currency-code">MYR</span>
+            </button>
+            <button class="currency-option" data-currency="MUR" data-symbol="₨" role="menuitem">
+              <span class="currency-flag">🇲🇺</span>
+              <span class="currency-code">MUR</span>
+            </button>
+            <button class="currency-option" data-currency="MAD" data-symbol="د.م." role="menuitem">
+              <span class="currency-flag">🇲🇦</span>
+              <span class="currency-code">MAD</span>
+            </button>
+            <button class="currency-option" data-currency="NZD" data-symbol="$" role="menuitem">
+              <span class="currency-flag">🇳🇿</span>
+              <span class="currency-code">NZD</span>
+            </button>
+            <button class="currency-option" data-currency="NOK" data-symbol="kr" role="menuitem">
+              <span class="currency-flag">🇳🇴</span>
+              <span class="currency-code">NOK</span>
+            </button>
+            <button class="currency-option" data-currency="SAR" data-symbol="ر.س" role="menuitem">
+              <span class="currency-flag">🇸🇦</span>
+              <span class="currency-code">SAR</span>
+            </button>
+            <button class="currency-option" data-currency="SGD" data-symbol="$" role="menuitem">
+              <span class="currency-flag">🇸🇬</span>
+              <span class="currency-code">SGD</span>
+            </button>
+            <button class="currency-option" data-currency="ZAR" data-symbol="R" role="menuitem">
+              <span class="currency-flag">🇿🇦</span>
+              <span class="currency-code">ZAR</span>
+            </button>
+            <button class="currency-option" data-currency="LKR" data-symbol="₨" role="menuitem">
+              <span class="currency-flag">🇱🇰</span>
+              <span class="currency-code">LKR</span>
+            </button>
+            <button class="currency-option" data-currency="CHF" data-symbol="CHF" role="menuitem">
+              <span class="currency-flag">🇨🇭</span>
+              <span class="currency-code">CHF</span>
+            </button>
+            <button class="currency-option" data-currency="THB" data-symbol="฿" role="menuitem">
+              <span class="currency-flag">🇹🇭</span>
+              <span class="currency-code">THB</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      {%- endif -%}
+      
       {%- render 'header-search-inline-clean' -%}
     {%- endif -%}
 
@@ -450,106 +570,7 @@
           </localization-form>
         {%- endif -%}
 
-        <!-- Currency Selector -->
-        {%- if section.settings.enable_currency_selector -%}
-        <div class="currency-selector-wrapper small-hide medium-hide">
-          <button class="currency-selector-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Change Currency">
-            <span class="currency-flag">🇺🇸</span>
-            <span class="currency-code">USD</span>
-            <svg class="currency-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          
-          <div class="currency-selector-dropdown" role="menu">
-            <div class="currency-selector-header">
-              <h3>Change Currency</h3>
-            </div>
-            <div class="currency-grid">
-              <button class="currency-option" data-currency="AUD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇦🇺</span>
-                <span class="currency-code">AUD</span>
-              </button>
-              <button class="currency-option" data-currency="GBP" data-symbol="£" role="menuitem">
-                <span class="currency-flag">🇬🇧</span>
-                <span class="currency-code">GBP</span>
-              </button>
-              <button class="currency-option" data-currency="CAD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇨🇦</span>
-                <span class="currency-code">CAD</span>
-              </button>
-              <button class="currency-option" data-currency="DKK" data-symbol="kr" role="menuitem">
-                <span class="currency-flag">🇩🇰</span>
-                <span class="currency-code">DKK</span>
-              </button>
-              <button class="currency-option" data-currency="AED" data-symbol="د.إ" role="menuitem">
-                <span class="currency-flag">🇦🇪</span>
-                <span class="currency-code">AED</span>
-              </button>
-              <button class="currency-option" data-currency="EUR" data-symbol="€" role="menuitem">
-                <span class="currency-flag">🇪🇺</span>
-                <span class="currency-code">EUR</span>
-              </button>
-              <button class="currency-option" data-currency="FJD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇫🇯</span>
-                <span class="currency-code">FJD</span>
-              </button>
-              <button class="currency-option" data-currency="HKD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇭🇰</span>
-                <span class="currency-code">HKD</span>
-              </button>
-              <button class="currency-option" data-currency="INR" data-symbol="₹" role="menuitem">
-                <span class="currency-flag">🇮🇳</span>
-                <span class="currency-code">INR</span>
-              </button>
-              <button class="currency-option" data-currency="MYR" data-symbol="RM" role="menuitem">
-                <span class="currency-flag">🇲🇾</span>
-                <span class="currency-code">MYR</span>
-              </button>
-              <button class="currency-option" data-currency="MUR" data-symbol="₨" role="menuitem">
-                <span class="currency-flag">🇲🇺</span>
-                <span class="currency-code">MUR</span>
-              </button>
-              <button class="currency-option" data-currency="MAD" data-symbol="د.م." role="menuitem">
-                <span class="currency-flag">🇲🇦</span>
-                <span class="currency-code">MAD</span>
-              </button>
-              <button class="currency-option" data-currency="NZD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇳🇿</span>
-                <span class="currency-code">NZD</span>
-              </button>
-              <button class="currency-option" data-currency="NOK" data-symbol="kr" role="menuitem">
-                <span class="currency-flag">🇳🇴</span>
-                <span class="currency-code">NOK</span>
-              </button>
-              <button class="currency-option" data-currency="SAR" data-symbol="ر.س" role="menuitem">
-                <span class="currency-flag">🇸🇦</span>
-                <span class="currency-code">SAR</span>
-              </button>
-              <button class="currency-option" data-currency="SGD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇸🇬</span>
-                <span class="currency-code">SGD</span>
-              </button>
-              <button class="currency-option" data-currency="ZAR" data-symbol="R" role="menuitem">
-                <span class="currency-flag">🇿🇦</span>
-                <span class="currency-code">ZAR</span>
-              </button>
-              <button class="currency-option" data-currency="LKR" data-symbol="₨" role="menuitem">
-                <span class="currency-flag">🇱🇰</span>
-                <span class="currency-code">LKR</span>
-              </button>
-              <button class="currency-option" data-currency="CHF" data-symbol="CHF" role="menuitem">
-                <span class="currency-flag">🇨🇭</span>
-                <span class="currency-code">CHF</span>
-              </button>
-              <button class="currency-option" data-currency="THB" data-symbol="฿" role="menuitem">
-                <span class="currency-flag">🇹🇭</span>
-                <span class="currency-code">THB</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        {%- endif -%}
+
       </div>
       {%- comment -%} Right-side search icon removed {%- endcomment -%}
 
@@ -752,12 +773,14 @@
 
   // Currency Selector Functionality
   document.addEventListener('DOMContentLoaded', () => {
-    const currencySelector = document.querySelector('.currency-selector-wrapper');
-    if (!currencySelector) return;
+    const currencySelectors = document.querySelectorAll('.currency-selector-wrapper');
+    if (currencySelectors.length === 0) return;
 
-    const trigger = currencySelector.querySelector('.currency-selector-trigger');
-    const dropdown = currencySelector.querySelector('.currency-selector-dropdown');
-    const options = currencySelector.querySelectorAll('.currency-option');
+    // Handle all currency selectors on the page
+    currencySelectors.forEach(currencySelector => {
+      const trigger = currencySelector.querySelector('.currency-selector-trigger');
+      const dropdown = currencySelector.querySelector('.currency-selector-dropdown');
+      const options = currencySelector.querySelectorAll('.currency-option');
 
     // Toggle dropdown on click
     trigger.addEventListener('click', (e) => {
@@ -847,6 +870,7 @@
         console.warn('Failed to restore saved currency');
       }
     }
+    });
   });
 {% endjavascript %}
 
