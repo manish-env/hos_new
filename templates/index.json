@@ -319,7 +319,7 @@
         "loop": true,
         "muted": true,
         "controls": true,
-        "auto_rotate": false,
+        "auto_rotate": true,
         "rotate_ms": 5000
       }
     },
