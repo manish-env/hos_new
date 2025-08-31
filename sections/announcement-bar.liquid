@@ -234,35 +234,44 @@
       display: none;
     }
     
-         /* Mobile floating currency selector */
+         /* Mobile floating currency selector - NEW VERSION */
      .currency-selector-mobile {
        display: block !important;
-       position: fixed;
-       left: 10px;
-       bottom: 20px;
-       z-index: 9999;
-       background: #ffffff;
+       position: fixed !important;
+       left: 20px !important;
+       bottom: 30px !important;
+       z-index: 99999 !important;
+       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
        border-radius: 50%;
-       width: 56px;
-       height: 56px;
-       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-       border: none;
+       width: 60px;
+       height: 60px;
+       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+       border: 3px solid #ffffff;
        cursor: pointer;
        display: flex;
        align-items: center;
        justify-content: center;
-       transition: all 0.3s ease;
+       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+       backdrop-filter: blur(10px);
+       transform: none !important;
+       will-change: transform;
      }
      
      .currency-selector-mobile:hover {
-       transform: scale(1.1);
-       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+       transform: scale(1.15) translateY(-2px);
+       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+       background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+     }
+     
+     .currency-selector-mobile:active {
+       transform: scale(0.95);
      }
      
      .currency-selector-mobile .currency-flag-img {
-       width: 24px;
-       height: 18px;
-       border-radius: 2px;
+       width: 28px;
+       height: 21px;
+       border-radius: 3px;
+       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
      }
      
      .currency-selector-mobile .currency-code {
@@ -273,31 +282,81 @@
        display: none;
      }
      
-     /* Mobile dropdown positioning */
+     /* Mobile dropdown positioning - NEW VERSION */
      .currency-selector-mobile .currency-selector-dropdown {
        position: fixed;
-       left: 10px;
-       bottom: 90px;
-       right: 10px;
+       left: 20px;
+       bottom: 110px;
+       right: 20px;
        top: auto;
        min-width: auto;
-       max-height: 350px;
-       width: calc(100vw - 20px);
+       max-height: 400px;
+       width: calc(100vw - 40px);
+       background: rgba(255, 255, 255, 0.95) !important;
+       backdrop-filter: blur(20px);
+       border: 1px solid rgba(255, 255, 255, 0.2);
+       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
      }
      
      /* Prevent horizontal scrolling on very small screens */
      @media screen and (max-width: 480px) {
        .currency-selector-mobile {
-         left: 8px;
-         bottom: 15px;
+         left: 15px;
+         bottom: 25px;
+         width: 55px;
+         height: 55px;
+       }
+       
+       .currency-selector-mobile .currency-flag-img {
+         width: 24px;
+         height: 18px;
        }
        
        .currency-selector-mobile .currency-selector-dropdown {
-         left: 8px;
-         right: 8px;
-         width: calc(100vw - 16px);
-         bottom: 85px;
+         left: 15px;
+         right: 15px;
+         width: calc(100vw - 30px);
+         bottom: 100px;
        }
+     }
+     
+     /* Extra small screens */
+     @media screen and (max-width: 360px) {
+       .currency-selector-mobile {
+         left: 10px !important;
+         bottom: 20px !important;
+         width: 50px;
+         height: 50px;
+       }
+       
+       .currency-selector-mobile .currency-flag-img {
+         width: 22px;
+         height: 16px;
+       }
+       
+       .currency-selector-mobile .currency-selector-dropdown {
+         left: 10px;
+         right: 10px;
+         width: calc(100vw - 20px);
+         bottom: 90px;
+       }
+     }
+     
+     /* Prevent any theme interference with floating button */
+     .currency-selector-mobile * {
+       box-sizing: border-box;
+     }
+     
+     /* Ensure button stays in place during scroll */
+     html, body {
+       overflow-x: hidden;
+     }
+     
+     /* Override any theme transforms that might affect positioning */
+     .currency-selector-mobile,
+     .currency-selector-mobile * {
+       transform: none !important;
+       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
      }
   }
   
@@ -432,20 +491,27 @@ document.addEventListener('DOMContentLoaded', function() {
           const isMobile = currencySelector.classList.contains('currency-selector-mobile');
           
                      if (isMobile) {
-             // Mobile positioning - fixed at bottom left with responsive width
+             // Mobile positioning - NEW VERSION with better positioning
              dropdown.style.position = 'fixed';
-             dropdown.style.left = '10px';
-             dropdown.style.bottom = '90px';
-             dropdown.style.right = '10px';
+             dropdown.style.left = '20px';
+             dropdown.style.bottom = '110px';
+             dropdown.style.right = '20px';
              dropdown.style.top = 'auto';
-             dropdown.style.width = 'calc(100vw - 20px)';
+             dropdown.style.width = 'calc(100vw - 40px)';
              
-             // Adjust for very small screens
+             // Adjust for different screen sizes
              if (window.innerWidth <= 480) {
-               dropdown.style.left = '8px';
-               dropdown.style.right = '8px';
-               dropdown.style.width = 'calc(100vw - 16px)';
-               dropdown.style.bottom = '85px';
+               dropdown.style.left = '15px';
+               dropdown.style.right = '15px';
+               dropdown.style.width = 'calc(100vw - 30px)';
+               dropdown.style.bottom = '100px';
+             }
+             
+             if (window.innerWidth <= 360) {
+               dropdown.style.left = '10px';
+               dropdown.style.right = '10px';
+               dropdown.style.width = 'calc(100vw - 20px)';
+               dropdown.style.bottom = '90px';
              }
            } else {
             // Desktop positioning - relative to trigger
