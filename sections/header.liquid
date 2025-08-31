@@ -468,7 +468,7 @@
         <div class="currency-selector-wrapper small-hide medium-hide">
           <button class="currency-selector-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Change Currency">
             <span class="currency-flag">🇺🇸</span>
-            <span class="currency-code">USD</span>
+            <span class="currency-code">{{ cart.currency.iso_code | default: 'USD' }}</span>
             <svg class="currency-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -479,9 +479,17 @@
               <h3>Change Currency</h3>
             </div>
             <div class="currency-grid">
-              <button class="currency-option" data-currency="AUD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇦🇺</span>
-                <span class="currency-code">AUD</span>
+              <button class="currency-option" data-currency="USD" data-symbol="$" role="menuitem">
+                <span class="currency-flag">🇺🇸</span>
+                <span class="currency-code">USD</span>
+              </button>
+              <button class="currency-option" data-currency="INR" data-symbol="₹" role="menuitem">
+                <span class="currency-flag">🇮🇳</span>
+                <span class="currency-code">INR</span>
+              </button>
+              <button class="currency-option" data-currency="EUR" data-symbol="€" role="menuitem">
+                <span class="currency-flag">🇪🇺</span>
+                <span class="currency-code">EUR</span>
               </button>
               <button class="currency-option" data-currency="GBP" data-symbol="£" role="menuitem">
                 <span class="currency-flag">🇬🇧</span>
@@ -491,69 +499,49 @@
                 <span class="currency-flag">🇨🇦</span>
                 <span class="currency-code">CAD</span>
               </button>
-              <button class="currency-option" data-currency="DKK" data-symbol="kr" role="menuitem">
-                <span class="currency-flag">🇩🇰</span>
-                <span class="currency-code">DKK</span>
+              <button class="currency-option" data-currency="AUD" data-symbol="$" role="menuitem">
+                <span class="currency-flag">🇦🇺</span>
+                <span class="currency-code">AUD</span>
               </button>
               <button class="currency-option" data-currency="AED" data-symbol="د.إ" role="menuitem">
                 <span class="currency-flag">🇦🇪</span>
                 <span class="currency-code">AED</span>
               </button>
-              <button class="currency-option" data-currency="EUR" data-symbol="€" role="menuitem">
-                <span class="currency-flag">🇪🇺</span>
-                <span class="currency-code">EUR</span>
-              </button>
-              <button class="currency-option" data-currency="FJD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇫🇯</span>
-                <span class="currency-code">FJD</span>
-              </button>
-              <button class="currency-option" data-currency="HKD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇭🇰</span>
-                <span class="currency-code">HKD</span>
-              </button>
-              <button class="currency-option" data-currency="INR" data-symbol="₹" role="menuitem">
-                <span class="currency-flag">🇮🇳</span>
-                <span class="currency-code">INR</span>
+              <button class="currency-option" data-currency="SGD" data-symbol="$" role="menuitem">
+                <span class="currency-flag">🇸🇬</span>
+                <span class="currency-code">SGD</span>
               </button>
               <button class="currency-option" data-currency="MYR" data-symbol="RM" role="menuitem">
                 <span class="currency-flag">🇲🇾</span>
                 <span class="currency-code">MYR</span>
               </button>
-              <button class="currency-option" data-currency="MUR" data-symbol="₨" role="menuitem">
-                <span class="currency-flag">🇲🇺</span>
-                <span class="currency-code">MUR</span>
-              </button>
-              <button class="currency-option" data-currency="MAD" data-symbol="د.م." role="menuitem">
-                <span class="currency-flag">🇲🇦</span>
-                <span class="currency-code">MAD</span>
+              <button class="currency-option" data-currency="HKD" data-symbol="$" role="menuitem">
+                <span class="currency-flag">🇭🇰</span>
+                <span class="currency-code">HKD</span>
               </button>
               <button class="currency-option" data-currency="NZD" data-symbol="$" role="menuitem">
                 <span class="currency-flag">🇳🇿</span>
                 <span class="currency-code">NZD</span>
               </button>
-              <button class="currency-option" data-currency="NOK" data-symbol="kr" role="menuitem">
-                <span class="currency-flag">🇳🇴</span>
-                <span class="currency-code">NOK</span>
-              </button>
               <button class="currency-option" data-currency="SAR" data-symbol="ر.س" role="menuitem">
                 <span class="currency-flag">🇸🇦</span>
                 <span class="currency-code">SAR</span>
-              </button>
-              <button class="currency-option" data-currency="SGD" data-symbol="$" role="menuitem">
-                <span class="currency-flag">🇸🇬</span>
-                <span class="currency-code">SGD</span>
               </button>
               <button class="currency-option" data-currency="ZAR" data-symbol="R" role="menuitem">
                 <span class="currency-flag">🇿🇦</span>
                 <span class="currency-code">ZAR</span>
               </button>
-              <button class="currency-option" data-currency="LKR" data-symbol="₨" role="menuitem">
-                <span class="currency-flag">🇱🇰</span>
-                <span class="currency-code">LKR</span>
-              </button>
               <button class="currency-option" data-currency="CHF" data-symbol="CHF" role="menuitem">
                 <span class="currency-flag">🇨🇭</span>
                 <span class="currency-code">CHF</span>
+              </button>
+              <button class="currency-option" data-currency="NOK" data-symbol="kr" role="menuitem">
+                <span class="currency-flag">🇳🇴</span>
+                <span class="currency-code">NOK</span>
+              </button>
+              <button class="currency-option" data-currency="DKK" data-symbol="kr" role="menuitem">
+                <span class="currency-flag">🇩🇰</span>
+                <span class="currency-code">DKK</span>
               </button>
               <button class="currency-option" data-currency="THB" data-symbol="฿" role="menuitem">
                 <span class="currency-flag">🇹🇭</span>
@@ -562,6 +550,11 @@
             </div>
           </div>
         </div>
+        
+        <!-- Hidden Shopify Currency Form -->
+        <form id="currency-form" action="/cart/update" method="post" style="display: none;">
+          <input type="hidden" name="currency" id="currency-input">
+        </form>
         {%- endif -%}
       </div>
 
@@ -771,10 +764,41 @@
     setInterval(advance, 4000);
   });
 
-  // Currency Selector Functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const currencySelectors = document.querySelectorAll('.currency-selector-wrapper');
-    if (currencySelectors.length === 0) return;
+     // Currency Selector Functionality
+   document.addEventListener('DOMContentLoaded', () => {
+     const currencySelectors = document.querySelectorAll('.currency-selector-wrapper');
+     if (currencySelectors.length === 0) return;
+
+     // Function to change Shopify currency
+     function changeShopifyCurrency(currencyCode) {
+       // Method 1: Try using Shopify's currency selector if available
+       const shopifyCurrencySelector = document.querySelector('select[name="currency_code"], select[name="currency"], .currency-selector select');
+       if (shopifyCurrencySelector) {
+         shopifyCurrencySelector.value = currencyCode;
+         shopifyCurrencySelector.dispatchEvent(new Event('change'));
+         return;
+       }
+       
+       // Method 2: Try using the hidden form approach
+       const currencyForm = document.getElementById('currency-form');
+       const currencyInput = document.getElementById('currency-input');
+       if (currencyForm && currencyInput) {
+         currencyInput.value = currencyCode;
+         currencyForm.submit();
+         return;
+       }
+       
+       // Method 3: Try using Shopify's AJAX currency change
+       if (typeof Shopify !== 'undefined' && Shopify.onCartUpdate) {
+         // This is a fallback - you might need to implement based on your theme
+         console.log('Currency changed to:', currencyCode);
+       }
+       
+       // Method 4: Reload page with currency parameter
+       const currentUrl = new URL(window.location);
+       currentUrl.searchParams.set('currency', currencyCode);
+       window.location.href = currentUrl.toString();
+     }
 
     // Handle all currency selectors on the page
     currencySelectors.forEach(currencySelector => {
@@ -799,39 +823,42 @@
       }
     });
 
-    // Handle currency selection
-    options.forEach(option => {
-      option.addEventListener('click', () => {
-        const currency = option.dataset.currency;
-        const symbol = option.dataset.symbol;
-        const flag = option.querySelector('.currency-flag').textContent;
-        
-        // Update trigger display
-        trigger.querySelector('.currency-flag').textContent = flag;
-        trigger.querySelector('.currency-code').textContent = currency;
-        
-        // Update currency code color based on selection
-        if (currency === 'USD') {
-          trigger.querySelector('.currency-code').style.color = '#dc2626';
-        } else {
-          trigger.querySelector('.currency-code').style.color = '#374151';
-        }
-        
-        // Close dropdown
-        trigger.setAttribute('aria-expanded', 'false');
-        dropdown.style.opacity = '0';
-        dropdown.style.visibility = 'hidden';
-        dropdown.style.transform = 'translateY(-8px)';
-        
-        // Store selection in localStorage
-        localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol, flag }));
-        
-        // Trigger custom event for other components
-        document.dispatchEvent(new CustomEvent('currencyChanged', {
-          detail: { currency, symbol, flag }
-        }));
-      });
-    });
+         // Handle currency selection
+     options.forEach(option => {
+       option.addEventListener('click', () => {
+         const currency = option.dataset.currency;
+         const symbol = option.dataset.symbol;
+         const flag = option.querySelector('.currency-flag').textContent;
+         
+         // Update trigger display
+         trigger.querySelector('.currency-flag').textContent = flag;
+         trigger.querySelector('.currency-code').textContent = currency;
+         
+         // Update currency code color based on selection
+         if (currency === 'USD') {
+           trigger.querySelector('.currency-code').style.color = '#dc2626';
+         } else {
+           trigger.querySelector('.currency-code').style.color = '#374151';
+         }
+         
+         // Close dropdown
+         trigger.setAttribute('aria-expanded', 'false');
+         dropdown.style.opacity = '0';
+         dropdown.style.visibility = 'hidden';
+         dropdown.style.transform = 'translateY(-8px)';
+         
+         // Store selection in localStorage
+         localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol, flag }));
+         
+         // Change Shopify currency using the currency selector
+         changeShopifyCurrency(currency);
+         
+         // Trigger custom event for other components
+         document.dispatchEvent(new CustomEvent('currencyChanged', {
+           detail: { currency, symbol, flag }
+         }));
+       });
+     });
 
     // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
@@ -853,23 +880,43 @@
       }
     });
 
-         // Restore saved currency on page load
-     const savedCurrency = localStorage.getItem('selectedCurrency');
-     if (savedCurrency) {
-       try {
-         const { currency, symbol, flag } = JSON.parse(savedCurrency);
-         trigger.querySelector('.currency-flag').textContent = flag;
-         trigger.querySelector('.currency-code').textContent = currency;
-         
-         if (currency === 'USD') {
-           trigger.querySelector('.currency-code').style.color = '#dc2626';
+                  // Restore saved currency on page load
+         const savedCurrency = localStorage.getItem('selectedCurrency');
+         if (savedCurrency) {
+           try {
+             const { currency, symbol, flag } = JSON.parse(savedCurrency);
+             trigger.querySelector('.currency-flag').textContent = flag;
+             trigger.querySelector('.currency-code').textContent = currency;
+             
+             if (currency === 'USD') {
+               trigger.querySelector('.currency-code').style.color = '#dc2626';
+             } else {
+               trigger.querySelector('.currency-code').style.color = '#374151';
+             }
+           } catch (e) {
+             console.warn('Failed to restore saved currency');
+           }
          } else {
-           trigger.querySelector('.currency-code').style.color = '#374151';
+           // Set initial currency based on Shopify's current currency
+           const currentCurrency = '{{ cart.currency.iso_code | default: "USD" }}';
+           const currencyFlags = {
+             'USD': '🇺🇸', 'INR': '🇮🇳', 'EUR': '🇪🇺', 'GBP': '🇬🇧', 'CAD': '🇨🇦',
+             'AUD': '🇦🇺', 'AED': '🇦🇪', 'SGD': '🇸🇬', 'MYR': '🇲🇾', 'HKD': '🇭🇰',
+             'NZD': '🇳🇿', 'SAR': '🇸🇦', 'ZAR': '🇿🇦', 'CHF': '🇨🇭', 'NOK': '🇳🇴',
+             'DKK': '🇩🇰', 'THB': '🇹🇭'
+           };
+           
+           if (currencyFlags[currentCurrency]) {
+             trigger.querySelector('.currency-flag').textContent = currencyFlags[currentCurrency];
+             trigger.querySelector('.currency-code').textContent = currentCurrency;
+             
+             if (currentCurrency === 'USD') {
+               trigger.querySelector('.currency-code').style.color = '#dc2626';
+             } else {
+               trigger.querySelector('.currency-code').style.color = '#374151';
+             }
+           }
          }
-       } catch (e) {
-         console.warn('Failed to restore saved currency');
-       }
-     }
    }); // Close forEach loop
    }); // Close DOMContentLoaded
 {% endjavascript %}
