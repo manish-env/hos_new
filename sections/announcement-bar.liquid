@@ -233,6 +233,63 @@
     .currency-selector-wrapper {
       display: none;
     }
+    
+    /* Mobile floating currency selector */
+    .currency-selector-mobile {
+      display: block !important;
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 9999;
+      background: #ffffff;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    
+    .currency-selector-mobile:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .currency-selector-mobile .currency-flag-img {
+      width: 24px;
+      height: 18px;
+      border-radius: 2px;
+    }
+    
+    .currency-selector-mobile .currency-code {
+      display: none;
+    }
+    
+    .currency-selector-mobile .currency-arrow {
+      display: none;
+    }
+    
+    /* Mobile dropdown positioning */
+    .currency-selector-mobile .currency-selector-dropdown {
+      position: fixed;
+      left: 20px;
+      bottom: 90px;
+      right: auto;
+      top: auto;
+      min-width: 280px;
+      max-height: 350px;
+    }
+  }
+  
+  /* Hide mobile selector on desktop */
+  @media screen and (min-width: 990px) {
+    .currency-selector-mobile {
+      display: none !important;
+    }
   }
 </style>
 
@@ -354,22 +411,37 @@ document.addEventListener('DOMContentLoaded', function() {
           dropdown.style.visibility = 'visible';
           dropdown.style.opacity = '1';
           dropdown.style.transform = 'none';
-          dropdown.style.position = 'fixed';
-          dropdown.style.top = 'auto';
-          dropdown.style.bottom = 'auto';
-          dropdown.style.left = 'auto';
-          dropdown.style.right = 'auto';
           
-          // Position dropdown relative to trigger
-          const triggerRect = trigger.getBoundingClientRect();
-          dropdown.style.top = (triggerRect.bottom + 8) + 'px';
-          dropdown.style.right = (window.innerWidth - triggerRect.right) + 'px';
+          // Check if this is mobile or desktop selector
+          const isMobile = currencySelector.classList.contains('currency-selector-mobile');
+          
+          if (isMobile) {
+            // Mobile positioning - fixed at bottom left
+            dropdown.style.position = 'fixed';
+            dropdown.style.left = '20px';
+            dropdown.style.bottom = '90px';
+            dropdown.style.right = 'auto';
+            dropdown.style.top = 'auto';
+          } else {
+            // Desktop positioning - relative to trigger
+            dropdown.style.position = 'fixed';
+            dropdown.style.top = 'auto';
+            dropdown.style.bottom = 'auto';
+            dropdown.style.left = 'auto';
+            dropdown.style.right = 'auto';
+            
+            // Position dropdown relative to trigger
+            const triggerRect = trigger.getBoundingClientRect();
+            dropdown.style.top = (triggerRect.bottom + 8) + 'px';
+            dropdown.style.right = (window.innerWidth - triggerRect.right) + 'px';
+          }
           
           trigger.setAttribute('aria-expanded', 'true');
           console.log('OPENED dropdown');
           console.log('After setting display block:', dropdown.style.display);
           console.log('After setting display block - computed:', window.getComputedStyle(dropdown).display);
           console.log('Dropdown position:', dropdown.style.top, dropdown.style.right);
+          console.log('Is mobile:', isMobile);
         }
       });
 
@@ -770,14 +842,103 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
     
-    <!-- Hidden Shopify Currency Form -->
-    <form id="currency-form" action="/cart/update" method="post" style="display: none;">
-      <input type="hidden" name="currency" id="currency-input">
-      <input type="hidden" name="return_to" value="{{ request.page_type }}">
-    </form>
-    {%- endif -%}
-  </div>
-</div>
+         <!-- Hidden Shopify Currency Form -->
+     <form id="currency-form" action="/cart/update" method="post" style="display: none;">
+       <input type="hidden" name="currency" id="currency-input">
+       <input type="hidden" name="return_to" value="{{ request.page_type }}">
+     </form>
+     {%- endif -%}
+   </div>
+ </div>
+
+ <!-- Mobile Floating Currency Selector -->
+ {%- if section.settings.enable_currency_selector -%}
+ <div class="currency-selector-wrapper currency-selector-mobile">
+   <button class="currency-selector-trigger" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Change Currency">
+     <img src="https://flagcdn.com/w20/us.png" alt="US Flag" class="currency-flag-img" width="24" height="18">
+     <span class="currency-code">{{ cart.currency.iso_code | default: 'USD' }}</span>
+     <svg class="currency-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+       <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+     </svg>
+   </button>
+   
+   <div class="currency-selector-dropdown" role="menu">
+     <div class="currency-selector-header">
+       <h3>Change Currency</h3>
+     </div>
+     <div class="currency-grid">
+       <button class="currency-option" data-currency="USD" data-symbol="$" role="menuitem">
+         <img src="https://flagcdn.com/w20/us.png" alt="US Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">USD</span>
+       </button>
+       <button class="currency-option" data-currency="INR" data-symbol="₹" role="menuitem">
+         <img src="https://flagcdn.com/w20/in.png" alt="IN Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">INR</span>
+       </button>
+       <button class="currency-option" data-currency="EUR" data-symbol="€" role="menuitem">
+         <img src="https://flagcdn.com/w20/eu.png" alt="EU Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">EUR</span>
+       </button>
+       <button class="currency-option" data-currency="GBP" data-symbol="£" role="menuitem">
+         <img src="https://flagcdn.com/w20/gb.png" alt="GB Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">GBP</span>
+       </button>
+       <button class="currency-option" data-currency="CAD" data-symbol="$" role="menuitem">
+         <img src="https://flagcdn.com/w20/ca.png" alt="CA Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">CAD</span>
+       </button>
+       <button class="currency-option" data-currency="AUD" data-symbol="$" role="menuitem">
+         <img src="https://flagcdn.com/w20/au.png" alt="AU Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">AUD</span>
+       </button>
+       <button class="currency-option" data-currency="AED" data-symbol="د.إ" role="menuitem">
+         <img src="https://flagcdn.com/w20/ae.png" alt="AE Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">AED</span>
+       </button>
+       <button class="currency-option" data-currency="SGD" data-symbol="$" role="menuitem">
+         <img src="https://flagcdn.com/w20/sg.png" alt="SG Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">SGD</span>
+       </button>
+       <button class="currency-option" data-currency="MYR" data-symbol="RM" role="menuitem">
+         <img src="https://flagcdn.com/w20/my.png" alt="MY Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">MYR</span>
+       </button>
+       <button class="currency-option" data-currency="HKD" data-symbol="$" role="menuitem">
+         <img src="https://flagcdn.com/w20/hk.png" alt="HK Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">HKD</span>
+       </button>
+       <button class="currency-option" data-currency="NZD" data-symbol="$" role="menuitem">
+         <img src="https://flagcdn.com/w20/nz.png" alt="NZ Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">NZD</span>
+       </button>
+       <button class="currency-option" data-currency="SAR" data-symbol="ر.س" role="menuitem">
+         <img src="https://flagcdn.com/w20/sa.png" alt="SA Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">SAR</span>
+       </button>
+       <button class="currency-option" data-currency="ZAR" data-symbol="R" role="menuitem">
+         <img src="https://flagcdn.com/w20/za.png" alt="ZA Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">ZAR</span>
+       </button>
+       <button class="currency-option" data-currency="CHF" data-symbol="CHF" role="menuitem">
+         <img src="https://flagcdn.com/w20/ch.png" alt="CH Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">CHF</span>
+       </button>
+       <button class="currency-option" data-currency="NOK" data-symbol="kr" role="menuitem">
+         <img src="https://flagcdn.com/w20/no.png" alt="NO Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">NOK</span>
+       </button>
+       <button class="currency-option" data-currency="DKK" data-symbol="kr" role="menuitem">
+         <img src="https://flagcdn.com/w20/dk.png" alt="DK Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">DKK</span>
+       </button>
+       <button class="currency-option" data-currency="THB" data-symbol="฿" role="menuitem">
+         <img src="https://flagcdn.com/w20/th.png" alt="TH Flag" class="currency-flag-img" width="20" height="15">
+         <span class="currency-code">THB</span>
+       </button>
+     </div>
+   </div>
+ </div>
+ {%- endif -%}
 
 {% schema %}
 {
