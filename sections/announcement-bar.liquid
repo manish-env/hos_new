@@ -61,12 +61,10 @@
     display: inline-block;
   }
   
-  /* Ensure dropdown is hidden by default and only shows on click */
-  .currency-selector-wrapper:hover .currency-selector-dropdown {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
+     /* Ensure dropdown is hidden by default */
+   .currency-selector-dropdown {
+     display: none;
+   }
 
   /* Ensure proper alignment in the announcement bar */
   .utility-bar {
@@ -145,19 +143,10 @@
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     min-width: 320px;
     z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: all 0.2s ease;
-    pointer-events: none;
     display: none;
   }
 
   .currency-selector-dropdown.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
     display: block;
   }
 
@@ -338,29 +327,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdown = currencySelector.querySelector('.currency-selector-dropdown');
     const options = currencySelector.querySelectorAll('.currency-option');
 
-         // Toggle dropdown on click
-     trigger.addEventListener('click', (e) => {
-       e.stopPropagation();
+         // Toggle dropdown on click - SIMPLE VERSION
+     trigger.addEventListener('click', function(e) {
        e.preventDefault();
-       console.log('Currency selector clicked');
-       console.log('Current aria-expanded:', trigger.getAttribute('aria-expanded'));
-       console.log('Current dropdown classes:', dropdown.className);
+       e.stopPropagation();
        
-       const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+       console.log('CLICKED!');
        
-       if (!isExpanded) {
-         // Open dropdown
-         console.log('Opening dropdown');
-         trigger.setAttribute('aria-expanded', 'true');
-         dropdown.classList.add('show');
-         console.log('After opening - dropdown classes:', dropdown.className);
-         console.log('After opening - dropdown display:', window.getComputedStyle(dropdown).display);
-       } else {
-         // Close dropdown
-         console.log('Closing dropdown');
+       if (dropdown.style.display === 'block') {
+         dropdown.style.display = 'none';
          trigger.setAttribute('aria-expanded', 'false');
-         dropdown.classList.remove('show');
-         console.log('After closing - dropdown classes:', dropdown.className);
+         console.log('CLOSED dropdown');
+       } else {
+         dropdown.style.display = 'block';
+         trigger.setAttribute('aria-expanded', 'true');
+         console.log('OPENED dropdown');
        }
      });
 
@@ -405,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
                  // Close dropdown
          trigger.setAttribute('aria-expanded', 'false');
-         dropdown.classList.remove('show');
+         dropdown.style.display = 'none';
         
                  // Store selection in localStorage
          localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol }));
@@ -421,18 +402,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
          // Close dropdown when clicking outside
-     document.addEventListener('click', (e) => {
+     document.addEventListener('click', function(e) {
        if (!currencySelector.contains(e.target)) {
          trigger.setAttribute('aria-expanded', 'false');
-         dropdown.classList.remove('show');
+         dropdown.style.display = 'none';
        }
      });
 
          // Close dropdown on escape key
-     document.addEventListener('keydown', (e) => {
+     document.addEventListener('keydown', function(e) {
        if (e.key === 'Escape') {
          trigger.setAttribute('aria-expanded', 'false');
-         dropdown.classList.remove('show');
+         dropdown.style.display = 'none';
        }
      });
 
