@@ -853,25 +853,25 @@
       }
     });
 
-    // Restore saved currency on page load
-    const savedCurrency = localStorage.getItem('selectedCurrency');
-    if (savedCurrency) {
-      try {
-        const { currency, symbol, flag } = JSON.parse(savedCurrency);
-        trigger.querySelector('.currency-flag').textContent = flag;
-        trigger.querySelector('.currency-code').textContent = currency;
-        
-        if (currency === 'USD') {
-          trigger.querySelector('.currency-code').style.color = '#dc2626';
-        } else {
-          trigger.querySelector('.currency-code').style.color = '#374151';
-        }
-      } catch (e) {
-        console.warn('Failed to restore saved currency');
-      }
-    }
-    });
-  });
+         // Restore saved currency on page load
+     const savedCurrency = localStorage.getItem('selectedCurrency');
+     if (savedCurrency) {
+       try {
+         const { currency, symbol, flag } = JSON.parse(savedCurrency);
+         trigger.querySelector('.currency-flag').textContent = flag;
+         trigger.querySelector('.currency-code').textContent = currency;
+         
+         if (currency === 'USD') {
+           trigger.querySelector('.currency-code').style.color = '#dc2626';
+         } else {
+           trigger.querySelector('.currency-code').style.color = '#374151';
+         }
+       } catch (e) {
+         console.warn('Failed to restore saved currency');
+       }
+     }
+   }); // Close forEach loop
+   }); // Close DOMContentLoaded
 {% endjavascript %}
 
 <script type="application/ld+json">
