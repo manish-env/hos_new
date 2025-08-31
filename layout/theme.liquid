@@ -503,39 +503,41 @@
         display: none;
       }
       
-             .floating-currency-trigger {
-         width: 56px;
-         height: 56px;
-         border-radius: 50%;
-         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-         border: 3px solid #ffffff;
-         color: #ffffff;
-         font-size: 20px;
-         cursor: pointer;
-         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-         transition: all 0.3s ease;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         padding: 0;
+                     .floating-currency-trigger {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: none;
+          border: 3px solid #FF1493;
+          color: #ffffff;
+          font-size: 20px;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          overflow: hidden;
+        }
+        
+        .floating-currency-flag {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          box-shadow: none;
+          object-fit: cover;
+        }
+      
+             .floating-currency-trigger:hover {
+         transform: scale(1.1);
+         box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3);
+         border-color: #FF69B4;
        }
        
-       .floating-currency-flag {
-         width: 24px;
-         height: 18px;
-         border-radius: 3px;
-         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-         object-fit: cover;
+       .floating-currency-trigger:active {
+         transform: scale(0.95);
        }
-      
-      .floating-currency-trigger:hover {
-        transform: scale(1.1);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-      }
-      
-      .floating-currency-trigger:active {
-        transform: scale(0.95);
-      }
       
       /* Show on mobile only */
       @media screen and (max-width: 989px) {
