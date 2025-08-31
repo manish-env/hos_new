@@ -61,16 +61,22 @@
     display: inline-block;
   }
 
+  /* Ensure proper alignment in the announcement bar */
+  .utility-bar {
+    position: relative;
+  }
+
   .currency-selector--announcement {
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: 0;
     transform: translateY(-50%);
     z-index: 10;
+    padding-right: 20px;
   }
 
   .currency-selector--announcement .currency-selector-dropdown {
-    right: 0;
+    right: 20px;
     left: auto;
   }
 
