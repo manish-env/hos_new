@@ -61,10 +61,10 @@
     display: inline-block;
   }
   
-     /* Ensure dropdown is hidden by default */
-   .currency-selector-dropdown {
-     display: none;
-   }
+  /* Ensure dropdown is hidden by default */
+  .currency-selector-dropdown {
+    display: none;
+  }
 
   /* Ensure proper alignment in the announcement bar */
   .utility-bar {
@@ -230,12 +230,12 @@
     color: #374151;
   }
 
-     /* Mobile responsiveness */
-   @media screen and (max-width: 989px) {
-     .currency-selector-wrapper {
-       display: none;
-     }
-   }
+  /* Mobile responsiveness */
+  @media screen and (max-width: 989px) {
+    .currency-selector-wrapper {
+      display: none;
+    }
+  }
 </style>
 
 <script>
@@ -338,77 +338,76 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdown = currencySelector.querySelector('.currency-selector-dropdown');
     const options = currencySelector.querySelectorAll('.currency-option');
 
-                               // Toggle dropdown on click - SIMPLE VERSION
-              trigger.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          console.log('CLICKED!');
-          console.log('Current dropdown display:', dropdown.style.display);
-          console.log('Current dropdown computed display:', window.getComputedStyle(dropdown).display);
-          
-          if (dropdown.style.display === 'block') {
-            dropdown.style.display = 'none';
-            trigger.setAttribute('aria-expanded', 'false');
-            console.log('CLOSED dropdown');
-          } else {
-            dropdown.style.display = 'block';
-            dropdown.style.visibility = 'visible';
-            dropdown.style.opacity = '1';
-            dropdown.style.transform = 'none';
-            
-            // Desktop positioning - relative to trigger
-            dropdown.style.position = 'fixed';
-            dropdown.style.top = 'auto';
-            dropdown.style.bottom = 'auto';
-            dropdown.style.left = 'auto';
-            dropdown.style.right = 'auto';
-            
-            // Position dropdown relative to trigger
-            const triggerRect = trigger.getBoundingClientRect();
-            dropdown.style.top = (triggerRect.bottom + 8) + 'px';
-            dropdown.style.right = (window.innerWidth - triggerRect.right) + 'px';
-            
-            trigger.setAttribute('aria-expanded', 'true');
-            console.log('OPENED dropdown');
-            console.log('After setting display block:', dropdown.style.display);
-            console.log('After setting display block - computed:', window.getComputedStyle(dropdown).display);
-            console.log('Dropdown position:', dropdown.style.top, dropdown.style.right);
-          }
-        });
-      });
+    // Toggle dropdown on click
+    trigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('CLICKED!');
+      console.log('Current dropdown display:', dropdown.style.display);
+      console.log('Current dropdown computed display:', window.getComputedStyle(dropdown).display);
+      
+      if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+        trigger.setAttribute('aria-expanded', 'false');
+        console.log('CLOSED dropdown');
+      } else {
+        dropdown.style.display = 'block';
+        dropdown.style.visibility = 'visible';
+        dropdown.style.opacity = '1';
+        dropdown.style.transform = 'none';
+        
+        // Desktop positioning - relative to trigger
+        dropdown.style.position = 'fixed';
+        dropdown.style.top = 'auto';
+        dropdown.style.bottom = 'auto';
+        dropdown.style.left = 'auto';
+        dropdown.style.right = 'auto';
+        
+        // Position dropdown relative to trigger
+        const triggerRect = trigger.getBoundingClientRect();
+        dropdown.style.top = (triggerRect.bottom + 8) + 'px';
+        dropdown.style.right = (window.innerWidth - triggerRect.right) + 'px';
+        
+        trigger.setAttribute('aria-expanded', 'true');
+        console.log('OPENED dropdown');
+        console.log('After setting display block:', dropdown.style.display);
+        console.log('After setting display block - computed:', window.getComputedStyle(dropdown).display);
+        console.log('Dropdown position:', dropdown.style.top, dropdown.style.right);
+      }
+    });
 
     // Handle currency selection
     options.forEach(option => {
       option.addEventListener('click', () => {
-                 const currency = option.dataset.currency;
-         const symbol = option.dataset.symbol;
+        const currency = option.dataset.currency;
+        const symbol = option.dataset.symbol;
         
-                 // Update trigger display
-         const flagImg = trigger.querySelector('.currency-flag-img');
-         if (flagImg) {
-           const currencyFlags = {
-             'USD': 'https://flagcdn.com/w80/us.png',
-             'INR': 'https://flagcdn.com/w80/in.png',
-             'EUR': 'https://flagcdn.com/w80/eu.png',
-             'GBP': 'https://flagcdn.com/w80/gb.png',
-             'CAD': 'https://flagcdn.com/w80/ca.png',
-             'AUD': 'https://flagcdn.com/w80/au.png',
-             'AED': 'https://flagcdn.com/w80/ae.png',
-             'SGD': 'https://flagcdn.com/w80/sg.png',
-             'MYR': 'https://flagcdn.com/w80/my.png',
-             'HKD': 'https://flagcdn.com/w80/hk.png',
-             'NZD': 'https://flagcdn.com/w80/nz.png',
-             'SAR': 'https://flagcdn.com/w80/sa.png',
-             'ZAR': 'https://flagcdn.com/w80/za.png',
-             'CHF': 'https://flagcdn.com/w80/ch.png',
-             'NOK': 'https://flagcdn.com/w80/no.png',
-             'DKK': 'https://flagcdn.com/w80/dk.png',
-             'THB': 'https://flagcdn.com/w80/th.png'
-           };
-           flagImg.src = currencyFlags[currency] || currencyFlags['USD'];
-         }
-         trigger.querySelector('.currency-code').textContent = currency;
+        // Update trigger display
+        const flagImg = trigger.querySelector('.currency-flag-img');
+        if (flagImg) {
+          const currencyFlags = {
+            'USD': 'https://flagcdn.com/w80/us.png',
+            'INR': 'https://flagcdn.com/w80/in.png',
+            'EUR': 'https://flagcdn.com/w80/eu.png',
+            'GBP': 'https://flagcdn.com/w80/gb.png',
+            'CAD': 'https://flagcdn.com/w80/ca.png',
+            'AUD': 'https://flagcdn.com/w80/au.png',
+            'AED': 'https://flagcdn.com/w80/ae.png',
+            'SGD': 'https://flagcdn.com/w80/sg.png',
+            'MYR': 'https://flagcdn.com/w80/my.png',
+            'HKD': 'https://flagcdn.com/w80/hk.png',
+            'NZD': 'https://flagcdn.com/w80/nz.png',
+            'SAR': 'https://flagcdn.com/w80/sa.png',
+            'ZAR': 'https://flagcdn.com/w80/za.png',
+            'CHF': 'https://flagcdn.com/w80/ch.png',
+            'NOK': 'https://flagcdn.com/w80/no.png',
+            'DKK': 'https://flagcdn.com/w80/dk.png',
+            'THB': 'https://flagcdn.com/w80/th.png'
+          };
+          flagImg.src = currencyFlags[currency] || currencyFlags['USD'];
+        }
+        trigger.querySelector('.currency-code').textContent = currency;
         
         // Update currency code color based on selection
         if (currency === 'USD') {
@@ -417,68 +416,68 @@ document.addEventListener('DOMContentLoaded', function() {
           trigger.querySelector('.currency-code').style.color = '#374151';
         }
         
-                 // Close dropdown
-         trigger.setAttribute('aria-expanded', 'false');
-         dropdown.style.display = 'none';
+        // Close dropdown
+        trigger.setAttribute('aria-expanded', 'false');
+        dropdown.style.display = 'none';
         
-                 // Store selection in localStorage
-         localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol }));
+        // Store selection in localStorage
+        localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol }));
         
         // Change Shopify currency using the currency selector
         changeShopifyCurrency(currency);
         
-                 // Trigger custom event for other components
-         document.dispatchEvent(new CustomEvent('currencyChanged', {
-           detail: { currency, symbol }
-         }));
+        // Trigger custom event for other components
+        document.dispatchEvent(new CustomEvent('currencyChanged', {
+          detail: { currency, symbol }
+        }));
       });
     });
 
-         // Close dropdown when clicking outside
-     document.addEventListener('click', function(e) {
-       if (!currencySelector.contains(e.target)) {
-         trigger.setAttribute('aria-expanded', 'false');
-         dropdown.style.display = 'none';
-       }
-     });
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!currencySelector.contains(e.target)) {
+        trigger.setAttribute('aria-expanded', 'false');
+        dropdown.style.display = 'none';
+      }
+    });
 
-         // Close dropdown on escape key
-     document.addEventListener('keydown', function(e) {
-       if (e.key === 'Escape') {
-         trigger.setAttribute('aria-expanded', 'false');
-         dropdown.style.display = 'none';
-       }
-     });
+    // Close dropdown on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        trigger.setAttribute('aria-expanded', 'false');
+        dropdown.style.display = 'none';
+      }
+    });
 
     // Restore saved currency on page load
     const savedCurrency = localStorage.getItem('selectedCurrency');
     if (savedCurrency) {
-             try {
-         const { currency, symbol } = JSON.parse(savedCurrency);
-         const flagImg = trigger.querySelector('.currency-flag-img');
-         if (flagImg) {
-           const currencyFlags = {
-             'USD': 'https://flagcdn.com/w80/us.png',
-             'INR': 'https://flagcdn.com/w80/in.png',
-             'EUR': 'https://flagcdn.com/w80/eu.png',
-             'GBP': 'https://flagcdn.com/w80/gb.png',
-             'CAD': 'https://flagcdn.com/w80/ca.png',
-             'AUD': 'https://flagcdn.com/w80/au.png',
-             'AED': 'https://flagcdn.com/w80/ae.png',
-             'SGD': 'https://flagcdn.com/w80/sg.png',
-             'MYR': 'https://flagcdn.com/w80/my.png',
-             'HKD': 'https://flagcdn.com/w80/hk.png',
-             'NZD': 'https://flagcdn.com/w80/nz.png',
-             'SAR': 'https://flagcdn.com/w80/sa.png',
-             'ZAR': 'https://flagcdn.com/w80/za.png',
-             'CHF': 'https://flagcdn.com/w80/ch.png',
-             'NOK': 'https://flagcdn.com/w80/no.png',
-             'DKK': 'https://flagcdn.com/w80/dk.png',
-             'THB': 'https://flagcdn.com/w80/th.png'
-           };
-           flagImg.src = currencyFlags[currency] || currencyFlags['USD'];
-         }
-         trigger.querySelector('.currency-code').textContent = currency;
+      try {
+        const { currency, symbol } = JSON.parse(savedCurrency);
+        const flagImg = trigger.querySelector('.currency-flag-img');
+        if (flagImg) {
+          const currencyFlags = {
+            'USD': 'https://flagcdn.com/w80/us.png',
+            'INR': 'https://flagcdn.com/w80/in.png',
+            'EUR': 'https://flagcdn.com/w80/eu.png',
+            'GBP': 'https://flagcdn.com/w80/gb.png',
+            'CAD': 'https://flagcdn.com/w80/ca.png',
+            'AUD': 'https://flagcdn.com/w80/au.png',
+            'AED': 'https://flagcdn.com/w80/ae.png',
+            'SGD': 'https://flagcdn.com/w80/sg.png',
+            'MYR': 'https://flagcdn.com/w80/my.png',
+            'HKD': 'https://flagcdn.com/w80/hk.png',
+            'NZD': 'https://flagcdn.com/w80/nz.png',
+            'SAR': 'https://flagcdn.com/w80/sa.png',
+            'ZAR': 'https://flagcdn.com/w80/za.png',
+            'CHF': 'https://flagcdn.com/w80/ch.png',
+            'NOK': 'https://flagcdn.com/w80/no.png',
+            'DKK': 'https://flagcdn.com/w80/dk.png',
+            'THB': 'https://flagcdn.com/w80/th.png'
+          };
+          flagImg.src = currencyFlags[currency] || currencyFlags['USD'];
+        }
+        trigger.querySelector('.currency-code').textContent = currency;
         
         if (currency === 'USD') {
           trigger.querySelector('.currency-code').style.color = '#dc2626';
@@ -489,34 +488,34 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn('Failed to restore saved currency');
       }
     } else {
-             // Set initial currency based on Shopify's current currency
-       const currentCurrency = '{{ cart.currency.iso_code | default: "USD" }}';
-       const currencyFlags = {
-         'USD': 'https://flagcdn.com/w80/us.png',
-         'INR': 'https://flagcdn.com/w80/in.png',
-         'EUR': 'https://flagcdn.com/w80/eu.png',
-         'GBP': 'https://flagcdn.com/w80/gb.png',
-         'CAD': 'https://flagcdn.com/w80/ca.png',
-         'AUD': 'https://flagcdn.com/w80/au.png',
-         'AED': 'https://flagcdn.com/w80/ae.png',
-         'SGD': 'https://flagcdn.com/w80/sg.png',
-         'MYR': 'https://flagcdn.com/w80/my.png',
-         'HKD': 'https://flagcdn.com/w80/hk.png',
-         'NZD': 'https://flagcdn.com/w80/nz.png',
-         'SAR': 'https://flagcdn.com/w80/sa.png',
-         'ZAR': 'https://flagcdn.com/w80/za.png',
-         'CHF': 'https://flagcdn.com/w80/ch.png',
-         'NOK': 'https://flagcdn.com/w80/no.png',
-         'DKK': 'https://flagcdn.com/w80/dk.png',
-         'THB': 'https://flagcdn.com/w80/th.png'
-       };
-       
-       if (currencyFlags[currentCurrency]) {
-         const flagImg = trigger.querySelector('.currency-flag-img');
-         if (flagImg) {
-           flagImg.src = currencyFlags[currentCurrency];
-         }
-         trigger.querySelector('.currency-code').textContent = currentCurrency;
+      // Set initial currency based on Shopify's current currency
+      const currentCurrency = '{{ cart.currency.iso_code | default: "USD" }}';
+      const currencyFlags = {
+        'USD': 'https://flagcdn.com/w80/us.png',
+        'INR': 'https://flagcdn.com/w80/in.png',
+        'EUR': 'https://flagcdn.com/w80/eu.png',
+        'GBP': 'https://flagcdn.com/w80/gb.png',
+        'CAD': 'https://flagcdn.com/w80/ca.png',
+        'AUD': 'https://flagcdn.com/w80/au.png',
+        'AED': 'https://flagcdn.com/w80/ae.png',
+        'SGD': 'https://flagcdn.com/w80/sg.png',
+        'MYR': 'https://flagcdn.com/w80/my.png',
+        'HKD': 'https://flagcdn.com/w80/hk.png',
+        'NZD': 'https://flagcdn.com/w80/nz.png',
+        'SAR': 'https://flagcdn.com/w80/sa.png',
+        'ZAR': 'https://flagcdn.com/w80/za.png',
+        'CHF': 'https://flagcdn.com/w80/ch.png',
+        'NOK': 'https://flagcdn.com/w80/no.png',
+        'DKK': 'https://flagcdn.com/w80/dk.png',
+        'THB': 'https://flagcdn.com/w80/th.png'
+      };
+      
+      if (currencyFlags[currentCurrency]) {
+        const flagImg = trigger.querySelector('.currency-flag-img');
+        if (flagImg) {
+          flagImg.src = currencyFlags[currentCurrency];
+        }
+        trigger.querySelector('.currency-code').textContent = currentCurrency;
         
         if (currentCurrency === 'USD') {
           trigger.querySelector('.currency-code').style.color = '#dc2626';
