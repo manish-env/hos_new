@@ -84,8 +84,9 @@
   }
 
   .currency-selector--announcement .currency-selector-dropdown {
-    right: 20px;
+    right: 0;
     left: auto;
+    top: calc(100% + 8px);
   }
 
   .currency-selector-trigger {
@@ -142,8 +143,12 @@
     border-radius: 8px;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     min-width: 320px;
-    z-index: 1000;
+    z-index: 9999;
     display: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
   }
 
   .currency-selector-dropdown.show {
@@ -327,23 +332,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdown = currencySelector.querySelector('.currency-selector-dropdown');
     const options = currencySelector.querySelectorAll('.currency-option');
 
-         // Toggle dropdown on click - SIMPLE VERSION
-     trigger.addEventListener('click', function(e) {
-       e.preventDefault();
-       e.stopPropagation();
-       
-       console.log('CLICKED!');
-       
-       if (dropdown.style.display === 'block') {
-         dropdown.style.display = 'none';
-         trigger.setAttribute('aria-expanded', 'false');
-         console.log('CLOSED dropdown');
-       } else {
-         dropdown.style.display = 'block';
-         trigger.setAttribute('aria-expanded', 'true');
-         console.log('OPENED dropdown');
-       }
-     });
+               // Toggle dropdown on click - SIMPLE VERSION
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('CLICKED!');
+        console.log('Current dropdown display:', dropdown.style.display);
+        console.log('Current dropdown computed display:', window.getComputedStyle(dropdown).display);
+        
+        if (dropdown.style.display === 'block') {
+          dropdown.style.display = 'none';
+          trigger.setAttribute('aria-expanded', 'false');
+          console.log('CLOSED dropdown');
+        } else {
+          dropdown.style.display = 'block';
+          dropdown.style.visibility = 'visible';
+          dropdown.style.opacity = '1';
+          dropdown.style.transform = 'none';
+          trigger.setAttribute('aria-expanded', 'true');
+          console.log('OPENED dropdown');
+          console.log('After setting display block:', dropdown.style.display);
+          console.log('After setting display block - computed:', window.getComputedStyle(dropdown).display);
+        }
+      });
 
     // Handle currency selection
     options.forEach(option => {
