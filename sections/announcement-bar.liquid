@@ -64,6 +64,22 @@
   /* Ensure dropdown is hidden by default */
   .currency-selector-dropdown {
     display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    min-width: 320px;
+    z-index: 9999;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto;
+    max-height: 400px;
+    overflow-y: auto;
   }
 
   /* Ensure proper alignment in the announcement bar */
@@ -87,7 +103,7 @@
     right: 0;
     left: auto;
     top: calc(100% + 8px);
-    position: fixed;
+    position: absolute;
     margin-top: 0;
   }
 
@@ -137,28 +153,8 @@
     transform: rotate(180deg);
   }
 
-  .currency-selector-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 8px;
-    background: #ffffff !important;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    min-width: 320px;
-    z-index: 9999;
-    display: none;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    pointer-events: auto;
-    max-height: 400px;
-    overflow-y: auto;
-  }
-
   .currency-selector-dropdown.show {
-    display: block;
+    display: block !important;
   }
 
   .currency-selector-header {
@@ -269,16 +265,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Function to change Shopify currency
   function changeShopifyCurrency(currencyCode) {
+    console.log('Changing currency to:', currencyCode);
+    
     // Method 1: Try using Shopify's currency selector if available
     const shopifyCurrencySelector = document.querySelector('select[name="currency_code"], select[name="currency"], .currency-selector select');
     if (shopifyCurrencySelector) {
+      console.log('Found Shopify currency selector, updating...');
       shopifyCurrencySelector.value = currencyCode;
       shopifyCurrencySelector.dispatchEvent(new Event('change'));
       return;
     }
     
-    // Method 2: Use AJAX to update currency without page redirect
+    // Method 2: Use the hidden form approach (most reliable)
+    const currencyForm = document.getElementById('currency-form');
+    const currencyInput = document.getElementById('currency-input');
+    if (currencyForm && currencyInput) {
+      console.log('Using hidden form method...');
+      currencyInput.value = currencyCode;
+      
+      // Update return_to to prevent cart redirect
+      const returnToInput = currencyForm.querySelector('input[name="return_to"]');
+      if (returnToInput) {
+        returnToInput.value = window.location.pathname;
+      } else {
+        // Add return_to input if it doesn't exist
+        const newReturnToInput = document.createElement('input');
+        newReturnToInput.type = 'hidden';
+        newReturnToInput.name = 'return_to';
+        newReturnToInput.value = window.location.pathname;
+        currencyForm.appendChild(newReturnToInput);
+      }
+      
+      currencyForm.submit();
+      return;
+    }
+    
+    // Method 3: Use AJAX to update currency without page redirect
     if (typeof fetch !== 'undefined') {
+      console.log('Using AJAX method...');
       const formData = new FormData();
       formData.append('currency', currencyCode);
       formData.append('return_to', window.location.pathname);
@@ -290,9 +314,13 @@ document.addEventListener('DOMContentLoaded', function() {
           'X-Requested-With': 'XMLHttpRequest'
         }
       })
-      .then(response => response.json())
+      .then(response => {
+        console.log('AJAX response status:', response.status);
+        return response.json();
+      })
       .then(data => {
-        if (data.status === 200) {
+        console.log('AJAX response data:', data);
+        if (data.status === 200 || data.token) {
           // Currency updated successfully, reload page to show new prices
           window.location.reload();
         } else {
@@ -303,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       })
       .catch(error => {
-        console.log('AJAX currency update failed, using fallback method');
+        console.log('AJAX currency update failed, using fallback method:', error);
         // Fallback to URL parameter method
         const currentUrl = new URL(window.location);
         currentUrl.searchParams.set('currency', currencyCode);
@@ -312,21 +340,8 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    // Method 3: Try using the hidden form approach (fallback)
-    const currencyForm = document.getElementById('currency-form');
-    const currencyInput = document.getElementById('currency-input');
-    if (currencyForm && currencyInput) {
-      currencyInput.value = currencyCode;
-      // Add return_to to prevent cart redirect
-      const returnToInput = currencyForm.querySelector('input[name="return_to"]');
-      if (returnToInput) {
-        returnToInput.value = window.location.pathname;
-      }
-      currencyForm.submit();
-      return;
-    }
-    
-    // Method 4: Reload page with currency parameter
+    // Method 4: Reload page with currency parameter (final fallback)
+    console.log('Using URL parameter method...');
     const currentUrl = new URL(window.location);
     currentUrl.searchParams.set('currency', currencyCode);
     window.location.href = currentUrl.toString();
@@ -343,37 +358,18 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       e.stopPropagation();
       
-      console.log('CLICKED!');
-      console.log('Current dropdown display:', dropdown.style.display);
-      console.log('Current dropdown computed display:', window.getComputedStyle(dropdown).display);
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
       
-      if (dropdown.style.display === 'block') {
+      if (isExpanded) {
+        // Close dropdown
         dropdown.style.display = 'none';
+        dropdown.classList.remove('show');
         trigger.setAttribute('aria-expanded', 'false');
-        console.log('CLOSED dropdown');
       } else {
+        // Open dropdown
         dropdown.style.display = 'block';
-        dropdown.style.visibility = 'visible';
-        dropdown.style.opacity = '1';
-        dropdown.style.transform = 'none';
-        
-        // Desktop positioning - relative to trigger
-        dropdown.style.position = 'fixed';
-        dropdown.style.top = 'auto';
-        dropdown.style.bottom = 'auto';
-        dropdown.style.left = 'auto';
-        dropdown.style.right = 'auto';
-        
-        // Position dropdown relative to trigger
-        const triggerRect = trigger.getBoundingClientRect();
-        dropdown.style.top = (triggerRect.bottom + 8) + 'px';
-        dropdown.style.right = (window.innerWidth - triggerRect.right) + 'px';
-        
+        dropdown.classList.add('show');
         trigger.setAttribute('aria-expanded', 'true');
-        console.log('OPENED dropdown');
-        console.log('After setting display block:', dropdown.style.display);
-        console.log('After setting display block - computed:', window.getComputedStyle(dropdown).display);
-        console.log('Dropdown position:', dropdown.style.top, dropdown.style.right);
       }
     });
 
@@ -419,6 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Close dropdown
         trigger.setAttribute('aria-expanded', 'false');
         dropdown.style.display = 'none';
+        dropdown.classList.remove('show');
         
         // Store selection in localStorage
         localStorage.setItem('selectedCurrency', JSON.stringify({ currency, symbol }));
@@ -438,6 +435,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!currencySelector.contains(e.target)) {
         trigger.setAttribute('aria-expanded', 'false');
         dropdown.style.display = 'none';
+        dropdown.classList.remove('show');
       }
     });
 
@@ -446,6 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.key === 'Escape') {
         trigger.setAttribute('aria-expanded', 'false');
         dropdown.style.display = 'none';
+        dropdown.classList.remove('show');
       }
     });
 
