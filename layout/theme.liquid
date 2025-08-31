@@ -470,18 +470,22 @@
           return document.querySelector('.currency-selector-wrapper .currency-selector-trigger');
         }
         
-        // Click handler for floating button
-        floatingTrigger.addEventListener('click', function() {
-          const currencySelector = findCurrencySelector();
-          
-          if (currencySelector) {
-            // Trigger the currency selector click
-            currencySelector.click();
-          } else {
-            // Fallback: show a simple alert or create a basic currency selector
-            alert('Currency selector not found. Please refresh the page.');
-          }
-        });
+                 // Click handler for floating button
+         floatingTrigger.addEventListener('click', function() {
+           console.log('Floating button clicked!');
+           const currencySelector = findCurrencySelector();
+           console.log('Found currency selector:', currencySelector);
+           
+           if (currencySelector) {
+             // Trigger the currency selector click
+             console.log('Triggering currency selector click...');
+             currencySelector.click();
+           } else {
+             // Fallback: show a simple alert or create a basic currency selector
+             console.log('Currency selector not found');
+             alert('Currency selector not found. Please refresh the page.');
+           }
+         });
         
         // Update floating button icon based on current currency
         function updateFloatingButtonIcon() {
