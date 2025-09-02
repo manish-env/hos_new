@@ -249,7 +249,7 @@
                   assign show_block = true
                   
                   comment Check if stitching metafield is set to '1' comment
-                  assign stitching_meta = product.metafields.custom.stitching.value
+                  assign stitching_meta = product.metafields.custom.stitching
                   if stitching_meta != '1'
                     assign show_block = false
                   endif
