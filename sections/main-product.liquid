@@ -279,8 +279,9 @@
                   endif
                 -%}
                 {%- if show_block -%}
-                {%- assign stitching_meta = product.metafields.custom.stitching.value | default: product.metafields.custom.stitching | default: '' -%}
-                {%- if stitching_meta == '1' or request.design_mode -%}
+                {%- unless product.metafields.custom.stitching.value == '1' -%}
+                  <!-- Stitching services hidden: metafield not equal to 1 -->
+                {%- else -%}
                 <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }} data-selection-mode="{{ block.settings.selection_mode | default: 'multiple' }}">
                   <!-- DEBUG: Stitching meta: "{{ stitching_meta }}" -->
                   {%- assign form_id = product_form_id -%}
@@ -479,8 +480,9 @@
                     })();
                   </script>
                   {%- endif -%}
-                {%- endif -%}
                 </div>
+                {%- endif -%}
+                {%- endunless -%}
                 {%- endif -%}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" class="product-price price-size-{{ block.settings.price_size | default: 'medium' }} price-align-{{ block.settings.price_align | default: section.settings.content_alignment | default: 'left' }}" {{ block.shopify_attributes }}>
