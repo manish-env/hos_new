@@ -264,8 +264,14 @@
                   
                   comment Check if product has custom.stitching metafield with value "1" comment
                   assign stitching_enabled = false
-                  if product.metafields.custom.stitching.value == '1'
+                  comment Debug: Check metafield value comment
+                  assign metafield_value = product.metafields.custom.stitching.value | default: product.metafields.custom.stitching
+                  if metafield_value == blank
+                    assign stitching_enabled = false
+                  elsif metafield_value == '1'
                     assign stitching_enabled = true
+                  else
+                    assign stitching_enabled = false
                   endif
                   
                   if request.design_mode
@@ -274,6 +280,7 @@
                 -%}
                 {%- if show_block -%}
                 <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }} data-selection-mode="{{ block.settings.selection_mode | default: 'multiple' }}">
+                  <!-- DEBUG: Metafield value: "{{ metafield_value }}", Stitching enabled: {{ stitching_enabled }} -->
                   {%- if stitching_enabled or request.design_mode -%}
                   {%- assign form_id = product_form_id -%}
                   <div class="options-to-buy__header">
