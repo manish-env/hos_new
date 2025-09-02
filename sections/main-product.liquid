@@ -247,24 +247,23 @@
                     endif
                   endfor
                   assign show_block = true
+                  
+                  comment Check if stitching metafield is set to '1' comment
+                  assign stitching_meta = product.metafields.custom.stitching.value
+                  if stitching_meta != '1'
+                    assign show_block = false
+                  endif
+                  
+                  comment Product type filtering comment
                   assign has_list = csv_lc | strip | size
                   if mode == 'only_types'
                     if has_list > 0
-                      assign show_block = match
-                    else
-                      assign show_block = true
+                      assign show_block = show_block and match
                     endif
                   elsif mode == 'exclude_types'
                     if has_list > 0
-                      assign show_block = match | not
-                    else
-                      assign show_block = true
+                      assign show_block = show_block and match | not
                     endif
-                  endif
-                  
-                  comment Only show if stitching metafield is 1 comment
-                  if product.metafields.custom.stitching.value != '1'
-                    assign show_block = false
                   endif
                   
                   if request.design_mode
