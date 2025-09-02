@@ -279,6 +279,7 @@
                   endif
                 -%}
                 {%- if show_block -%}
+                {%- if show_block and product.metafields.custom.stitching != '1' -%}
                 <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }} data-selection-mode="{{ block.settings.selection_mode | default: 'multiple' }}">
                   <!-- DEBUG: Metafield value: "{{ metafield_value }}", Stitching enabled: {{ stitching_enabled }} -->
                   {%- if stitching_enabled or request.design_mode -%}
@@ -479,6 +480,7 @@
                   </script>
                   {%- endif -%}
                 </div>
+                {%- endif -%}
                 {%- endif -%}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" class="product-price price-size-{{ block.settings.price_size | default: 'medium' }} price-align-{{ block.settings.price_align | default: section.settings.content_alignment | default: 'left' }}" {{ block.shopify_attributes }}>
