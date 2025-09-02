@@ -261,6 +261,20 @@
                       assign show_block = true
                     endif
                   endif
+                  
+                  comment Check if product has custom.stitching metafield with value 1 comment
+                  assign stitching_enabled = false
+                  if product.metafields.custom.stitching
+                    if product.metafields.custom.stitching.value == 1 or product.metafields.custom.stitching == 1 or product.metafields.custom.stitching == '1'
+                      assign stitching_enabled = true
+                    endif
+                  endif
+                  
+                  comment Only show block if stitching is enabled comment
+                  if stitching_enabled == false
+                    assign show_block = false
+                  endif
+                  
                   if request.design_mode
                     assign show_block = true
                   endif
