@@ -246,12 +246,12 @@
                       assign match = true
                     endif
                   endfor
-                  assign show_block = true
+                  assign show_block = false
                   
                   comment Check if stitching metafield is set to '1' comment
                   assign stitching_meta = product.metafields.custom.stitching
-                  if stitching_meta != '1'
-                    assign show_block = false
+                  if stitching_meta == '1' or stitching_meta == 1 or stitching_meta.value == '1' or stitching_meta.value == 1
+                    assign show_block = true
                   endif
                   
                   comment Product type filtering comment
@@ -272,7 +272,6 @@
                 -%}
                 {%- if show_block -%}
                 <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }} data-selection-mode="{{ block.settings.selection_mode | default: 'multiple' }}">
-                  <!-- DEBUG: Stitching meta: "{{ stitching_meta }}" -->
                   {%- assign form_id = product_form_id -%}
                   <div class="options-to-buy__header">
                     <span class="options-to-buy__title">{{ block.settings.heading | default: 'Add-on Services' }}</span>
