@@ -262,16 +262,9 @@
                     endif
                   endif
                   
-                  comment Check if product has custom.stitching metafield with value "1" comment
-                  assign stitching_enabled = false
-                  comment Debug: Check metafield value comment
-                  assign metafield_value = product.metafields.custom.stitching.value | default: product.metafields.custom.stitching
-                  if metafield_value == blank
-                    assign stitching_enabled = false
-                  elsif metafield_value == '1'
-                    assign stitching_enabled = true
-                  else
-                    assign stitching_enabled = false
+                  comment Only show if stitching metafield is 1 comment
+                  if product.metafields.custom.stitching.value != '1'
+                    assign show_block = false
                   endif
                   
                   if request.design_mode
@@ -279,9 +272,6 @@
                   endif
                 -%}
                 {%- if show_block -%}
-                {%- unless product.metafields.custom.stitching.value == '1' -%}
-                  <!-- Stitching services hidden: metafield not equal to 1 -->
-                {%- else -%}
                 <div class="options-to-buy options-to-buy--addons" {{ block.shopify_attributes }} data-selection-mode="{{ block.settings.selection_mode | default: 'multiple' }}">
                   <!-- DEBUG: Stitching meta: "{{ stitching_meta }}" -->
                   {%- assign form_id = product_form_id -%}
@@ -481,8 +471,6 @@
                   </script>
                   {%- endif -%}
                 </div>
-                {%- endif -%}
-                {%- endunless -%}
                 {%- endif -%}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" class="product-price price-size-{{ block.settings.price_size | default: 'medium' }} price-align-{{ block.settings.price_align | default: section.settings.content_alignment | default: 'left' }}" {{ block.shopify_attributes }}>
