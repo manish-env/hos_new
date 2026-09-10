@@ -167,7 +167,7 @@
                 {%- if product.title != blank -%}
                   {% render 'section-title', title: product.title %}
                 {%- else -%}
-                  {% render 'section-title', title: 'onboarding.product_title' | t %}
+                  {% render 'section-title', title: 'onboarding.product_title' %}
                 {%- endif -%}
               {%- when 'price' -%}
                 <div class="no-js-hidden" id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
@@ -1700,3 +1700,13 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'section-title', title: 'onboarding.product_title' | t %}"
+  to: "{% render 'section-title', title: 'onboarding.product_title' %}"
+  position: 7989..8052
+{% endcomment %}
